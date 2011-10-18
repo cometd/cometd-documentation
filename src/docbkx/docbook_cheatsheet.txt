@@ -1,0 +1,56 @@
+== LINKS
+
+<link xl:href="http://google.com">Google</link>
+
+<xref linkend="id_of_another_element" />
+
+
+== BULLETS
+
+<orderedlist>
+<itemizedlist>
+
+
+== CODE INLINE
+
+<classname>java.util.List</classname>
+
+<code>List.add()</code>
+
+<varname>cometd</varname>
+
+<filename>/a/path</filename>
+
+<application>mvn</application>
+
+
+== CODE SNIPPETS
+
+<screen>
+
+<programlisting language="java" linenumbering="numbered">  <<snippet needs to be left aligned>>
+<![CDATA[
+public class Main { // bad
+    private String name;
+    public Main(String n) { // bad
+        if (n != null) { // bad
+            name = n;
+        }
+    }
+}
+]]>
+</programlisting>
+
+
+== TRADEMARK
+
+<productname>Java</productname>
+
+
+== ADMONITIONS
+
+<tip>
+<note>
+<important>
+<caution>
+<warning>

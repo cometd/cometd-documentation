@@ -1,0 +1,47 @@
+body
+{
+    width: 64em;
+    font-family: Lucida, Verdana, sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h1, h2, h3, h4, h5, h6
+{
+    color: #369;
+}
+
+pre
+{
+    background-color: #eee;
+    border: 1px solid #ddd;
+    padding: 0.2em 1.5em;
+}
+
+a:link
+{
+    text-decoration: none;
+    font-weight: bold;
+    color: #ff8c00;
+}
+a:hover, a:active
+{
+    font-weight: bold;
+    color: #ff4500;
+}
+a:visited
+{
+    text-decoration: none;
+    font-weight: bold;
+    color: #c96;
+}
+
+img
+{
+    border: 0;
+}
+
+code
+{
+    color: #369;
+}

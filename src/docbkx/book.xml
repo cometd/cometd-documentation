@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book version="5.0"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:xl="http://www.w3.org/1999/xlink">
+
+    <info>
+        <title>The CometD Book</title>
+
+        <authorgroup>
+            <author>
+                <personname>
+                    <firstname>Simone</firstname>
+                    <surname>Bordet</surname>
+                </personname>
+            </author>
+        </authorgroup>
+
+        <copyright>
+            <year>2011</year>
+            <holder>The Original Author(s)</holder>
+        </copyright>
+
+        <releaseinfo><?eval ${project.version} ?></releaseinfo>
+
+    </info>
+
+    <preface xml:id="preface">
+        <title>Preface</title>
+        <para>
+            <link xl:href="http://en.wikipedia.org/wiki/AJAX">CometD</link>
+            is a scalable web event routing bus
+            that allows you to write low-latency, server-side event-driven web applications.
+        </para>
+        <para>
+            Typical examples of such applications are stock trading applications, web chat applications,
+            online games, monitoring consoles, etc.
+        </para>
+        <para>
+            CometD makes use of an
+            <link xl:href="http://en.wikipedia.org/wiki/AJAX">Ajax</link>
+            push technology pattern known as
+            <link xl:href="http://en.wikipedia.org/wiki/Comet_(programming)">Comet</link>, but also
+            leverages emerging web standards such as
+            <link xl:href="http://en.wikipedia.org/wiki/WebSocket">WebSocket</link>
+            for low latency communication.
+        </para>
+        <para>
+            The CometD project provides <productname>Java</productname> and <productname>JavaScript</productname>
+            libraries that allows you to write
+            low-latency, server-side event-driven web applications in a simple and portable way, allowing you to
+            concentrate on the business side of your application rather than worrying about low-level details such
+            as the transport (HTTP or WebSocket), the scalability and the robustness.
+            These latter characteristics are provided by the CometD libraries.
+        </para>
+        <para>
+            If you are new to CometD, you can follow this learning path:
+        </para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    Read <xref linkend="installation" />
+                    to download, install CometD and to try out its demos.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Read <xref linkend="primer" />
+                    to get your hands dirty with CometD with a step-by-step
+                    tutorial.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Read
+                    <xref linkend="concepts" />
+                    to understand the abstractions that CometD defines.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Study the CometD demos that are shipped with the CometD distribution.
+                    <!-- TODO: add xref to how to run the demo -->
+                </para>
+            </listitem>
+            <listitem>
+                <para>Read the rest of this reference book for further details.</para>
+            </listitem>
+        </orderedlist>
+
+        <para>
+            You can contribute to the CometD project and be involved in the CometD community, including
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Trying it out and reporting issues at
+                    <link xl:href="http://bugs.cometd.org">http://bugs.cometd.org</link>
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Participating in the mailing lists. <!-- TODO: add link to mailing lists ? -->
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Helping out with the documentation, by contacting the mailing lists or by reporting issues.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Spreading the word about CometD in your organization.
+                </para>
+            </listitem>
+        </itemizedlist>
+
+    </preface>
+
+    <chapter xml:id="installation">
+        <info>
+            <title>CometD Installation</title>
+        </info>
+
+        <section>
+            <info>
+                <title>Downloading and Installing</title>
+            </info>
+            <para>
+                Download the CometD distribution from
+                <link xl:href="http://download.cometd.org/">http://download.cometd.org</link>.
+            </para>
+            <para>
+                Then unpack the distribution:
+                <screen>
+<![CDATA[
+$ tar zxvf cometd-<version>.tgz
+$ cd cometd-<version>/
+]]>
+                </screen>
+
+            </para>
+            <para>
+                The CometD Demos contain:
+                <itemizedlist>
+                <listitem>
+                    <para>
+                        Two full chat applications (one developed with Dojo, one with jQuery).
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Examples of extensions such as message acknowledgement, reload, timesync and
+                        timestamp.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        An example of how to echo private messages to a particular client only.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        Clustered Auction demo (using the Oort clustering).
+                    </para>
+                </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+
+        <section>
+            <info>
+                <title>Running the Demos</title>
+            </info>
+            <para>
+                To try out the CometD demos shipped with the distribution, you need a <productname>Java</productname>
+                Development Kit (JDK) - version 5.0 or superior, and either
+                <link xl:href="http://maven.apache.org">Maven</link>, version 3 or superior, or
+                a compliant servlet 2.5 container such as <link xl:href="http://eclipse.org/jetty">Jetty</link>.
+            </para>
+
+            <section>
+                <info>
+                    <title>Running the Demos with Maven</title>
+                </info>
+                <para>
+                    Maven requires you to setup the <code>JAVA_HOME</code> environment variable to point to your
+                    JDK installation.
+                </para>
+                <para>
+                    After that, running the CometD demos is very simple.
+                    Assuming that <filename>$COMETD</filename> is the CometD installation directory and that you have the
+                    <application>mvn</application> executable in your path, then:
+                    <screen>
+$ cd $COMETD
+$ cd cometd-demo
+$ mvn jetty:deploy-war
+                    </screen>
+                </para>
+                <para>
+                    The last command starts an embedded Jetty that listens on port 8080.
+                    Now just point your browser to <link xl:href="http://localhost:8080">http://localhost:8080</link>,
+                    and you will see the CometD Demos main page.
+                </para>
+            </section>
+
+            <section>
+                <info>
+                    <title>Running the Demos with Jetty or another servlet container</title>
+                </info>
+                <para>
+                    In the <filename>$COMETD/cometd-demo/target</filename> directory you can find a deployable war
+                    file that can be deployed in any servlet container.
+                    Refer to the servlet container configuration manual on how to deploy the war in your servlet
+                    container.
+                </para>
+            </section>
+        </section>
+    </chapter>
+
+    <chapter xml:id="primer">
+        <info>
+            <title>CometD Primer</title>
+        </info>
+        <section>
+            <info>
+                <title>Preparations</title>
+            </info>
+            <para>
+                Working on a project that uses the CometD API requires some preparation, especially regarding tools,
+                that can save you a huge amount of time.
+                One tool that should not be missing is <link xl:href="http://getfirebug.com/">Firebug</link>
+                (if you're using Firefox for development), or the equivalent for Internet Explorer 8, called
+                <link xl:href="http://msdn.microsoft.com/en-us/library/dd565622(VS.85).aspx">Developer Tools</link>.
+            </para>
+            <para>
+                The CometD project is built using <link xl:href="http://maven.apache.org">Maven</link>, and using
+                Maven to build also your application is a natural fit.
+                The Primer will use Maven as the basis for the setup, build and run of your application, but the same
+                concepts can be applied by other build tools as well.
+            </para>
+            <important>
+                <info>
+                    <title>Windows Users</title>
+                </info>
+                <para>
+                    If you are working in the Windows OS, avoid at all costs to use a path that contains spaces,
+                    such as "C:\Document And Settings\", as your base path.
+                    Use a base path such as "C:\CometD\" instead.
+                </para>
+            </important>
+        </section>
+        <section>
+            <info>
+                <title>Project Setup</title>
+            </info>
+            <para>
+                The project can be setup in 2 ways, using <xref linkend="primer-maven-way" />
+                or <xref linkend="primer-non-maven-way" />.
+                For both, you can follow <xref linkend="primer-setup-details" />
+                to see how some of the files of the project have been setup.
+            </para>
+
+            <section xml:id="primer-maven-way">
+                <info>
+                    <title>The Maven Way</title>
+                </info>
+                <para>
+                    Setting up a project based on the CometD libraries using Maven is very simple, and leverages the
+                    Maven <emphasis>archetypes</emphasis>, which create the skeleton of the project, in a style very
+                    similar to Rails scaffolding.
+                </para>
+                <para>
+                    Issue the following command from a directory that does <emphasis>not</emphasis> contain a
+                    <filename>pom.xml</filename> file (otherwise you will get a Maven error), for example an empty
+                    directory:
+                    <screen>
+$ cd /tmp
+$ mvn archetype:generate -DarchetypeCatalog=http://cometd.org
+...
+Choose archetype:
+1: http://cometd.org -> cometd-archetype-dojo-jetty6
+2: http://cometd.org -> cometd-archetype-jquery-jetty6
+3: http://cometd.org -> cometd-archetype-dojo-jetty7
+4: http://cometd.org -> cometd-archetype-jquery-jetty7
+5: http://cometd.org -> cometd-archetype-spring-jquery-jetty7
+6: http://cometd.org -> cometd-archetype-spring-dojo-jetty7
+Choose a number:
+                    </screen>
+                </para>
+                <para>
+                    As you can see, there are 6 archetypes available, that build a skeleton application using the
+                    Dojo or jQuery JavaScript toolkits, both with the choice of using Jetty6 or Jetty7 and Spring.
+                    Let's choose Dojo with Jetty7, so choice number 3.
+                    The archetype generation will ask few more questions and generate the application skeleton for you,
+                    for example:
+                    <screen>
+Choose a number: : 3
+Define value for property 'groupId': : org.cometd.primers
+Define value for property 'artifactId': : dojo-jetty7-primer
+Define value for property 'version':  1.0-SNAPSHOT: :
+Define value for property 'package':  org.cometd.primers: :
+[INFO] Using property: cometdVersion = 2.3.1
+[INFO] Using property: jettyVersion = 7.4.4.v20110707
+Confirm properties configuration:
+groupId: org.cometd.primers
+artifactId: dojo-jetty7-primer
+version: 1.0-SNAPSHOT
+package: org.cometd.primers
+cometdVersion: 2.3.1
+jettyVersion: 7.4.4.v20110707
+ Y: :
+...
+[INFO] BUILD SUCCESS
+                    </screen>
+                </para>
+                <para>
+                    Then:
+                    <screen>
+$ cd dojo-jetty7-primer/
+                    </screen>
+                </para>
+                <para>
+                    The skeleton project has now been created as follows:
+                    <screen>
+$ tree .
+.
+|-- pom.xml
+`-- src
+    `-- main
+        |-- java
+        |   `-- org
+        |       `-- cometd
+        |           `-- primers
+        |               |-- BayeuxInitializer.java
+        |               `-- HelloService.java
+        `-- webapp
+            |-- WEB-INF
+            |   `-- web.xml
+            |-- application.js
+            `-- index.jsp
+                    </screen>
+                </para>
+                <para>
+                    The skeleton project is ready to be run with the following command:
+                    <screen>
+$ mvn install jetty:run
+...
+                    </screen>
+                </para>
+                <para>
+                    Now point your browser at
+                    <link xl:href="http://localhost:8080/dojo-jetty7-primer">http://localhost:8080/dojo-jetty7-primer</link>,
+                    and you should see this message:
+                    <screen>
+CometD Connection Succeeded
+Server Says: Hello, World
+                    </screen>
+                </para>
+                <para>
+                    That's it. You have already written your first CometD application :-)
+                </para>
+            </section>
+
+            <section xml:id="primer-non-maven-way">
+                <info>
+                    <title>The Non-Maven Way</title>
+                </info>
+                <para>
+                    The first step is to configure your favorite JavaScript toolkit, in our example Dojo, that must
+                    be served by the web container. Using the Maven Way, this is obtained automatically by overlaying
+                    the CometD Dojo bindings war file, <filename>cometd-javascript-dojo-[version].war</filename>,
+                    but here must be done manually.
+                    The <filename>cometd-javascript-dojo-[version].war</filename> is located in the
+                    <filename>cometd-javascript/dojo/target</filename> directory of the CometD distribution.
+                </para>
+                <orderedlist>
+                    <listitem>
+                        <para>
+                            Unpack the Dojo toolkit to a directory.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Delete the <filename>dojox/cometd</filename> directory provided by Dojo and replace it
+                            with the one contained in the <filename>cometd-javascript-dojo-[version].war</filename>.
+                            The content of the <filename>dojox/cometd</filename> directory should be the following:
+<screen>
+dojox/cometd
+|-- ack.js
+|-- reload.js
+|-- timestamp.js
+`-- timesync.js
+</screen>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Delete the file <filename>dojox/cometd.js</filename> provided by Dojo and replace it with
+                            the one at the same path in the <filename>cometd-javascript-dojo-[version].war</filename>.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Add the <filename>org</filename> directory from the
+                            <filename>cometd-javascript-dojo-[version].war</filename>, and all its content, at the same
+                            level of the <filename>dojox</filename> directory.
+                        </para>
+                    </listitem>
+                </orderedlist>
+                <para>
+                    The final content, equivalent to that produced by the Maven way, should be like this:
+                    <screen>
+.
+|-- dijit
+|-- dojo
+|-- dojox
+|   |-- cometd
+|   |   |-- ack.js
+|   |   |-- reload.js
+|   |   |-- timestamp.js
+|   |   `-- timesync.js
+|   `-- cometd.js
+|-- org
+|   |-- cometd
+|   |   |-- AckExtension.js
+|   |   |-- ReloadExtension.js
+|   |   |-- TimeStampExtension.js
+|   |   `-- TimeSyncExtension.js
+|   `-- cometd.js
+|-- WEB-INF
+|   |-- classes
+|   |   `-- org
+|   |       `-- cometd
+|   |           `-- primers
+|   |               |-- BayeuxInitializer.class
+|   |               `-- HelloService.class
+|   |-- lib
+|   |   |-- bayeux-api-[version].jar
+|   |   |-- cometd-java-common-[version].jar
+|   |   |-- cometd-java-server-[version].jar
+|   |   |-- jetty-continuation-[version].jar
+|   |   |-- jetty-jmx-[version].jar
+|   |   |-- jetty-servlets-[version].jar
+|   |   `-- jetty-util-[version].jar
+|   `-- web.xml
+|-- application.js
+`-- index.jsp
+                    </screen>
+                </para>
+                <para>
+                    The <filename>org</filename> directory contains the new shared CometD implementation and the
+                    shared extensions, while the correspondent files in the <filename>dojox</filename> directory are
+                    the Dojo <emphasis>bindings</emphasis>.
+                    Other bindings exist for the jQuery toolkit, but the shared CometD implementation is the same.
+                </para>
+                <para>
+                    The second step is to configure the server side. If you use Java, this means that you have to
+                    setup the CometD servlet that respond to messages from clients.
+                    The details of the server side configuration and service development are explained in
+                    <xref linkend="java-server" />.
+                </para>
+                <para>
+                    The last step is to write a JSP (or HTML) file that downloads the JavaScript dependencies and
+                    the JavaScript application, as explained in the following section.
+                </para>
+            </section>
+
+            <section xml:id="primer-setup-details">
+                <info>
+                    <title>Setup Details</title>
+                </info>
+                <para>
+                    The JSP file, <filename>index.jsp</filename>, contains the reference to the JavaScript toolkit
+                    dependencies and to the JavaScript application file:
+                    <informalexample>
+                        <programlisting language="html">
+<![CDATA[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/dojo/dojo.js.uncompressed.js"></script>
+    <script type="text/javascript" src="application.js"></script>
+    <script type="text/javascript">
+        var config = {
+            contextPath: '${pageContext.request.contextPath}'
+        };
+    </script>
+</head>
+<body>
+    ...
+</body>
+</html>
+]]>
+                        </programlisting>
+                    </informalexample>
+                </para>
+                <para>
+                    It also configures a JavaScript configuration object, <varname>config</varname>, with variables
+                    that may be needed by the JavaScript application. This is totally optional.
+                </para>
+                <para>
+                    The JavaScript application, contained in the <filename>application.js</filename> file,
+                    configures the <varname>cometd</varname> object and starts the application.
+                    Here is what the archetypes provide:
+                    <informalexample>
+                        <programlisting language="javascript">
+<xi:include href="https://github.com/cometd/cometd/raw/master/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js" parse="text" />
+                        </programlisting>
+                    </informalexample>
+                </para>
+                <para>
+                    Note the following:
+                    <itemizedlist>
+                        <listitem>
+                            <para>
+                                The use of <code>dojo.addOnLoad()</code> to wait for the document to load up before
+                                executing the <varname>cometd</varname> object initialization.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                The use of <code>dojo.addOnUnload()</code> to disconnect when the page is
+                                refreshed or closed.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                The use of the function <code>_metaHandshake()</code> to setup the initial
+                                configuration on first contact with the server (or when the server has lost client
+                                information, for example because of a server restart).
+                                This is totally optional, but highly recommended.
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+                                The use of the function <code>_metaConnect()</code> to detect when the communication
+                                has been successfully established (or re-established). This is totally optional,
+                                but highly recommended.
+                            </para>
+                            <para>
+                                Be warned that the use of the <code>_metaConnect()</code> along with the
+                                <varname>_connected</varname> status variable can result in your code (that in this
+                                simple example sets the innerHTML property) to be called more than once if,
+                                for example, you experience temporary network failures or if the server restarts.
+                            </para>
+                            <para>
+                                Therefore is it very important that the code that you put in the
+                                <code>_connectionEstablished()</code> function must be
+                                <link xl:href="http://en.wikipedia.org/wiki/Idempotent">idempotent</link>.
+                                In other words, you have to make sure that if the <code>_connectionEstablished()</code>
+                                function is called more than one time, it will behave exactly as if it is
+                                called exactly once.
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </section>
+        </section>
+
+    </chapter>
+
+    <chapter xml:id="concepts">
+        <info>
+            <title>CometD Concepts</title>
+        </info>
+        <para>
+
+        </para>
+    </chapter>
+
+</book>
