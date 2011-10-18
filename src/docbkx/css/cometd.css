@@ -16,6 +16,7 @@ pre
     background-color: #eee;
     border: 1px solid #ddd;
     padding: 0.2em 1.5em;
+    white-space: pre-wrap;
 }
 
 a:link
