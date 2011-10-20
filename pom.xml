@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
 
     <build>
+        <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
                 <groupId>com.agilejava.docbkx</groupId>
