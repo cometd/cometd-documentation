@@ -26,6 +26,7 @@
                             <includes>book.xml</includes>
                             <chunkedOutput>false</chunkedOutput>
                             <htmlStylesheet>cometd.css</htmlStylesheet>
+                            <xhtmlCustomization>src/docbkx/custom-xhtml.xsl</xhtmlCustomization>
                             <postProcess>
                                 <copy todir="${project.build.directory}/docbkx/xhtml">
                                     <fileset dir="src/docbkx/css">

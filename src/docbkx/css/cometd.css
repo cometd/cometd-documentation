@@ -25,11 +25,13 @@ a:link
     font-weight: bold;
     color: #ff8c00;
 }
+
 a:hover, a:active
 {
     font-weight: bold;
     color: #ff4500;
 }
+
 a:visited
 {
     text-decoration: none;
@@ -45,4 +47,32 @@ img
 code
 {
     color: #369;
+}
+
+table
+{
+    margin: 0;
+    padding: 0;
+}
+
+tr
+{
+    margin: 0;
+    padding: 1px;
+}
+
+th
+{
+    margin: 0;
+    border: 0;
+    padding: 0 0.5em;
+    text-align: left;
+    background: #369;
+    color: #fff;
+}
+
+td
+{
+    padding: 0 0.5em;
+    background-color: #ddd;
 }

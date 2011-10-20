@@ -555,6 +555,374 @@ dojox/cometd
             </section>
         </section>
 
+        <section>
+            <info>
+                <title>Migrating from CometD 1</title>
+            </info>
+            <section>
+                <info>
+                    <title>Required JDK Version</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>JDK 1.5</td>
+                            <td>JDK 1.5</td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>Java Packages and Classes Migration</title>
+                </info>
+                <para>
+                    In general the API classes and interfaces moved from <classname>org.cometd.*</classname> to
+                    <classname>org.cometd.</classname><emphasis role="bold"><classname>bayeux</classname></emphasis><classname>.*</classname>.
+                    Server-side implementation classes remained in <classname>org.cometd.server.*</classname>,
+                    and client-side implementation classes remained in <classname>org.cometd.client.*</classname>.
+                </para>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.*</classname>
+                            </td>
+                            <td>
+                                <classname>org.cometd.</classname>
+                                <emphasis role="bold"><classname>bayeux</classname></emphasis>
+                                <classname>.*</classname>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.</classname>
+                                <emphasis role="bold"><classname>Bayeux</classname></emphasis>
+                            </td>
+                            <td>
+                                <classname>org.cometd.bayeux.</classname>
+                                <emphasis role="bold"><classname>server.BayeuxServer</classname></emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.</classname>
+                                <emphasis role="bold"><classname>Client</classname></emphasis>
+                            </td>
+                            <td>
+                                <classname>org.cometd.bayeux.</classname>
+                                <emphasis role="bold"><classname>server.ServerSession</classname></emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.</classname>
+                                <emphasis role="bold"><classname>Channel</classname></emphasis>
+                            </td>
+                            <td>
+                                <classname>org.cometd.bayeux.</classname>
+                                <emphasis role="bold"><classname>server.ServerChannel</classname></emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.server.</classname>
+                                <emphasis role="bold"><classname>BayeuxService</classname></emphasis>
+                            </td>
+                            <td>
+                                <classname>org.cometd.server.</classname>
+                                <emphasis role="bold"><classname>AbstractService</classname></emphasis>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>Maven Artifacts Migration</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.java:</classname>
+                                <emphasis role="bold"><classname>cometd-api</classname></emphasis>
+                            </td>
+                            <td>
+                                <classname>org.cometd.java:</classname>
+                                <emphasis role="bold"><classname>bayeux-api</classname></emphasis>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>CometD Servlet Migration</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.server.</classname>
+                                <emphasis role="bold"><classname>continuation.ContinuationCometdServlet</classname></emphasis>
+                            </td>
+                            <td>
+                                <classname>org.cometd.server.</classname>
+                                <emphasis role="bold"><classname>CometdServlet</classname></emphasis>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>CometD Servlet Parameter Migration</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>multiFrameInterval</code>
+                            </td>
+                            <td>
+                                <code>long-polling.multiSessionInterval</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code>requestAvailable</code>
+                            </td>
+                            <td>
+                                <code>N/A (always true)</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>BayeuxService Migration</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <classname>org.cometd.server.BayeuxService.</classname>
+                                <emphasis role="bold"><code>subscribe()</code></emphasis>
+                            </td>
+                            <td>
+                                <classname>org.cometd.server.AbstractService.</classname>
+                                <emphasis role="bold"><code>addService()</code></emphasis>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>BayeuxService Method Migration</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>public void method(</code>
+                                <emphasis role="bold">
+                                    <code>Client c, Message m</code>
+                                </emphasis>
+                                <code>)</code>
+                            </td>
+                            <td>
+                                <code>public void method(</code>
+                                <emphasis role="bold">
+                                    <code>ServerSession c, ServerMessage m</code>
+                                </emphasis>
+                                <code>)</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>Channel Retrieval Migration</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>Channel c = bayeux.getChannel(</code>
+                                <emphasis role="bold">
+                                    <code>"/foo", true</code>
+                                </emphasis>
+                                <code>)</code>
+                            </td>
+                            <td>
+                                <code>bayeuxServer.</code>
+                                <emphasis role="bold">
+                                    <code>createIfAbsent("/foo");</code>
+                                </emphasis>
+                                <?linebreak?>
+                                <code>Channel c = bayeuxServer.getChannel(</code>
+                                <emphasis role="bold">
+                                    <code>"/foo"</code>
+                                </emphasis>
+                                <code>);</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+            <section>
+                <info>
+                    <title>Constants Migration</title>
+                </info>
+                <informaltable>
+                    <thead>
+                        <tr>
+                            <th>CometD 1.x</th>
+                            <th>CometD 2.x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <code>org.cometd.</code>
+                                <emphasis role="bold">
+                                    <code>Bayeux.ATTRIBUTE</code>
+                                </emphasis>
+                            </td>
+                            <td>
+                                <code>org.cometd.bayeux.</code>
+                                <emphasis role="bold">
+                                    <code>server.BayeuxServer.ATTRIBUTE</code>
+                                </emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code>org.cometd.</code>
+                                <emphasis role="bold">
+                                    <code>Bayeux.META_HANDSHAKE</code>
+                                </emphasis>
+                            </td>
+                            <td>
+                                <code>org.cometd.bayeux.</code>
+                                <emphasis role="bold">
+                                    <code>Channel.META_HANDSHAKE</code>
+                                </emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code>org.cometd.</code>
+                                <emphasis role="bold">
+                                    <code>Bayeux.META_CONNECT</code>
+                                </emphasis>
+                            </td>
+                            <td>
+                                <code>org.cometd.bayeux.</code>
+                                <emphasis role="bold">
+                                    <code>Channel.META_CONNECT</code>
+                                </emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code>org.cometd.</code>
+                                <emphasis role="bold">
+                                    <code>Bayeux.META_SUBSCRIBE</code>
+                                </emphasis>
+                            </td>
+                            <td>
+                                <code>org.cometd.bayeux.</code>
+                                <emphasis role="bold">
+                                    <code>Channel.META_SUBSCRIBE</code>
+                                </emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code>org.cometd.</code>
+                                <emphasis role="bold">
+                                    <code>Bayeux.META_UNSUBSCRIBE</code>
+                                </emphasis>
+                            </td>
+                            <td>
+                                <code>org.cometd.bayeux.</code>
+                                <emphasis role="bold">
+                                    <code>Channel.META_UNSUBSCRIBE</code>
+                                </emphasis>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code>org.cometd.</code>
+                                <emphasis role="bold">
+                                    <code>Bayeux.META_DISCONNECT</code>
+                                </emphasis>
+                            </td>
+                            <td>
+                                <code>org.cometd.bayeux.</code>
+                                <emphasis role="bold">
+                                    <code>Channel.META_DISCONNECT</code>
+                                </emphasis>
+                            </td>
+                        </tr>
+                    </tbody>
+                </informaltable>
+            </section>
+        </section>
+
     </chapter>
 
     <chapter xml:id="concepts">
