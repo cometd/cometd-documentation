@@ -127,18 +127,16 @@
                 <title>Downloading and Installing</title>
             </info>
             <para>
-                Download the CometD distribution from
+                You can download the CometD distribution from
                 <link xl:href="http://download.cometd.org/">http://download.cometd.org</link>.
             </para>
             <para>
-                Then unpack the distribution:
-                <screen>
-<![CDATA[
+                Then unpack the distribution in a directory of your choice:
+<screen><![CDATA[
 $ tar zxvf cometd-<version>.tgz
 $ cd cometd-<version>/
 ]]>
-                </screen>
-
+</screen>
             </para>
             <para>
                 The CometD Demos contain:
@@ -474,8 +472,7 @@ dojox/cometd
                     The JSP file, <filename>index.jsp</filename>, contains the reference to the JavaScript toolkit
                     dependencies and to the JavaScript application file:
                     <informalexample>
-                        <programlisting language="html">
-<![CDATA[
+                        <programlisting language="html"><![CDATA[
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 <head>
