@@ -933,5 +933,527 @@ dojox/cometd
 
         </para>
     </chapter>
+    
+    
+    <chapter xml:id="javascript">
+        <info>
+            <title>CometD 2 JavaScript Library</title>
+        </info>
+     <para>
+The CometD 2 JavaScript library is a portable JavaScript implementation with <em>bindings</em> for the major JavaScript toolkits, currently <link xl:href="http://dojotoolkit.org/">Dojo</link> and <link xl:href="http://jquery.com/">jQuery</link>.
+What this means is that the CometD Bayeux JavaScript implementation is written in pure JavaScript with no dependencies on the toolkits, and that the toolkit bindings add the syntactic sugar that makes the Bayeux APIs feel like they are native to the toolkit.
+For example, it is possible to refer to the standard <code>cometd</code> object using the following notation:
+<pre>
+// Dojo style
+var cometd = dojox.cometd;
 
+// jQuery style
+var cometd = $.cometd;
+</pre>
+    </para>
+    <para>
+If you followed the <link xl:href="/documentation/howtos/primer">Primer</link>, you might have noticed that the skeleton project requires to reference both the portable implementation, under <code>org/cometd.js</code>, and one binding - for example Dojo's - under <code>dojox/cometd.js</code>. For jQuery, the binding is under <code>jquery/jquery.cometd.js</code>.
+The use of the Bayeux APIs from the JavaScript toolkits is almost identical, and the following sections do not refer to a particular toolkit.
+Small differences only surface when passing callback functions to the Bayeux API, where Dojo users might like to use <code>dojo.hitch()</code>, while jQuery users might prefer an anonymous function approach.
+    </para>
+    <para>
+The following sections present details about the JavaScript Bayeux APIs and their implementation secrets.
+    </para>
+    
+    <section>
+          <info>JavaScript CometD 2 API: Configuration and Initialization
+                <title>Downloading and Installing</title>
+          </info>
+      <para>
+After you have setup your skeleton project following the <link xl:ref="/documentation/howtos/primer">Primer</link>, you may want to fully understand how to customize and configure the parameters that govern the behavior of the Cometd implementation.
+      </para>
+      <para>
+The whole API is available through a single object prototype named <code>org.cometd.Cometd</code>.
+The Dojo toolkit has one instance of this object available under the name <code>dojox.cometd</code>, while for jQuery it is available under the name <code>$.cometd</code>.
+This default <code>cometd</code> object has been instantiated and configured with the default values and it has not started any Bayeux communication yet.
+Before it can start any Bayeux communication it needs a mandatory parameter: the URL of the Bayeux server.
+      </para>
+      <para>
+There are 2 ways of passing this parameter:
+      </para>
+      <para>
+<pre>
+// First style: URL string
+cometd.configure('http://localhost:8080/cometd');
+
+// Second style: configuration object
+cometd.configure({
+    url: 'http://localhost:8080/cometd'
+});
+</pre>
+     </para>
+     <para>
+The first way is a shorthand for the second way.
+However, the second way allows to pass other configuration parameters, currently:
+     </para>
+<informaltable>
+<thead>
+<tr>
+  <th>Parameter Name</th>
+  <th>Required</th>
+  <th>Default Value</th>
+  <th>Parameter Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>url</td>
+  <td>yes</td>
+  <td></td>
+  <td>The URL of the Bayeux server this client will connect to</td>
+</tr>
+<tr>
+  <td>logLevel</td>
+  <td>no</td>
+  <td>info</td>
+  <td>The log level. Possible values are: "warn", "info", "debug". Output to window.console if available</td>
+</tr>
+<tr>
+  <td>maxConnections</td>
+  <td>no</td>
+  <td>2</td>
+  <td>The max number of connections used to connect to the Bayeux server.<br />Only change this value if you know exactly what is the client's connection limit and what "request queued behind long poll" means</td>
+</tr>
+<tr>
+  <td>backoffIncrement</td>
+  <td>no</td>
+  <td>1000</td>
+  <td>The number of milliseconds of which the backoff time is incremented every time a connection with the Bayeux server fails.<br />A reconnection will be attempted after the backoff time elapses</td>
+</tr>
+<tr>
+  <td>maxBackoff</td>
+  <td>no</td>
+  <td>60000</td>
+  <td>The max number of milliseconds of the backoff time after which the backoff time is not incremented anymore</td>
+</tr>
+<tr>
+  <td>reverseIncomingExtensions</td>
+  <td>no</td>
+  <td>true</td>
+  <td>Controls whether the incoming extensions will be called in reverse order with respect to the registration order</td>
+</tr>
+<tr>
+  <td>maxNetworkDelay</td>
+  <td>no</td>
+  <td>10000</td>
+  <td>The max number of milliseconds to wait before considering a request to the Bayeux server failed.</td>
+</tr>
+<tr>
+  <td>requestHeaders</td>
+  <td>no</td>
+  <td>{}</td>
+  <td>An object containing the request headers to be sent for every bayeux request (for example: <code>{"My-Custom-Header":"MyValue"}</code>)</td>
+</tr>
+<tr>
+  <td>appendMessageTypeToURL</td>
+  <td>no</td>
+  <td>true</td>
+  <td>Whether or not the Bayeux message type (handshake, connect, disconnect) is appended to URL of the Bayeux server (see above).</td>
+</tr>
+<tr>
+  <td>autoBatch</td>
+  <td>no</td>
+  <td>false</td>
+  <td>Whether multiple publishes that gets queued up will be sent as a batch on the first occasion, without requiring explicit batching.</td>
+</tr>
+</tbody>
+</informaltable>
+
+    <para>
+After you have configured the <code>cometd</code> object, the Bayeux communication does not start yet. To start the Bayeux communication, you need to call <code>handshake()</code>, see the <link xl:href="/node/50">next section</link>.
+    </para>
+    <para>
+Previous users of the JavaScript CometD implementation called a method named <code>init()</code>. This method still exists, and it is a shorthand for calling <code>configure()</code> followed by <code>handshake()</code>. 
+Follow the advices in the <link xl:href="/node/50">next section</link> as they apply as well to <code>init()</code>.
+    </para>
+    </section>
+    
+    <section>
+                <info>
+                    <title>JavaScript CometD 2 API: Handshake</title>
+                </info>
+                <para>
+The call to <code>handshake()</code> (or to <code>init()</code>) is the one that initiates the Bayeux communication with the Bayeux server.
+                </para>
+                <para>
+The Bayeux handshake performs 2 tasks:
+<ul>
+<li>the client and the server negotiate the type of transport to use</li>
+<li>once the transport is negotiated successfully, the server informs the client with the detailed timings of the requests</li>
+</ul>
+</para>
+<para>
+As with several methods of the JavaScript CometD API, it is an asynchronous method: it returns immediately, well before the Bayeux handshake steps have completed.
+<p style="background: #fdf; border: 1px solid red; padding: 5px">
+<strong>Note</strong><br />
+Calling <code>handshake()</code> <u>does not</u> mean that you have completed the handshake with the server when <code>handshake()</code> returns.
+</p>
+</para>
+<para>
+The handshake may fail for several reasons:
+<ul>
+<li>you mistyped the server URL</li>
+<li>the transport could not be negotiated successfully</li>
+<li>the server denied the handshake (for example, the authentication credentials were wrong)</li>
+<li>the server crashed</li>
+<li>there was a network failure</li> 
+</ul>
+
+Therefore it is not a good idea to write this code:
+<pre>
+// Configure and handshake
+cometd.init('http://localhost:8080/cometd');
+
+// Publish to a channel
+cometd.publish('/foo', { foo: 'bar' });
+</pre>
+</para>
+<para>
+It is not a good idea, because there is no guarantee that the call to <code>publish()</code> (which we cover in a later section) can actually succeed in contacting the Bayeux server.
+Since the API is asynchronous, you have no way of knowing synchronously (i.e. by having <code>handshake()</code> return an error code or by throwing an exception) that the handshake failed.
+Even if the handshake succeeds, you may still be "disconnected" from the Bayeux server, for example because the server crashed just after the successful handshake.
+
+Fortunately there is a way to be notified about the details of the Bayeux protocol message exchange: by adding listeners to special channels (called <em>meta channels</em>).
+This is explained in the <link xl:href="/node/51">section about subscriptions</link>.
+</para>
+</section>
+
+<section>
+        <info>
+           <title>JavaScript CometD 2 API: Subscribing and Unsubscribing</title>
+        </info>
+        <para>
+<h4>Channels</h4>
+The Bayeux specification defines the concept of a channel: it is like a messaging topic where interested parties can subscribe to receive information published onto the channel.
+There are 3 types of channels:
+<ul>
+<li>meta channels</li>
+<li>service channels</li>
+<li>normal channels</li>
+</ul>
+A channel looks like a directory path such as <code>/meta/connect</code> (a meta channel; all meta channels starts with the prefix <code>/meta/</code>), or <code>/service/chat</code> (a service channel; all service channels starts with the prefix <code>/service/</code>) or <code>/foo/bar</code> (a normal channel).
+</para>
+
+<h5>Meta Channels</h5>
+<para>
+Meta channels are created by the Bayeux protocol itself.
+It is not possible to subscribe to meta channels: the server will reply with an error message. However, it is possible to listen to meta channels (see below the difference between <link xl:href="#subscribevslisten">subscribing and listening</link>).
+It makes no sense to publish messages to meta channels: only the Bayeux protocol implementation creates and sends messages on meta channels.
+Meta channels are useful on the client to listen for error messages like handshake errors (for example because the client did not provide the correct credentials) or network errors (for example to know when the connection with the server has broken or when it has been re-established). 
+</para>
+<para>
+<h5>Service Channels</h5>
+Service channels are used in the case of request/response style of communication between client and server (as opposed to the publish/subscribe style of communication or normal channels).
+While subscribing to service channels yields no errors, this is a no-operation for the server: the server ignores the subscription request.
+It is possible to publish to service channels, with the semantic of a communication between a specific client (the one that's publishing the message on the service channel) and the server.
+Service channels are useful to implement, for example, private chat messages: in a chat with userA, userB and userC, userA can publish a private message to userC (without userB knowing about) using service channels.
+</para>
+<para>
+<h5>Normal Channels</h5>
+Normal channels have the semantic of a messaging topic and are used in the case of publish/subscribe style of communication.
+Usually, it is possible to subscribe to normal channels and to publish to normal channels; this can only be forbidden using a security policy on the Bayeux server or by using <link xl:href="/documentation/2.x/cometd-java/server/authorizers">authorizers</link>.
+Normal channels are useful to implement broadcasting of messages to all subscribed clients, for example in case of a stock price change.
+</para>
+<para>
+<h4><a name="subscribevslisten">Subscribers versus Listeners</a></h4>
+The JavaScript CometD API has 2 APIs to work with channel subscriptions:
+<ul>
+<li><code>addListener()</code> and the correspondent <code>removeListener()</code></li>
+<li><code>subscribe()</code> and the correspondent <code>unsubscribe()</code></li>
+</ul>
+</para>
+<para>
+The <code>addListener()</code> method:
+<ul>
+<li>must be used to listen to meta channel messages</li>
+<li>may be used to listen to service channel messages (you may also use <code>subscribe()</code>, but is less recommended)</li>
+<li>should not be used to listen normal channel messages (use <code>subscribe()</code> instead)</li>
+<li>does not involve any communication with the Bayeux server, and as such can be called before calling <code>handshake()</code></li>
+<li>is synchronous: when it returns, you are guaranteed that the listener has been added</li>
+</ul>
+</para>
+<para>
+The <code>subscribe()</code> method:
+<ul>
+<li>must not be used to listen to meta channels messages (otherwise the server will return an error)</li>
+<li>may be used to listen to service channel messages (you may also use <code>addListener()</code>, which is preferred)</li>
+<li>should be used to listen to normal channel messages</li>
+<li>involves a communication with the Bayeux server and as such cannot be called before calling <code>handshake()</code></li>
+<li>is asynchronous: it returns immediately, well before the Bayeux server has received the subscription request</li>
+</ul>
+</para>
+<para>
+<p style="background: #fdf; border: 1px solid red; padding: 5px">
+<strong>Note</strong><br />
+Calling <code>subscribe()</code> <u>does not</u> mean that you have completed the subscription with the server when <code>subscribe()</code> returns.
+</p>
+</para>
+<para>
+Both <code>addListener()</code> and <code>subscribe()</code> return a subscription object that must be passed to, respectively, <code>removeListener()</code> and <code>unsubscribe()</code>:
+<pre>
+<span class="code-comment">// Some initialization code</span>
+var subscription1 = cometd.addListener('/meta/connect', function() { ... });
+var subscription2 = cometd.subscribe('/foo/bar/', function() { ... });
+
+<span class="code-comment">// Some de-initialization code</span>
+cometd.unsubscribe(subscription2);
+cometd.removeListener(subscription1);
+</pre>
+</para>
+<para>
+A common use pattern is to handle the subscription code in an idempotent method, like this:
+<pre>
+var _subscription;
+
+<span class="code-comment">// The idempotent method</span>
+function _refresh()
+{
+    _appUnsubscribe();
+    _appSubscribe();
+}
+
+function _appUnsubscribe()
+{
+    if (_subscription) 
+        cometd.unsubscribe(_subscription);
+    _subscription = null;
+}
+
+function _appSubscribe()
+{
+    _subscription = cometd.subscribe('/foo/bar', function() { ... });
+}
+</pre>
+</para>
+<para>
+The same of course applies also for <code>addListener()/removeListener()</code>.
+</para>
+<para>
+The point is that you have to be careful in your application: to avoid leak functions, or to execute functions more than once, you have to remove your subscriptions, (since you could erroneously bind the same callback twice).
+See the <link xl:href="/documentation/howtos/primer">Primer</link> for a discussion about using idempotent methods.
+</para>
+<para>
+How do <code>subscribe()</code> and <code>unsubscribe()</code> behave in case the Bayeux server is not reachable (due to network failures or because the server crashed) ?
+In <code>subscribe()</code> the local listener is first added to the list of subscribers for that channel, then the server communication is attempted. If the communication fails, the server will not know that it has to send messages to this client and therefore on the client the local listener (although present) will never be invoked.
+In <code>unsubscribe()</code>, the local listener is first removed from the list of subscribers for that channel, then the server communication is attempted. If the communication fails, the server will still send the message to the client but there will be no local listener to dispatch to.
+</para>
+<para>
+<h4>Listeners/Subscribers Exception Handling</h4>
+If a listener or subscriber function throws an exception (for example, calls a method on an undefined object, etc.), then the error message is logged (at level "debug").
+However, there is a way to intercept these errors by defining the global listener exception handler, that is invoked every time a listener or subscriber throws an exception:
+<pre>
+cometd.onListenerException = function(exception, subscriptionHandle, isListener, message)
+{
+    <span class="code-comment">// Uh-oh, something went wrong, disable this listener/subscriber</span>
+    <span class="code-comment">// Object "this" points to the CometD object</span>
+    if (isListener)
+        this.removeListener(subscriptionHandle);
+    else
+        this.unsubscribe(subscriptionHandle);
+}
+</pre>
+</para>
+<para>
+It is be possible to send messages to the server from the listener exception handler.
+If the listener exception handler itself throws an exception, this exception is logged at level "info" and the CometD implementation will not break.
+Note that a similar mechanism exists for extensions, see <link xl:href="/documentation/2.x/cometd/ext">here</link>.
+</para>
+<para>
+<h4>Wildcard Subscriptions</h4>
+It is possible to subscribe to several channels at once using wildcards, like this:
+<pre>
+cometd.subscribe("/chatrooms/*", function(message) { ... });
+</pre>
+</para>
+<para>
+A single asterisk has the meaning of matching a single channel segment, so in the example above it matches channels <code>/chatrooms/12</code> and <code>/chatrooms/15</code>, but not <code>/chatrooms/12/upload</code>.
+To match multiple channel segments, use the double asterisk:
+<pre>
+cometd.subscribe("/events/**", function(message) { ... });
+</pre>
+With the double asterisk, the channels <code>/events/stock/FOO</code> and <code>/events/forex/EUR</code> match, as well as <code>/events/feed</code> and <code>/events/feed/2009/08/03</code>.
+</para>
+<para>
+The wildcard mechanism works also for listeners, so it is possible to listen to all meta channels like this:
+<pre>
+cometd.addListener("/meta/*", function(message) { ... });
+</pre>
+</para>
+<para>
+By default, subscriptions to the global wildcards <code>/*</code> and <code>/**</code> result in an error, but this behavior can be changed by specifying a custom security policy on the Bayeux server.
+
+The wildcards can only be specified as last segment of the channel, so these are invalid subscriptions: <code>/**/foo</code> or <code>/foo/*/bar</code>.
+</para>
+<para>
+<h4>Meta Channel List</h4>
+These are the meta channels available in the JavaScript CometD implementation:
+<ul>
+<li>/meta/handshake</li>
+<li>/meta/connect</li>
+<li>/meta/disconnect</li>
+<li>/meta/subscribe</li>
+<li>/meta/unsubscribe</li>
+<li>/meta/publish</li>
+<li>/meta/unsuccessful</li>
+</ul>
+Each meta channel is notified when the correspondent Bayeux message is handled by the JavaScript Cometd implementation. 
+The <code>/meta/unsuccessful</code> channel is notified in case of any failure.
+</para>
+<para>
+By far the most interesting meta channel to subscribe to is <code>/meta/connect</code>, because it gives the status of the current connection with the Bayeux server. In combination with <code>/meta/disconnect</code>, it can be used, for example, to display a green "connected" icon or a red "disconnected" icon on the page, depending on the connection status with the Bayeux server.
+
+This is a common pattern using the <code>/meta/connect</code> and <code>/meta/disconnect</code> channels:
+<informalexample>
+<programlisting language="html"><![CDATA[
+var _connected = false;
+
+cometd.addListener('/meta/connect', function(message)
+{
+    <span class="code-comment">// if (cometd.getStatus() === 'disconnecting' || cometd.getStatus() === 'disconnected')</span>
+    if (cometd.isDisconnected()) <span class="code-comment">// Available since 1.1.2</span>
+    {
+        return;
+    }
+    var wasConnected = _connected;
+    _connected = message.successful; 
+    if (!wasConnected && _connected)
+    {
+        <span class="code-comment">// Reconnected</span>
+    }
+    else if (wasConnected && !_connected)
+    {
+        <span class="code-comment">// Disconnected</span>
+    }
+});
+
+cometd.addListener('/meta/disconnect', function(message)
+{
+    if (message.successful)
+    {
+        _connected = false;
+    }
+}
+]]>
+</programlisting>
+</informalexample>
+</para>
+<para>
+One small caveat with the <code>/meta/connect</code> channel is that <code>/meta/connect</code> is also used for polling the server.
+Therefore, if a disconnect is issued during an active poll, the active poll is returned by the server and this triggers the <code>/meta/connect</code> listener.
+The initial check on the status verifies that is not the case before executing the connection logic.
+</para>
+<para>
+Another interesting usage of meta channels is when there is an authentication step during the handshake.
+In this case the registration to the <code>/meta/handshake</code> channel can give details about, for example, authentication failures.
+</para>
+</section>
+
+
+<section>
+     <info>
+        <title>JavaScript CometD 2 API: Publishing</title>
+     </info>
+     <para>
+The <code>publish()</code> method allow you to publish data onto a certain channel:
+<pre>
+cometd.publish('/mychannel', { mydata: { foo: 'bar' } });
+</pre>
+You cannot (and it makes no sense) to publish to a meta channel, and you can publish to a channel even if you are not subscribed to that channel.
+However, you have to handshake before being able to publish.
+</para>
+<para>
+As with other JavaScript CometD API, <code>publish()</code> involves a communication with the server and it is asynchronous: it returns immediately, well before the Bayeux server has received the message.
+<p style="background: #fdf; border: 1px solid red; padding: 5px">
+<strong>Note</strong><br />
+Calling <code>publish()</code> <u>does not</u> mean that you have published the message when <code>publish()</code> returns.
+</p>
+</para>
+<para>
+If you have to publish several messages to different channels, you may want to use <link xl:href="/documentation/2.x/cometd-javascript/batching">message batching</link>.
+</para>
+</section>
+
+<section>
+      <info>
+          <title>JavaScript CometD 2 API: Disconnecting</title>
+      </info>
+      <para>
+The JavaScript CometD implementation performs automatic reconnect in case of network or Bayeux server failures.
+The reconnect parameters are described in the <link xl:href="/documentation/2.x/cometd-javascript/configuration">configuration section</link>.
+      </para>
+      <para>
+<h4>Short Network Failures</h4>
+In case of temporary network failures, the client is notified through the <code>/meta/connect</code> channel (see <link xl:href="/documentation/2.x/cometd-javascript/subscription">this section</link> about meta channels) with messages that have the <code>successful</code> field set to false (see also the archetypes in the <link xl:href="/documentation/howtos/primer">primer</link> as an example).
+However, the Bayeux server may be able to keep the client's state, and when the network resumes the Bayeux server may behave as if nothing happened.
+The client in this case just re-establishes the long poll, but any message published by the client during the network failure is not automatically re-sent (though it is possible to be notified, through the <code>/meta/publish</code> channel, of the failed publishes).
+
+<h4>Long Network Failures or Server Failures</h4>
+If the network failure is long enough, the Bayeux server times out the lost client, and deletes the state associated with it. The same happens when the Bayeux server crashes (except of course that the state of all clients is lost).
+In this case, the reconnection mechanism on the client performs the following steps:
+<ul>
+<li>a long poll is re-attempted, but the server rejects it with a <code>402::Unknown client</code> error message</li>
+<li>a handshake is attempted, and the server normally accepts it and allocates a new client</li>
+<li>upon the successful re-handshake, a long poll is re-established</li>
+</ul>
+If you register with meta channels, be aware of these steps, since a reconnection may involve more than one message exchange with the server.
+
+<h4>Disconnecting</h4>
+Calling the JavaScript CometD API <code>disconnect()</code> result in a message being sent to the Bayeux server, so that it can cleanup any state associated with that client.
+As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns immediately, well before the Bayeux server has received the disconnect request.
+If the server cannot be reached (because it is down or because of network failures), the JavaScript CometD implementation will stop any reconnection attempt and cleanup any local state.
+It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it will eventually time out the client and cleanup any server-side state for that client. 
+      </para>
+      <para>
+<p style="background: #dfd; border: 1px solid green; padding: 5px">
+<strong>Tip</strong><br />
+If you are debugging your application with Firebug, and you shutdown the server, you'll see in the Firebug console the attempts to reconnect.
+To stop those attempts, simply type in the Firebug command line: <code>dojox.cometd.disconnect()</code> (for Dojo) or <code>$.cometd.disconnect()</code> (for jQuery).
+</p>
+</para>
+</section>
+
+<section>
+      <info>
+          <title>JavaScript CometD 2 API: Disconnecting</title>
+      </info>
+      <para>
+The JavaScript CometD implementation performs automatic reconnect in case of network or Bayeux server failures.
+The reconnect parameters are described in the <link xl:href="/documentation/2.x/cometd-javascript/configuration">configuration section</link>.
+      </para>
+      <para>
+<h4>Short Network Failures</h4>
+In case of temporary network failures, the client is notified through the <code>/meta/connect</code> channel (see <link xl:href="/documentation/2.x/cometd-javascript/subscription">this section</link> about meta channels) with messages that have the <code>successful</code> field set to false (see also the archetypes in the <link xl:href="/documentation/howtos/primer">primer</link> as an example).
+However, the Bayeux server may be able to keep the client's state, and when the network resumes the Bayeux server may behave as if nothing happened.
+The client in this case just re-establishes the long poll, but any message published by the client during the network failure is not automatically re-sent (though it is possible to be notified, through the <code>/meta/publish</code> channel, of the failed publishes).
+
+<h4>Long Network Failures or Server Failures</h4>
+If the network failure is long enough, the Bayeux server times out the lost client, and deletes the state associated with it. The same happens when the Bayeux server crashes (except of course that the state of all clients is lost).
+In this case, the reconnection mechanism on the client performs the following steps:
+<ul>
+<li>a long poll is re-attempted, but the server rejects it with a <code>402::Unknown client</code> error message</li>
+<li>a handshake is attempted, and the server normally accepts it and allocates a new client</li>
+<li>upon the successful re-handshake, a long poll is re-established</li>
+</ul>
+If you register with meta channels, be aware of these steps, since a reconnection may involve more than one message exchange with the server.
+
+<h4>Disconnecting</h4>
+Calling the JavaScript CometD API <code>disconnect()</code> result in a message being sent to the Bayeux server, so that it can cleanup any state associated with that client.
+As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns immediately, well before the Bayeux server has received the disconnect request.
+If the server cannot be reached (because it is down or because of network failures), the JavaScript CometD implementation will stop any reconnection attempt and cleanup any local state.
+It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it will eventually time out the client and cleanup any server-side state for that client. 
+      </para>
+      <para>
+<p style="background: #dfd; border: 1px solid green; padding: 5px">
+<strong>Tip</strong><br />
+If you are debugging your application with Firebug, and you shutdown the server, you'll see in the Firebug console the attempts to reconnect.
+To stop those attempts, simply type in the Firebug command line: <code>dojox.cometd.disconnect()</code> (for Dojo) or <code>$.cometd.disconnect()</code> (for jQuery).
+</p>
+</para>
+</section>
+</chapter>
 </book>
