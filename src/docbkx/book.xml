@@ -933,8 +933,8 @@ dojox/cometd
 
         </para>
     </chapter>
-    
-    
+
+
     <chapter xml:id="javascript">
         <info>
             <title>CometD 2 JavaScript Library</title>
@@ -959,7 +959,7 @@ Small differences only surface when passing callback functions to the Bayeux API
     <para>
 The following sections present details about the JavaScript Bayeux APIs and their implementation secrets.
     </para>
-    
+
     <section>
           <info>JavaScript CometD 2 API: Configuration and Initialization
                 <title>Downloading and Installing</title>
@@ -1068,11 +1068,11 @@ However, the second way allows to pass other configuration parameters, currently
 After you have configured the <code>cometd</code> object, the Bayeux communication does not start yet. To start the Bayeux communication, you need to call <code>handshake()</code>, see the <link xl:href="/node/50">next section</link>.
     </para>
     <para>
-Previous users of the JavaScript CometD implementation called a method named <code>init()</code>. This method still exists, and it is a shorthand for calling <code>configure()</code> followed by <code>handshake()</code>. 
+Previous users of the JavaScript CometD implementation called a method named <code>init()</code>. This method still exists, and it is a shorthand for calling <code>configure()</code> followed by <code>handshake()</code>.
 Follow the advices in the <link xl:href="/node/50">next section</link> as they apply as well to <code>init()</code>.
     </para>
     </section>
-    
+
     <section>
                 <info>
                     <title>JavaScript CometD 2 API: Handshake</title>
@@ -1101,7 +1101,7 @@ The handshake may fail for several reasons:
 <li>the transport could not be negotiated successfully</li>
 <li>the server denied the handshake (for example, the authentication credentials were wrong)</li>
 <li>the server crashed</li>
-<li>there was a network failure</li> 
+<li>there was a network failure</li>
 </ul>
 
 Therefore it is not a good idea to write this code:
@@ -1144,7 +1144,7 @@ A channel looks like a directory path such as <code>/meta/connect</code> (a meta
 Meta channels are created by the Bayeux protocol itself.
 It is not possible to subscribe to meta channels: the server will reply with an error message. However, it is possible to listen to meta channels (see below the difference between <link xl:href="#subscribevslisten">subscribing and listening</link>).
 It makes no sense to publish messages to meta channels: only the Bayeux protocol implementation creates and sends messages on meta channels.
-Meta channels are useful on the client to listen for error messages like handshake errors (for example because the client did not provide the correct credentials) or network errors (for example to know when the connection with the server has broken or when it has been re-established). 
+Meta channels are useful on the client to listen for error messages like handshake errors (for example because the client did not provide the correct credentials) or network errors (for example to know when the connection with the server has broken or when it has been re-established).
 </para>
 <para>
 <h5>Service Channels</h5>
@@ -1219,7 +1219,7 @@ function _refresh()
 
 function _appUnsubscribe()
 {
-    if (_subscription) 
+    if (_subscription)
         cometd.unsubscribe(_subscription);
     _subscription = null;
 }
@@ -1301,7 +1301,7 @@ These are the meta channels available in the JavaScript CometD implementation:
 <li>/meta/publish</li>
 <li>/meta/unsuccessful</li>
 </ul>
-Each meta channel is notified when the correspondent Bayeux message is handled by the JavaScript Cometd implementation. 
+Each meta channel is notified when the correspondent Bayeux message is handled by the JavaScript Cometd implementation.
 The <code>/meta/unsuccessful</code> channel is notified in case of any failure.
 </para>
 <para>
@@ -1320,7 +1320,7 @@ cometd.addListener('/meta/connect', function(message)
         return;
     }
     var wasConnected = _connected;
-    _connected = message.successful; 
+    _connected = message.successful;
     if (!wasConnected && _connected)
     {
         <span class="code-comment">// Reconnected</span>
@@ -1406,7 +1406,7 @@ If you register with meta channels, be aware of these steps, since a reconnectio
 Calling the JavaScript CometD API <code>disconnect()</code> result in a message being sent to the Bayeux server, so that it can cleanup any state associated with that client.
 As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns immediately, well before the Bayeux server has received the disconnect request.
 If the server cannot be reached (because it is down or because of network failures), the JavaScript CometD implementation will stop any reconnection attempt and cleanup any local state.
-It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it will eventually time out the client and cleanup any server-side state for that client. 
+It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it will eventually time out the client and cleanup any server-side state for that client.
       </para>
       <para>
 <p style="background: #dfd; border: 1px solid green; padding: 5px">
@@ -1445,7 +1445,7 @@ If you register with meta channels, be aware of these steps, since a reconnectio
 Calling the JavaScript CometD API <code>disconnect()</code> result in a message being sent to the Bayeux server, so that it can cleanup any state associated with that client.
 As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns immediately, well before the Bayeux server has received the disconnect request.
 If the server cannot be reached (because it is down or because of network failures), the JavaScript CometD implementation will stop any reconnection attempt and cleanup any local state.
-It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it will eventually time out the client and cleanup any server-side state for that client. 
+It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it will eventually time out the client and cleanup any server-side state for that client.
       </para>
       <para>
 <p style="background: #dfd; border: 1px solid green; padding: 5px">
@@ -1456,4 +1456,7 @@ To stop those attempts, simply type in the Firebug command line: <code>dojox.com
 </para>
 </section>
 </chapter>
+
+    <xi:include href="java_reference.xml" />
+
 </book>

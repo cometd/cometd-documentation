@@ -65,7 +65,7 @@ th
 {
     margin: 0;
     border: 0;
-    padding: 0 0.5em;
+    padding: 0.4em;
     text-align: left;
     background: #369;
     color: #fff;
@@ -73,6 +73,6 @@ th
 
 td
 {
-    padding: 0 0.5em;
+    padding: 0.4em;
     background-color: #ddd;
 }
