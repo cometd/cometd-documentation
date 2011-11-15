@@ -1145,7 +1145,7 @@ Meta channels are useful on the client to listen for error messages like handsha
 </section>
 <section>
     <info>
-        <title>Service Channels</title
+        <title>Service Channels</title>
     </info>
     <para>
 Service channels are used in the case of request/response style of communication between client and server (as opposed to the publish/subscribe style of communication or normal channels).
