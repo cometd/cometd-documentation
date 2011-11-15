@@ -202,7 +202,7 @@ $ mvn jetty:deploy-war
                     <title>Running the Demos with Jetty or Another Servlet Container</title>
                 </info>
                 <para>
-                    In the <filename>$COMETD/cometd-demo/target</filename> directory you can find a deployable war
+                    In the <filename>$COMETD/cometd-demo/target</filename> directory you can find a deployable WAR
                     file that can be deployed in any servlet container.
                     Refer to the servlet container configuration manual to learn how to deploy the WAR in your servlet
                     container.
@@ -938,6 +938,8 @@ dojox/cometd
 The CometD 2 JavaScript library is a portable JavaScript implementation with <emphasis>bindings</emphasis> for the major JavaScript toolkits, currently <link xl:href="http://dojotoolkit.org/">Dojo</link> and <link xl:href="http://jquery.com/">jQuery</link>.
 This means that the CometD Bayeux JavaScript implementation is written in pure JavaScript with no dependencies on the toolkits, and that the toolkit bindings add the syntactic sugar that makes the Bayeux APIs feel like they are native to the toolkit.
 For example, it is possible to refer to the standard <code>cometd</code> object using the following notation:
+     </para>
+     <para>
 <screen>
 // Dojo style
 var cometd = dojox.cometd;
@@ -954,7 +956,6 @@ Small differences surface only when passing callback functions to the Bayeux API
     <para>
 The following sections present details about the JavaScript Bayeux APIs and their implementation secrets.
     </para>
-    
     <section xml:id="configuration">
           <info>JavaScript CometD 2 API: Configuration and Initialization
                 <title>Downloading and Installing</title>
@@ -1067,7 +1068,6 @@ Previous users of the JavaScript CometD implementation called a method named <co
 Follow the advice in the <xref linkend="handshake" /> as it applies as well to <code>init()</code>.
     </para>
     </section>
-    
     <section xml:id="handshake">
                 <info>
                     <title>JavaScript CometD 2 API: Handshake</title>
@@ -1080,7 +1080,8 @@ The Bayeux handshake performs two tasks:
 <orderedlist>The client and the server negotiate the type of transport to use.</orderedlist>
 <orderedlist>Once the transport is negotiated successfully, the server informs the client with the detailed timings of the requests.</orderedlist>
 As with several methods of the JavaScript CometD API, it is an asynchronous method: it returns immediately, well before the Bayeux handshake steps have completed.
-<para
+                </para>
+                <para>
 <note> Calling <code>handshake()</code> <emphasis role="bold"> does not</emphasis> mean that you have completed the handshake with the server when <code>handshake()</code> returns.
 </note>
 </para>
@@ -1104,12 +1105,10 @@ cometd.publish('/foo', { foo: 'bar' });
 It is not a good idea because there is no guarantee that the call to <code>publish()</code> (which we cover in a later section) can actually succeed in contacting the Bayeux server.
 Since the API is asynchronous, you have no way of knowing synchronously (that is, by having <code>handshake()</code> return an error code or by throwing an exception) that the handshake failed.
 Even if the handshake succeeds, you may still be "disconnected" from the Bayeux server, for example because the server crashed just after the successful handshake.
-
 Fortunately there is a way to receive notifications about the details of the Bayeux protocol message exchange: by adding listeners to special channels (called <emphasis>meta channels</emphasis>).
 This is explained in the <xref linkend="subscriptions" /> section.
 </para>
 </section>
- 
 <section xml:id="subscriptions">
         <info>
            <title>JavaScript CometD 2 API: Subscribing and Unsubscribing</title>
@@ -1124,7 +1123,6 @@ This is explained in the <xref linkend="subscriptions" /> section.
         <para>
 The Bayeux specification defines the concept of a channel: it is like a messaging topic where interested parties can subscribe to receive information published onto the channel.
 There are three types of channels:
-
 <orderedlist>meta channels</orderedlist>
 <orderedlist>service channels</orderedlist>
 <orderedlist>normal channels</orderedlist>
@@ -1133,7 +1131,7 @@ A channel looks like a directory path such as:
 <itemizedlist><code>/service/chat</code>–a service channel; all service channels starts with the prefix <code>/service/</code></itemizedlist>
 <itemizedlist><code>/foo/bar</code>–a normal channel</itemizedlist>.
        </para>
-
+</section>
 <section>
      <info>
          <title>Meta Channels</title>
@@ -1145,7 +1143,6 @@ It makes no sense to publish messages to meta channels: only the Bayeux protocol
 Meta channels are useful on the client to listen for error messages like handshake errors (for example because the client did not provide the correct credentials) or network errors (for example to know when the connection with the server has broken or when it has been re-established). 
 </para>
 </section>
-
 <section>
     <info>
         <title>Service Channels</title
@@ -1156,7 +1153,7 @@ While subscribing to service channels yields no errors, this is a no-operation f
 It is possible to publish to service channels, with the semantic of a communication between a specific client (the one that is publishing the message on the service channel) and the server.
 Service channels are useful to implement, for example, private chat messages: in a chat with userA, userB and userC, userA can publish a private message to userC (without userB knowing about it) using service channels.
 </para>
->
+</section>
 <section>
     <info>
         <title>Normal Channels</title>
@@ -1187,7 +1184,6 @@ The <code>addListener()</code> method:
 </para>
 <para>
 The <code>subscribe()</code> method:
-<ul>
 <itemizedlist>Must not be used to listen to meta channels messages (otherwise the server will return an error).</itemizedlist>
 <itemizedlist>May be used to listen to service channel messages (you may also use <code>addListener()</code>, which is preferred).</itemizedlist>
 <itemizedlist>Should be used to listen to normal channel messages.</itemizedlist>
@@ -1254,7 +1250,6 @@ In <code>unsubscribe()</code>, the local listener is first removed from the list
         <title> Listeners and Subscribers Exception Handling</title>
     </info>
 <para>
-
 If a listener or subscriber function throws an exception (for example, calls a method on an undefined object), then the error message is logged (at level "debug").
 However, there is a way to intercept these errors by defining the global listener exception handler that is invoked every time a listener or subscriber throws an exception:
 <screen>
@@ -1310,7 +1305,6 @@ You can specify the wildcards only as the last segment of the channel, so these 
     </info>
     <para>
 These are the meta channels available in the JavaScript CometD implementation:
-
 <itemizedlist>/meta/handshake</itemizedlist>
 <itemizedlist>/meta/connect</itemizedlist>
 <itemizedlist>/meta/disconnect</itemizedlist>
@@ -1372,8 +1366,6 @@ Another interesting use of meta channels is when there is an authentication step
 In this case the registration to the <code>/meta/handshake</code> channel can give details about, for example, authentication failures.
 </para>
 </section>
-
-
 <section xml:id="publishing">
      <info>
         <title>JavaScript CometD 2 API: Publishing</title>
@@ -1388,7 +1380,8 @@ However, you have to handshake before being able to publish.
 </para>
 <para>
 As with other JavaScript CometD API, <code>publish()</code> involves a communication with the server and it is asynchronous: it returns immediately, well before the Bayeux server has received the message.
-
+</para>
+<para>
 <note>
 Calling <code>publish()</code> does not mean that you have published the message when <code>publish()</code> returns.
 </note>
@@ -1397,7 +1390,6 @@ Calling <code>publish()</code> does not mean that you have published the message
 If you need to publish several messages to different channels, you might want to use <xref linkend="batching" />.
 </para>
 </section>
-
 <section xml:id="disconnecting">
       <info>
           <title>JavaScript CometD 2 API: Disconnecting</title>
@@ -1406,7 +1398,6 @@ If you need to publish several messages to different channels, you might want to
 The JavaScript CometD implementation performs automatic reconnect in case of network or Bayeux server failures.
 The reconnect parameters are described in the <xref linkend="configuration" />.
       </para>
-      
 <section>
      <info>
          <title>Short Network Failures</title>
@@ -1424,10 +1415,9 @@ The client in this case just re-establishes the long poll, but any message the c
  <para>
 If the network failure is long enough, the Bayeux server times out the lost client, and deletes the state associated with it. The same happens when the Bayeux server crashes (except that the state of all clients is lost).
 In this case, the reconnection mechanism on the client performs the following steps:
-]
 <itemizedlist>A long poll is re-attempted, but the server rejects it with a <code>402::Unknown client</code> error message.</itemizedlist>
-<li>A handshake is attempted, and the server normally accepts it and allocates a new client.</itemizedlist>
-<li>Upon the successful re-handshake, a long poll is re-established.</itemizedlist>
+<itemizedlist>A handshake is attempted, and the server normally accepts it and allocates a new client.</itemizedlist>
+<itemizedlist>Upon the successful re-handshake, a long poll is re-established.</itemizedlist>
 If you register with meta channels, be aware of these steps, since a reconnection might involve more than one message exchange with the server.
 </para>
 </section>
@@ -1442,7 +1432,6 @@ If the server is unreachable (because it is down or because of network failures)
 It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it eventually times out the client and cleans up any server-side state for that client. 
 </para>
 <para>
-
 <tip>
 If you are debugging your application with Firebug, and you shut down the server, you see in the Firebug console the attempts to reconnect.
 To stop those attempts,  type in the Firebug command line: <code>dojox.cometd.disconnect()</code> (for Dojo) or <code>$.cometd.disconnect()</code> (for jQuery).
@@ -1454,9 +1443,7 @@ To stop those attempts,  type in the Firebug command line: <code>dojox.cometd.di
         <title>JavaScript CometD 2 API: Message Batching</title>
     </info>
  <para>
-Often an application needs to send several messages to different channels.
-</para>
-A naive way of doing it follows:
+Often an application needs to send several messages to different channels. A naive way of doing it follows:
 <screen>
 cometd.handshake();
 
@@ -1465,6 +1452,7 @@ cometd.publish('/channel1', { product: 'foo' });
 cometd.publish('/channel2', { notificationType: 'all' });
 cometd.publish('/channel3', { update: false });
 </screen>
+</para>
 <para>
 You might think that the three publishes leave the client one after the other, but that is not the case.
 Remember that <code>publish()</code> is asynchronous (it returns immediately), so the three <code>publish()</code> calls in sequence likely return well before a single byte reaches the network.
@@ -1495,7 +1483,7 @@ cometd.handshake();
     cometd.publish('/channel3', { update: false });
 });
 
-// Alternatively, but not recommended
+// Alternatively, but not recommended:
 cometd.startBatch()</span>
 cometd.publish('/channel1', { product: 'foo' });
 cometd.publish('/channel2', { notificationType: 'all' });
@@ -1513,6 +1501,7 @@ Alternatively, but less recommended, you can surround the three <code>publish()<
 <warning>>
 Remember to call <code>endBatch()</code> after calling <code>startBatch()</code>. 
 If you don't, for example because an exception is thrown in the middle of the batch, your messages continue to queue up, and your application will not work as expected.
+</warning>
 </para>
 <para>>
 If you still want to risk and use the <code>startBatch()</code> and <code>endBatch()</code> calls, remember that they must be done from the same context of execution; message batching has not been designed to span multiple user interactions.
@@ -1527,7 +1516,7 @@ The end of the batch packs up all the queued messages into one single Bayeux mes
 <para>>
 Message batching allows efficient use of the network, as instead of making three request/response cycles, batching makes only one request/response cycle.
 </para>
-<para>>
+<para>
 Batches can be made up of different API calls:
 <screen>
 var _subscription;
@@ -1539,24 +1528,28 @@ var _subscription;
     cometd.publish('/bar', { ... });
 });
 </screen>
-<para>
 </para>
+<para>
 The Bayeux server processes batched messages in the order they are sent.
+</para>
 </section>
 <section>
     <info>
         <title>JavaScript CometD 2 Transports</title>
     </info>
-    <para
+    <para>
 The <link xl:href=http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory transports:
 <itemizedlist>long-polling</itemizedlist>
 <itemizedlist>callback-polling</itemizedlist>
+</para>
+<para>
 The JavaScript CometD implementation implements these two transports and supports also the <link xl:href="http://en.wikipedia.org/wiki/WebSockets">WebSocket</link> transport.
 </para>
 <para>
 <note>
 The WebSocket protocol is still an experimental protocol under development by the IETF working group that is standardizing it.
 Browsers that have deployed an initial support for the WebSocket protocol might be buggy, so we do not recommend to use the WebSocket protocol yet, though the CometD project supports it.
+</note>
 </para>
 <section>
     <info>
@@ -1604,7 +1597,8 @@ The websocket transport is disabled by default since CometD 2.1.0, but can be en
         <title>Unregistering Transports</title>
         <para>
 CometD JavaScript transports are added in the JavaScript toolkit <emphasis>bindings</emphasis> for the CometD JavaScript library.
-
+        </para>
+        <para>
 The CometD JavaScript API allows you to unregister transports, and this can be useful to force the use of only one transport (for example for testing purposes), or to disable certain transports that might be unreliable.
 For example, it is possible to unregister the websocket transport by unregistering it with the following code:
 </para>
