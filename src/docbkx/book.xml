@@ -1078,8 +1078,7 @@ The call to <code>handshake()</code> (or to <code>init()</code>) initiates the B
                 <para>
 The Bayeux handshake performs two tasks:
 <orderedlist>
-    <
-    >The client and the server negotiate the type of transport to use.</listitem>
+    <listitem>The client and the server negotiate the type of transport to use.</listitem>
     <listitem>Once the transport is negotiated successfully, the server informs the client with the detailed timings of the requests.</listitem>
 </orderedlist>
 As with several methods of the JavaScript CometD API, it is an asynchronous method: it returns immediately, well before the Bayeux handshake steps have completed.
@@ -1615,7 +1614,7 @@ For example, imagine a communication that involves a script injection for the lo
 The <code>websocket</code> transport is available if the browser and the server supports WebSocket (<link xl:href="http://eclipse.org/jetty">Jetty 7</link> supports the WebSocket protocol).
 This transport is still experimental, but it is being designed to be the bidirectional communication protocol for the web, so it is a natural fit in the CometD project.
 However, the WebSocket protocol is still in alpha state, and browsers support it to various degrees of reliability, so we do not yet recommend it in production (see <xref linkend="unregistering" /> on how to disable transports).
-The websocket transport is disabled by default since CometD 2.1.0, but can be enabled easily, following <link sl:href=http://cometd.org/documentation/2.x/howtos/websocket</link>.
+The websocket transport is disabled by default since CometD 2.1.0, but can be enabled easily, following <link xl:href="http://cometd.org/documentation/2.x/howtos/websocket">Enabling CometD</link>.
 </para>
 </section>
 <section xml:id="unregistering">
