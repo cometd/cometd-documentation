@@ -957,8 +957,8 @@ Small differences surface only when passing callback functions to the Bayeux API
 The following sections present details about the JavaScript Bayeux APIs and their implementation secrets.
     </para>
     <section xml:id="configuration">
-          <info>JavaScript CometD 2 API: Configuration and Initialization
-                <title>Downloading and Installing</title>
+          <info>
+                <title>JavaScript CometD 2 API: Configuring and Initializing</title>
           </info>
       <para>
 After you have set up your skeleton project following the <xref linkend="primer"  />, you may want to fully understand how to customize and configure the parameters that govern the behavior of the Cometd implementation.
@@ -1006,7 +1006,7 @@ However, the second way allows you to pass other configuration parameters, curre
 <tr>
   <td>logLevel</td>
   <td>no</td>
-  <td>info</td>"
+  <td>info</td>
   <td>The log level. Possible values are: "warn", "info", "debug". Output to window.console if available.</td>
 </tr>
 <tr>
@@ -1077,8 +1077,11 @@ The call to <code>handshake()</code> (or to <code>init()</code>) initiates the B
                 </para>
                 <para>
 The Bayeux handshake performs two tasks:
-<orderedlist>The client and the server negotiate the type of transport to use.</orderedlist>
-<orderedlist>Once the transport is negotiated successfully, the server informs the client with the detailed timings of the requests.</orderedlist>
+<orderedlist>
+    <
+    >The client and the server negotiate the type of transport to use.</listitem>
+    <listitem>Once the transport is negotiated successfully, the server informs the client with the detailed timings of the requests.</listitem>
+</orderedlist>
 As with several methods of the JavaScript CometD API, it is an asynchronous method: it returns immediately, well before the Bayeux handshake steps have completed.
                 </para>
                 <para>
@@ -1087,11 +1090,13 @@ As with several methods of the JavaScript CometD API, it is an asynchronous meth
 </para>
 <para>
 The handshake might fail for several reasons:
-<itemizedlist>you mistyped the server URL</itemizedlist>
-<itemizedlist>the transport could not be negotiated successfully</itemizedlist>
-<itemizedlist>the server denied the handshake (for example, the authentication credentials were wrong)</itemizedlist>
-<itemizedlist>the server crashed</itemizedlist>
-<itemizedlist>there was a network failure</itemizedlist> 
+<itemizedlist>
+    <listitem>You mistyped the server URL.</listitem>
+    <listitem>The transport could not be negotiated successfully.</listitem>
+    <listitem>The server denied the handshake (for example, the authentication credentials were wrong).</listitem>
+    <listitem>The server crashed.</listitem>
+    <listitem>There was a network failure.</listitem>
+</itemizedlist>
 Therefore it is not a good idea to write this code:
 <screen>
 // Configure and handshake
@@ -1123,15 +1128,19 @@ This is explained in the <xref linkend="subscriptions" /> section.
         <para>
 The Bayeux specification defines the concept of a channel: it is like a messaging topic where interested parties can subscribe to receive information published onto the channel.
 There are three types of channels:
-<orderedlist>meta channels</orderedlist>
-<orderedlist>service channels</orderedlist>
-<orderedlist>normal channels</orderedlist>
+<orderedlist>
+    <listitem>meta channels</listitem>
+    <listitem>service channels</listitem>
+    <listitem>normal channels</listitem>
+</orderedlist>
 A channel looks like a directory path such as: 
-<itemizedlist><code>/meta/connect</code>–a meta channel; all meta channels starts with the prefix <code>/meta/</code></itemizedlist>
-<itemizedlist><code>/service/chat</code>–a service channel; all service channels starts with the prefix <code>/service/</code></itemizedlist>
-<itemizedlist><code>/foo/bar</code>–a normal channel</itemizedlist>.
+<itemizedlist>
+    <listitem><code>/meta/connect</code>–A meta channel; all meta channels starts with the prefix <code>/meta/</code></listitem>
+    <listitem><code>/service/chat</code>–A service channel; all service channels starts with the prefix <code>/service/</code></listitem>
+    <listitem><code>/foo/bar</code>–A normal channel</listitem>
+</itemizedlist>
        </para>
-</section>
+
 <section>
      <info>
          <title>Meta Channels</title>
@@ -1171,24 +1180,30 @@ Normal channels are useful to implement broadcasting of messages to all subscrib
     </info>
     <para>
 The JavaScript CometD API has two APIs to work with channel subscriptions:
-<orderedlist><code>addListener()</code> and the correspondent <code>removeListener()</code></orderedlist>
-<orderedlist><code>subscribe()</code> and the correspondent <code>unsubscribe()</code></orderedlist>
+<orderedlist>
+    <listitem><code>addListener()</code> and the correspondent <code>removeListener()</code></listitem>
+    <listitem><code>subscribe()</code> and the correspondent <code>unsubscribe()</code></listitem>
+</orderedlist>
 </para>
 <para>
 The <code>addListener()</code> method:
-<itemizedlist>Must be used to listen to meta channel messages.</itemizedlist>
-<itemizedlist>May be used to listen to service channel messages (you may also use <code>subscribe()</code>, but is not recommended).</itemizedlist>
-<itemizedlist>Should not be used to listen normal channel messages (use <code>subscribe()</code> instead).</itemizedlist>
-<itemizedlist>Does not involve any communication with the Bayeux server, and as such can be called before calling <code>handshake().</code></itemizedlist>
-<itemizedlist>Is synchronous: when it returns, you are guaranteed that the listener has been added.</itemizedlist>
+<itemizedlist>
+    <listitem>Must be used to listen to meta channel messages.</listitem>
+    <listitem>May be used to listen to service channel messages (you may also use <code>subscribe()</code>, but is not recommended).</listitem>
+    <listitem>Should not be used to listen normal channel messages (use <code>subscribe()</code> instead).</listitem>
+    <listitem>Does not involve any communication with the Bayeux server, and as such can be called before calling <code>handshake().</code></listitem>
+    <listitem>Is synchronous: when it returns, you are guaranteed that the listener has been added.</listitem>
+</itemizedlist>
 </para>
 <para>
 The <code>subscribe()</code> method:
-<itemizedlist>Must not be used to listen to meta channels messages (otherwise the server will return an error).</itemizedlist>
-<itemizedlist>May be used to listen to service channel messages (you may also use <code>addListener()</code>, which is preferred).</itemizedlist>
-<itemizedlist>Should be used to listen to normal channel messages.</itemizedlist>
-<itemizedlist>Involves a communication with the Bayeux server and as such cannot be called before calling <code>handshake().</code></itemizedlist>
-<itemizedlist>Is asynchronous: it returns immediately, well before the Bayeux server has received the subscription request.</itemizedlist>
+<itemizedlist>
+    <listitem>Must not be used to listen to meta channels messages (otherwise the server will return an error).</listitem>
+    <listitem>May be used to listen to service channel messages (you may also use <code>addListener()</code>, which is preferred).</listitem>
+    <listitem>Should be used to listen to normal channel messages.</listitem>
+    <listitem>Involves a communication with the Bayeux server and as such cannot be called before calling <code>handshake().</code></listitem>
+    <listitem>Is asynchronous: it returns immediately, well before the Bayeux server has received the subscription request.</listitem>
+</itemizedlist>
 </para>
 <para>
 <note>
@@ -1247,7 +1262,7 @@ In <code>unsubscribe()</code>, the local listener is first removed from the list
 </section>
 <section xml:id="exception">
     <info>
-        <title> Listeners and Subscribers Exception Handling</title>
+        <title>Listeners and Subscribers Exception Handling</title>
     </info>
 <para>
 If a listener or subscriber function throws an exception (for example, calls a method on an undefined object), then the error message is logged (at level "debug").
@@ -1305,13 +1320,15 @@ You can specify the wildcards only as the last segment of the channel, so these 
     </info>
     <para>
 These are the meta channels available in the JavaScript CometD implementation:
-<itemizedlist>/meta/handshake</itemizedlist>
-<itemizedlist>/meta/connect</itemizedlist>
-<itemizedlist>/meta/disconnect</itemizedlist>
-<itemizedlist>/meta/subscribe</itemizedlist>
-<itemizedlist>/meta/unsubscribe</itemizedlist>
-<itemizedlist>/meta/publish</itemizedlist>
-<itemizedlist>/meta/unsuccessful</itemizedlist>
+<itemizedlist>
+    <listitem>/meta/handshake</listitem>
+    <listitem>/meta/connect</listitem>
+    <listitem>/meta/disconnect</listitem>
+    <listitem>/meta/subscribe</listitem>
+    <listitem>/meta/unsubscribe</listitem>
+    <listitem>/meta/publish</listitem>
+    <listitem>/meta/unsuccessful</listitem>
+</itemizedlist>
 </para>
 <para>
 Each meta channel is notified when the JavaScript CometD implementation handles the correspondent Bayeux message. 
@@ -1366,6 +1383,7 @@ Another interesting use of meta channels is when there is an authentication step
 In this case the registration to the <code>/meta/handshake</code> channel can give details about, for example, authentication failures.
 </para>
 </section>
+</section>
 <section xml:id="publishing">
      <info>
         <title>JavaScript CometD 2 API: Publishing</title>
@@ -1415,9 +1433,11 @@ The client in this case just re-establishes the long poll, but any message the c
  <para>
 If the network failure is long enough, the Bayeux server times out the lost client, and deletes the state associated with it. The same happens when the Bayeux server crashes (except that the state of all clients is lost).
 In this case, the reconnection mechanism on the client performs the following steps:
-<itemizedlist>A long poll is re-attempted, but the server rejects it with a <code>402::Unknown client</code> error message.</itemizedlist>
-<itemizedlist>A handshake is attempted, and the server normally accepts it and allocates a new client.</itemizedlist>
-<itemizedlist>Upon the successful re-handshake, a long poll is re-established.</itemizedlist>
+<itemizedlist>
+    <listitem>A long poll is re-attempted, but the server rejects it with a <code>402::Unknown client</code> error message.</listitem>
+    <listitem>A handshake is attempted, and the server normally accepts it and allocates a new client.</listitem>
+    <listitem>Upon the successful re-handshake, a long poll is re-established.</listitem>
+</itemizedlist>
 If you register with meta channels, be aware of these steps, since a reconnection might involve more than one message exchange with the server.
 </para>
 </section>
@@ -1437,6 +1457,7 @@ If you are debugging your application with Firebug, and you shut down the server
 To stop those attempts,  type in the Firebug command line: <code>dojox.cometd.disconnect()</code> (for Dojo) or <code>$.cometd.disconnect()</code> (for jQuery).
 </tip>
 </para>
+</section>
 </section>
 <section xml:id="batching">
     <info>
@@ -1539,8 +1560,10 @@ The Bayeux server processes batched messages in the order they are sent.
     </info>
     <para>
 The <link> xl:href=http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory transports:
-<itemizedlist>long-polling</itemizedlist>
-<itemizedlist>callback-polling</itemizedlist>
+<itemizedlist>
+    <listitem>long-polling</listitem>
+    <listitem>callback-polling</listitem>
+</itemizedlist>
 </para>
 <para>
 The JavaScript CometD implementation implements these two transports and supports also the <link xl:href="http://en.wikipedia.org/wiki/WebSockets">WebSocket</link> transport.
@@ -1557,7 +1580,7 @@ Browsers that have deployed an initial support for the WebSocket protocol might 
     </info>
 <para>
 The <code>long-polling</code> transport is the default transport if the browser and the server do not support WebSockets.
-This transport is used when the communication with the Bayeux server happens on the same domain, and also in the cross-domain mode for recent browsers, such as Firefox 3.5+ (see <xref linkend="#cross-origin" />).
+This transport is used when the communication with the Bayeux server happens on the same domain, and also in the cross-domain mode for recent browsers, such as Firefox 3.5+ (see <xref linkend="cross-origin" />).
 The data is sent to the server by means of a POST request with Content-Type <code>text/json</code> via a plain XMLHttpRequest call.
 </para>
 </section>
@@ -1566,31 +1589,33 @@ The data is sent to the server by means of a POST request with Content-Type <cod
         <title>The <code>callback-polling</code> Transport</title>
     </info>
     <para>
-The <code>callback-polling</code> transport is used when the communication with the Bayeux server happens on a different domain (when the cross-domain mode is not supported, see <xref linkend="#cross-origin" />).
+The <code>callback-polling</code> transport is used when the communication with the Bayeux server happens on a different domain (when the cross-domain mode is not supported, see <xref linkend="cross-origin" />).
 </para>
 <para>
-It is well known that XMLHttpRequest calls have restrictions when the invocation is directed to a domain different from the one to which the script has been downloaded (but see <xref linkend="#cross-origin" /> for an alternative solution).
+It is well known that XMLHttpRequest calls have restrictions when the invocation is directed to a domain different from the one to which the script has been downloaded (but see <xref linkend="cross-origin" /> for an alternative solution).
 To overcome XMLHttpRequest restrictions, this transport uses the JSONP script injection, which injects a <code>&lt;script&gt;</code> element whose <code>src</code> attribute points to the Bayeux server.
 The browser notices the script element injection and performs a GET request to the specified source URL.
 The Bayeux server is aware that this is a JSONP request and replies with a JavaScript function that is the browser then executes, (and calls back into the JavaScript Cometd implementation).
 </para>
 <para>
 There are three main drawbacks in using this transport:
-<itemizedlist>The transport is chattier. This is due to the fact that the browser executes the injected scripts sequentially, and until a script has been completely "downloaded", it cannot be executed.
-For example, imagine a communication that involves a script injection for the long poll, and a script injection for a message publish. The browser injects the long poll script, a request is made to the Bayeux server, but the Bayeux server holds the request waiting for server-side events (so the "script" is not "downloaded"). Then the browser injects the publish script, the request is made to the Bayeux server, which replies (so the "script is "downloaded"). However, the browser does not execute the second script, because it has not executed the first yet (since its "download" is not finished). In these conditions, the publish would be executed only after the long poll returns. To avoid this situation the Bayeux server, in case of <tt>callback-polling</tt> transport, resumes the client's long poll for every message that arrives from that client, and that's why the transport is chattier: the long poll returns more often.</itemizedlist>
-<itemizedlist>The message size is limited. This is necessary to support IE7, which has a 2083 character limit for GET requests.</itemizedlist>
-<itemizedlist>The reaction to failures is slower.This is due to the fact that if the script injection points to a URL that returns an error (for example the Bayeux server is down), this is silently ignored by the browser.</itemizedlist>
+<itemizedlist>
+    <listitem>The transport is chattier. This is due to the fact that the browser executes the injected scripts sequentially, and until a script has been completely "downloaded", it cannot be executed.
+For example, imagine a communication that involves a script injection for the long poll, and a script injection for a message publish. The browser injects the long poll script, a request is made to the Bayeux server, but the Bayeux server holds the request waiting for server-side events (so the "script" is not "downloaded"). Then the browser injects the publish script, the request is made to the Bayeux server, which replies (so the "script is "downloaded"). However, the browser does not execute the second script, because it has not executed the first yet (since its "download" is not finished). In these conditions, the publish would be executed only after the long poll returns. To avoid this situation the Bayeux server, in case of <code>callback-polling</code> transport, resumes the client's long poll for every message that arrives from that client, and that's why the transport is chattier: the long poll returns more often.</listitem>
+    <listitem>The message size is limited. This is necessary to support IE7, which has a 2083 character limit for GET requests.</listitem>
+    <listitem>The reaction to failures is slower.This is due to the fact that if the script injection points to a URL that returns an error (for example, the Bayeux server is down), this is silently ignored by the browser.</listitem>
+</itemizedlist>
 </para>
 </section>
 <section>
     <info>
-        <title>The <code>websocket Transport</code></title>
+        <title>The <code>websocket</code> Transport</title>
     </info>
     <para>
 The <code>websocket</code> transport is available if the browser and the server supports WebSocket (<link xl:href="http://eclipse.org/jetty">Jetty 7</link> supports the WebSocket protocol).
 This transport is still experimental, but it is being designed to be the bidirectional communication protocol for the web, so it is a natural fit in the CometD project.
-However, the WebSocket protocol is still in alpha state, and browsers support it to various degrees of reliability, so we do not yet recommend it in production (see <xref linkend="#unregistering" /> on how to disable transports).
-The websocket transport is disabled by default since CometD 2.1.0, but can be enabled easily, following <xref linkend="/node/124" />.
+However, the WebSocket protocol is still in alpha state, and browsers support it to various degrees of reliability, so we do not yet recommend it in production (see <xref linkend="unregistering" /> on how to disable transports).
+The websocket transport is disabled by default since CometD 2.1.0, but can be enabled easily, following <link sl:href=http://cometd.org/documentation/2.x/howtos/websocket</link>.
 </para>
 </section>
 <section xml:id="unregistering">
@@ -1619,17 +1644,18 @@ cometd.unregisterTransport('websocket');
     </info>
     <para>
 Firefox 3.5 introduced the capability for XMLHttpRequest calls to be performed towards a different domain (see <link xl:href="https://developer.mozilla.org/En/HTTP_access_control">HTTP Access Control</link>).
-This is supported also in the JavaScript CometD implementation, with no configuration necessary on the client (if the browser supports XMLHttpRequest cross-domain calls, they will be used) and with a bit of configuration for the server. Refer to <a href="http://wiki.eclipse.org/Jetty/Feature/Cross_Origin_Filter">this document</a> for the server configuration.
+This is supported also in the JavaScript CometD implementation, with no configuration necessary on the client (if the browser supports XMLHttpRequest cross-domain calls, they will be used) and with a bit of configuration for the server. Refer to <link xl:href="http://wiki.eclipse.org/Jetty/Feature/Cross_Origin_Filter">this document</link> for the server configuration.
     </para>
     <para>
 To use the cross-domain mode, you need:
-<itemizedlist>A cross-domain compliant browser (for example Firefox 3.5).</itemizedlist>
-<itemizedlist>A compliant server (for example Jetty configured with the <code>CrossOriginFilter.</code>)</itemizedlist>
+<itemizedlist>
+    <listitem>A cross-domain compliant browser (for example Firefox 3.5).</listitem>
+    <listitem>A compliant server (for example, Jetty configured with the <code>CrossOriginFilter.</code>)</listitem>
+</itemizedlist>
     </para>
     <para>
-With this setup, even when the communication with the Bayeux server is cross-domain, the <code>long-polling</code> transport is used, avoiding the drawbacks of the <tt>callback-polling</tt> transport.
+With this setup, even when the communication with the Bayeux server is cross-domain, the <code>long-polling</code> transport is used, avoiding the drawbacks of the <code>callback-polling</code> transport.
     </para>
-    </section>
     </section>
     </section>
 </chapter>
