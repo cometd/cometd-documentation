@@ -1319,7 +1319,7 @@ The <code>/meta/unsuccessful</code> channel is notified in case of any failure.
 </para>
 <para>
 By far the most interesting meta channel to subscribe to is <code>/meta/connect</code>, because it gives the status of the current connection with the Bayeux server. In combination with <code>/meta/disconnect</code>, you can use it, for example, to display a green "connected" icon or a red "disconnected" icon on the page, depending on the connection status with the Bayeux server.
-</para.
+</para>
 <para>
 Here is a common pattern using the <code>/meta/connect</code> and <code>/meta/disconnect</code> channels:
 <informalexample>
@@ -1484,11 +1484,11 @@ cometd.handshake();
 });
 
 // Alternatively, but not recommended:
-cometd.startBatch()</span>
+cometd.startBatch()
 cometd.publish('/channel1', { product: 'foo' });
 cometd.publish('/channel2', { notificationType: 'all' });
 cometd.publish('/channel3', { update: false });
-cometd.endBatch()</span>
+cometd.endBatch()
 </screen>
 </para>
 <para>
@@ -1538,7 +1538,7 @@ The Bayeux server processes batched messages in the order they are sent.
         <title>JavaScript CometD 2 Transports</title>
     </info>
     <para>
-The <link xl:href=http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory transports:
+The <link> xl:href=http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory transports:
 <itemizedlist>long-polling</itemizedlist>
 <itemizedlist>callback-polling</itemizedlist>
 </para>
@@ -1553,7 +1553,7 @@ Browsers that have deployed an initial support for the WebSocket protocol might 
 </para>
 <section>
     <info>
-        <title>The <code<long-polling</code> Transport</title>
+        <title>The <code>long-polling</code> Transport</title>
     </info>
 <para>
 The <code>long-polling</code> transport is the default transport if the browser and the server do not support WebSockets.
@@ -1580,6 +1580,7 @@ There are three main drawbacks in using this transport:
 For example, imagine a communication that involves a script injection for the long poll, and a script injection for a message publish. The browser injects the long poll script, a request is made to the Bayeux server, but the Bayeux server holds the request waiting for server-side events (so the "script" is not "downloaded"). Then the browser injects the publish script, the request is made to the Bayeux server, which replies (so the "script is "downloaded"). However, the browser does not execute the second script, because it has not executed the first yet (since its "download" is not finished). In these conditions, the publish would be executed only after the long poll returns. To avoid this situation the Bayeux server, in case of <tt>callback-polling</tt> transport, resumes the client's long poll for every message that arrives from that client, and that's why the transport is chattier: the long poll returns more often.</itemizedlist>
 <itemizedlist>The message size is limited. This is necessary to support IE7, which has a 2083 character limit for GET requests.</itemizedlist>
 <itemizedlist>The reaction to failures is slower.This is due to the fact that if the script injection points to a URL that returns an error (for example the Bayeux server is down), this is silently ignored by the browser.</itemizedlist>
+</para>
 </section>
 <section>
     <info>
@@ -1595,6 +1596,7 @@ The websocket transport is disabled by default since CometD 2.1.0, but can be en
 <section xml:id="unregistering">
     <info>
         <title>Unregistering Transports</title>
+    </info>
         <para>
 CometD JavaScript transports are added in the JavaScript toolkit <emphasis>bindings</emphasis> for the CometD JavaScript library.
         </para>
@@ -1627,6 +1629,7 @@ To use the cross-domain mode, you need:
     <para>
 With this setup, even when the communication with the Bayeux server is cross-domain, the <code>long-polling</code> transport is used, avoiding the drawbacks of the <tt>callback-polling</tt> transport.
     </para>
+    </section>
     </section>
     </section>
 </chapter>
