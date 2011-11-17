@@ -928,18 +928,17 @@ dojox/cometd
 
         </para>
     </chapter>
-    
-    
-    <chapter xml:id="javascript">
-        <info>
-            <title>CometD 2 JavaScript Library</title>
-        </info>
-     <para>
+
+<chapter xml:id="javascript">
+<info>
+    <title>CometD 2 JavaScript Library</title>
+</info>
+<para>
 The CometD 2 JavaScript library is a portable JavaScript implementation with <emphasis>bindings</emphasis> for the major JavaScript toolkits, currently <link xl:href="http://dojotoolkit.org/">Dojo</link> and <link xl:href="http://jquery.com/">jQuery</link>.
 This means that the CometD Bayeux JavaScript implementation is written in pure JavaScript with no dependencies on the toolkits, and that the toolkit bindings add the syntactic sugar that makes the Bayeux APIs feel like they are native to the toolkit.
 For example, it is possible to refer to the standard <code>cometd</code> object using the following notation:
-     </para>
-     <para>
+</para>
+<para>
 <screen>
 // Dojo style
 var cometd = dojox.cometd;
@@ -947,23 +946,23 @@ var cometd = dojox.cometd;
 // jQuery style
 var cometd = $.cometd;
 </screen>
-    </para>
-    <para>
+</para>
+<para>
 If you followed the <xref linkend="primer" />, you might have noticed that the skeleton project requires that you reference both the portable implementation, under <code>org/cometd.js</code>, and one binding–for example Dojo's–under <code>dojox/cometd.js</code>. For jQuery, the binding is under <code>jquery/jquery.cometd.js</code>.
 The use of the Bayeux APIs from the JavaScript toolkits is almost identical, and the following sections do not refer to a particular toolkit.
 Small differences surface only when passing callback functions to the Bayeux API, where Dojo users might like to use <code>dojo.hitch()</code>, while jQuery users might prefer an anonymous function approach.
-    </para>
-    <para>
+</para>
+<para>
 The following sections present details about the JavaScript Bayeux APIs and their implementation secrets.
-    </para>
-    <section xml:id="configuration">
-          <info>
-                <title>JavaScript CometD 2 API: Configuring and Initializing</title>
-          </info>
-      <para>
+</para>
+<section xml:id="configuration">
+<info>
+    <title>JavaScript CometD 2 API: Configuring and Initializing</title>
+</info>
+<para>
 After you have set up your skeleton project following the <xref linkend="primer"  />, you may want to fully understand how to customize and configure the parameters that govern the behavior of the Cometd implementation.
-      </para>
-      <para>
+</para>
+<para>
 The complete API is available through a single object prototype named <code>org.cometd.Cometd</code>.
 The Dojo toolkit has one instance of this object available under the name <code>dojox.cometd</code>, while for jQuery it is available under the name <code>$.cometd</code>.
 This default <code>cometd</code> object has been instantiated and configured with the default values and it has not started any Bayeux communication yet.
@@ -1064,7 +1063,7 @@ However, the second way allows you to pass other configuration parameters, curre
 After you have configured the <code>cometd</code> object, the Bayeux communication does not start until you call <code>handshake()</code>, see the <xref linkend="handshake" />.
     </para>
     <para>
-Previous users of the JavaScript CometD implementation called a method named <code>init()</code>. This method still exists, and it is a shorthand for calling <code>configure()</code> followed by <code>handshake()</code>. 
+Previous users of the JavaScript CometD implementation called a method named <code>init()</code>. This method still exists, and it is a shorthand for calling <code>configure()</code> followed by <code>handshake()</code>.
 Follow the advice in the <xref linkend="handshake" /> as it applies as well to <code>init()</code>.
     </para>
     </section>
@@ -1132,7 +1131,7 @@ There are three types of channels:
     <listitem>service channels</listitem>
     <listitem>normal channels</listitem>
 </orderedlist>
-A channel looks like a directory path such as: 
+A channel looks like a directory path such as:
 <itemizedlist>
     <listitem><code>/meta/connect</code>–A meta channel; all meta channels starts with the prefix <code>/meta/</code></listitem>
     <listitem><code>/service/chat</code>–A service channel; all service channels starts with the prefix <code>/service/</code></listitem>
@@ -1148,7 +1147,7 @@ A channel looks like a directory path such as:
 The Bayeux protocol itself creates meta channels.
 It is not possible to subscribe to meta channels: the server replies with an error message. It is possible to listen to meta channels (see below for the difference between <xref linkend="#subscribevslisten" />.
 It makes no sense to publish messages to meta channels: only the Bayeux protocol implementation creates and sends messages on meta channels.
-Meta channels are useful on the client to listen for error messages like handshake errors (for example because the client did not provide the correct credentials) or network errors (for example to know when the connection with the server has broken or when it has been re-established). 
+Meta channels are useful on the client to listen for error messages like handshake errors (for example because the client did not provide the correct credentials) or network errors (for example to know when the connection with the server has broken or when it has been re-established).
 </para>
 </section>
 <section>
@@ -1173,7 +1172,7 @@ Normal channels are useful to implement broadcasting of messages to all subscrib
 </para>
 </section>
 </section>
-<section  xml:id="subscribevslisten"> 
+<section  xml:id="subscribevslisten">
     <info>
         <title>Subscribers versus Listeners</title>
     </info>
@@ -1235,7 +1234,7 @@ function _refresh()
 
 function _appUnsubscribe()
 {
-    if (_subscription) 
+    if (_subscription)
         cometd.unsubscribe(_subscription);
     _subscription = null;
 }
@@ -1330,7 +1329,7 @@ These are the meta channels available in the JavaScript CometD implementation:
 </itemizedlist>
 </para>
 <para>
-Each meta channel is notified when the JavaScript CometD implementation handles the correspondent Bayeux message. 
+Each meta channel is notified when the JavaScript CometD implementation handles the correspondent Bayeux message.
 The <code>/meta/unsuccessful</code> channel is notified in case of any failure.
 </para>
 <para>
@@ -1350,7 +1349,7 @@ cometd.addListener('/meta/connect', function(message)
         return;
     }
     var wasConnected = _connected;
-    _connected = message.successful; 
+    _connected = message.successful;
     if (!wasConnected && _connected)
     {
         <span class="code-comment">// Reconnected</span>
@@ -1448,7 +1447,7 @@ If you register with meta channels, be aware of these steps, since a reconnectio
 Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux server, so that it can clean up any state associated with that client.
 As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns immediately, well before the Bayeux server has received the disconnect request.
 If the server is unreachable (because it is down or because of network failures), the JavaScript CometD implementation stops any reconnection attempt and cleans up any local state.
-It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it eventually times out the client and cleans up any server-side state for that client. 
+It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it eventually times out the client and cleans up any server-side state for that client.
 </para>
 <para>
 <tip>
@@ -1519,7 +1518,7 @@ Alternatively, but less recommended, you can surround the three <code>publish()<
 </para>
 <para>
 <warning>>
-Remember to call <code>endBatch()</code> after calling <code>startBatch()</code>. 
+Remember to call <code>endBatch()</code> after calling <code>startBatch()</code>.
 If you don't, for example because an exception is thrown in the middle of the batch, your messages continue to queue up, and your application will not work as expected.
 </warning>
 </para>
