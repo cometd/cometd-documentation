@@ -3,24 +3,27 @@
          xmlns="http://docbook.org/ns/docbook"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
-         xml:id="configuration">
+         xml:id="javascript_configure">
 <info>
     <title>JavaScript CometD 2 API: Configuring and Initializing</title>
 </info>
 <para>
-After you have set up your skeleton project following the <xref linkend="primer" />, you may want to fully understand how to customize and configure the parameters that govern the behavior of the Cometd implementation.
+    After you have set up your skeleton project following the <xref linkend="primer" />, you may want to fully
+    understand how to customize and configure the parameters that govern the behavior of the Cometd implementation.
 </para>
 <para>
-The complete API is available through a single object prototype named <code>org.cometd.Cometd</code>.
-The Dojo toolkit has one instance of this object available under the name <code>dojox.cometd</code>, while for jQuery it is available under the name <code>$.cometd</code>.
-This default <code>cometd</code> object has been instantiated and configured with the default values and it has not started any Bayeux communication yet.
-Before it can start Bayeux communication it needs a mandatory parameter: the URL of the Bayeux server.
-      </para>
-      <para>
-There are two ways of passing this parameter:
-      </para>
-      <para>
-<screen>
+    The complete API is available through a single object prototype named <code>org.cometd.Cometd</code>.
+    The Dojo toolkit has one instance of this object available under the name <code>dojox.cometd</code>, while for
+    jQuery it is available under the name <code>$.cometd</code>.
+    This default <code>cometd</code> object has been instantiated and configured with the default values and it has
+    not started any Bayeux communication yet.
+    Before it can start Bayeux communication it needs a mandatory parameter: the URL of the Bayeux server.
+</para>
+<para>
+    There are two ways of passing this parameter:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
 // First style: URL string
 cometd.configure('http://localhost:8080/cometd');
 
@@ -28,12 +31,13 @@ cometd.configure('http://localhost:8080/cometd');
 cometd.configure({
     url: 'http://localhost:8080/cometd'
 });
-</screen>
-     </para>
-     <para>
+]]>
+</programlisting>
+</informalexample>
+<para>
 The first way is a shorthand for the second way.
 However, the second way allows you to pass other configuration parameters, currently:
-     </para>
+</para>
 <informaltable>
 <thead>
 <tr>
@@ -107,11 +111,14 @@ However, the second way allows you to pass other configuration parameters, curre
 </tbody>
 </informaltable>
 
-    <para>
-After you have configured the <code>cometd</code> object, the Bayeux communication does not start until you call <code>handshake()</code>, see the <xref linkend="handshake" />.
-    </para>
-    <para>
-Previous users of the JavaScript CometD implementation called a method named <code>init()</code>. This method still exists, and it is a shorthand for calling <code>configure()</code> followed by <code>handshake()</code>.
-Follow the advice in the <xref linkend="handshake" /> as it applies as well to <code>init()</code>.
-    </para>
-    </section>
+<para>
+    After you have configured the <code>cometd</code> object, the Bayeux communication does not start until you call
+    <code>handshake()</code>, see the <xref linkend="javascript_handshake" />.
+</para>
+<para>
+    Previous users of the JavaScript CometD implementation called a method named <code>init()</code>.
+    This method still exists, and it is a shorthand for calling <code>configure()</code> followed by
+    <code>handshake()</code>.
+    Follow the advice in the <xref linkend="javascript_handshake" /> as it applies as well to <code>init()</code>.
+</para>
+</section>

@@ -243,7 +243,7 @@ dojox/cometd
     The second step is to configure the server side. If you use Java, this means that you have to
     set up the CometD servlet that responds to messages from clients.
     The details of the server side configuration and service development are explained in
-    <xref linkend="java-server" />.
+    <xref linkend="java" />.
 </para>
 <para>
     The last step is to write a JSP (or HTML) file that downloads the JavaScript dependencies and

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java">
+<info>
+    <title>CometD 2 Java Library</title>
+</info>
+
+<xi:include href="java_oort.xml" />
+
+</chapter>
