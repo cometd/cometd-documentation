@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="primer">
+<info>
+<title>CometD Primer</title>
+</info>
+<section>
+<info>
+    <title>Preparations</title>
+</info>
+<para>
+    Working on a project that uses the CometD API requires some preparation, especially regarding tools,
+    that can save you a huge amount of time.
+    One tool that should not be missing is <link xl:href="http://getfirebug.com/">Firebug</link>
+    (if you're using Firefox for development), or the equivalent for Internet Explorer 8, called
+    <link xl:href="http://msdn.microsoft.com/en-us/library/dd565622(VS.85).aspx">Developer Tools</link>.
+</para>
+<para>
+    The CometD project is built using <link xl:href="http://maven.apache.org">Maven</link>, and using
+    Maven to also build your application is a natural fit.
+    This Primer uses Maven as the basis for the setup, build and run of your application, but other build tools can apply the same
+    concepts.
+</para>
+<important>
+    <info>
+        <title>Windows Users</title>
+    </info>
+    <para>
+        If you are working in the Windows OS, avoid at all costs using a path that contains spaces,
+        such as "C:\Document And Settings\", as your base path.
+        Use a base path such as "C:\CometD\" instead.
+    </para>
+</important>
+</section>
+<section>
+<info>
+<title>Project Setup</title>
+</info>
+<para>
+You can set up the project in two ways: using <xref linkend="primer-maven-way" />
+or <xref linkend="primer-non-maven-way" />.
+For both, you can follow <xref linkend="primer-setup-details" />
+to see how some of the files of the project have been set up.
+</para>
+
+<section xml:id="primer-maven-way">
+<info>
+    <title>The Maven Way</title>
+</info>
+<para>
+    Setting up a project based on the CometD libraries using Maven is very simple, and uses the
+    Maven <emphasis>archetypes</emphasis>, which create the skeleton of the project, in a style very
+    similar to Rails scaffolding.
+</para>
+<para>
+    Issue the following command from a directory that does <emphasis>not</emphasis> contain a
+    <filename>pom.xml</filename> file (otherwise you will get a Maven error), for example an empty
+    directory:
+</para>
+<screen>
+$ cd /tmp
+$ mvn archetype:generate -DarchetypeCatalog=http://cometd.org
+...
+Choose archetype:
+1: http://cometd.org -> cometd-archetype-dojo-jetty6
+2: http://cometd.org -> cometd-archetype-jquery-jetty6
+3: http://cometd.org -> cometd-archetype-dojo-jetty7
+4: http://cometd.org -> cometd-archetype-jquery-jetty7
+5: http://cometd.org -> cometd-archetype-spring-jquery-jetty7
+6: http://cometd.org -> cometd-archetype-spring-dojo-jetty7
+Choose a number:
+</screen>
+<para>
+    As you can see, there are six archetypes available that build a skeleton application using the
+    Dojo or jQuery JavaScript toolkits, both with the choice of using Jetty 6 or Jetty 7 and Spring.
+    Let's choose Dojo with Jetty 7, which is archetype number 3.
+    The archetype generation requires that you define several properties and generates the application skeleton for you,
+    for example:
+</para>
+<screen>
+Choose a number: : 3
+Define value for property 'groupId': : org.cometd.primers
+Define value for property 'artifactId': : dojo-jetty7-primer
+Define value for property 'version':  1.0-SNAPSHOT: :
+Define value for property 'package':  org.cometd.primers: :
+[INFO] Using property: cometdVersion = 2.3.1
+[INFO] Using property: jettyVersion = 7.4.4.v20110707
+Confirm properties configuration:
+groupId: org.cometd.primers
+artifactId: dojo-jetty7-primer
+version: 1.0-SNAPSHOT
+package: org.cometd.primers
+cometdVersion: 2.3.1
+jettyVersion: 7.4.4.v20110707
+Y: :
+...
+[INFO] BUILD SUCCESS
+</screen>
+<para>
+    Then:
+</para>
+<screen>
+$ cd dojo-jetty7-primer/
+</screen>
+<para>
+    The skeleton project has now been created as follows:
+</para>
+<screen>
+$ tree .
+.
+|-- pom.xml
+`-- src
+`-- main
+|-- java
+|   `-- org
+|       `-- cometd
+|           `-- primers
+|               |-- BayeuxInitializer.java
+|               `-- HelloService.java
+`-- webapp
+|-- WEB-INF
+|   `-- web.xml
+|-- application.js
+`-- index.jsp
+</screen>
+<para>
+    The skeleton project is ready for you to run using the following command:
+</para>
+<screen>
+$ mvn install jetty:run
+...
+</screen>
+<para>
+    Now point your browser at
+    <link xl:href="http://localhost:8080/dojo-jetty7-primer">http://localhost:8080/dojo-jetty7-primer</link>,
+    and you should see this message:
+</para>
+<screen>
+CometD Connection Succeeded
+Server Says: Hello, World
+</screen>
+<para>
+    That's it. You have already written your first CometD application :-)
+</para>
+</section>
+
+<section xml:id="primer-non-maven-way">
+<info>
+    <title>The Non-Maven Way</title>
+</info>
+<para>
+    The first step is to configure your favorite JavaScript toolkit, in our example Dojo, that
+    the web container must serve. Using the Maven Way, this is obtained automatically by overlaying
+    the CometD Dojo bindings WAR file, <filename>cometd-javascript-dojo-[version].war</filename>,
+    but here you must do it manually.
+    The <filename>cometd-javascript-dojo-[version].war</filename> is located in the
+    <filename>cometd-javascript/dojo/target</filename> directory of the CometD distribution.
+</para>
+<orderedlist>
+<listitem>
+<para>
+    Unpack the Dojo toolkit to a directory.
+</para>
+</listitem>
+<listitem>
+<para>
+    Delete the <filename>dojox/cometd</filename> directory that Dojo provides and replace it
+    with the one contained in the <filename>cometd-javascript-dojo-[version].war</filename>.
+    The content of the <filename>dojox/cometd</filename> directory should be the following:
+</para>
+<screen>
+dojox/cometd
+|-- ack.js
+|-- reload.js
+|-- timestamp.js
+`-- timesync.js
+</screen>
+</listitem>
+<listitem>
+<para>
+    Delete the file <filename>dojox/cometd.js</filename> that Dojo provides and replace it with
+    the one at the same path in the <filename>cometd-javascript-dojo-[version].war</filename>.
+</para>
+</listitem>
+<listitem>
+<para>
+    Add the <filename>org</filename> directory from the
+    <filename>cometd-javascript-dojo-[version].war</filename>, and all its content, at the same
+    level of the <filename>dojox</filename> directory.
+</para>
+</listitem>
+</orderedlist>
+<para>
+    The final content, equivalent to that produced by the Maven way, should be like this:
+</para>
+<screen>
+.
+|-- dijit
+|-- dojo
+|-- dojox
+|   |-- cometd
+|   |   |-- ack.js
+|   |   |-- reload.js
+|   |   |-- timestamp.js
+|   |   `-- timesync.js
+|   `-- cometd.js
+|-- org
+|   |-- cometd
+|   |   |-- AckExtension.js
+|   |   |-- ReloadExtension.js
+|   |   |-- TimeStampExtension.js
+|   |   `-- TimeSyncExtension.js
+|   `-- cometd.js
+|-- WEB-INF
+|   |-- classes
+|   |   `-- org
+|   |       `-- cometd
+|   |           `-- primers
+|   |               |-- BayeuxInitializer.class
+|   |               `-- HelloService.class
+|   |-- lib
+|   |   |-- bayeux-api-[version].jar
+|   |   |-- cometd-java-common-[version].jar
+|   |   |-- cometd-java-server-[version].jar
+|   |   |-- jetty-continuation-[version].jar
+|   |   |-- jetty-jmx-[version].jar
+|   |   |-- jetty-servlets-[version].jar
+|   |   `-- jetty-util-[version].jar
+|   `-- web.xml
+|-- application.js
+`-- index.jsp
+</screen>
+<para>
+    The <filename>org</filename> directory contains the new shared CometD implementation and the
+    shared extensions, while the correspondent files in the <filename>dojox</filename> directory are
+    the Dojo <emphasis>bindings</emphasis>.
+    Other bindings exist for the jQuery toolkit, but the shared CometD implementation is the same.
+</para>
+<para>
+    The second step is to configure the server side. If you use Java, this means that you have to
+    set up the CometD servlet that responds to messages from clients.
+    The details of the server side configuration and service development are explained in
+    <xref linkend="java-server" />.
+</para>
+<para>
+    The last step is to write a JSP (or HTML) file that downloads the JavaScript dependencies and
+    the JavaScript application, as explained in the following section.
+</para>
+</section>
+
+<section xml:id="primer-setup-details">
+<info>
+    <title>Setup Details</title>
+</info>
+<para>
+    The JSP file, <filename>index.jsp</filename>, contains the reference to the JavaScript toolkit
+    dependencies and to the JavaScript application file:
+</para>
+<informalexample>
+<programlisting language="html"><![CDATA[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<script type="text/javascript" src="${pageContext.request.contextPath}/dojo/dojo.js.uncompressed.js"></script>
+<script type="text/javascript" src="application.js"></script>
+<script type="text/javascript">
+var config = {
+contextPath: '${pageContext.request.contextPath}'
+};
+</script>
+</head>
+<body>
+...
+</body>
+</html>
+]]>
+</programlisting>
+</informalexample>
+<para>
+    It also configures a JavaScript configuration object, <varname>config</varname>, with variables
+    that the JavaScript application might need. This is totally optional.
+</para>
+<para>
+    The JavaScript application, contained in the <filename>application.js</filename> file,
+    configures the <varname>cometd</varname> object and starts the application.
+    The archetypes provide:
+</para>
+<informalexample>
+<programlisting language="javascript">
+<xi:include href="https://github.com/cometd/cometd/raw/master/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js" parse="text" />
+</programlisting>
+</informalexample>
+<para>
+    Notice the following:
+<itemizedlist>
+<listitem>
+<para>
+    The use of <code>dojo.addOnLoad()</code> to wait for the document to load up before
+    executing the <varname>cometd</varname> object initialization.
+</para>
+</listitem>
+<listitem>
+<para>
+    The use of <code>dojo.addOnUnload()</code> to disconnect when the page is
+    refreshed or closed.
+</para>
+</listitem>
+<listitem>
+<para>
+    The use of the function <code>_metaHandshake()</code> to set up the initial
+    configuration on first contact with the server (or when the server has lost client
+    information, for example because of a server restart).
+    This is totally optional, but highly recommended.
+</para>
+</listitem>
+<listitem>
+<para>
+    The use of the function <code>_metaConnect()</code> to detect when the communication
+    has been successfully established (or re-established). This is totally optional,
+    but highly recommended.
+</para>
+<para>
+    Be warned that the use of the <code>_metaConnect()</code> along with the
+    <varname>_connected</varname> status variable can result in your code (that in this
+    simple example sets the innerHTML property) to be called more than once if,
+    for example, you experience temporary network failures or if the server restarts.
+</para>
+<para>
+    Therefore the code that you put in the
+    <code>_connectionEstablished()</code> function must be
+    <link xl:href="http://en.wikipedia.org/wiki/Idempotent">idempotent</link>.
+    In other words, make sure that if the <code>_connectionEstablished()</code>
+    function is called more than one time, it will behave exactly as if it is
+    called only once.
+</para>
+</listitem>
+</itemizedlist>
+</para>
+</section>
+</section>
+
+</chapter>

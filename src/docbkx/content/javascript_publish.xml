@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="publishing">
+     <info>
+        <title>JavaScript CometD 2 API: Publishing</title>
+     </info>
+     <para>
+The <code>publish()</code> method allow you to publish data onto a certain channel:
+<screen>
+cometd.publish('/mychannel', { mydata: { foo: 'bar' } });
+</screen>
+You cannot (and it makes no sense) to publish to a meta channel, and you can publish to a channel even if you are not subscribed to that channel.
+However, you have to handshake before being able to publish.
+</para>
+<para>
+As with other JavaScript CometD API, <code>publish()</code> involves a communication with the server and it is asynchronous: it returns immediately, well before the Bayeux server has received the message.
+</para>
+<para>
+<note>
+Calling <code>publish()</code> does not mean that you have published the message when <code>publish()</code> returns.
+</note>
+</para>
+<para>
+If you need to publish several messages to different channels, you might want to use <xref linkend="batching" />.
+</para>
+</section>

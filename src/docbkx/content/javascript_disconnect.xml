@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="disconnecting">
+      <info>
+          <title>JavaScript CometD 2 API: Disconnecting</title>
+      </info>
+      <para>
+The JavaScript CometD implementation performs automatic reconnect in case of network or Bayeux server failures.
+The reconnect parameters are described in the <xref linkend="configuration" />.
+      </para>
+<section>
+     <info>
+         <title>Short Network Failures</title>
+     </info>
+   <para>
+In case of temporary network failures, the client is notified through the <code>/meta/connect</code> channel (see <xref linkend="subscriptions" /> about meta channels) with messages that have the <code>successful</code> field set to false (see also the archetypes in the <xref linkend="primer" /> as an example).
+However, the Bayeux server might be able to keep the client's state, and when the network resumes the Bayeux server might behave as if nothing happened.
+The client in this case just re-establishes the long poll, but any message the client publishes during the network failure is not automatically re-sent (though it is possible to be notified, through the <code>/meta/publish</code> channel, of the failed publishes).
+   </para>
+</section>
+<section>
+     <info>
+          <title> Long Network Failures or Server Failures</title>
+     </info>
+ <para>
+If the network failure is long enough, the Bayeux server times out the lost client, and deletes the state associated with it. The same happens when the Bayeux server crashes (except that the state of all clients is lost).
+In this case, the reconnection mechanism on the client performs the following steps:
+<itemizedlist>
+    <listitem>A long poll is re-attempted, but the server rejects it with a <code>402::Unknown client</code> error message.</listitem>
+    <listitem>A handshake is attempted, and the server normally accepts it and allocates a new client.</listitem>
+    <listitem>Upon the successful re-handshake, a long poll is re-established.</listitem>
+</itemizedlist>
+If you register with meta channels, be aware of these steps, since a reconnection might involve more than one message exchange with the server.
+</para>
+</section>
+<section>
+     <info>
+          <title>Disconnecting</title>
+     </info>
+<para>
+Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux server, so that it can clean up any state associated with that client.
+As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns immediately, well before the Bayeux server has received the disconnect request.
+If the server is unreachable (because it is down or because of network failures), the JavaScript CometD implementation stops any reconnection attempt and cleans up any local state.
+It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in any case disconnected, its local state cleaned up, and if the server has not been reached it eventually times out the client and cleans up any server-side state for that client.
+</para>
+<para>
+<tip>
+If you are debugging your application with Firebug, and you shut down the server, you see in the Firebug console the attempts to reconnect.
+To stop those attempts,  type in the Firebug command line: <code>dojox.cometd.disconnect()</code> (for Dojo) or <code>$.cometd.disconnect()</code> (for jQuery).
+</tip>
+</para>
+</section>
+</section>

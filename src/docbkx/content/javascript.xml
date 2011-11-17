@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="javascript">
+<info>
+    <title>CometD 2 JavaScript Library</title>
+</info>
+<para>
+The CometD 2 JavaScript library is a portable JavaScript implementation with <emphasis>bindings</emphasis> for the major JavaScript toolkits, currently <link xl:href="http://dojotoolkit.org/">Dojo</link> and <link xl:href="http://jquery.com/">jQuery</link>.
+This means that the CometD Bayeux JavaScript implementation is written in pure JavaScript with no dependencies on the toolkits, and that the toolkit bindings add the syntactic sugar that makes the Bayeux APIs feel like they are native to the toolkit.
+For example, it is possible to refer to the standard <code>cometd</code> object using the following notation:
+</para>
+<para>
+<screen>
+// Dojo style
+var cometd = dojox.cometd;
+
+// jQuery style
+var cometd = $.cometd;
+</screen>
+</para>
+<para>
+If you followed the <xref linkend="primer" />, you might have noticed that the skeleton project requires that you reference both the portable implementation, under <code>org/cometd.js</code>, and one binding–for example Dojo's–under <code>dojox/cometd.js</code>. For jQuery, the binding is under <code>jquery/jquery.cometd.js</code>.
+The use of the Bayeux APIs from the JavaScript toolkits is almost identical, and the following sections do not refer to a particular toolkit.
+Small differences surface only when passing callback functions to the Bayeux API, where Dojo users might like to use <code>dojo.hitch()</code>, while jQuery users might prefer an anonymous function approach.
+</para>
+<para>
+The following sections present details about the JavaScript Bayeux APIs and their implementation secrets.
+</para>
+
+<xi:include href="javascript_configure.xml" />
+<xi:include href="javascript_handshake.xml" />
+<xi:include href="javascript_subscribe.xml" />
+<xi:include href="javascript_publish.xml" />
+<xi:include href="javascript_disconnect.xml" />
+<xi:include href="javascript_batch.xml" />
+<xi:include href="javascript_transports.xml" />
+
+</chapter>
