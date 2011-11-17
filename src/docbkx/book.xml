@@ -4,113 +4,29 @@
       xmlns:xi="http://www.w3.org/2001/XInclude"
       xmlns:xl="http://www.w3.org/1999/xlink">
 
-    <info>
-        <title>The CometD Book</title>
+<info>
+<title>The CometD Book</title>
 
-        <authorgroup>
-            <author>
-                <personname>
-                    <firstname>Simone</firstname>
-                    <surname>Bordet</surname>
-                </personname>
-            </author>
-        </authorgroup>
+<authorgroup>
+<author>
+    <personname>
+        <firstname>Simone</firstname>
+        <surname>Bordet</surname>
+    </personname>
+</author>
+</authorgroup>
 
-        <copyright>
-            <year>2011</year>
-            <holder>The Original Author(s)</holder>
-        </copyright>
+<copyright>
+    <year>2011</year>
+    <holder>The Original Author(s)</holder>
+</copyright>
 
-        <releaseinfo><?eval ${project.version} ?></releaseinfo>
+<releaseinfo><?eval ${project.version} ?></releaseinfo>
 
-    </info>
+</info>
 
-    <preface xml:id="preface">
-        <title>Preface</title>
-        <para>
-            <link xl:href="http://en.wikipedia.org/wiki/AJAX">CometD</link>
-            is a scalable web event routing bus that allow you to write low-latency, server-side, event-driven web applications. Typical examples of such applications are stock trading applications, web chat applications, online games, and monitoring consoles.
-        </para>
-        <para>
-            CometD makes use of an
-            <link xl:href="http://en.wikipedia.org/wiki/AJAX">Ajax</link>
-            push technology pattern known as
-            <link xl:href="http://en.wikipedia.org/wiki/Comet_(programming)">Comet</link>, but also
-            leverages emerging web standards such as
-            <link xl:href="http://en.wikipedia.org/wiki/WebSocket">WebSocket</link>
-            for low latency communication.
-        </para>
-        <para>
-            The CometD project provides <productname>Java</productname> and <productname>JavaScript</productname>
-            libraries that allows you to write
-            low-latency, server-side, event-driven web applications in a simple and portable way. You can therefore
-            concentrate on the business side of your application rather than worrying about low-level details such
-            as the transport (HTTP or WebSocket), the scalability and the robustness.
-            The CometD libraries provide these latter characteristics.
-        </para>
-        <para>
-            If you are new to CometD, you can follow this learning path:
-        </para>
-        <orderedlist>
-            <listitem>
-                <para>
-                    Read <xref linkend="installation" />
-                    to download, install CometD and to try out its demos.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Read <xref linkend="primer" />
-                    to get your hands dirty with CometD with a step-by-step
-                    tutorial.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Read
-                    <xref linkend="concepts" />
-                    to understand the abstractions that CometD defines.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Study the CometD demos that ship with the CometD distribution.
-                    <!-- TODO: add xref to how to run the demo -->
-                </para>
-            </listitem>
-            <listitem>
-                <para>Read the rest of this reference book for further details.</para>
-            </listitem>
-        </orderedlist>
+<xi:include href="content/preface.xml" />
 
-        <para>
-            You can contribute to the CometD project and be involved in the CometD community, including
-        </para>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    Trying it out and reporting issues at
-                    <link xl:href="http://bugs.cometd.org">http://bugs.cometd.org</link>
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Participating in the mailing lists. <!-- TODO: add link to mailing lists ? -->
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Helping out with the documentation by contacting the mailing lists or by reporting issues.
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    Spreading the word about CometD in your organization.
-                </para>
-            </listitem>
-        </itemizedlist>
-
-    </preface>
 
     <chapter xml:id="installation">
         <info>
