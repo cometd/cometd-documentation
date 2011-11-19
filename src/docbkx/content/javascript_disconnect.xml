@@ -9,7 +9,7 @@
 </info>
 <para>
     The JavaScript CometD implementation performs automatic reconnect in case of network or Bayeux server failures.
-    The reconnect parameters are described in the <xref linkend="javascript_configure" />.
+    <xref linkend="javascript_configure" /> describes the reconnect parameters.
 </para>
 <section>
  <info>

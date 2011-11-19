@@ -5,9 +5,11 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java">
 <info>
-    <title>CometD 2 Java Library</title>
+    <title>CometD 2 Java </title>
 </info>
+
+
 
 <xi:include href="java_oort.xml" />
 
-</chapter>
+
