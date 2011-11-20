@@ -20,8 +20,7 @@
 <screen><![CDATA[
 $ tar zxvf cometd-<version>.tgz
 $ cd cometd-<version>/
-]]>
-</screen>
+]]></screen>
 </para>
 <para>
     The CometD Demos contain:
@@ -74,11 +73,11 @@ a compliant servlet 2.5 container such as <link xl:href="http://eclipse.org/jett
     After that, running the CometD demos is very simple.
     Assuming that <filename>$COMETD</filename> is the CometD installation directory, and that you have the
     <application>mvn</application> executable in your path:
-    <screen>
+<screen>
 $ cd $COMETD
 $ cd cometd-demo
 $ mvn jetty:deploy-war
-    </screen>
+</screen>
 </para>
 <para>
     The last command starts an embedded Jetty that listens on port 8080.
