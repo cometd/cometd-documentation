@@ -59,7 +59,7 @@
 </section>
 <section>
 <info>
-<title>CometD 2 Oort Cloud</title>
+<title>Oort Cloud</title>
 </info>
 <para>
 Any CometD server can become an Oort comet by configuring an instance of
@@ -662,7 +662,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 
 <section xml:id="java_oort_seti">
 <info>
-    <title>CometD 2 Oort Seti</title>
+    <title>Oort Seti</title>
 </info>
 <para>
     <code>Seti</code> is the Oort clustering component that tracks clients connected to any comet in the
