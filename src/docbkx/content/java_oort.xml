@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_oort">
 <info>
-    <title>CometD 2 Scalability Clustering with Oort</title>
+    <title>Scalability Clustering with Oort</title>
 </info>
 <para>
     The CometD distribution ships a clustering solution called <emphasis role="bold">Oort</emphasis> that
@@ -30,8 +30,7 @@
     A typical, but not the only, infrastructure to setup a Oort cluster is to have a load balancer in front
     of Oort nodes, so that clients can connect transparently to any node.
     The load balancer should implement stickyness, and this may be based on the remote IP address or on
-    CometD's BAYEUX_BROWSER cookie (see the <!-- TODO: port this link to the docbook URL -->
-    <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux Specification</link>, section 8.1),
+    CometD's BAYEUX_BROWSER cookie (see <xref linkend="bayeux" />),
     or could be based on some other mechanism supported by the load balancer.
 </para>
 <para>
@@ -173,8 +172,7 @@ There are two ways for a new comet to discover at least one other comet:
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Since <code>Oort</code> depends on <code>BayeuxServer</code>, the <code>load-on-startup</code>
@@ -329,8 +327,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Like for the automatic discovery, the <code>load-on-startup</code> parameter of the
@@ -399,8 +396,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Alternatively, it's possible to write custom initialization code (see the section on
@@ -435,13 +431,11 @@ public class OortConfigurationServlet extends GenericServlet
         throw new ServletException();
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The <code>OortComet</code> instance returned by <code>Oort.observeComet(url)</code> is a
-    specialized version of <link xl:href="/documentation/2.x/cometd-java/client">BayeuxClient</link>.
-    <!-- TODO: relink to the docbook section -->
+    specialized version of <classname>BayeuxClient</classname> (see <xref linkend="java_client" />).
 </para>
 </section>
 <section>
@@ -511,8 +505,7 @@ The next section will cover broadcast messages forwarding over the entire cloud.
         }
     }
 }
-]]>
-    </programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The <code>oortURL</code> field is the URL of the comet that initiates the handshakes; the
@@ -555,8 +548,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         return ext != null && isValid(ext.get("token"));
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The <code>Oort.isOortHandshake(Message)</code> method validates the handshake message and
@@ -571,8 +563,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     Broadcast messages (that is, messages sent to non-meta and non-service channels, see
-    <!-- TODO: relink to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-javascript/subscription">here</link> for further details)
+    <xref linkend="javascript_subscribe" />)
     are by definition messages that should be received by all clients that subscribed to the channel
     the message is being sent.
 </para>
@@ -621,8 +612,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Alternatively, it is possible to use <code>Oort.observeChannel(String channelName)</code> to
@@ -664,15 +654,13 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     If you need to send messages directly to particular clients (for example, <code>clientA</code>
     wants to send a message to <code>clientC</code> but not to <code>clientB</code>, then you need
-    to setup an additional component of the Oort clustering called
-    <!-- TODO: link to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/oort/seti">Seti</link>.
+    to setup an additional component of the Oort clustering called Seti, see <xref linkend="java_oort_seti" />.
 </para>
 </section>
 </section>
 </section>
 
-<section>
+<section xml:id="java_oort_seti">
 <info>
     <title>CometD 2 Oort Seti</title>
 </info>
@@ -724,8 +712,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         <load-on-startup>3</load-on-startup>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Note how the <code>load-on-startup</code> parameter of the <code>SetiServlet</code> must be greater
@@ -739,9 +726,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     <code>Seti</code> allows to associate a unique string representation of a user with one or more
-    <code>ServerSession</code> (see the <!-- TODO: link to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/concepts">CometD concepts</link> for more details on
-    <code>ServerSession</code>).
+    <code>ServerSession</code> (see the <xref linkend="concepts" />).
     This is normally done when the user first logs in into the application, and the unique string
     representation of the user can be anything that the user provides to authenticate itself (a user
     name, a token, a database id, etc). For brevity, we will call this unique string representation of
@@ -782,8 +767,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
         return true;
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Alternatively, you can perform the association in an <code>BayeuxServer.Extension</code> or in a
@@ -831,16 +815,14 @@ public class SetiForwarder
         seti.sendMessage(targetUserId, message.getChannel(), data);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     In the example below, <code>clientA</code> wants to send a message to <code>clientC</code>
     but not to <code>clientB</code>.
     Therefore <code>clientA</code> sends a message to the server it is connected to using a
-    <!-- TODO: relink to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-javascript/subscription">service channel</link>
-    (so that the message is not broadcasted), and then a specialized
+    service channel, so that the message is not broadcasted (see <xref linkend="javascript_subscribe" />),
+    and then a specialized
     <!-- TODO: relink to docbook section -->
     <link xl:href="/documentation/2.x/cometd-java/server/services">CometD service</link> will route
     the message to the appropriate user using <code>Seti</code> (see above).
