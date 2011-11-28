@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_services">
+<info>
+    <title>CometD 2 Java Server API: Services</title>
+</info>
+<para>
+A CometD service is a Java class that allows a developer to specify the code to run when Bayeux channels receive Bayeux messages. 
+When a message arrives on a channel to which the service instance subscribes, Cometd invokes a callback method to execute user-specific code.
+</para>
+<para>
+CometD 2 services can be of two kinds: 
+<itemizedlist>
+<listitem>
+<para><xref linkend="inherited_services">< /></para>
+</listitem> 
+<listitem
+<para><xref linkend="annotated_services">< /></para>.
+</listitem>
+</itemizedlist>
+</para>
+<para>
+CometD 2 services can also be integrated with the Spring Framework as explained <a href="/documentation/2.x/cometd-java/server/services/integration-spring">here</a>.
+</para>
+<para>
+The following sections present details about Java Server Services.
+</para>
+<para>
+<xi:include href="inherited_services" />
+<xi:include href="annotated_services" />
+<xi:include href="javascript_configure.xml" />
+<xi:include href="javascript_configure.xml" />
+</para>
+</section>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_API">
+<info>
+    <title>CometD 2 Java Server API</title>
+</info>
+<para>
+To run the CometD server implementation, you need to deploy a Java web application to a servlet container.
+</para>
+<itemizedlist>
+<listitem>
+<para>The web application needs a CometD <emphasis>servlet</emphasis> to interpret the Bayeux protocol (see <link xl:hre="/documentation/2.x/cometd-java/server/configuration">CometD Java Server Configuration</link> for configuration details).</para>
+</listitem>
+<listitem>
+<para>Most of the time you also need to write one or more <link xl:href="/documentation/2.x/cometd-java/server/services">user-defined services</link> that can act upon receiving messages on Bayeux channels.
+</listitem>
+</para>
+<para>
+The following sections present detail about the Java Server APIs and their implementation.
+</para>
+</para>
+
+
+
+</chapter>

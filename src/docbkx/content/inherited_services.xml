@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="inherited_services">
+<info>
+    <title>CometD Java Server API: Inherited Services</title>
+</info>
+<para>
+A CometD inherited service is a Java class that extends the CometD class <code>org.cometd.server.AbstractService</code>, which specifies the Bayeux channels of interest to the service, and adheres to the contract the <code>AbstractService</code> class requires:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class EchoService extends AbstractService                                  (1)
+{
+    public EchoService(BayeuxServer bayeuxServer)                                 (2)
+    {
+        super(bayeuxServer, "echo");                                              (3)
+        addService("/echo", "processEcho");                                       (4)
+    }
+
+    public void processEcho(ServerSession remote, Map&lt;String, Object&gt; data) (5)
+    {
+        remote.deliver(getServerSession(), "/echo", data, null);                  (6)
+    }
+}
+]]>
+</programlisting>
+</informalexample>
+<para>
+This is a simple echo service that returns the message sent by the remote client on channel "/echo" to the remote client itself.
+</para>
+<para>
+Notice the following:
+</para>
+<orderedlist>
+<listitem>
+<para>Extends from <code>org.cometd.server.AbstractService.</code></para>
+</listitem>
+<listitem>
+<para>Creates a constructor that takes a <code>org.cometd.bayeux.server.BayeuxServer</code> object.</para>
+</listitem>
+<listitem>
+<para>Calls the superclass constructor, passing the BayeuxServer object and an arbitrary name of the service, in this case "echo".</para>
+</listitem>
+<listitem>
+<para>Subscribes to channel "/echo", and specifies the name of a method that must be called when a message arrives to that channel.</para>
+</listitem>
+<listitem>
+<para>Defines a method with the same name specified in (4), and with an appropriate signature (see below).</para>
+</listitem>
+<listitem>
+<para>Uses the <code>org.cometd.bayeux.server.ServerSession</code> API to echo the message back to that particular client.</para>
+</listitem>
+</orderedlist>
+<para>
+The contract that the <code>BayeuxService</code> class requires for callback methods is that the methods must have one of the following signatures:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+// Obtains the remote session object and the message object
+public void processEcho(ServerSession remote, Message message)
+
+// Obtains the remote session object and the message's data object
+// (additional message information, such as the channel or the id is lost)
+public void processEcho(ServerSession remote, Map&lt;String, Object&gt; data)
+
+// Obtains the remote session object, the channel name, the message object and the message id
+public void processEcho(ServerSession remote, String channelName, Message message, String messageId)
+
+// Obtains the remote session object, the channel name, the message's data object and the message id
+public void processEcho(ServerSession remote, String channelName, Map&lt;String, Object&gt; data, String messageId)
+]]>
+</programlisting>
+</informalexample>
+<para>
+Notice that the channel name specified in the <code>subscribe()</code> method can be a wildcard, for example:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class BaseballTeamService extends AbstractService
+{
+    public BaseballTeamService(BayeuxServer bayeux)
+    {
+        super(bayeux, "baseballTeam");
+        addService("/baseball/team/*", "processBaseballTeam");
+    }
+
+    public void processBaseballTeam(ServerSession remote, String channelName, Map&lt;String, Object&gt; data, String messageId)
+    {
+        <span class="code-comment">// Upon receiving a message on channel /baseball/team/*, forward to channel /events/baseball/team/*</span>
+        getBayeux().getChannel("/events" + channelName).publish(getServerSession(), data, null);
+    }
+}
+]]>
+</programlisting>
+</informalexample>
+<para>
+Notice also how the first example uses <code>ServerSession.deliver()</code> to send a message to a particular remote client, while the second uses <code>ServerChannel.publish()</code> to send a message to anyone who subscribes to channel "/events/baseball/team/*".
+</para>
+<para>
+Once you have written your Bayeux services it is time to set them up in your web application: <xref linkend="services_integration" /> or <xref linkend="spring_integration" />. 
+</para>
+</section>
