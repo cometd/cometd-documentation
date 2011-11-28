@@ -27,15 +27,23 @@
     <title>Typical Infrastructure</title>
 </info>
 <para>
-    A typical, but not the only, infrastructure to setup a Oort cluster is to have a load balancer in front
+    A typical, but not the only, infrastructure to set up a Oort cluster is to have a load balancer in front
     of Oort nodes, so that clients can connect transparently to any node.
-    The load balancer should implement stickyness, and this may be based on the remote IP address or on
-    CometD's BAYEUX_BROWSER cookie (see the <!-- TODO: port this link to the docbook URL -->
-    <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux Specification</link>, section 8.1),
-    or could be based on some other mechanism supported by the load balancer.
+    The load balancer should implement stickyness, and this may be based on:
+<itemizedlist>
+<listitem>
+<para>The remote IP address.</para>
+</listitem>
+<listitem>
+<para>CometD's BAYEUX_BROWSER cookie (see the <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux Specification</link>, section 8.1).</para>
+</listitem>
+<listitem>
+<para>Some other mechanism the load balancer supports.</para>
+</listitem>
+</itemizedlist>
 </para>
 <para>
-    DNS should be configured with a single host name / IP address pair (the one of the load balancer), so
+    You should configure DNS with a single host name/IP address pair (that of the load balancer), so
     that in case of a node crash, clients will attempt to reconnect to the same host name, but the load
     balancer will notice that the node is crashed and direct the connection to another node.
     The second node will not know about this client, and upon receiving the connect request will send to
@@ -363,7 +371,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
     Configured in this way, the Oort comet is ready to be part of the Oort cloud, but it's not part
     of the could yet, since it does not know the URLs of other comets (and there is no automatic
     discovery).
-    In order to make the Oort comet part of the Oort cloud, you can configure the
+    To make the Oort comet part of the Oort cloud, you can configure the
     <code>oort.cloud</code> init parameter of the <code>OortStaticConfigServlet</code> with one (or
     a comma separated list) of Oort comet URL(s) to connect to:
 </para>
@@ -404,8 +412,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 </informalexample>
 <para>
     Alternatively, it's possible to write custom initialization code (see the section on
-    <!-- TODO: relink to the docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/services/integration">service integration</link>
+    <xref linkend="services_integration" />
     for suggestions on how to do it) that links the node to the Oort cloud (this may be useful if Oort
     comet URLs cannot be know a priori, but may be known at runtime), for example:
 </para>
@@ -571,8 +578,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     Broadcast messages (that is, messages sent to non-meta and non-service channels, see
-    <!-- TODO: relink to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-javascript/subscription">here</link> for further details)
+    <xref linkend="javascript_subscribe" /> for further details)
     are by definition messages that should be received by all clients that subscribed to the channel
     the message is being sent.
 </para>
@@ -838,11 +844,9 @@ public class SetiForwarder
     In the example below, <code>clientA</code> wants to send a message to <code>clientC</code>
     but not to <code>clientB</code>.
     Therefore <code>clientA</code> sends a message to the server it is connected to using a
-    <!-- TODO: relink to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-javascript/subscription">service channel</link>
-    (so that the message is not broadcasted), and then a specialized
-    <!-- TODO: relink to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/services">CometD service</link> will route
+    <xref linkend="javascript_subscribe" />
+    (so that the message is not broadcast), and then a specialized
+    <xref linkend="java_server_services" /> routes
     the message to the appropriate user using <code>Seti</code> (see above).
     The <code>Seti</code> on <code>cometA</code> knows that the target user is on <code>cometC</code>
     (thanks to the association) and forwards the message to <code>cometC</code> which will in turn
