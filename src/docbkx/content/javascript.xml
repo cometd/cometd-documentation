@@ -23,8 +23,7 @@ var cometd = dojox.cometd;
 
 // jQuery style
 var cometd = $.cometd;
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     If you followed the <xref linkend="primer" />, you might have noticed that the skeleton project requires you

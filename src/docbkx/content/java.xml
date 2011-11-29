@@ -7,9 +7,24 @@
 <info>
     <title>CometD 2 Java </title>
 </info>
+<para>
+The CometD Java implementation is based on the popular <link xl:href="http://eclipse.org/jetty">Jetty Http Server and Servlet Container</link>, for both the client and the server.
+</para>
+<para>
+The CometD Java implementation, though based on Jetty, is portable on other Servlet 2.5 compliant servlet containers (because it uses the portable <link xl:href="http://wiki.eclipse.org/Jetty/Feature/Continuations">Jetty Continuation API</link).
+</para>
+<para>
+You can deploy the WAR file resulting from the development of your CometD web application to other Servlet 2.5 compliant servlet containers, but it will scale less because it is less integrated with other servlet containers.
+When deployed to a Servlet 3.0 compliant servlet container, the CometD implementation makes use of the asynchronous features offered by the servlet container and is fully portable and scalable (the scalability will be as good as the servlet container's implementation). See <xref linkend="/node/106" /> when deploying to Servlet 3.0 compliant servlet containers.
+</para>
+<para>
+The CometD Java Implementation offers a client library and a server library, which the following sections document in detail.
+</para>
 
 
 
+
+<xi:include href="java_server_API.xml" />
 <xi:include href="java_oort.xml" />
 
-
+</chapter>
