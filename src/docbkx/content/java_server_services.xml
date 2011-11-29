@@ -15,15 +15,15 @@ When a message arrives on a channel to which the service instance subscribes, Co
 CometD 2 services can be of two kinds: 
 <itemizedlist>
 <listitem>
-<para><xref linkend="inherited_services">< /></para>
+<para><xref linkend="inherited_services" /></para>
 </listitem> 
-<listitem
-<para><xref linkend="annotated_services">< /></para>.
+<listitem>
+<para><xref linkend="annotated_services" /></para>.
 </listitem>
 </itemizedlist>
 </para>
 <para>
-CometD 2 services can also be integrated with the Spring Framework as explained <a href="/documentation/2.x/cometd-java/server/services/integration-spring">here</a>.
+CometD 2 services can also be integrated with the Spring Framework as explained <link xl:href="/documentation/2.x/cometd-java/server/services/integration-spring">here</link>.
 </para>
 <para>
 The following sections present details about Java Server Services.
