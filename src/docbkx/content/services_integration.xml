@@ -56,9 +56,9 @@ Notice that the <code>web.xml</code> file specifies <code>&lt;load-on-startup&gt
 <para>1 for the CometD servlet–so that the Bayeux object gets created and put in the <code>ServletContext</code>.</para>
 </listitem>
 <listitem>
-<para>2 for the configuration servlet–so that it will be initialized only after the CometD servlet has been initialized and hence the BayeuxServer object be available.<para>
+<para>2 for the configuration servlet–so that it will be initialized only after the CometD servlet has been initialized and hence the BayeuxServer object be available.</para>
 </listitem>
-<itemizedlist>
+</itemizedlist>
 <para>
 This is the code for the <code>ConfigurationServlet</code>:
 </para>
