@@ -25,17 +25,12 @@
 </info>
 
 <xi:include href="content/preface.xml" />
-
 <xi:include href="content/installation.xml" />
-
 <xi:include href="content/primer.xml" />
-
 <xi:include href="content/concepts.xml" />
-
 <xi:include href="content/javascript.xml" />
-
 <xi:include href="content/java.xml" />
-
 <xi:include href="content/migration.xml" />
+<xi:include href="content/bayeux.xml" />
 
 </book>
