@@ -11,7 +11,7 @@
 The CometD Java implementation is based on the popular <link xl:href="http://eclipse.org/jetty">Jetty Http Server and Servlet Container</link>, for both the client and the server.
 </para>
 <para>
-The CometD Java implementation, though based on Jetty, is portable on other Servlet 2.5 compliant servlet containers (because it uses the portable <link xl:href="http://wiki.eclipse.org/Jetty/Feature/Continuations">Jetty Continuation API</link).
+The CometD Java implementation, though based on Jetty, is portable on other Servlet 2.5 compliant servlet containers (because it uses the portable <link xl:href="http://wiki.eclipse.org/Jetty/Feature/Continuations">Jetty Continuation API</link>.
 </para>
 <para>
 You can deploy the WAR file resulting from the development of your CometD web application to other Servlet 2.5 compliant servlet containers, but it will scale less because it is less integrated with other servlet containers.
