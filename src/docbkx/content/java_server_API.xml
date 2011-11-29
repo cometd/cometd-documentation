@@ -12,17 +12,21 @@ To run the CometD server implementation, you need to deploy a Java web applicati
 </para>
 <itemizedlist>
 <listitem>
-<para>The web application needs a CometD <emphasis>servlet</emphasis> to interpret the Bayeux protocol (see <link xl:hre="/documentation/2.x/cometd-java/server/configuration">CometD Java Server Configuration</link> for configuration details).</para>
+<para>The web application needs a CometD <emphasis>servlet</emphasis> to interpret the Bayeux protocol (see <link xl:href="/documentation/2.x/cometd-java/server/configuration">CometD Java Server Configuration</link> for configuration details).</para>
 </listitem>
 <listitem>
-<para>Most of the time you also need to write one or more <link xl:href="/documentation/2.x/cometd-java/server/services">user-defined services</link> that can act upon receiving messages on Bayeux channels.
+<para>Most of the time you also need to write one or more <link xl:href="/documentation/2.x/cometd-java/server/services">user-defined services</link> that can act upon receiving messages on Bayeux channels.</para>
 </listitem>
-</para>
+</itemizedlist>
 <para>
-The following sections present detail about the Java Server APIs and their implementation.
-</para>
+The following sections present detailed information about the Java Server APIs and their implementation.
 </para>
 
+<xi:include href="java_server_config.xml" />
+<xi:include href="java_server_authorization.xml" />
+<xi:include href="java_server_authorizers.xml" />
+<xi:include href="multiple_sessions.xml" />
+<xi:include href="java_server_services.xml" />
 
 
 </chapter>
