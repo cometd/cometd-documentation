@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_authorization">
+<info>
+    <title>CometD 2 Java Client API: Handshake</title>
+</info>
+<para>
+To initiate the communication with the Bayeux server, you need to call:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxClient.handshake()
+]]>
+</programlisting>
+</informalexample>
+<para>
+The following is a typical use:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+ HttpClient();
+// Create (and eventually set up) Jetty's HttpClient:
+HttpClient httpClient = new HttpClient();
+//Here set up Jetty's HttpClient, for example:
+// httpClient.setMaxConnectionsPerAddress(2);
+httpClient.start();
+
+// Prepare the transport
+Map&lt;String, Object&gt; options = new HashMap&lt;String, Object&gt;();
+ClientTransport transport = LongPollingTransport.create(options, httpClient);
+
+ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
+// Here set up the BayeuxClient, for example:
+// client.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() { ... });
+]]>
+</programlisting>
+</informalexample>
+<para>
+When <code>BayeuxClient.handshake()</code> is called, the <code>BayeuxClient</code> performs the handshake with the Bayeux server and establishes the long poll connection asynchronously.
+</para>
+<note>
+<para>
+Calling <code>handshake()</code> <emphasis>does not</emphasis> mean that you have completed the handshake with the server when <code>handshake()</code> returns.
+</para>
+</note>
+<para>
+To verify that the handshake is successful, you can add a <code>MessageListener</code> before calling <code>BayeuxClient.handshake()</code>:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+ClientTransport transport = ...
+ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
+client.getChannel(Channel.META_HANDSHAKE).addListener(new ClientSessionChannel.MessageListener() 
+{ 
+    public void onMessage(ClientSessionChannel channel, Message message)
+    {
+        if (message.isSuccessful())
+        {
+            // Here handshake is successful
+        }
+    }
+});
+client.handshake();
+]]>
+</programlisting>
+</informalexample>
+<para>
+An alternative is to use the built-in synchronous features of CometD 2's BayeuxClient and wait for the handshake to complete:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+ClientTransport transport = ...
+BayeuxClient client = new BayeuxClient("http://localhost:8080/cometd", transport);
+client.handshake();
+<bold>boolean handshaken = client.waitFor(1000, BayeuxClient.State.CONNECTED);</bold>
+if (handshaken)
+{
+    // Here handshake is successful
+}
+]]>
+</programlisting>
+</informalexample>
+<para>
+The <code>BayeuxClient.waitFor()</code> method waits the given timeout (in milliseconds) for the BayeuxClient to reach the given state, and returns true if the state is reached before the timeout expires.
+</para>
+</section>

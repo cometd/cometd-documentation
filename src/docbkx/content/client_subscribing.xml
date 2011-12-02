@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_authorization">
+<info>
+    <title>CometD 2 Java Client API: Subscribing and Unsubscribing</title>
+</info>
+<para>
+The following sections provide information about subscribing and unsubscribing to channels.
+</para>
+<section>
+<info>
+    <title>Subscription to Normal (Broadcast) Channels</title> 
+</info>
+<para>
+The CometD 2 Java Client API for subscribing and unsubscribing is better designed than that in CometD 1, and we have moved it to the channel (where it belongs).
+</para>
+<note>
+<para>
+You can subscribe and unsubscribe only after the handshake completes.
+</para>
+</note>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class Example 
+{
+    private static final String CHANNEL = "/foo";
+    private final ClientSessionChannel.MessageListener fooListener = new FooListener();
+
+    public void attach()
+    {
+        ClientTransport transport = ...
+        ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
+        client.handshake();
+        boolean handshaken = client.waitFor(1000, BayeuxClient.State.CONNECTED);
+        if (handshaken)
+        {
+            <bold>client.getChannel(CHANNEL).subscribe(fooListener);</bold>
+        }
+    }
+
+    private static class FooListener implements ClientSessionChannel.MessageListener
+    {
+        public void onMessage(ClientSessionChannel channel, Message message)
+        {
+            // Here we received a message on the channel
+        }
+    }
+}
+]]>
+</programlisting>
+</informalexample>
+<note>
+<para>
+Calling <code>subscribe()</code> <emphasis>does not</emphasis> mean that you have completed the subscription with the server when <code>subscribe()</code> returns.
+</para>
+</note>
+<para>
+Unsubscribing is straightforward: if you unsubscribe to a channel, CometD does not deliver messages on that channel to message listeners.
+Using the <code>Example</code> class above:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class Example 
+{
+    ...
+    public void detach()
+    {
+        <span style="font-weight:bold;">client.getChannel(CHANNEL).unsubscribe(fooListener);</span>
+    }
+}
+]]>
+</programlisting>
+</informalexample>
+<tip>
+<para>
+We recommend that you also remove the <code>ClientSessionChannel.MessageListener</code> that you registered when you subscribed.
+</para>
+<para>
+To make this simpler, avoid using the anonymous inner class style to register a message listener, since otherwise you will not have its reference when you want to remove it.
+</para>
+</tip>
+</section>
+<section>
+<info>
+    <title>Listening to Meta Channels</title>
+</info>
+<para>
+The internal implementation of the Bayeaux protocol uses Meta channels, and it does not make any sense to subscribe to them. It does make sense to listen to messages that might arrive on those channels.
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class Example
+{
+    public void init()
+    {
+        ClientSession client = ...;
+        <bold>client.getChannel(Channel.META_HANDSHAKE).addListener</bold>(new ClientSessionChannel.MessageListener()
+        {
+            public void onMessage(ClientSessionChannel channel, Message message)
+            {
+                >// Here we received a handshake response message<
+            }
+        });
+    }
+}
+]]>
+</programlisting>
+</informalexample>
+</section>
+</section>
+

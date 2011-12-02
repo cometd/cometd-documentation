@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_authorization">
+<info>
+    <title>CometD 2 Java Client API: Publishing</title>
+</info>
+<para>
+The following is a typical example of publishing a message on a channel:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+ClientTransport transport = ...
+ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
+client.handshake();
+
+Map&lt;String, Object&gt; data = new HashMap&lt;String, Object&gt;();
+// Fill in the data
+client.getChannel("/game/table/1").publish(data);
+]]>
+</programlisting>
+</informalexample>
+<para>
+Publishing data on a channel is an asynchronous operation.
+</para>
+<note>
+<para>
+Calling <code>publish()</code> <emphasis>does not</emphasis> mean that you have published the message when <code>publish()</code> returns.
+</para>
+</note>
+<para>
+Message batching is also available:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+final ClientSession client = ...;
+client.handshake();
+
+client.batch (new Runnable()
+{
+    public void run()
+    {
+        Map&lt;String, Object&gt; data1 = new HashMap&lt;String, Object&gt;();
+        // Fill in the data1 map object
+        client.getChannel("/game/table/1").publish(data1);
+
+        Map&lt;String, Object&gt; data2 = new HashMap&lt;String, Object&gt;();
+        // Fill in the data2 map object<
+        client.getChannel("/game/chat/1").publish(data2);
+    }
+});
+]]>
+</programlisting>
+</informalexample>
+
+<warning>
+<para>
+The <code>ClientSession</code> API allows you also to batch using <code>startBatch()</code> and <code>endBatch()</code>, but remember to call <code>endBatch()</code> after having called <code>startBatch()</code>, for example in a finally block.
+If you don't, your messages will continue to queue up, and your application will not work as expected.
+</para>
+</warning>
+</section>

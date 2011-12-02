@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_authorization">
+<info>
+    <title>CometD 2 Java Client API: Disconnecting</title>
+</info>
+<para>
+Disconnecting is straightforward:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxClient.disconnect();
+]]>
+</programlisting>
+</informalexample>
+<para>
+Additionally, you can wait for the disconnect to complete:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxClient client = ...;
+client.disconnect();
+client.waitFor(1000, BayeuxClient.State.DISCONNECTED);
+]]>
+</programlisting>
+</informalexample>
+</section>
