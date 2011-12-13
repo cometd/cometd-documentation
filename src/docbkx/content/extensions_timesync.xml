@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="extensions_timesync">
+<info>
+    <title>CometD 2 Timesync Extension</title>
+</info>
+<para>
+The timesync extension uses the messages exchanged between a client and a server to calculate the offset between the client's clock and the server's clock. 
+This is independent from the <xref linkend="extensions_timestamp" />, which uses the local clock for all timestamps.
+This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
+</para>
+<section>
+<info>
+    <title>Enabling the Server-side Extension</title>
+</info>
+<para>
+To enable support for acknowledged messages, you must add the extension to the <code>org.cometd.bayeux.server.BayeuxServer</code> instance during initialization:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+bayeuxServer.addExtension(new org.cometd.server.ext.TimesyncExtension());
+]]>
+</programlisting>
+</informalexample>
+</section>
+<section>
+<info>
+    <title>Enabling the Client-side Extension</title>
+</info>
+<para>
+The <code>dojox/cometd/timesync.js</code> provides the client-side extension binding for Dojo, and it is sufficient to use Dojo's <code>dojo.require</code> mechanism:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+dojo.require("dojox.cometd.timesync");
+]]>
+</programlisting>
+</informalexample>
+<para>
+The file <code>jquery.cometd-timesync.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code> tag:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+&lt;script type="text/javascript" src="jquery.cometd-timesync.js"&gt;&lt;/script&gt;
+]]>
+</programlisting>
+</informalexample>
+<para>
+In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name "timesync".
+</para>
+</section>
+<section>
+<info>
+    <title>Understanding Timesync Extension Details</title>
+</info>
+<para>
+The timesync extension allows the client and server to exchange time information on every handshake and connect message so that the client can calculate an approximate offset from its own clock epoch to that of the server.
+The algorithm used is very similar to the <link xl:href="http://en.wikipedia.org/wiki/Network_Time_Protocol">NTP algorithm</link>.
+</para>
+<para>
+With each handshake or connect, the extension sends timestamps within the ext field, for example:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+{ext:{timesync:{tc:12345567890,l:23,o:4567},...},...}
+]]>
+</programlisting>
+</informalexample>
+<para>
+where:
+</para>
+<itemizedlist>
+<listitem>
+<para>tc is the client timestamp in ms since 1970 of when the message was sent</para>
+</listitem>
+<listitem>
+<para>l is the network lag that the client has calculated</para>
+</listitem>
+<listitem>
+<para>o is the clock offset that the client has calculated</para>
+</listitem>
+</itemizedlist>
+<para>
+You can calculate the accuracy of the offset and lag with <code>tc-now-l-o</code>, which should be zero if the calculated offset and lag are perfectly accurate.
+A Bayeux server that supports timesync should respond only if the measured accuracy value is greater than accuracy target. 
+</para>
+<para>
+The response is an <code>ext</code> field, for example: 
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+{ext:{timesync:{tc:12345567890,ts:1234567900,p:123,a:3},...},...}
+]]>
+</programlisting>
+</informalexample>
+<para>
+where:
+</para>
+<itemizedlist>
+<listitem>
+<para>tc is the client timestamp of when the message was sent</para>
+</listitem>
+<listitem>
+<para>ts is the server timestamp of when the message was received</para>
+</listitem>
+<listitem>
+<para>p is the poll duration in ms - ie the time the server took before sending the response</para>
+</listitem>
+<listitem>
+<para>a is the measured accuracy of the calculated offset and lag sent by the client</para>
+</listitem>
+</itemizedlist>
+<para>
+On receipt of the response, the client is able to use current time to determine the total trip time, from which p is subtracted to determine an approximate two way network traversal time. Thus:
+</para>
+<itemizedlist>
+<listitem>
+<para>lag = (now-tc-p)/2</para>
+</listitem>
+<listitem>
+<para>offset = ts-tc-lag</para>
+</listitem>
+</itemizedlist>
+<para>
+To smooth over any transient fluctuations, the extension keeps a sliding average of the offsets received. 
+By default this is over 10 messages, but you can change this value by passing a configuration object during the creation of the extension:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+// Unregister the default timesync extension
+cometd.unregisterExtension('timesync');
+
+// Re-register with different configuration
+cometd.registerExtension('timesync', new org.cometd.TimeSyncExtension({ maxSamples: 20 }));
+]]>
+</programlisting>
+</informalexample>
+<para>
+The client-side timesync extension also exposes several methods to deal with the result of the time synchronization:
+</para>
+<itemizedlist>
+<listitem>
+<para><code>getNetworkLag()</code>–to obtain the calculated network latency between client and server</para>
+</listitem>
+<listitem>
+<para><code>getTimeOffset()</code>–to obtain the offset between the client's clock and the server's clock in ms</para>
+</listitem>
+<listitem>
+<para><code>getServerTime()</code>–to obtain the server's time</para>
+</listitem>
+<listitem>
+<para><code>setTimeout()</code>–to schedule a function to be executed at a certain server time</para>
+</listitem>
+</itemizedlist>
+</section>
+</section>

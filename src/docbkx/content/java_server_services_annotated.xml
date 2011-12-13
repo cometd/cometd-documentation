@@ -3,7 +3,7 @@
          xmlns="http://docbook.org/ns/docbook"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
-         xml:id="annotated_services">
+         xml:id="java_server_services_annotated">
 <info>
     <title>CometD 2 Annotated Client-Side and Server-Side Services</title>
 </info>

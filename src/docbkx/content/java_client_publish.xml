@@ -3,7 +3,7 @@
          xmlns="http://docbook.org/ns/docbook"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
-         xml:id="java_server_authorization">
+         xml:id="java_client_publish">
 <info>
     <title>CometD 2 Java Client API: Publishing</title>
 </info>

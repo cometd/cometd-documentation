@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="extensions_acknowledge">
+<info>
+    <title>CometD 2 Acknowledge Extension</title>
+</info>
+<para>
+The <emphasis>acknowledged messages</emphasis> extension provides reliable, ordered messaging to the Bayeux protocol.
+This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
+If you are interested only in ordered messaging, see <!-- TODO: relink to docbook section --><a href="/documentation/2.x/howtos/message-ordering">here</a>.
+</para>
+<section>
+<info>
+    <title>Enabling the Server-side Extension</title>
+</info>
+<para>
+To enable support for acknowledged messages, you must add the extension to the <code>org.cometd.bayeux.server.BayeuxServer</code> instance during initialization:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+bayeuxServer.addExtension(new org.cometd.server.ext.AcknowledgedMessagesExtension());
+]]>
+</programlisting>
+</informalexample>
+<para>
+The <code>AcknowledgedMessageExtension</code> is a per-server extension that monitors handshakes from new clients, looking for clients that also support the acknowledged message extension, and then adds the <code>AcknowledgedMessagesClientExtension</code> to each client during the handshake.
+</para>
+<para>
+Once added to a client, the <code>AcknowledgedMessagesClientExtension</code> guarantees ordered delivery of messages, and resend of unacknowledged messages.
+The extension also maintains a list of unacknowledged messages and intercepts the traffic on the <code>/meta/connect</code> channel to insert and check acknowledge IDs.
+</para>
+</section>
+<section>
+<info>
+    <title>Enabling the Client-side Extension</title>
+</info>
+<para>
+The <code>dojox/cometd/ack.js</code> provides the client-side extension binding for Dojo, and it is sufficient to use Dojo's <code>dojo.require</code> mechanism:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+dojo.require("dojox.cometd.ack");
+]]>
+</programlisting>
+</informalexample>
+<para>
+The file <code>jquery.cometd-ack.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code> tag:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+&lt;script type="text/javascript" src="AckExtension.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="jquery.cometd-ack.js"&gt;&lt;/script&gt;
+]]>
+</programlisting>
+</informalexample>
+<para>
+In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name <emphasis>ack</emphasis>.
+</para>
+<para>
+Furthermore, you can programmatical disable/enable the extension before initialization by setting the <code>ackEnabled</code> boolean field on the <code>cometd</code> object:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+// Disables the ack extension during handshake
+cometd.ackEnabled = false;
+cometd.init(cometdURL);
+]]>
+</programlisting>
+</informalexample>
+</section>
+<section>
+<info>
+    <title>Acknowledge Extension Details</title>
+</info>
+<para>
+To enable message acknowledgement, both client and server must indicate that they support message acknowledgement. 
+This is negotiated during handshake. On handshake, the client sends <code>{"ext":{"ack": "true"}}</code> to indicate that it supports message acknowledgement. 
+If the server also supports message acknowledgment, it likewise replies with <code>{"ext":{"ack": "true"}}</code>.
+</para>
+<para>
+The extension does not insert ack IDs to every message, as this would impose a significant burden on the server for messages sent to multiple clients (which would need to be reserialized to json for each client). Instead the ack ID is inserted in the <code>ext</code> field of the /meta/connect messages that are associated with message delivery. Each /meta/connect request contains the ack ID of the last received ack response: <code>"ext":{"ack": 42}</code>. Similarly, each /meta/connect response contains an ext ack ID that uniquely identifies the batch of responses sent.
+</para>
+<para>
+If a /meta/connect message is received with an ack ID lower that any unacknowledged messages held by the extension, then these messages are requeued prior to any more recently queued messages and the /meta/connect response sent with a new ack ID.
+</para>
+</section>
+<section>
+<info>
+    <title>Demo</title>
+</info>
+<para>
+There is an example of acknowledged messages in the Dojo chat demo that comes bundled with the Cometd distribution.
+Alternatively, you can also run the example by <!-- TODO: relink to docbook section --> <a href="/documentation/building">building the Cometd project</a>.
+</para>
+<para>
+To run the demo, follow these steps:
+</para>
+<informalexample>
+<programlisting language="bash"><![CDATA[
+$ cd cometd-demo
+$ mvn jetty:run
+]]>
+</programlisting>
+</informalexample>
+<para>
+Then point your browser to http://localhost:8080/dojo-examples/chat/ and make sure to check <emphasis>Enable reliable messaging</emphasis>.
+</para>
+<para>
+Use two different browser instances to begin a chat session, then briefly disconnect one browser from the network (you can do this by setting the <emphasis>work offline</emphasis> feature). 
+While one browser is disconnected, type some chat in the other browser, and this will be received when the disconnected browser is reconnected to the network.
+</para>
+<para>
+Notice that if the disconnected browser is disconnected in excess of maxInterval (default 10s), then the client times out and the unacknowledged queue is discarded.
+</para>
+</section>
+</section>

@@ -3,7 +3,7 @@
          xmlns="http://docbook.org/ns/docbook"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
-         xml:id="services_integration">
+         xml:id="java_server_services_integration">
 <info>
     <title>CometD 2 Java Server Services Integration</title>
 </info>

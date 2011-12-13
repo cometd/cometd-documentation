@@ -266,13 +266,13 @@ There are two ways for a new comet to discover at least one other comet:
 
 <itemizedlist>
 <listitem>
-    <para>Multicast is enabled in the operative system of your choice</para>
+    <para>Multicast is enabled in the operative system of your choice.</para>
 </listitem>
 <listitem>
-    <para>The network interfaces have multicast enabled</para>
+    <para>The network interfaces have multicast enabled.</para>
 </listitem>
 <listitem>
-    <para>Multicast traffic routing is properly configured</para>
+    <para>Multicast traffic routing is properly configured.</para>
 </listitem>
 </itemizedlist>
 
@@ -299,7 +299,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 <para>
     The static discovery mechanism can be used if multicast is not available on the system where
     CometD is deployed to.
-    It is only slightly more cumbersome to setup and does not allow dynamic discovery of new nodes,
+    It is only slightly more cumbersome to set up and does not allow dynamic discovery of new nodes,
     but it is enough to configure each comet with the well-known URL of an existing, started, comet
     (often named "master").
     The master comet should of course be started before all other comets.
@@ -412,7 +412,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 </informalexample>
 <para>
     Alternatively, it's possible to write custom initialization code (see the section on
-    <xref linkend="services_integration" />
+    <xref linkend="java_server_services_integration" />
     for suggestions on how to do it) that links the node to the Oort cloud (this may be useful if Oort
     comet URLs cannot be know a priori, but may be known at runtime), for example:
 </para>
