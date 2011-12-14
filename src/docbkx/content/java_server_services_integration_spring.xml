@@ -67,7 +67,7 @@ Spring's <code>applicationContext.xml</code> is as follows:
                 &lt;entry key="logLevel" value="3" /&gt;
                 &lt;entry key="timeout" value="15000" /&gt;
             &lt;/map&gt;
-        &lt;/property&gt;  
+        &lt;/property&gt;
     &lt;/bean&gt;
 
     &lt;bean id="echoService" class="com.acme.cometd.EchoService"&gt;
@@ -82,7 +82,7 @@ Spring's <code>applicationContext.xml</code> is as follows:
                     &lt;ref local="bayeux" /&gt;
                 &lt;/entry&gt;
             &lt;/map&gt;
-        &lt;/property&gt; 
+        &lt;/property&gt;
     &lt;/bean&gt;
 &lt;/beans&gt;
 ]]>
@@ -100,7 +100,7 @@ Differently from <link xl:href="/documentation/cometd-java/server/services/integ
     <title>Annotation Based Spring Configuration</title>
 </info>
 <para>
-Spring 3.x supports annotation-based configuration, and <xref linkend="annotated_services" /> integrate nicely with Spring 3.x.
+Spring 3.x supports annotation-based configuration, and <xref linkend="java_server_services_annotated" /> integrate nicely with Spring 3.x.
 Spring 3.x is required over Spring 2.5.x because it supports injection via <link xl:href="http://jcp.org/en/jsr/detail?id=330">JSR 330</link>.
 Prerequisite to making Spring 3.x work with CometD annotated services is to have JSR 330's <code>javax.inject</code> classes in the classpath along with JSR 250's <code>javax.annotation</code> classes (these are included in JDK 6 and therefore only required if you use JDK 5).
 </para>

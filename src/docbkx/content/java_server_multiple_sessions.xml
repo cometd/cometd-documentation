@@ -19,13 +19,13 @@ The CometD Server implements the <link xl:href="http://svn.cometd.com/trunk/baye
 The server uses <code>BAYEUX_BROWSER</code> cookie to detect multiple CometD clients from the same browser.
 </para>
 <para>
-If the CometD server detects multiple clients, only one long poll connection is allowed and subsequent long poll requests do not wait for messages before returning. They return immediately with the <code>multiple-clients</code> field of the advice object set to true. The advice also contains an <code>interval</code> field set to the value of the <code>multiSessionInterval</code> servlet init parameter (see <xref linkend="java_server_config" />). This instructs the client not to send another poll until that interval has passed.
+If the CometD server detects multiple clients, only one long poll connection is allowed and subsequent long poll requests do not wait for messages before returning. They return immediately with the <code>multiple-clients</code> field of the advice object set to true. The advice also contains an <code>interval</code> field set to the value of the <code>multiSessionInterval</code> servlet init parameter (see <xref linkend="java_server_configuration" />). This instructs the client not to send another poll until that interval has passed.
 The effect of this advice is that additional client connections normally poll the server with a period of <code>multiSessionInterval</code>. This avoids consuming both HTTP connections at the cost of some latency for the additional iframes/tabs/windows.
 </para>
 <para>
 We recommend that the client application monitor the <code>/meta/connect</code> channel for <code>multiple-clients</code> field in the advice. If detected, the application might ask the user to close the additional tabs, or it could automatically close them, or take some other action.
 </para>
 <para>
-Non-browser clients (or browsers with cookies disabled) must handle the <code>BAYEUX_BROWSER</code> cookie with the same semantic of browsers, or configure the server to allow multiple sessions even without <code>BAYEUX_BROWSER</code> information via the <code>allowMultiSessionsNoBrowser</code> servlet init parameter (see <xref linkend="java_server_config" />).
+Non-browser clients (or browsers with cookies disabled) must handle the <code>BAYEUX_BROWSER</code> cookie with the same semantic of browsers, or configure the server to allow multiple sessions even without <code>BAYEUX_BROWSER</code> information via the <code>allowMultiSessionsNoBrowser</code> servlet init parameter (see <xref linkend="java_server_configuration" />).
 </para>
 </section>

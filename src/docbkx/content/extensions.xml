@@ -179,23 +179,15 @@ If the extension exception handler itself throws an exception, this exception is
 </para>
 <para>
 To learn about a similar mechanism exists for listeners and subscribers, see <xref linkend="javascript_configure" />.
-</para>.
+</para>
 <para>
 The next sections explain in detail the use of the extensions CometD provides.
 </para>
-<itemizedlist>
-<listitem>
-<para><xref linkend="extensions_acknowledge" /></para>
-</listitem>
-<listitem>
-<para><xref linkend="extensions_reload" /></para>
-</listitem>
-<listitem>
-<para><xref linkend="extensions_temestamp" /></para>
-</listitem>
-<listitem>
-<para><xref linkend="extensions_timesync" /></para>
-</listitem>
-</itemizedlist>
 </section>
+
+<xi:include href="extensions_acknowledge.xml" />
+<xi:include href="extensions_reload.xml" />
+<xi:include href="extensions_timestamp.xml" />
+<xi:include href="extensions_timesync.xml" />
+
 </section>

@@ -57,7 +57,7 @@ A channel looks like a directory path such as:
 <para>
     The Bayeux protocol itself creates meta channels.
     It is not possible to subscribe to meta channels: the server replies with an error message. It is possible to
-    listen to meta channels (see below for the difference between <xref linkend="subscribe_vs_listen" />.
+    listen to meta channels (see below for the difference between <xref linkend="javascript_subscribe_vs_listen" />.
     It makes no sense to publish messages to meta channels: only the Bayeux protocol implementation creates and sends
     messages on meta channels.
     Meta channels are useful on the client to listen for error messages like handshake errors (for example because
@@ -98,7 +98,7 @@ A channel looks like a directory path such as:
 </para>
 </section>
 </section>
-<section  xml:id="subscribe_vs_listen">
+<section  xml:id="javascript_subscribe_vs_listen">
 <info>
     <title>Subscribers versus Listeners</title>
 </info>
@@ -266,7 +266,7 @@ cometd.onListenerException = function(exception, subscriptionHandle, isListener,
     It is be possible to send messages to the server from the listener exception handler.
     If the listener exception handler itself throws an exception, this exception is logged at level "info" and the
     CometD implementation will not break.
-    Notice that a similar mechanism exists for extensions, see <xref linkend="javascript_extensions" />.
+    Notice that a similar mechanism exists for extensions, see <xref linkend="extensions" />.
 </para>
 </section>
 <section>

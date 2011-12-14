@@ -8,6 +8,389 @@
     <title>CometD Concepts</title>
 </info>
 <para>
-
+    The CometD project implements various
+    <link xl:href="http://en.wikipedia.org/wiki/Comet_%28programming%29">Comet techniques</link> to provide a
+    scalable web messaging system, one that can run over HTTP or over other emerging web protocol such as
+    <link xl:href="http://en.wikipedia.org/wiki/WebSocket">WebSocket</link>.
 </para>
+<section>
+<info>
+    <title>Definitions</title>
+</info>
+<para>
+    Let's define the <emphasis role="bold">client</emphasis> as the entity that initiates a connection, and the
+    <emphasis role="bold">server</emphasis> as the entity that accepts the connection.
+    The connection established is persistent - that is, it remains open until either side decides to close it.
+</para>
+<para>
+    Typical clients are browsers (after all, we are in a web environment), but may also be other applications
+    such as Java applications, browser plugin applications (such as
+    <link xl:href="http://www.silverlight.net/">Silverlight</link>), or scripts in any scripting language.
+</para>
+<para>
+    Depending on the Comet technique employed, a client may open more than one physical connection to the server,
+    but we can assume there exists only one logical <emphasis role="bold">conduit</emphasis> between one client
+    and the server.
+</para>
+<para>
+    The CometD project uses the Bayeux protocol (see <xref linkend="bayeux" />) to exchange information between
+    the client and the server.
+    The unit of information exchanged is a Bayeux <emphasis role="bold">message</emphasis> and it is formatted
+    in <link xl:href="http://json.org">JSON</link>.
+    A message contains several <emphasis role="bold">field</emphasis>s, some of which are mandated by the
+    Bayeux protocol, and others may be added by applications.
+    A field is a key/value pair, and saying that a message has a foo field means that the message has a field
+    whose key is the string "foo".
+</para>
+<para>
+    All messages that are exchanged between client and server have a <emphasis role="bold">channel</emphasis> field.
+</para>
+<para>
+    There are 3 types of channels: <emphasis role="bold">meta channel</emphasis>s,
+    <emphasis role="bold">service channel</emphasis>s and <emphasis role="bold">broadcast channel</emphasis>s.
+</para>
+<para>
+    Meta channels are created by the Bayeux implementation, and applications cannot create new meta channels.
+    Service channels and broadcast channels are created by the application; they can be created at any time,
+    and as many as necessary.
+    Channels are represented by a string and are similar to a URL path, for example: <code>/meta/handshake</code>,
+    <code>/service/game</code> or <code>/foo/bar</code>.
+    A channel that starts with <code>/meta/</code> is a meta channel, a channel that starts with
+    <code>/service/</code> is a service channel, and all other channels are broadcast channels.
+</para>
+<para>
+    A message whose channel field is a meta channel is referred to as a meta message, and similarly there are
+    service messages and broadcast messages.
+</para>
+</section>
+
+<section>
+<info>
+    <title>The High Level View</title>
+</info>
+<para>
+    CometD implements a web messaging system, in particular a web messaging system based on the
+    <link xl:href="http://en.wikipedia.org/wiki/Publish/subscribe">publish/subscribe</link> paradigm.
+</para>
+<para>
+    In a publish/subscribe messaging system publishers send messages, and those messages are characterized in
+    classes. Subscribers express their interest in one or more classes of messages, and receive only messages
+    that match the interest they subscribed to. Senders, in general, have no idea which recipient or how many
+    recipients will receive the messages they publish.
+</para>
+<para>
+    In CometD, the characterization of messages in classes is given by the channel field.
+    The channel is a central concept in CometD: publishers publish messages to channels, and subscribers subscribe
+    to channels to receive messages.
+    We will see how this is strongly reflected in the CometD APIs.
+</para>
+<para>
+    One of the features of messaging systems is their topology, and CometD implements the hub-spoke topology.
+    In the default configuration, this means that there is one central server (the hub) and all clients are
+    connected to that server via conduit links (the spokes).
+</para>
+<mediaobject>
+<alt>Hub-Spoke Topology</alt>
+<imageobject>
+    <imagedata fileref="hub_spoke.png" width="220" />
+</imageobject>
+</mediaobject>
+<para>
+    In CometD, the server receives messages from publishers and, if the message's channel is a broadcast channel,
+    re-routes the messages to interested subscribers.
+    Meta messages and service messages are treated specially by the CometD server, and are not re-routed to any
+    subscriber (in fact, by default it is forbidden to subscribe to meta channels, and it is a no-operation to
+    subscribe to service channels).
+</para>
+<para>
+    For example, let's imagine that <code>clientAB</code> is subscribed to channels <code>/A</code> and
+    <code>/B</code>, and <code>clientB</code> is subscribed to channel <code>/B</code>.
+    If a publisher publishes a message on channel <code>/A</code>, only <code>clientAB</code> will receive it.
+    On the other hand, if a publisher publishes a message on channel <code>/B</code>, both <code>clientAB</code>
+    and <code>clientB</code> will receive the message. Furthermore, if a publisher publishes a message on channel
+    <code>/C</code>, neither <code>clientAB</code> nor <code>clientB</code> will receive the message, that will
+    just end its journey on the server.
+    Re-routing broadcast messages is the default behavior of the server, and it does not need any application
+    code to perform the re-routing.
+</para>
+<para>
+    Looking from high level then, you will see messages flowing back and forth among clients and server
+    through the conduits.
+    A single broadcast message may arrive to the server and be re-routed to all clients; you can imagine that
+    when it arrives on the server, the message is copied and that a copy is sent to each client (although,
+    for efficiency reasons, this is not exactly what happens). If the sender is also subscribed to the channel
+    it published the message to, it will receive a copy of the message back.
+</para>
+<para>
+There are open questions, though:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+    What an application can do with meta messages and service messages, if their journey ends on the server ?
+</para>
+</listitem>
+<listitem>
+<para>
+    How can a client communicate with another, specific, client ?
+</para>
+</listitem>
+<listitem>
+<para>
+    Can the server be a publisher too ?
+</para>
+</listitem>
+</itemizedlist>
+<para>
+    To answer these and others questions, we need to take a closer look at how CometD works. Read on.
+</para>
+</section>
+
+<section>
+<info>
+    <title>A Lower Level View</title>
+</info>
+<para>
+    In the following sections we will take a deeper look at how the CometD implementation works.
+</para>
+<para>
+    It should be clear by now that CometD, at its heart, is a client/server system that communicates via a
+    protocol, the Bayeux protocol.
+</para>
+<para>
+    In the CometD implementation, the client/server communication is captured by the
+    <link xl:href="http://c2.com/cgi/wiki?HalfObjectPlusProtocol">half-object plus protocol</link> pattern:
+    when a half-object on the client establishes a communication conduit with the server, its correspondent
+    half-object is created on the server, and the two may - logically - communicate.
+    In CometD, a variation of this pattern is used, because there is the need to abstract the transport used
+    to carry messages to and from the server.
+    The transport can be based on the HTTP protocol, but in recent CometD versions also on the WebSocket
+    protocol (and more transports can be plugged in).
+</para>
+<para>
+    In broad terms, the "client" is composed by the client half-object and by the client transport, while
+    the "server" is a more complex entity that groups server half-objects and server transports.
+</para>
+<section xml:id="concepts_sessions">
+<info>
+    <title>Sessions</title>
+</info>
+<para>
+    Sessions are a central concept in CometD. They are the representation of the half-objects involved in
+    the protocol communication.
+</para>
+<mediaobject>
+<alt>Session Objects</alt>
+<imageobject>
+    <imagedata fileref="hopp.png" width="507" />
+</imageobject>
+</mediaobject>
+<para>
+    There are three types of sessions:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+     <emphasis role="bold">client sessions</emphasis>, the client half object on the remote client side.
+</para>
+<para>
+    Client sessions are represented by the
+    <classname>org.cometd.Cometd</classname> object in JavaScript, and by the
+    <classname>org.cometd.bayeux.client.ClientSession</classname> class (but more frequently by its subclass
+    <classname>org.cometd.bayeux.client.BayeuxClient</classname>) in Java.
+</para>
+<para>
+    A client session is created by the client in order to establish a Bayeux communication with the server,
+    and this allows the client to publish and receive messages.
+</para>
+</listitem>
+<listitem>
+<para>
+    <emphasis role="bold">server sessions</emphasis>, the server half object on the server side.
+</para>
+<para>
+    Server sessions are represented by the <classname>org.cometd.bayeux.server.ServerSession</classname> class,
+    and they are the counterpart of client sessions, on the server.
+</para>
+<para>
+    When a client session is created by a client, it is not initially associated with a correspondent
+    server session.
+    Only when a client session establishes the Bayeux communication with the server, its correspondent
+    server session is created by the server, and the link between the two half objects is created.
+</para>
+<para>
+    Each server session has a message queue. Messages that are published to a channel and must be delivered
+    to remote client sessions that have subscribed to the channel are first queued into the server session's
+    message queue, and then delivered to the correspondent client session.
+</para>
+</listitem>
+<listitem>
+<para>
+    <emphasis role="bold">local sessions</emphasis>, the client half object on the server side.
+</para>
+<para>
+    Local sessions can be thought as clients living in the server. They do not represent a remote client
+    but instead a server-side client. Local session can subscribe to channels and publish messages like a
+    client session can do, but they live on the server.
+</para>
+<para>
+    Since the server only knows about server sessions, and the only way to create a server session is to create
+    its correspondent client session first, and then make it establish the Bayeux communication with the server.
+    For this reason, on server-side, there is the additional concept of local session.
+    A local session is a client session that happens to live on the server, and hence is local to the server.
+</para>
+<para>
+    <!-- TODO: add xref to services -->
+    For example, server-side services are associated with a local session. Upon creation of the server-side
+    service, the local session handshakes and creates the correspondent server session half object, so that
+    the server can treat client sessions and local session in the same way (because it sees them both as
+    server sessions): messages sent to a channel are delivered by the server to all server sessions that
+    subscribed to that channel, no matter if they are remote client sessions or local sessions.
+</para>
+</listitem>
+</itemizedlist>
+</section>
+
+<section>
+<info>
+    <title>The Server</title>
+</info>
+<para>
+    The "server" is represented by an instance of <classname>org.cometd.bayeux.server.BayeuxServer</classname>.
+    The <code>BayeuxServer</code> object is a repository for:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+    server sessions, see <xref linkend="concepts_sessions" />
+</para>
+</listitem>
+<listitem>
+<para>
+    <emphasis role="bold">server transports</emphasis>
+    (represented by the <classname>org.cometd.bayeux.server.ServerTransport</classname> class)
+</para>
+</listitem>
+<listitem>
+<para>
+    <emphasis role="bold">server channels</emphasis>
+    (represented by the <classname>org.cometd.bayeux.server.ServerChannel</classname> class)
+</para>
+</listitem>
+</itemizedlist>
+<!-- TODO maybe move this image below, when we talk about the message flow -->
+<!--img src="/files/hopp2.png" alt="detailed component view" title="Detailed CometD Components View" /-->
+<para>
+    The <code>BayeuxServer</code> instance manages an instance of the
+    <emphasis role="bold">security policy</emphasis> (represented by the
+    <classname>org.cometd.bayeux.server.SecurityPolicy</classname> class), that is interrogated to allow
+    any sensible operation performed by the server, such as handshakes, channel creation, channel subscription
+    and channel publishing.
+</para>
+<!-- TODO: the point here is that to explain the message flow, we need to introduce listeners -->
+<!-- TODO: need to introduce the extensions -->
+
+<!--
+<para>
+    The <code>ServerSession</code> and the <code>ServerChannel</code> are probably the most important objects
+    you need to interact with, by means of listeners.
+</para>
+<para>
+    Objects of these classes invoke listeners whenever an interesting event happens. For example,
+    <code>ServerChannel</code> invokes channel subscription listeners when a remote client subscribes to
+    or unsubscribes from the server channel itself; it invokes channel message listeners when a message is published
+    to the server channel itself.
+</para>
+<para>
+    Similarly, <code>ServerSession</code> invokes session message listeners when a message is received by
+    the server session itself; it invokes session remove listeners
+</para>
+-->
+</section>
+
+<section>
+<info>
+    <title>Message Processing</title>
+</info>
+<para>
+    Client half-objects delegate to a client transport the delivery of messages.
+    The client transport is responsible for converting the messages into JSON format, and it is responsible for
+    establishing the conduit with the server (more precisely, with the server transport), and to send the JSON
+    representation of the messages on that conduit.
+</para>
+<para>
+    On the server, it is the server transport that first receives the messages in JSON format.
+    The server transport is then responsible for converting the messages in JSON format back to message objects.
+</para>
+<para>
+    Then, the server transport delegates the processing of the messages to the <code>BayeuxServer</code> instance.
+    For each message, the <code>BayeuxServer</code> processes it in the following steps:
+</para>
+<orderedlist>
+<listitem>
+<para>
+    invokes <code>BayeuxServer</code> extensions; if one extension denies processing, a reply is sent to the
+    client indicating that the message has been deleted and no further processing is performed for the message
+</para>
+</listitem>
+<listitem>
+<para>
+    invokes <code>ServerSession</code> extensions (only if the <code>ServerSession</code> has been already created
+    for that client); if one extension denies processing, a reply is sent to the
+    client indicating that the message has been deleted and no further processing is performed for the message
+</para>
+</listitem>
+<listitem>
+<para>
+    <!-- TODO -->
+</para>
+</listitem>
+
+</orderedlist>
+<para>
+    that processes the messages, generates a message reply for each message, and delegates back to the server
+    transport the delivery of the replies to the client.
+</para>
+<para>
+    In the figure above, you can see that the conduit links the client transport and the server transport,
+    and that the <code>ServerSession</code> may additionally participate in sending (only sending, and not
+    directly receiving) messages to the client (again via the server transport).
+</para>
+<para>
+    <!-- TODO: explain how broadcast message flow works, but this requires to introduce the concept of queue in server session -->
+</para>
+</section>
+
+<section>
+<info>
+    <title>Bayeux Protocol</title>
+</info>
+<para>
+    A client communicates with the server by exchanging Bayeux messages.
+</para>
+<para>
+    The Bayeux protocol requires that the first message sent by a new client is a
+    <emphasis role="bold">handshake</emphasis> message (a message sent on <code>/meta/handshake</code> channel).
+    On the server, if the processing of the incoming handshake message is successful, then
+    <code>BayeuxServer</code> creates the server-side half object instance (a <code>ServerSession</code>) that
+    represents, on the server, the client that initiated the handshake.
+    When the processing of the handshake is completed, the server sends back a reply to the client.
+</para>
+<para>
+    The client processes the handshake message reply, and if it is successful, starts - under the covers - a
+    heartbeat mechanism with the server, by exchanging <emphasis role="bold">connect</emphasis> messages.
+    The details of this heartbeat mechanism depend on the client transport used, but can be seen as the client
+    sending a connect message and expecting a reply after some time (when using HTTP transports, the heartbeat
+    mechanism is also known as "long-polling").
+    The heartbeat mechanism allows a client to detect if the server is gone (the client will not receive the
+    connect message reply from the server), and allows the server to detect if the client is gone (the server
+    will not receive the connect message request from the client).
+</para>
+<para>
+    Connect messages continue to flow between client and server until either side decides to disconnect by sending a
+    <emphasis role="bold">disconnect</emphasis> message (a message sent on the <code>/meta/disconnect</code> channel).
+</para>
+
+</section>
+</section>
 </chapter>

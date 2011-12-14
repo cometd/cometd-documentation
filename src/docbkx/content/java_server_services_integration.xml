@@ -86,7 +86,7 @@ public class ConfigurationServlet extends GenericServlet
 </programlisting>
 </informalexample>
 <para>
-See <xref linkend="inherited_services.xml" /> about the <code>EchoService</code>.
+See <xref linkend="java_server_services_inherited" /> about the <code>EchoService</code>.
 </para>
 </section>
 <section>
@@ -163,7 +163,7 @@ public class BayeuxInitializer implements ServletContextAttributeListener
     <title>Integration of Annotated Services</title>
 </info>
 <para>
-If you prefer to use annotated services (see <xref linkend="inherited_services.xml" />, you still have to integrate them into your web application. The procedure is very similar to the procedures above, but it requires use of the annotation processor to process the annotations in your services.
+If you prefer to use annotated services (see <xref linkend="java_server_services_inherited" />, you still have to integrate them into your web application. The procedure is very similar to the procedures above, but it requires use of the annotation processor to process the annotations in your services.
 </para>
 <para>
 For example, the <code>ConfigurationServlet</code> becomes:
@@ -179,7 +179,7 @@ public class ConfigurationServlet extends GenericServlet
     {
         <span class="code-comment">// Grab the BayeuxServer object</span>
         BayeuxServer bayeux = (BayeuxServer)getServletContext().getAttribute(BayeuxServer.ATTRIBUTE);
-        
+
         <span class="code-comment">// Create the annotation processor</span>
         processor = new ServerAnnotationProcessor(bayeux);
 

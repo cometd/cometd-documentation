@@ -195,7 +195,7 @@
   <td>1</td>
   <td>
       The max number of sessions (tab/frames) allowed to long poll from the same browser; a negative value
-      allows unlimited sessions (see also <xref linkend="multiple_sessions" />).
+      allows unlimited sessions (see also <xref linkend="java_server_multiple_sessions" />).
   </td>
 </tr>
 <tr>
@@ -203,7 +203,7 @@
   <td>false</td>
   <td>
       Whether to allow multiple sessions (tab/frames) in case the browser cannot be detected
-      (see also <xref linkend="multiple_sessions" />).
+      (see also <xref linkend="java_server_multiple_sessions" />).
   </td>
 </tr>
 <tr>

@@ -40,13 +40,13 @@
 <title>Project Setup</title>
 </info>
 <para>
-You can set up the project in two ways: using <xref linkend="primer-maven-way" />
-or <xref linkend="primer-non-maven-way" />.
-For both, you can follow <xref linkend="primer-setup-details" />
+You can set up the project in two ways: using <xref linkend="primer_maven_way" />
+or <xref linkend="primer_non_maven_way" />.
+For both, you can follow <xref linkend="primer_setup_details" />
 to see how some of the files of the project have been set up.
 </para>
 
-<section xml:id="primer-maven-way">
+<section xml:id="primer_maven_way">
 <info>
     <title>The Maven Way</title>
 </info>
@@ -147,7 +147,7 @@ Server Says: Hello, World
 </para>
 </section>
 
-<section xml:id="primer-non-maven-way">
+<section xml:id="primer_non_maven_way">
 <info>
     <title>The Non-Maven Way</title>
 </info>
@@ -243,7 +243,7 @@ dojox/cometd
     The second step is to configure the server side. If you use Java, this means that you have to
     set up the CometD servlet that responds to messages from clients.
     The details of the server side configuration and service development are explained in
-    <xref linkend="java" />.
+    <xref linkend="java_server" />.
 </para>
 <para>
     The last step is to write a JSP (or HTML) file that downloads the JavaScript dependencies and
@@ -251,7 +251,7 @@ dojox/cometd
 </para>
 </section>
 
-<section xml:id="primer-setup-details">
+<section xml:id="primer_setup_details">
 <info>
     <title>Setup Details</title>
 </info>

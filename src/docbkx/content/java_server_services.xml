@@ -18,24 +18,23 @@
 </para>
 <itemizedlist>
 <listitem>
-<para><xref linkend="inherited_services.xml" /></para>
+<para><xref linkend="java_server_services_inherited" /></para>
 </listitem>
 <listitem>
-<para><xref linkend="annotated_services.xml" /></para>
+<para><xref linkend="java_server_services_annotated" /></para>
 </listitem>
 </itemizedlist>
 <para>
-    CometD 2 services can also be integrated with the Spring Framework as explained
-    <!-- TODO: relink to the docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/services/integration-spring">here</link>.
+    CometD 2 services can also be integrated with the Spring Framework as explained in
+    <xref linkend="java_server_services_integration_spring" />.
 </para>
 <para>
     The following sections present details about Java Server Services.
 </para>
 
-<xi:include href="inherited_services.xml" />
-<xi:include href="annotated_services.xml" />
-<xi:include href="services_integration.xml" />
-<xi:include href="spring_integration.xml" />
+<xi:include href="java_server_services_inherited.xml" />
+<xi:include href="java_server_services_annotated.xml" />
+<xi:include href="java_server_services_integration.xml" />
+<xi:include href="java_server_services_integration_spring.xml" />
 
 </section>

@@ -8,8 +8,8 @@
     <title>CometD 2 Java Client Implementation</title>
 </info>
 <para>
-You can use the CometD client implementation in any JSE<sup>TM</sup> or
-JEE<sup>TM</sup> application.
+You can use the CometD client implementation in any <trademark>JSE</trademark> or
+<trademark>JEE</trademark> application.
 It consists of one main class, <code>org.cometd.client.BayeuxClient</code>, which
 implements the <code>org.cometd.bayeux.client.ClientSession</code> interface.
 Differently from CometD 1, this class now supports pluggable transports (to
@@ -29,12 +29,16 @@ communicate to a Bayeux Server (also via firewalls)</para>
 <listitem>
 <para>As a load generator to simulate thousands of CometD clients, like for
 example <code>org.cometd.client.BayeuxLoadGenerator</code></para>
-</linkitem>
+</listitem>
 </itemizedlist>
 <para>
 The following sections provide details about the Java
 <code>BayeuxClient</code> APIs and their implementation secrets.
 </para>
-<itemizedlist>
-<listitem>
-<para>
+
+<xi:include href="java_client_handshake.xml" />
+<xi:include href="java_client_subscribe.xml" />
+<xi:include href="java_client_publish.xml" />
+<xi:include href="java_client_disconnect.xml" />
+
+</section>

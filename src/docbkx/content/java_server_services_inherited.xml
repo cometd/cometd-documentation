@@ -100,6 +100,6 @@ public class BaseballTeamService extends AbstractService
 Notice also how the first example uses <code>ServerSession.deliver()</code> to send a message to a particular remote client, while the second uses <code>ServerChannel.publish()</code> to send a message to anyone who subscribes to channel "/events/baseball/team/*".
 </para>
 <para>
-Once you have written your Bayeux services it is time to set them up in your web application: <xref linkend="services_integration" /> or <xref linkend="spring_integration" />. 
+Once you have written your Bayeux services it is time to set them up in your web application: <xref linkend="java_server_services_integration" /> or <xref linkend="java_server_services_integration_spring" />.
 </para>
 </section>
