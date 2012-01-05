@@ -7,7 +7,7 @@
 <info>
     <title>CometD 2 Reload Extension</title>
 </info>
-<para>>
+<para>
 The reload extension allows CometD to load or reload a page without having to re-handshake in the new (or reloaded) page, thereby resuming the existing CometD connection.
 This extension requires only the client-side extension.
 </para>
@@ -29,15 +29,63 @@ The file <code>jquery.cometd-reload.js</code> provides the client-side extension
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-&lt;script type="text/javascript" src="jquery.cookie.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="ReloadExtension.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript" src="jquery.cometd-reload.js"&gt;&lt;/script&gt;
+<script type="text/javascript" src="jquery.cookie.js"></script>
+<script type="text/javascript" src="ReloadExtension.js"></script>
+<script type="text/javascript" src="jquery.cometd-reload.js"></script>;
 ]]>
 </programlisting>
 </informalexample>
 <para>
-In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name "reload".
+In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name <emphasis>reload</emphasis>.
 </para>
+</section>
+<section>
+<info>
+    <title>Configuring the Reload Extension</title>
+</info>
+<para>
+    Here is the list of configuration parameters that the reload extension accepts:
+</para>
+<informaltable>
+<thead>
+<tr>
+  <th>Parameter Name</th>
+  <th>Default Value</th>
+  <th>Parameter Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>cookieName</td>
+    <td>org.cometd.reload</td>
+    <td>The name of the short-lived cookie that the reload extension uses to save the connection state details.</td>
+</tr>
+<tr>
+    <td>cookiePath</td>
+    <td>/</td>
+    <td>The path of the short-lived cookie the reload extension uses.</td>
+</tr>
+<tr>
+    <td>cookieMaxAge</td>
+    <td>5</td>
+    <td>The max age, in seconds, of the short-lived cookie the reload extension uses.</td>
+</tr>
+</tbody>
+</informaltable>
+<para>
+    The JavaScript <code>cometd</code> object is normally already configured with the default reload extension
+    configuration. To change the reload extension configuration, you must unregister and then re-register the extension before performing the handshake:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+var cometd = dojox.cometd; // Use $.cometd is using jquery
+cometd.unregisterExtension('reload');
+cometd.registerExtension('reload', new org.cometd.ReloadExtension({
+    cookieName: 'foo',
+    cookieMaxAge: 10
+}));
+]]></programlisting>
+</informalexample>
 </section>
 <section>
 <info>
@@ -49,17 +97,17 @@ The reload extension allows CometD to reload a page with the reloaded page resum
 <para>
 To activate the reload extension, the page must call <code>cometd.reload()</code> just before the page is reloaded (for example, after clicking a link or on the page unload event).
 This saves a short-lived cookie with the connection details.
-The new page still needs to call subscribe to the channels it is interested in to register the callbacks, since the client state has been completely reset due to the reload.
+The new page still needs to subscribe to the channels it is interested in to register the callbacks, since the client state has been completely reset due to the reload.
 </para>
 <para>
 A simple use example follows:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;script type="text/javascript" src="dojo/dojo.js"&gt;&lt;/script&gt;
-        &lt;script type="text/javascript"&gt;
+<html>
+    <head>
+        <script type="text/javascript" src="dojo/dojo.js"></script>
+        <script type="text/javascript">
             dojo.require("dojox.cometd");
             dojo.require("dojox.cometd.reload");
 
@@ -69,12 +117,12 @@ A simple use example follows:
             
             // On page unload, call dojox.cometd.reload()
             dojo.addOnUnload(dojox.cometd, "reload");
-        &lt;/script&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
+        </script>
+    </head>
+    <body>
     ...
-    &lt;/body&gt;
-&lt;/html&gt;
+    </body>
+</html>
 ]]>
 </programlisting>
 </informalexample>

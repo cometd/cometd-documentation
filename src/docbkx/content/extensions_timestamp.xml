@@ -40,12 +40,12 @@ dojo.require("dojox.cometd.timestamp");
 </programlisting>
 </informalexample>
 <para>
-The the file <code>jquery.cometd-timestamp.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code> tag:
+The the file <code>jquery.cometd-timestamp.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code>tag:
 </para>
 
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-&lt;script type="text/javascript" src="jquery.cometd-timestamp.js"&gt;&lt;/script&gt;
+<script type="text/javascript" src="jquery.cometd-timestamp.js"></script>
 ]]>
 </programlisting>
 </informalexample>

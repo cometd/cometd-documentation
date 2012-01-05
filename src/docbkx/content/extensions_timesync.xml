@@ -20,7 +20,7 @@ This extension requires both a client-side extension and a server-side extension
 To enable support for acknowledged messages, you must add the extension to the <code>org.cometd.bayeux.server.BayeuxServer</code> instance during initialization:
 </para>
 <informalexample>
-<programlisting language="javascript"><![CDATA[
+<programlisting language="java"><![CDATA[
 bayeuxServer.addExtension(new org.cometd.server.ext.TimesyncExtension());
 ]]>
 </programlisting>
@@ -44,7 +44,7 @@ The file <code>jquery.cometd-timesync.js</code> provides the client-side extensi
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-&lt;script type="text/javascript" src="jquery.cometd-timesync.js"&gt;&lt;/script&gt;
+<script type="text/javascript" src="jquery.cometd-timesync.js"></script>
 ]]>
 </programlisting>
 </informalexample>
@@ -74,13 +74,13 @@ where:
 </para>
 <itemizedlist>
 <listitem>
-<para>tc is the client timestamp in ms since 1970 of when the message was sent</para>
+<para><emphasis>tc</emphasis> is the client timestamp in ms since 1970 of when the message was sent</para>
 </listitem>
 <listitem>
-<para>l is the network lag that the client has calculated</para>
+<para><emphasis>l</emphasis> is the network lag that the client has calculated</para>
 </listitem>
 <listitem>
-<para>o is the clock offset that the client has calculated</para>
+<para><emphasis>o</emphasis> is the clock offset that the client has calculated</para>
 </listitem>
 </itemizedlist>
 <para>
@@ -101,16 +101,16 @@ where:
 </para>
 <itemizedlist>
 <listitem>
-<para>tc is the client timestamp of when the message was sent</para>
+<para><emphasis>tc</emphasis> is the client timestamp of when the message was sent</para>
 </listitem>
 <listitem>
-<para>ts is the server timestamp of when the message was received</para>
+<para><emphasis>ts</emphasis> is the server timestamp of when the message was received</para>
 </listitem>
 <listitem>
-<para>p is the poll duration in ms - ie the time the server took before sending the response</para>
+<para><emphasis>p</emphasis> is the poll duration in ms - ie the time the server took before sending the response</para>
 </listitem>
 <listitem>
-<para>a is the measured accuracy of the calculated offset and lag sent by the client</para>
+<para><emphasis>a</emphasis> is the measured accuracy of the calculated offset and lag sent by the client</para>
 </listitem>
 </itemizedlist>
 <para>
@@ -126,7 +126,7 @@ On receipt of the response, the client is able to use current time to determine 
 </itemizedlist>
 <para>
 To smooth over any transient fluctuations, the extension keeps a sliding average of the offsets received. 
-By default this is over 10 messages, but you can change this value by passing a configuration object during the creation of the extension:
+By default this is over ten messages, but you can change this value by passing a configuration object during the creation of the extension:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[

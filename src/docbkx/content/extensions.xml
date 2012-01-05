@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<section version="5.0"
+<chapter version="5.0"
          xmlns="http://docbook.org/ns/docbook"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
@@ -13,13 +13,11 @@ An extension is a function that CometD calls; it allows you to modify a message 
 </para>
 <para>
 An extension normally adds fields to the message being sent or received in the <link xl:href="http://svn.cometd.org/trunk/bayeux/bayeux.html#toc_45"><code>ext</code> object</link>) that the Bayeux specification defines.
-</para>
-<para>
 An extension is not a way to add business fields to a message, but rather a way to process all messages, including the meta messages the Bayeux protocol uses, and to extend the Bayeux protocol itself.
 </para>
 <para>
 Normally you set up extensions on both the client and the server, since fields the client adds usually need a special processing by the server; it is possible that an extension is only client-side or only server-side, but
-most of the time both client and server need them; when an extension does not behave as expected, it's often because the extension is missing on one of the two sides.
+most of the time both client and server need them. When an extension does not behave as expected, it's often because the extension is missing on one of the two sides.
 </para>
 <para>
 The next sections describe the JavaScript CometD Extensions; they follow the same pattern the portable JavaScript CometD implementation uses: a portable implementation of the extension with <emphasis>bindings</emphasis> for the specific JavaScript toolkit, currently Dojo and jQuery.
@@ -90,10 +88,10 @@ Notice also that you can modify the message by adding fields, normally in the <c
 </para>
 <note>
 <para>Be careful not to overwrite the <code>ext</code> field, which other extensions might have set: check whether it's present first.
-It is also a good practice to group extension fields so that there is no clash with other extensions (in the example above, the only field – counter – is "grouped" in the <code>message.ext.logger</code> object).</para>
+It is also a good practice to group extension fields so that there is no clash with other extensions (in the example above, the only field – counter – is <emphasis>grouped</emphasis> in the <code>message.ext.logger</code> object).</para>
 </note>
 <para>
-The <code>outgoing()</code> and <code>incoming()</code> methods can avoid  returning something, or returning the message itself (or another message object). This means that the extension has processed the message and therefore other extensions, if present, can process it, or the implementation can process the message (either by sending it to the server – for outgoing extensions – or be notifying listeners – for incoming extensions).
+The <code>outgoing()</code> and <code>incoming()</code> methods can avoid  returning something, or returning the message itself (or another message object). This means that the extension has processed the message and therefore other extensions, if present, can process it, or the implementation can process the message (either by sending it to the server – for outgoing extensions – or by notifying listeners – for incoming extensions).
 </para>
 <para>
 If the extension method returns <code>null</code>, the processing should stop: other exensions do not process the message, and CometD does not further process it. CometD does not send the message to the server, nor notify listeners.
@@ -111,7 +109,7 @@ The JavaScript CometD API defines three methods to manage extensions:
 <para><code>registerExtension(name, extension)</code>–to register an extension with the given name</para>
 </listitem>
 <listitem>
-<para>><code>unregisterExtension(name)</code>–to unregister the extension previously registered with the given name</para>
+<para><code>unregisterExtension(name)</code>–to unregister the extension previously registered with the given name</para>
 </listitem>
 <listitem>
 <para><code>getExtension(name)</code>–to obtain a reference to the extension previously registered with the given name</para>
@@ -190,4 +188,4 @@ The next sections explain in detail the use of the extensions CometD provides.
 <xi:include href="extensions_timestamp.xml" />
 <xi:include href="extensions_timesync.xml" />
 
-</section>
+</chapter>

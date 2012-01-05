@@ -60,7 +60,7 @@ The file <code>jquery.cometd-ack.js</code> provides the client-side extension bi
 In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name <emphasis>ack</emphasis>.
 </para>
 <para>
-Furthermore, you can programmatical disable/enable the extension before initialization by setting the <code>ackEnabled</code> boolean field on the <code>cometd</code> object:
+Furthermore, you can programmatically disable/enable the extension before initialization by setting the <code>ackEnabled</code> boolean field on the <code>cometd</code> object:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
@@ -81,7 +81,7 @@ This is negotiated during handshake. On handshake, the client sends <code>{"ext"
 If the server also supports message acknowledgment, it likewise replies with <code>{"ext":{"ack": "true"}}</code>.
 </para>
 <para>
-The extension does not insert ack IDs to every message, as this would impose a significant burden on the server for messages sent to multiple clients (which would need to be reserialized to json for each client). Instead the ack ID is inserted in the <code>ext</code> field of the /meta/connect messages that are associated with message delivery. Each /meta/connect request contains the ack ID of the last received ack response: <code>"ext":{"ack": 42}</code>. Similarly, each /meta/connect response contains an ext ack ID that uniquely identifies the batch of responses sent.
+The extension does not insert ack IDs in every message, as this would impose a significant burden on the server for messages sent to multiple clients (which would need to be reserialized to json for each client). Instead the ack ID is inserted in the <code>ext</code> field of the /meta/connect messages that are associated with message delivery. Each /meta/connect request contains the ack ID of the last received ack response: <code>"ext":{"ack": 42}</code>. Similarly, each /meta/connect response contains an ext ack ID that uniquely identifies the batch of responses sent.
 </para>
 <para>
 If a /meta/connect message is received with an ack ID lower that any unacknowledged messages held by the extension, then these messages are requeued prior to any more recently queued messages and the /meta/connect response sent with a new ack ID.
@@ -98,6 +98,10 @@ Alternatively, you can also run the example by <!-- TODO: relink to docbook sect
 <para>
 To run the demo, follow these steps:
 </para>
+<orderedlist>
+<listitem>
+<para>Start Cometd</para>
+</listitem>
 <informalexample>
 <programlisting language="bash"><![CDATA[
 $ cd cometd-demo
@@ -105,15 +109,18 @@ $ mvn jetty:run
 ]]>
 </programlisting>
 </informalexample>
+<listitem>
+<para>Point your browser to http://localhost:8080/dojo-examples/chat/ and make sure to check <emphasis>Enable reliable messaging</emphasis>.</para>
+</listitem>
+<listitem>
+<para>Use two different browser instances to begin a chat session, then briefly disconnect one browser from the network (you can do this by setting the <emphasis>work offline</emphasis> feature).</para>
+</listitem>
+<listitem>
+<para>While one browser is disconnected, type some chat in the other browser, which is received when the disconnected browser reconnects to the network.</para>
+</listitem>
+</orderedlist>
 <para>
-Then point your browser to http://localhost:8080/dojo-examples/chat/ and make sure to check <emphasis>Enable reliable messaging</emphasis>.
-</para>
-<para>
-Use two different browser instances to begin a chat session, then briefly disconnect one browser from the network (you can do this by setting the <emphasis>work offline</emphasis> feature). 
-While one browser is disconnected, type some chat in the other browser, and this will be received when the disconnected browser is reconnected to the network.
-</para>
-<para>
-Notice that if the disconnected browser is disconnected in excess of maxInterval (default 10s), then the client times out and the unacknowledged queue is discarded.
+Notice that if the disconnected browser is disconnected in excess of maxInterval (default 10s), the client times out and the unacknowledged queue is discarded.
 </para>
 </section>
 </section>
