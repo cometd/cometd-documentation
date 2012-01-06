@@ -289,7 +289,7 @@ contextPath: '${pageContext.request.contextPath}'
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-<link xl:href="https://github.com/cometd/cometd/raw/master/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js" parse="text" /link>
+<link xl:href="https://github.com/cometd/cometd/raw/master/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js">parse="text"</link>
 ]]></programlisting>
 </informalexample>
 <para>
