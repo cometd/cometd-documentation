@@ -22,6 +22,12 @@ $ tar zxvf cometd-<version>.tgz
 $ cd cometd-<version>/
 ]]></screen>
 </para>
+</section>
+
+<section xml:id="installation_demos">
+<info>
+<title>Running the Demos</title>
+</info>
 <para>
     The CometD Demos contain:
     <itemizedlist>
@@ -48,12 +54,6 @@ $ cd cometd-<version>/
     </listitem>
     </itemizedlist>
 </para>
-</section>
-
-<section>
-<info>
-<title>Running the Demos</title>
-</info>
 <para>
 To try out the CometD demos shipped with the distribution, you need a <productname>Java</productname>
 Development Kit (JDK) - version 5.0 or later, and either
