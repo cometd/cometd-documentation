@@ -288,8 +288,9 @@ contextPath: '${pageContext.request.contextPath}'
     The archetypes provide:
 </para>
 <informalexample>
-<programlisting language="javascript"><![CDATA[
-<link xl:href="https://github.com/cometd/cometd/raw/master/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js">parse="text"</link>
+<programlisting language="javascript"><![CDATA[ 
+<xi:include href=
+"https://github.com/cometd/cometd/raw/master/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js" parse="text" />
 ]]></programlisting>
 </informalexample>
 <para>
