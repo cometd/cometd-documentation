@@ -51,8 +51,8 @@
     the first connection is already busy with the long poll request),  schedule the second publish to the first
     connection (after the long poll returns), and schedule the third publish again to the second connection, after the
     first publish returns.
-    The result is that if you have a long poll timeout of 5 minutes, the second publish request might arrive to the
-    server 5 minutes later than the first and the third publish request.
+    The result is that if you have a long poll timeout of 5 minutes, the second publish request might arrive at the
+    server five minutes later than the first and the third publish request.
 </para>
 <para>
     You can optimize the three publishes using batching, which is a way to group messages together so that a single

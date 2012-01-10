@@ -71,7 +71,7 @@ cometd.publish('/foo', { foo: 'bar' });
     later section) can actually succeed in contacting the Bayeux server.
     Since the API is asynchronous, you have no way of knowing synchronously (that is, by having <code>handshake()</code>
     return an error code or by throwing an exception) that the handshake failed.
-    Even if the handshake succeeds, you may still be "disconnected" from the Bayeux server, for example because the
+    Even if the handshake succeeds, you might still be "disconnected" from the Bayeux server, for example because the
     server crashed just after the successful handshake.
     Fortunately there is a way to receive notifications about the details of the Bayeux protocol message exchange: by
     adding listeners to special channels (called <emphasis>meta channels</emphasis>).

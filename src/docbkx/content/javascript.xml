@@ -27,7 +27,7 @@ var cometd = $.cometd;
 </informalexample>
 <para>
     If you followed the <xref linkend="primer" />, you might have noticed that the skeleton project requires you
-    to reference both the portable implementation, under <code>org/cometd.js</code>, and one binding–for example Dojo's–
+    to reference both the portable implementation, under <code>org/cometd.js</code>, and one binding – for example Dojo's –
     under <code>dojox/cometd.js</code>. For jQuery, the binding is under <code>jquery/jquery.cometd.js</code>.
     The use of the Bayeux APIs from the JavaScript toolkits is almost identical, and the following sections do not
     refer to a particular toolkit.

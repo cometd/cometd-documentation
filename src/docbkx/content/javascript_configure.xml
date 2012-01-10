@@ -8,7 +8,7 @@
     <title>JavaScript CometD 2 API: Configuring and Initializing</title>
 </info>
 <para>
-    After you have set up your skeleton project following the <xref linkend="primer" />, you may want to fully
+    After you set up your skeleton project following the <xref linkend="primer" />, you probably want to fully
     understand how to customize and configure the parameters that govern the behavior of the Cometd implementation.
 </para>
 <para>

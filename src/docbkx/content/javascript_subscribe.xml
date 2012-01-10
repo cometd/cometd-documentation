@@ -35,17 +35,17 @@ A channel looks like a directory path such as:
 <itemizedlist>
 <listitem>
 <para>
-    <code>/meta/connect</code>–A meta channel; all meta channels starts with the prefix <code>/meta/</code>
+    <code>/meta/connect</code>–a meta channel; all meta channels starts with the prefix <code>/meta/</code>
 </para>
 </listitem>
 <listitem>
 <para>
-    <code>/service/chat</code>–A service channel; all service channels starts with the prefix <code>/service/</code>
+    <code>/service/chat</code>–a service channel; all service channels starts with the prefix <code>/service/</code>
 </para>
 </listitem>
 <listitem>
 <para>
-    <code>/foo/bar</code>–A normal channel
+    <code>/foo/bar</code>–a normal channel
 </para>
 </listitem>
 </itemizedlist>
@@ -60,8 +60,8 @@ A channel looks like a directory path such as:
     listen to meta channels (see below for the difference between <xref linkend="javascript_subscribe_vs_listen" />.
     It makes no sense to publish messages to meta channels: only the Bayeux protocol implementation creates and sends
     messages on meta channels.
-    Meta channels are useful on the client to listen for error messages like handshake errors (for example because
-    the client did not provide the correct credentials) or network errors (for example to know when the connection
+    Meta channels are useful on the client to listen for error messages like handshake errors (for example, because
+    the client did not provide the correct credentials) or network errors (for example, to know when the connection
     with the server has broken or when it has been re-established).
 </para>
 </section>
@@ -72,7 +72,7 @@ A channel looks like a directory path such as:
 </info>
 <para>
     Service channels are used in the case of request/response style of communication between client and server (as
-    opposed to the publish/subscribe style of communication or normal channels).
+    opposed to the publish/subscribe style of communication on normal channels).
     While subscribing to service channels yields no errors, this is a no-operation for the server: the server ignores
     the subscription request.
     It is possible to publish to service channels, with the semantic of a communication between a specific client
@@ -90,10 +90,9 @@ A channel looks like a directory path such as:
     Normal channels have the semantic of a messaging topic and are used in the case of publish/subscribe style of
     communication.
     Usually, it is possible to subscribe to normal channels and to publish to normal channels; this can only be
-    forbidden using a security policy on the Bayeux server or by using
-    <!-- TODO: relink to the docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/authorizers">authorizers</link>.
-    Normal channels are useful to implement broadcasting of messages to all subscribed clients, for example in case
+    forbidden using a security policy on the Bayeux server or by using authorizers (see
+    <xref linkend="java_server_authorizers" />).
+    Normal channels are useful to broadcast messages to all subscribed clients, for example in case
     of a stock price change.
 </para>
 </section>
@@ -148,7 +147,7 @@ A channel looks like a directory path such as:
 </para>
 <itemizedlist>
     <listitem>
-        <para>Must not be used to listen to meta channels messages (otherwise the server will return an error).</para>
+        <para>Must not be used to listen to meta channels messages (otherwise the server returns an error).</para>
     </listitem>
     <listitem>
         <para>May be used to listen to service channel messages (you may also use<code>addListener()</code>, which is
@@ -230,11 +229,11 @@ function _appSubscribe()
 <para>
     How do <code>subscribe()</code> and <code>unsubscribe()</code> behave in case the Bayeux server is not reachable
     (due to network failures or because the server crashed)?
-    In <code>subscribe()</code> the local listener is first added to the list of subscribers for that channel, then
-    the server communication is attempted. If the communication fails, the server will not know that it has to send
-    messages to this client and therefore on the client,  the local listener (although present) will never be invoked.
-    In <code>unsubscribe()</code>, the local listener is first removed from the list of subscribers for that channel,
-    then the server communication is attempted. If the communication fails, the server still sends the message to the
+    In <code>subscribe()</code> CometD first adds the local listener to the list of subscribers for that channel, then
+    attempts the server communication. If the communication fails, the server does not know that it has to send
+    messages to this client and therefore on the client, the local listener (although present) will never be invoked.
+    In <code>unsubscribe()</code>, CometD first removes the local listener from the list of subscribers for that channel,
+    then attempts the server communication. If the communication fails, the server still sends the message to the
     client,  but there is no local listener to dispatch to.
 </para>
 </section>
@@ -263,7 +262,7 @@ cometd.onListenerException = function(exception, subscriptionHandle, isListener,
 </programlisting>
 </informalexample>
 <para>
-    It is be possible to send messages to the server from the listener exception handler.
+    It is possible to send messages to the server from the listener exception handler.
     If the listener exception handler itself throws an exception, this exception is logged at level "info" and the
     CometD implementation will not break.
     Notice that a similar mechanism exists for extensions, see <xref linkend="extensions" />.
@@ -350,7 +349,7 @@ cometd.addListener("/meta/*", function(message) { ... });
 <para>
     By far the most interesting meta channel to subscribe to is <code>/meta/connect</code>, because it gives the
     status of the current connection with the Bayeux server. In combination with <code>/meta/disconnect</code>,
-    you can use it, for example, to display a green "connected" icon or a red "disconnected" icon on the page,
+    you can use it, for example, to display a green <emphasis>connected</emphasis> icon or a red <emphasis>disconnected</emphasis> icon on the page,
     depending on the connection status with the Bayeux server.
 </para>
 <para>
@@ -392,7 +391,7 @@ cometd.addListener('/meta/disconnect', function(message)
 <para>
     One small caveat with the <code>/meta/connect</code> channel is that <code>/meta/connect</code> is also used
     for polling the server.
-    Therefore, if a disconnect is issued during an active poll, the active poll is returned by the server and this
+    Therefore, if a disconnect is issued during an active poll, the server returns the active poll and this
     triggers the <code>/meta/connect</code> listener.
     The initial check on the status verifies that is not the case before executing the connection logic.
 </para>

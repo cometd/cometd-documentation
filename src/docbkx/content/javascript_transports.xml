@@ -8,7 +8,6 @@
     <title>JavaScript CometD 2 Transports</title>
 </info>
 <para>
-    <!-- TODO: relink to the docbook section -->
     The <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory
     transports:
 </para>
@@ -29,7 +28,7 @@
     The WebSocket protocol is still an experimental protocol under development by the IETF working group that is
     standardizing it.
     Browsers that have deployed an initial support for the WebSocket protocol might be buggy, so we do not recommend
-    to use the WebSocket protocol yet, though the CometD project supports it.
+    that you use the WebSocket protocol yet, though the CometD project supports it.
 </para>
 </note>
 
@@ -57,12 +56,12 @@
 </para>
 <para>
     It is well known that XMLHttpRequest calls have restrictions when the invocation is directed to a domain different
-    from the one to which the script has been downloaded (but see <xref linkend="javascript_transports_cross_origin" /> for an alternative
+    from the one to which the script has been downloaded (but, again, see <xref linkend="javascript_transports_cross_origin" /> for an alternative
     solution).
     To overcome XMLHttpRequest restrictions, this transport uses the JSONP script injection, which injects a
     <code>&lt;script&gt;</code> element whose <code>src</code> attribute points to the Bayeux server.
     The browser notices the script element injection and performs a GET request to the specified source URL.
-    The Bayeux server is aware that this is a JSONP request and replies with a JavaScript function that is the browser
+    The Bayeux server is aware that this is a JSONP request and replies with a JavaScript function that the browser
     then executes, (and calls back into the JavaScript CometD implementation).
 </para>
 <para>
@@ -102,7 +101,7 @@
     <title>The <code>websocket</code> Transport</title>
 </info>
 <para>
-    The <code>websocket</code> transport is available if the browser and the server supports WebSocket
+    The <code>websocket</code> transport is available if the browser and the server support WebSocket
     (<link xl:href="http://eclipse.org/jetty">Jetty 7</link> supports the WebSocket protocol).
     This transport is still experimental, but it is being designed to be the bidirectional communication protocol for
     the web, so it is a natural fit in the CometD project.
@@ -144,10 +143,10 @@ cometd.unregisterTransport('websocket');
 <para>
     Firefox 3.5 introduced the capability for XMLHttpRequest calls to be performed towards a different domain
     (see <link xl:href="https://developer.mozilla.org/En/HTTP_access_control">HTTP Access Control</link>).
-    This is supported also in the JavaScript CometD implementation, with no configuration necessary on the client
-    (if the browser supports XMLHttpRequest cross-domain calls, they will be used) and with a bit of configuration
+    The JavaScript CometD implementation also supports this, with no configuration necessary on the client
+    (if the browser supports XMLHttpRequest cross-domain calls, CometD uses them) and with a bit of configuration
     for the server.
-    Refer to <link xl:href="http://wiki.eclipse.org/Jetty/Feature/Cross_Origin_Filter">this document</link> for
+    See the <link xl:href="http://wiki.eclipse.org/Jetty/Feature/Cross_Origin_Filter">Jetty Cross Origin Filter documentation</link> for
     the server configuration.
 </para>
 <para>
@@ -164,8 +163,8 @@ cometd.unregisterTransport('websocket');
 </listitem>
 </itemizedlist>
 <para>
-    With this setup, even when the communication with the Bayeux server is cross-domain, the <code>long-polling</code>
-    transport is used, avoiding the drawbacks of the <code>callback-polling</code> transport.
+    With this setup, even when the communication with the Bayeux server is cross-domain, CometD uses the <code>long-polling</code>
+    transport, avoiding the drawbacks of the <code>callback-polling</code> transport.
 </para>
 </section>
 </section>
