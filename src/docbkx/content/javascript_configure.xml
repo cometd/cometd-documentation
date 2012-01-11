@@ -9,7 +9,7 @@
 </info>
 <para>
     After you set up your skeleton project following the <xref linkend="primer" />, you probably want to fully
-    understand how to customize and configure the parameters that govern the behavior of the Cometd implementation.
+    understand how to customize and configure the parameters that govern the behavior of the CometD implementation.
 </para>
 <para>
     The complete API is available through a single object prototype named <code>org.cometd.Cometd</code>.
