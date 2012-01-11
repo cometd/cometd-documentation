@@ -76,3 +76,21 @@ td
     padding: 0.4em;
     background-color: #ddd;
 }
+
+.hl-string
+{
+    color: green;
+    font-weight: bold;
+}
+
+.hl-keyword
+{
+    color: #009;
+    font-weight: bold;
+}
+
+.hl-comment
+{
+    color: gray;
+    font-style: italic;
+}
