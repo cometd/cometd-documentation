@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="extensions_timestamp">
 <info>
-    <title>CometD 2 Timestamp Extension</title>
+    <title>Timestamp Extension</title>
 </info>
 <para>
 The timestamp extension adds a <code>timestamp</code> to the message object for every message the client and/or server sends.

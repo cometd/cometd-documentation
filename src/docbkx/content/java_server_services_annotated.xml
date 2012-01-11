@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_services_annotated">
 <info>
-    <title>CometD 2 Annotated Client-Side and Server-Side Services</title>
+    <title>Annotated Client-Side and Server-Side Services</title>
 </info>
 <para>
 Classes annotated with <code>@Service</code> qualify as annotated services, both on the client-side and on the server-side. Support for annotated services is available beginning with CometD 2.1.0.

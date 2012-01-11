@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_client">
 <info>
-    <title>CometD 2 Java Client Implementation</title>
+    <title>Client Library</title>
 </info>
 <para>
 You can use the CometD client implementation in any <trademark>JSE</trademark> or

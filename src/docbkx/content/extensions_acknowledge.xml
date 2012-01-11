@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="extensions_acknowledge">
 <info>
-    <title>CometD 2 Acknowledge Extension</title>
+    <title>Acknowledge Extension</title>
 </info>
 <para>
 The <emphasis>acknowledged messages</emphasis> extension provides reliable, ordered messaging to the Bayeux protocol.
@@ -76,8 +76,8 @@ cometd.init(cometdURL);
     <title>Acknowledge Extension Details</title>
 </info>
 <para>
-To enable message acknowledgement, both client and server must indicate that they support message acknowledgement. 
-This is negotiated during handshake. On handshake, the client sends <code>{"ext":{"ack": "true"}}</code> to indicate that it supports message acknowledgement. 
+To enable message acknowledgement, both client and server must indicate that they support message acknowledgement.
+This is negotiated during handshake. On handshake, the client sends <code>{"ext":{"ack": "true"}}</code> to indicate that it supports message acknowledgement.
 If the server also supports message acknowledgment, it likewise replies with <code>{"ext":{"ack": "true"}}</code>.
 </para>
 <para>

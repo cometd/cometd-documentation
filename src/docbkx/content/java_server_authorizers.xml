@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_authorizers">
 <info>
-    <title>CometD 2 Java Server API: Authorizers</title>
+    <title>Authorizers</title>
 </info>
 <para>
     CometD 2.1.0 introduces authorizers: a new feature that allows fine-grained control of

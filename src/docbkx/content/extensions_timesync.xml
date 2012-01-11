@@ -5,10 +5,10 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="extensions_timesync">
 <info>
-    <title>CometD 2 Timesync Extension</title>
+    <title>Timesync Extension</title>
 </info>
 <para>
-The timesync extension uses the messages exchanged between a client and a server to calculate the offset between the client's clock and the server's clock. 
+The timesync extension uses the messages exchanged between a client and a server to calculate the offset between the client's clock and the server's clock.
 This is independent from the <xref linkend="extensions_timestamp" />, which uses the local clock for all timestamps.
 This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
 </para>
@@ -85,10 +85,10 @@ where:
 </itemizedlist>
 <para>
 You can calculate the accuracy of the offset and lag with <code>tc-now-l-o</code>, which should be zero if the calculated offset and lag are perfectly accurate.
-A Bayeux server that supports timesync should respond only if the measured accuracy value is greater than accuracy target. 
+A Bayeux server that supports timesync should respond only if the measured accuracy value is greater than accuracy target.
 </para>
 <para>
-The response is an <code>ext</code> field, for example: 
+The response is an <code>ext</code> field, for example:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
@@ -125,7 +125,7 @@ On receipt of the response, the client is able to use current time to determine 
 </listitem>
 </itemizedlist>
 <para>
-To smooth over any transient fluctuations, the extension keeps a sliding average of the offsets received. 
+To smooth over any transient fluctuations, the extension keeps a sliding average of the offsets received.
 By default this is over ten messages, but you can change this value by passing a configuration object during the creation of the extension:
 </para>
 <informalexample>

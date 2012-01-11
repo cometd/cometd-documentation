@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="extensions_reload">
 <info>
-    <title>CometD 2 Reload Extension</title>
+    <title>Reload Extension</title>
 </info>
 <para>>
     The reload extension allows CometD to load or reload a page without having to re-handshake in the new

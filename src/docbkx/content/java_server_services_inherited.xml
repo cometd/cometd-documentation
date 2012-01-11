@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_services_inherited">
 <info>
-    <title>CometD Java Server API: Inherited Services</title>
+    <title>Inherited Services</title>
 </info>
 <para>
 A CometD inherited service is a Java class that extends the CometD class <code>org.cometd.server.AbstractService</code>, which specifies the Bayeux channels of interest to the service, and adheres to the contract the <code>AbstractService</code> class requires:

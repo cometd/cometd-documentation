@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_client_handshake">
 <info>
-    <title>CometD 2 Java Client API: Handshake</title>
+    <title>Handshaking</title>
 </info>
 <para>
 To initiate the communication with the Bayeux server, you need to call:
@@ -53,8 +53,8 @@ To verify that the handshake is successful, you can add a <code>MessageListener<
 <programlisting language="java"><![CDATA[
 ClientTransport transport = ...
 ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
-client.getChannel(Channel.META_HANDSHAKE).addListener(new ClientSessionChannel.MessageListener() 
-{ 
+client.getChannel(Channel.META_HANDSHAKE).addListener(new ClientSessionChannel.MessageListener()
+{
     public void onMessage(ClientSessionChannel channel, Message message)
     {
         if (message.isSuccessful())

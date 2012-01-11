@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_multiple_sessions">
 <info>
-    <title>CometD 2 and Multiple Sessions</title>
+    <title>Multiple Sessions</title>
 </info>
 <para>
 The <link xl:href="http://ietf.org/rfc/rfc2616.txt">HTTP protocol</link> recommends a connection limit of two connections per domain.

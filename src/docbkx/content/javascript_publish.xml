@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="javascript_publish">
 <info>
-    <title>JavaScript CometD 2 API: Publishing</title>
+    <title>Publishing</title>
 </info>
 <para>
     The <code>publish()</code> method allow you to publish data onto a certain channel:

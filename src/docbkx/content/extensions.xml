@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="extensions">
 <info>
-    <title>CometD 2 API: Extensions</title>
+    <title>Extensions</title>
 </info>
 <para>
 The CometD implementation has the capability to add/remove <emphasis>extensions</emphasis>.

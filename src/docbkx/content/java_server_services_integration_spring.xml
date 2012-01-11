@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_services_integration_spring">
 <info>
-    <title>CometD 2 Services Integration with Spring</title>
+    <title>Services Integration with Spring</title>
 </info>
 <para>
 Integration of CometD services with <link xl:href="http://springframework.org">Spring</link> is particularly interesting, since most of the time your Bayeux services require other <emphasis>beans</emphasis> to perform their service.

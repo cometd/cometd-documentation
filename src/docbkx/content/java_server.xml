@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server">
 <info>
-    <title>CometD 2 Java Server API</title>
+    <title>Server Library</title>
 </info>
 <para>
     To run the CometD server implementation, you need to deploy a Java web application to a servlet container.

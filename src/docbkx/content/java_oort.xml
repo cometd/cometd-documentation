@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_oort">
 <info>
-    <title>CometD 2 Scalability Clustering with Oort</title>
+    <title>Scalability Clustering with Oort</title>
 </info>
 <para>
     The CometD distribution ships a clustering solution called <emphasis role="bold">Oort</emphasis> that
@@ -68,7 +68,7 @@
 </section>
 <section>
 <info>
-<title>CometD 2 Oort Cloud</title>
+<title>Oort Cloud</title>
 </info>
 <para>
 Any CometD server can become an Oort comet by configuring an instance of
@@ -680,7 +680,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 
 <section>
 <info>
-    <title>CometD 2 Oort Seti</title>
+    <title>Seti</title>
 </info>
 <para>
     <code>Seti</code> is the Oort clustering component that tracks clients connected to any comet in the

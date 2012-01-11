@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="javascript_configure">
 <info>
-    <title>JavaScript CometD 2 API: Configuring and Initializing</title>
+    <title>Configuring and Initializing</title>
 </info>
 <para>
     After you set up your skeleton project following the <xref linkend="primer" />, you probably want to fully

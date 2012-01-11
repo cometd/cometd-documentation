@@ -37,7 +37,7 @@
 </para>
 <section>
 <info>
-    <title>CometD JSONContext API</title>
+    <title>JSONContext API</title>
 </info>
 <para>
     The JSON library is used by the CometD Java client implementation (see

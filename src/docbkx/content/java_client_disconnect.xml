@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_client_disconnect">
 <info>
-    <title>CometD 2 Java Client API: Disconnecting</title>
+    <title>Disconnecting</title>
 </info>
 <para>
 Disconnecting is straightforward:

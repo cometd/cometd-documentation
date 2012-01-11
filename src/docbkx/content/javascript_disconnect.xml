@@ -5,12 +5,31 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="javascript_disconnect">
 <info>
-    <title>JavaScript CometD 2 API: Disconnecting</title>
+    <title>Disconnecting</title>
 </info>
 <para>
     The JavaScript CometD implementation performs automatic reconnect in case of network or Bayeux server failures.
     <xref linkend="javascript_configure" /> describes the reconnect parameters.
 </para>
+<para>
+    Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux server,
+    so that it can clean up any state associated with that client.
+    As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns
+    immediately, well before the Bayeux server has received the disconnect request.
+    If the server is unreachable (because it is down or because of network failures), the JavaScript CometD
+    implementation stops any reconnection attempt and cleans up any local state.
+    It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in
+    any case disconnected, its local state cleaned up, and if the server has not been reached it eventually times out
+    the client and cleans up any server-side state for that client.
+</para>
+<tip>
+<para>
+    If you are debugging your application with Firebug, and you shut down the server, you see in the Firebug console
+    the attempts to reconnect.
+    To stop those attempts,  type in the Firebug command line: <code>dojox.cometd.disconnect()</code> (for Dojo) or
+    <code>$.cometd.disconnect()</code> (for jQuery).
+</para>
+</tip>
 <section>
  <info>
      <title>Short Network Failures</title>
@@ -53,29 +72,5 @@
     If you register with meta channels, be aware of these steps, since a reconnection might involve more than one
     message exchange with the server.
 </para>
-</section>
-<section>
-<info>
-    <title>Disconnecting</title>
-</info>
-<para>
-    Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux server,
-    so that it can clean up any state associated with that client.
-    As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns
-    immediately, well before the Bayeux server has received the disconnect request.
-    If the server is unreachable (because it is down or because of network failures), the JavaScript CometD
-    implementation stops any reconnection attempt and cleans up any local state.
-    It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in
-    any case disconnected, its local state cleaned up, and if the server has not been reached it eventually times out
-    the client and cleans up any server-side state for that client.
-</para>
-<tip>
-<para>
-    If you are debugging your application with Firebug, and you shut down the server, you see in the Firebug console
-    the attempts to reconnect.
-    To stop those attempts,  type in the Firebug command line: <code>dojox.cometd.disconnect()</code> (for Dojo) or
-    <code>$.cometd.disconnect()</code> (for jQuery).
-</para>
-</tip>
 </section>
 </section>

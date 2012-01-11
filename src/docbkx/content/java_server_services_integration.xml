@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_services_integration">
 <info>
-    <title>CometD 2 Java Server Services Integration</title>
+    <title>Services Integration</title>
 </info>
 <para>
 There are several ways to integrate your Bayeux services into your web application. This is complicated because a servlet creates the BayeuxServer object, and there is no easy way to detect, in general, when the BayeuxServer object has been created.

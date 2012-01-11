@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="javascript_subscribe">
 <info>
-   <title>JavaScript CometD 2 API: Subscribing and Unsubscribing</title>
+   <title>Subscribing and Unsubscribing</title>
 </info>
 <para>
     The following sections provide information about the CometD 2 API, subscribing and unsubscribing.

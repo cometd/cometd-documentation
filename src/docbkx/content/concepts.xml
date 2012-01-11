@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="concepts">
 <info>
-    <title>CometD Concepts</title>
+    <title>Concepts &amp; Architecture</title>
 </info>
 <para>
     The CometD project implements various
@@ -51,7 +51,7 @@
 </para>
 <para>
     The Bayeux implementation creates meta channels, and applications <emphasis>cannot</emphasis> create new meta channels.
-    The application creates service channels and broadcast channels; an application can create as many as it needs, and do so at any time. 
+    The application creates service channels and broadcast channels; an application can create as many as it needs, and do so at any time.
     Channels are represented by a string and are similar to a URL path, for example: <code>/meta/handshake</code>,
     <code>/service/game</code> or <code>/foo/bar</code>.
     A channel that starts with <code>/meta/</code> is a meta channel, a channel that starts with

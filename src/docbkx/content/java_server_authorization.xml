@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_authorization">
 <info>
-    <title>CometD Java Server API: Authorization</title>
+    <title>Authorization</title>
 </info>
 <para>
 You can configure the Bayeux object with a <code>org.cometd.bayeux.server.SecurityPolicy</code> object, which allows you to control various steps of the Bayeux protocol such as handshake, subscription, and publish. By default, the Bayeux object does not have a SecurityPolicy, which means that any operation is authorized.

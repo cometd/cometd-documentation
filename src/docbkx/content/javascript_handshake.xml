@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="javascript_handshake">
 <info>
-    <title>JavaScript CometD 2 API: Handshake</title>
+    <title>Handshaking</title>
 </info>
 <para>
 The call to <code>handshake()</code> (or to <code>init()</code>) initiates the Bayeux communication with the Bayeux server.

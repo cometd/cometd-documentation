@@ -5,14 +5,14 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_client_subscribe">
 <info>
-    <title>CometD 2 Java Client API: Subscribing and Unsubscribing</title>
+    <title>Subscribing and Unsubscribing</title>
 </info>
 <para>
 The following sections provide information about subscribing and unsubscribing to channels.
 </para>
 <section>
 <info>
-    <title>Subscription to Normal (Broadcast) Channels</title> 
+    <title>Subscription to Normal (Broadcast) Channels</title>
 </info>
 <para>
 The CometD 2 Java Client API for subscribing and unsubscribing is better designed than that in CometD 1, and we have moved it to the channel (where it belongs).
@@ -24,7 +24,7 @@ You can subscribe and unsubscribe only after the handshake completes.
 </note>
 <informalexample>
 <programlisting language="java"><![CDATA[
-public class Example 
+public class Example
 {
     private static final String CHANNEL = "/foo";
     private final ClientSessionChannel.MessageListener fooListener = new FooListener();
@@ -63,7 +63,7 @@ Using the <code>Example</code> class above:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
-public class Example 
+public class Example
 {
     ...
     public void detach()

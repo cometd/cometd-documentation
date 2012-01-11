@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="javascript_batch">
 <info>
-    <title>JavaScript CometD 2 API: Message Batching</title>
+    <title>Message Batching</title>
 </info>
  <para>
     Often an application needs to send several messages to different channels. A naive way of doing it follows:

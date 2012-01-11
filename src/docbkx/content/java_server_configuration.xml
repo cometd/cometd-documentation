@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_configuration">
 <info>
-    <title>CometD 2 Java Server Configuration</title>
+    <title>Configuration</title>
 </info>
 <para>
     You can specify <code>BayeuxServer</code> and server transport parameters in <code>web.xml</code> as init
