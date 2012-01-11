@@ -14,17 +14,13 @@
 <listitem>
 <para>
     The web application needs a CometD <emphasis>servlet</emphasis> to interpret the Bayeux protocol (see
-    <!-- TODO: relink to the docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/configuration">CometD Java Server Configuration</link>
-    for configuration details).
+    <xref linkend="java_server_configuration" /> for configuration details).
 </para>
 </listitem>
 <listitem>
 <para>
-    Most of the time you also need to write one or more
-    <!-- TODO: relink to the docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/services">user-defined services</link> that can act
-    upon receiving messages on Bayeux channels.
+    Most of the time you also need to write one or more user-defined services, see <xref linkend="java_server_services" />,
+    that can act upon receiving messages on Bayeux channels.
 </para>
 </listitem>
 </itemizedlist>

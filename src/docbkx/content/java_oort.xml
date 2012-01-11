@@ -447,8 +447,7 @@ public class OortConfigurationServlet extends GenericServlet
 </informalexample>
 <para>
     The <code>OortComet</code> instance returned by <code>Oort.observeComet(url)</code> is a
-    specialized version of <link xl:href="/documentation/2.x/cometd-java/client">BayeuxClient</link>.
-    <!-- TODO: relink to the docbook section -->
+    specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client"/>.
 </para>
 </section>
 <section>
@@ -670,15 +669,14 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     If you need to send messages directly to particular clients (for example, <code>clientA</code>
     wants to send a message to <code>clientC</code> but not to <code>clientB</code>, then you need
-    to setup an additional component of the Oort clustering called
-    <!-- TODO: link to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/server/oort/seti">Seti</link>.
+    to setup an additional component of the Oort clustering called <emphasis>Seti</emphasis>, see
+    <xref linkend="java_oort_seti" />
 </para>
 </section>
 </section>
 </section>
 
-<section>
+<section xml:id="java_oort_seti">
 <info>
     <title>Seti</title>
 </info>
@@ -730,8 +728,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         <load-on-startup>3</load-on-startup>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Note how the <code>load-on-startup</code> parameter of the <code>SetiServlet</code> must be greater
@@ -745,9 +742,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     <code>Seti</code> allows to associate a unique string representation of a user with one or more
-    <code>ServerSession</code> (see the <!-- TODO: link to docbook section -->
-    <link xl:href="/documentation/2.x/cometd-java/concepts">CometD concepts</link> for more details on
-    <code>ServerSession</code>).
+    <code>ServerSession</code> (see <xref linkend="concepts" /> for more details on<code>ServerSession</code>).
     This is normally done when the user first logs in into the application, and the unique string
     representation of the user can be anything that the user provides to authenticate itself (a user
     name, a token, a database id, etc). For brevity, we will call this unique string representation of
@@ -788,8 +783,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
         return true;
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Alternatively, you can perform the association in an <code>BayeuxServer.Extension</code> or in a

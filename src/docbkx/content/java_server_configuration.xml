@@ -237,9 +237,7 @@
     This filter implements the
     <link xl:href="http://www.w3.org/TR/access-control/">Cross-Origin Resource Sharing</link> specification,
     and allows recent browsers that implement it (as of November 2009, Firefox 3.5.x, Chrome 3.x and Safari 4.x)
-    to perform cross-domain JavaScript requests (see also the
-    <!-- TODO: relink to the docbook section -->
-    <link xl:href="http://cometd.org/documentation/2.x/cometd-javascript/transports">Javascript transport section</link>).
+    to perform cross-domain JavaScript requests (see <xref linkend="javascript_transports" />).
 </para>
 <para>
     Here is an example of <code>web.xml</code> configuration for the <code>CrossOriginFilter</code>:
