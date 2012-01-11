@@ -37,7 +37,7 @@ public class Example
         boolean handshaken = client.waitFor(1000, BayeuxClient.State.CONNECTED);
         if (handshaken)
         {
-            <bold>client.getChannel(CHANNEL).subscribe(fooListener);</bold>
+            client.getChannel(CHANNEL).subscribe(fooListener);
         }
     }
 
@@ -97,11 +97,11 @@ public class Example
     public void init()
     {
         ClientSession client = ...;
-        <bold>client.getChannel(Channel.META_HANDSHAKE).addListener</bold>(new ClientSessionChannel.MessageListener()
+        client.getChannel(Channel.META_HANDSHAKE).addListener(new ClientSessionChannel.MessageListener()
         {
             public void onMessage(ClientSessionChannel channel, Message message)
             {
-                >// Here we received a handshake response message<
+                // Here we received a handshake response message
             }
         });
     }

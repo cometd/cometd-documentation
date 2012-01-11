@@ -75,7 +75,7 @@ An alternative is to use the built-in synchronous features of CometD 2's BayeuxC
 ClientTransport transport = ...
 BayeuxClient client = new BayeuxClient("http://localhost:8080/cometd", transport);
 client.handshake();
-<bold>boolean handshaken = client.waitFor(1000, BayeuxClient.State.CONNECTED);</bold>
+boolean handshaken = client.waitFor(1000, BayeuxClient.State.CONNECTED);
 if (handshaken)
 {
     // Here handshake is successful
