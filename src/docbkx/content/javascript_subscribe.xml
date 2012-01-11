@@ -362,7 +362,7 @@ var _connected = false;
 cometd.addListener('/meta/connect', function(message)
 {
     // if (cometd.getStatus() === 'disconnecting' || cometd.getStatus() === 'disconnected')
-    if (cometd.isDisconnected()) <span class="code-comment">// Available since 1.1.2</span>
+    if (cometd.isDisconnected())
     {
         return;
     }

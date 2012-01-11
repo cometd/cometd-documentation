@@ -68,7 +68,7 @@ public class Example
     ...
     public void detach()
     {
-        <span style="font-weight:bold;">client.getChannel(CHANNEL).unsubscribe(fooListener);</span>
+        client.getChannel(CHANNEL).unsubscribe(fooListener);
     }
 }
 ]]>

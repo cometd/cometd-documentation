@@ -53,10 +53,10 @@ The reason for this limited support is that the CometD project does not want to 
 <td>
 <informalexample>
 <programlisting language="java"><![CDATA[
-<b>@org.cometd.annotation.Service("echoService")</b>
+@org.cometd.annotation.Service("echoService")
 public class EchoService
 {
-    <b>@javax.inject.Inject</b>
+    @javax.inject.Inject
     private BayeuxServer bayeux;
 }
 ]]>
@@ -142,10 +142,10 @@ public class EchoService
     @Inject
     private BayeuxServer bayeux;
 
-    <b>@org.cometd.annotation.Session</b>
+    @org.cometd.annotation.Session
     private LocalSession localSession;
 
-    <b>@org.cometd.annotation.Session</b>
+    @org.cometd.annotation.Session
     private ServerSession serverSession;
 }
 ]]>
@@ -201,7 +201,7 @@ public class EchoService
     @Session
     private ServerSession serverSession;
 
-    <b>@org.cometd.annotation.Listener("/echo")</b>
+    @org.cometd.annotation.Listener("/echo")
     public void echo(ServerSession remote, ServerMessage.Mutable message)
     {
         String channel = message.getChannel();
@@ -267,7 +267,7 @@ public class EchoService
     @Session
     private ServerSession serverSession;
 
-    <b>@org.cometd.annotation.Subscription("/echo")</b>
+    @org.cometd.annotation.Subscription("/echo")
     public void echo(Message message)
     {
         System.out.println("Echo service published " + message);
@@ -341,13 +341,13 @@ public class Service
     @Listener(Channel.META_CONNECT)
     public void metaConnect(Message connect)
     {
-        <span class="code-comment">// Connect handling...</span>
+        // Connect handling...
     }
 
     @Subscription("/foo")
     public void foo(Message message)
     {
-        <span class="code-comment">// Message handling...</span>
+        // Message handling...
     }
 }
 ]]>
@@ -363,7 +363,7 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
 {
     public void onMessage(ClientSessionChannel channel, Message message)
     {
-        <span class="code-comment">// Connect handling...</span>
+        // Connect handling...
     }
 });
 
@@ -374,7 +374,7 @@ bayeuxClient.getChannel("/foo").subscribe(new ClientSessionChannel.MessageListen
 {
     public void onMessage(ClientSessionChannel channel, Message message)
     {
-        <span class="code-comment">// Message handling...</span>
+        // Message handling...
     }
 });
 ]]>
@@ -406,7 +406,7 @@ Like server-side annotated services, the session field (or method) cannot be inj
 @Service
 public class Service
 {
-    <b>@org.cometd.annotation.Session</b>
+    @org.cometd.annotation.Session
     private ClientSession bayeuxClient;
 }
 ]]>
@@ -441,7 +441,7 @@ public class Service
     @Listener(Channel.META_CONNECT)
     public void metaConnect(Message connect)
     {
-        <span class="code-comment">// Connect handling...</span>
+        // Connect handling...
     }
 }
 ]]>
@@ -455,7 +455,7 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
 {
     public void onMessage(ClientSessionChannel channel, Message message)
     {
-        <span class="code-comment">// Connect handling...</span>
+        // Connect handling...
     }
 });
 ]]>
@@ -528,13 +528,13 @@ Annotation processing is done by the <code>org.cometd.annotation.ClientAnnotatio
 <programlisting language="java"><![CDATA[
 ClientSession bayeuxClient = ...;
 
-// Create the ClientAnnotationProcessor</span>
+// Create the ClientAnnotationProcessor
 ClientAnnotationProcessor processor = new ClientAnnotationProcessor(bayeuxClient);
 
-// Create the service instance</span>
+// Create the service instance
 Service service = new Service();
 
-// Process the annotated service</span>
+// Process the annotated service
 processor.process(service);
 
 bayeuxClient.handshake();

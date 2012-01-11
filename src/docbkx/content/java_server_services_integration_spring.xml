@@ -26,26 +26,26 @@ The <code>web.xml</code> file is as follows:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee"
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"&gt;
+         version="2.5">
 
-    &lt;servlet&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;org.cometd.server.CometdServlet&lt;/servlet-class&gt;
-    &lt;/servlet&gt;
-    &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        &lt;url-pattern&gt;/cometd/*&lt;/url-pattern&gt;
-    &lt;/servlet-mapping&gt;
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
 
-    &lt;listener&gt;
-        &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
-    &lt;/listener&gt;
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
-&lt;/web-app&gt;
+</web-app>
 ]]>
 </programlisting>
 </informalexample>
@@ -54,37 +54,37 @@ Spring's <code>applicationContext.xml</code> is as follows:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;beans xmlns="http://www.springframework.org/schema/beans"
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"&gt;
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    &lt;bean id="otherService" class="com.acme..." /&gt;
+    <bean id="otherService" class="com.acme..." />
 
-    &lt;bean id="bayeux" class="org.cometd.server.BayeuxServerImpl" init-method="start" destroy-method="stop"&gt;
-        &lt;property name="options"&gt;
-            &lt;map&gt;
-                &lt;entry key="logLevel" value="3" /&gt;
-                &lt;entry key="timeout" value="15000" /&gt;
-            &lt;/map&gt;
-        &lt;/property&gt;
-    &lt;/bean&gt;
+    <bean id="bayeux" class="org.cometd.server.BayeuxServerImpl" init-method="start" destroy-method="stop">
+        <property name="options">
+            <map>
+                <entry key="logLevel" value="3" />
+                <entry key="timeout" value="15000" />
+            </map>
+        </property>
+    </bean>
 
-    &lt;bean id="echoService" class="com.acme.cometd.EchoService"&gt;
-        &lt;constructor-arg&gt;&lt;ref local="bayeux" /&gt;&lt;/constructor-arg&gt;
-        &lt;constructor-arg&gt;&lt;ref local="otherService" /&gt;&lt;/constructor-arg&gt;
-    &lt;/bean&gt;
+    <bean id="echoService" class="com.acme.cometd.EchoService">
+        <constructor-arg><ref local="bayeux" /></constructor-arg>
+        <constructor-arg><ref local="otherService" /></constructor-arg>
+    </bean>
 
-    &lt;bean class="org.springframework.web.context.support.ServletContextAttributeExporter"&gt;
-        &lt;property name="attributes"&gt;
-            &lt;map&gt;
-                &lt;entry key="org.cometd.bayeux"&gt;
-                    &lt;ref local="bayeux" /&gt;
-                &lt;/entry&gt;
-            &lt;/map&gt;
-        &lt;/property&gt;
-    &lt;/bean&gt;
-&lt;/beans&gt;
+    <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
+        <property name="attributes">
+            <map>
+                <entry key="org.cometd.bayeux">
+                    <ref local="bayeux" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>
 ]]>
 </programlisting>
 </informalexample>
@@ -115,16 +115,16 @@ Spring's <code>applicationContext.xml</code> is as follows:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;beans xmlns="http://www.springframework.org/schema/beans"
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"&gt;
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
-    &lt;context:component-scan base-package="com.acme..." /&gt;
+    <context:component-scan base-package="com.acme..." />
 
-&lt;/beans&gt;
+</beans>
 ]]>
 </programlisting>
 </informalexample>
@@ -136,8 +136,8 @@ The CometD annotated service needs some additional annotation to make it qualify
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
-<b>@javax.inject.Named</b> // Tells Spring that this is a bean
-<b>@javax.inject.Singleton</b> // Tells Spring that this is a singleton
+@javax.inject.Named // Tells Spring that this is a bean
+@javax.inject.Singleton // Tells Spring that this is a singleton
 @Service("echoService")
 public class EchoService
 {

@@ -16,7 +16,7 @@ ClientTransport transport = ...
 ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
 client.handshake();
 
-Map&lt;String, Object&gt; data = new HashMap&lt;String, Object&gt;();
+Map<String, Object> data = new HashMap<String, Object>();
 // Fill in the data
 client.getChannel("/game/table/1").publish(data);
 ]]>
@@ -42,11 +42,11 @@ client.batch (new Runnable()
 {
     public void run()
     {
-        Map&lt;String, Object&gt; data1 = new HashMap&lt;String, Object&gt;();
+        Map<String, Object> data1 = new HashMap<String, Object>();
         // Fill in the data1 map object
         client.getChannel("/game/table/1").publish(data1);
 
-        Map&lt;String, Object&gt; data2 = new HashMap&lt;String, Object&gt;();
+        Map<String, Object> data2 = new HashMap<String, Object>();
         // Fill in the data2 map object<
         client.getChannel("/game/chat/1").publish(data2);
     }

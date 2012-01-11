@@ -20,7 +20,7 @@ public class EchoService extends AbstractService                                
         addService("/echo", "processEcho");                                       (4)
     }
 
-    public void processEcho(ServerSession remote, Map&lt;String, Object&gt; data) (5)
+    public void processEcho(ServerSession remote, Map<String, Object> data) (5)
     {
         remote.deliver(getServerSession(), "/echo", data, null);                  (6)
     }
@@ -64,13 +64,13 @@ public void processEcho(ServerSession remote, Message message)
 
 // Obtains the remote session object and the message's data object
 // (additional message information, such as the channel or the id is lost)
-public void processEcho(ServerSession remote, Map&lt;String, Object&gt; data)
+public void processEcho(ServerSession remote, Map<String, Object> data)
 
 // Obtains the remote session object, the channel name, the message object and the message id
 public void processEcho(ServerSession remote, String channelName, Message message, String messageId)
 
 // Obtains the remote session object, the channel name, the message's data object and the message id
-public void processEcho(ServerSession remote, String channelName, Map&lt;String, Object&gt; data, String messageId)
+public void processEcho(ServerSession remote, String channelName, Map<String, Object> data, String messageId)
 ]]>
 </programlisting>
 </informalexample>
@@ -87,9 +87,9 @@ public class BaseballTeamService extends AbstractService
         addService("/baseball/team/*", "processBaseballTeam");
     }
 
-    public void processBaseballTeam(ServerSession remote, String channelName, Map&lt;String, Object&gt; data, String messageId)
+    public void processBaseballTeam(ServerSession remote, String channelName, Map<String, Object> data, String messageId)
     {
-        <span class="code-comment">// Upon receiving a message on channel /baseball/team/*, forward to channel /events/baseball/team/*</span>
+        // Upon receiving a message on channel /baseball/team/*, forward to channel /events/baseball/team/*
         getBayeux().getChannel("/events" + channelName).publish(getServerSession(), data, null);
     }
 }

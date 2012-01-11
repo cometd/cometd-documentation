@@ -10,8 +10,8 @@
 <para>
     The <emphasis>acknowledged messages</emphasis> extension provides reliable, ordered messaging to the Bayeux protocol.
     This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
-    If you are interested only in ordered messaging, see
-    <!-- TODO: relink to docbook section --><a href="/documentation/2.x/howtos/message-ordering">here</a>.
+    If you are interested only in ordered messaging, see <!-- TODO: relink to docbook section -->
+    <link xl:href="http://cometd.org/documentation/2.x/howtos/message-ordering">here</link>.
 </para>
 <section>
 <info>

@@ -22,29 +22,29 @@ Here is a sample <code>web.xml</code>:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee"
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"&gt;
+         version="2.5">
 
-    &lt;servlet&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;org.cometd.server.CometdServlet&lt;/servlet-class&gt;
-        <span style="font-weight: bold;">&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span>
-    &lt;/servlet&gt;
-    &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        &lt;url-pattern&gt;/cometd/*&lt;/url-pattern&gt;
-    &lt;/servlet-mapping&gt;
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
 
-    &lt;servlet&gt;
-        &lt;servlet-name&gt;configuration&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;com.acme.cometd.ConfigurationServlet&lt;/servlet-class&gt;
-        <span style="font-weight: bold;">&lt;load-on-startup&gt;2&lt;/load-on-startup&gt;</span>
-    &lt;/servlet&gt;
+    <servlet>
+        <servlet-name>configuration</servlet-name>
+        <servlet-class>com.acme.cometd.ConfigurationServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
 
-&lt;/web-app&gt;
+</web-app>
 ]]>
 </programlisting>
 </informalexample>
@@ -101,27 +101,27 @@ Here is a sample <code>web.xml</code> file:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee"
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"&gt;
+         version="2.5">
 
-    &lt;servlet&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;org.cometd.server.CometdServlet&lt;/servlet-class&gt;
-        <span style="font-weight: bold;">&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span>
-    &lt;/servlet&gt;
-    &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        &lt;url-pattern&gt;/cometd/*&lt;/url-pattern&gt;
-    &lt;/servlet-mapping&gt;
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
 
-    &lt;listener&gt;
-        &lt;listener-class&gt;com.acme.cometd.BayeuxInitializer&lt;/listener-class&gt;
-    &lt;/listener&gt;
+    <listener>
+        <listener-class>com.acme.cometd.BayeuxInitializer</listener-class>
+    </listener>
 
-&lt;/web-app&gt;
+</web-app>
 ]]>
 </programlisting>
 </informalexample>
@@ -136,13 +136,13 @@ public class BayeuxInitializer implements ServletContextAttributeListener
     {
         if (Bayeux.ATTRIBUTE.equals(event.getName()))
         {
-            <span class="code-comment">// Grab the Bayeux object</span>
+            // Grab the Bayeux object
             BayeuxServer bayeux = (BayeuxServer)event.getValue();
             new EchoService(bayeux);
-            <span class="code-comment">// Create other services here</span>
+            // Create other services here
 
-            <span class="code-comment">// This is also the place where you can configure the Bayeux object</span>
-            <span class="code-comment">// by adding extensions or specifying a SecurityPolicy</span>
+            // This is also the place where you can configure the Bayeux object
+            // by adding extensions or specifying a SecurityPolicy
         }
     }
 
@@ -172,31 +172,31 @@ For example, the <code>ConfigurationServlet</code> becomes:
 <programlisting language="java"><![CDATA[
 public class ConfigurationServlet extends GenericServlet
 {
-    private final List&lt;Object&gt; services = new ArrayList&lt;Object&gt;();
+    private final List<Object> services = new ArrayList<Object>();
     private ServerAnnotationProcessor processor;
 
     public void init() throws ServletException
     {
-        <span class="code-comment">// Grab the BayeuxServer object</span>
+        // Grab the BayeuxServer object
         BayeuxServer bayeux = (BayeuxServer)getServletContext().getAttribute(BayeuxServer.ATTRIBUTE);
 
-        <span class="code-comment">// Create the annotation processor</span>
+        // Create the annotation processor
         processor = new ServerAnnotationProcessor(bayeux);
 
-        <span class="code-comment">// Create your annotated service instance and process it</span>
+        // Create your annotated service instance and process it
         Object service = new EchoService();
         processor.process(service);
         services.add(service);
 
-        <span class="code-comment">// Create other services here</span>
+        // Create other services here
 
-        <span class="code-comment">// This is also the place where you can configure the Bayeux object</span>
-        <span class="code-comment">// by adding extensions or specifying a SecurityPolicy</span>
+        // This is also the place where you can configure the Bayeux object
+        // by adding extensions or specifying a SecurityPolicy
     }
 
     public void destroy() throws ServletException
     {
-        <span class="code-comment">// Deprocess the services that have been created</span>
+        // Deprocess the services that have been created
         for (Object service : services)
             processor.deprocess(service);
     }
@@ -222,26 +222,26 @@ This is a sample <code>web.xml</code>:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;web-app xmlns="http://java.sun.com/xml/ns/javaee"
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"&gt;
+         version="2.5">
 
-    &lt;servlet&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        <b>&lt;servlet-class&gt;org.cometd.java.annotation.AnnotationCometdServlet&lt;/servlet-class&gt;</b>
-        &lt;init-param&gt;
-            &lt;param-name&gt;services&lt;/param-name&gt;
-            <b>&lt;param-value&gt;com.acme.cometd.FooService, com.acme.cometd.BarService&lt;/param-value&gt;</b>
-        &lt;/init-param&gt;
-    &lt;/servlet&gt;
-    &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;cometd&lt;/servlet-name&gt;
-        &lt;url-pattern&gt;/cometd/*&lt;/url-pattern&gt;
-    &lt;/servlet-mapping&gt;
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.java.annotation.AnnotationCometdServlet</servlet-class>
+        <init-param>
+            <param-name>services</param-name>
+            <param-value>com.acme.cometd.FooService, com.acme.cometd.BarService</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
 
-&lt;/web-app&gt;
+</web-app>
 ]]>
 </programlisting>
 </informalexample>

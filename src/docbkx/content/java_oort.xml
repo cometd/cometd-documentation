@@ -532,7 +532,7 @@ The next section will cover broadcast messages forwarding over the entire cloud.
     For example, let's assume that remote clients always send an extension field containing an
     authentication token; then it is possible to write an implementation of <code>SecurityPolicy</code>
     as follows (see also the section about <!-- TODO: relink to docbook section -->
-    <link xl:href="/documentation/2.x/howtos/authentication">authentication</link>):
+    <link xl:href="http://cometd.org/documentation/2.x/howtos/authentication">authentication</link>):
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -723,8 +723,8 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     </servlet>
 
     <servlet>
-        <servlet-name><b>seti</b></servlet-name>
-        <servlet-class><b>org.cometd.oort.SetiServlet</b></servlet-class>
+        <servlet-name>seti</servlet-name>
+        <servlet-class>org.cometd.oort.SetiServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
 </web-app>
@@ -753,7 +753,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     In practice, the best way of associating a <code>userId</code> with a <code>ServerSession</code>
     is in a <code>SecurityPolicy</code> during <!-- TODO: link to docbook section -->
-    <link xl:href="/documentation/2.x/howtos/authentication">authentication</link>, for example:
+    <link xl:href="http://cometd.org/documentation/2.x/howtos/authentication">authentication</link>, for example:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[

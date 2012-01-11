@@ -29,7 +29,7 @@ HttpClient httpClient = new HttpClient();
 httpClient.start();
 
 // Prepare the transport
-Map&lt;String, Object&gt; options = new HashMap&lt;String, Object&gt;();
+Map<String, Object> options = new HashMap<String, Object>();
 ClientTransport transport = LongPollingTransport.create(options, httpClient);
 
 ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
