@@ -21,5 +21,8 @@
     <xsl:template match="xslthl:string" mode="xslthl">
         <span class="hl-string"><xsl:apply-templates /></span>
     </xsl:template>
+    <xsl:template match="xslthl:annotation" mode="xslthl">
+        <span class="hl-annotation"><xsl:apply-templates /></span>
+    </xsl:template>
 
 </xsl:stylesheet>

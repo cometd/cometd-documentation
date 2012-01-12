@@ -99,3 +99,8 @@ td
     color: gray;
     font-style: italic;
 }
+
+.hl-annotation
+{
+    color: #880;
+}
