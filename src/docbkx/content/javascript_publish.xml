@@ -13,8 +13,7 @@
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 cometd.publish('/mychannel', { mydata: { foo: 'bar' } });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     You cannot (and it makes no sense) to publish to a meta channel, and you can publish to a channel even if you are

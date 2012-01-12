@@ -19,8 +19,7 @@ client.handshake();
 Map<String, Object> data = new HashMap<String, Object>();
 // Fill in the data
 client.getChannel("/game/table/1").publish(data);
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Publishing data on a channel is an asynchronous operation.
@@ -51,8 +50,7 @@ client.batch (new Runnable()
         client.getChannel("/game/chat/1").publish(data2);
     }
 });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 
 <warning>

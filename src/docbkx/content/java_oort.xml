@@ -181,8 +181,7 @@ There are two ways for a new comet to discover at least one other comet:
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Since <code>Oort</code> depends on <code>BayeuxServer</code>, the <code>load-on-startup</code>
@@ -337,8 +336,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Like for the automatic discovery, the <code>load-on-startup</code> parameter of the
@@ -407,8 +405,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Alternatively, it's possible to write custom initialization code (see the section on
@@ -442,8 +439,7 @@ public class OortConfigurationServlet extends GenericServlet
         throw new ServletException();
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The <code>OortComet</code> instance returned by <code>Oort.observeComet(url)</code> is a
@@ -517,8 +513,7 @@ The next section will cover broadcast messages forwarding over the entire cloud.
         }
     }
 }
-]]>
-    </programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The <code>oortURL</code> field is the URL of the comet that initiates the handshakes; the
@@ -561,8 +556,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         return ext != null && isValid(ext.get("token"));
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The <code>Oort.isOortHandshake(Message)</code> method validates the handshake message and
@@ -626,8 +620,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         </init-param>
     </servlet>
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Alternatively, it is possible to use <code>Oort.observeChannel(String channelName)</code> to
@@ -831,8 +824,7 @@ public class SetiForwarder
         seti.sendMessage(targetUserId, message.getChannel(), data);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     In the example below, <code>clientA</code> wants to send a message to <code>clientC</code>

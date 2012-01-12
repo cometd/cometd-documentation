@@ -40,11 +40,10 @@ In particular, it supports only the injection of the BayeuxServer object on fiel
 <para>
 The reason for this limited support is that the CometD project does not want to implement and support a generic dependency injection container, but instead offers a simple integration with existing dependency injection containers and a minimal support for required CometD objects (such as the BayeuxServer instance).
 </para>
-<table>
+<informaltable>
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th />
 <th>Inherited Style</th>
 </tr>
 </thead>
@@ -59,8 +58,7 @@ public class EchoService
     @javax.inject.Inject
     private BayeuxServer bayeux;
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 <td>
@@ -73,13 +71,12 @@ public class EchoService extends AbstractService
         super(bayeux, "echoService");
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 </tr>
 </tbody>
-</table>
+</informaltable>
 <para>
 The service class is annotated with <code>@Service</code> and specifies the (optional) service name "echoService".
 The BayeuxServer field is annotated with the standard <link xl:href="http://jcp.org/en/jsr/detail?id=330">JSR 330</link> <code>@Inject</code> annotation.
@@ -120,8 +117,7 @@ public class EchoService
         channel.addAuthorizer(GrantAuthorizer.GRANT_PUBLISH);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </para>
 </section>
@@ -148,8 +144,7 @@ public class EchoService
     @org.cometd.annotation.Session
     private ServerSession serverSession;
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </para>
 <para>
@@ -180,11 +175,10 @@ CometD passes a reference to Listener methods to both:
 <para>
 The callback method must have the following signature, or a covariant version of it:
 </para>
-<table>
+<informaltable>
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th />
 <th>Inherited Style</th>
 </tr>
 </thead>
@@ -209,8 +203,7 @@ public class EchoService
         remote.deliver(serverSession, channel, data, null);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 <td>
@@ -231,13 +224,12 @@ public class EchoService extends AbstractService
         remote.deliver(getServerSession(), channel, data, null);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 </tr>
 </tbody>
-</table>
+</informaltable>
 <para>
 The callback method can return false to indicate that the processing of subsequent listeners should not be performed and that the message should not be published.
 </para>
@@ -273,8 +265,7 @@ public class EchoService
         System.out.println("Echo service published " + message);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>
 <section>
@@ -296,8 +287,7 @@ EchoService service = new EchoService();
 
 // Process the annotated service
 processor.process(service);
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </para>
 <para>
@@ -319,11 +309,10 @@ Like their server-side counterpart, client-side services consist in classes anno
 <para>
 We have introduced client-side services to reduce the boilerplate code required:
 </para>
-<table>
+<informaltable>
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th />
 <th>Inherited Style</th>
 </tr>
 </thead>
@@ -350,8 +339,7 @@ public class Service
         // Message handling...
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 <td>
@@ -377,13 +365,12 @@ bayeuxClient.getChannel("/foo").subscribe(new ClientSessionChannel.MessageListen
         // Message handling...
     }
 });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 </tr>
 </tbody>
-</table>
+</informaltable>
 <section>
 <info>
     <title>Dependency Injection and Lifecycle Management Support</title>
@@ -409,8 +396,7 @@ public class Service
     @org.cometd.annotation.Session
     private ClientSession bayeuxClient;
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </para>
 </section>
@@ -422,11 +408,10 @@ public class Service
 In client-side annotated services, methods annotated with <code>@Listener</code> represent callbacks that are called upon receipt of messages on meta channels.
 Do not use listener callbacks to subscribe to normal channels.
 </para>
-<table>
+<informaltable>
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th />
 <th>Inherited Style</th>
 </tr>
 </thead>
@@ -444,8 +429,7 @@ public class Service
         // Connect handling...
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 <td>
@@ -458,13 +442,12 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
         // Connect handling...
     }
 });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 </tr>
 </tbody>
-</table>
+</informaltable>
 </section>
 <section>
 <info>
@@ -473,11 +456,10 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
 <para>
 In client-side annotated services, methods annotated with <code>@Subscription</code> represent callbacks that are called upon receipt of messages on normal channels.
 </para>
-<table>
+<informaltable>
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th />
 <th>Inherited Style</th>
 </tr>
 </thead>
@@ -495,8 +477,7 @@ public class Service
        // Message handling...
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 <td>
@@ -509,13 +490,12 @@ bayeuxClient.getChannel("/foo/*").subscribe(new ClientSessionChannel.MessageList
         // Message handling...
     }
 });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </td>
 </tr>
 </tbody>
-</table>
+</informaltable>
 </section>
 <section>
 <info>
@@ -538,8 +518,7 @@ Service service = new Service();
 processor.process(service);
 
 bayeuxClient.handshake();
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Listener callbacks are configured immediately on the ClientSession object, while subscription callbacks are automatically delayed until the handshake is successfully completed.

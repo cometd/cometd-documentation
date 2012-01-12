@@ -63,8 +63,7 @@ cometd.init('http://localhost:8080/cometd');
 
 // Publish to a channel
 cometd.publish('/foo', { foo: 'bar' });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     It is not a good idea because there is no guarantee that the call to <code>publish()</code> (which we cover in a

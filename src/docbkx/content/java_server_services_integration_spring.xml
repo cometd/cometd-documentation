@@ -46,8 +46,7 @@ The <code>web.xml</code> file is as follows:
     </listener>
 
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Spring's <code>applicationContext.xml</code> is as follows:
@@ -85,8 +84,7 @@ Spring's <code>applicationContext.xml</code> is as follows:
         </property>
     </bean>
 </beans>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Spring now creates the BayeuxServer object, configuring it via the <code>options</code> property, initializing via the <code>start()</code> method, and exporting to the servlet context via Spring's <code>ServletContextAttributeExporter</code>.
@@ -125,8 +123,7 @@ Spring's <code>applicationContext.xml</code> is as follows:
     <context:component-scan base-package="com.acme..." />
 
 </beans>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Spring scans the classpath for classes that qualify as Spring beans in the given base package.
@@ -160,8 +157,7 @@ public class EchoService
         remote.deliver(serverSession, channel, data, null);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 The missing piece is that you need to tell Spring to perform the processing of the CometD annotations; do so using a Spring component:
@@ -217,8 +213,7 @@ public class Configurer implements DestructionAwareBeanPostProcessor, ServletCon
         servletContext.setAttribute(BayeuxServer.ATTRIBUTE, bayeuxServer);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Summary:

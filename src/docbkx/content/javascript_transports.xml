@@ -132,8 +132,7 @@ var cometd = dojox.cometd; // Dojo style
 var cometd = $.cometd; // jQuery style
 
 cometd.unregisterTransport('websocket');
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>
 

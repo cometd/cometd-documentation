@@ -28,8 +28,8 @@
 
 <screen>
 
-<programlisting language="java" linenumbering="numbered">  <<snippet needs to be left aligned>>
-<![CDATA[
+<<snippet needs to be left aligned>>
+<programlisting language="java" linenumbering="numbered"><![CDATA[
 public class Main { // bad
     private String name;
     public Main(String n) { // bad
@@ -38,8 +38,7 @@ public class Main { // bad
         }
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 
 
 == TRADEMARK

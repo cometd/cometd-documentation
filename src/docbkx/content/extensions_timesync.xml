@@ -22,8 +22,7 @@ To enable support for acknowledged messages, you must add the extension to the <
 <informalexample>
 <programlisting language="java"><![CDATA[
 bayeuxServer.addExtension(new org.cometd.server.ext.TimesyncExtension());
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>
 <section>
@@ -36,8 +35,7 @@ The <code>dojox/cometd/timesync.js</code> provides the client-side extension bin
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 dojo.require("dojox.cometd.timesync");
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 The file <code>jquery.cometd-timesync.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code> tag:
@@ -45,8 +43,7 @@ The file <code>jquery.cometd-timesync.js</code> provides the client-side extensi
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 <script type="text/javascript" src="jquery.cometd-timesync.js"></script>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name "timesync".
@@ -66,8 +63,7 @@ With each handshake or connect, the extension sends timestamps within the ext fi
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 {ext:{timesync:{tc:12345567890,l:23,o:4567},...},...}
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 where:
@@ -93,8 +89,7 @@ The response is an <code>ext</code> field, for example:
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 {ext:{timesync:{tc:12345567890,ts:1234567900,p:123,a:3},...},...}
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 where:
@@ -135,8 +130,7 @@ cometd.unregisterExtension('timesync');
 
 // Re-register with different configuration
 cometd.registerExtension('timesync', new org.cometd.TimeSyncExtension({ maxSamples: 20 }));
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 The client-side timesync extension also exposes several methods to deal with the result of the time synchronization:

@@ -18,8 +18,7 @@
         cometd.publish('/channel1', { product: 'foo' });
         cometd.publish('/channel2', { notificationType: 'all' });
         cometd.publish('/channel3', { update: false });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     You might think that the three publishes leave the client one after the other, but that is not the case.
@@ -74,8 +73,7 @@ cometd.publish('/channel1', { product: 'foo' });
 cometd.publish('/channel2', { notificationType: 'all' });
 cometd.publish('/channel3', { update: false });
 cometd.endBatch()
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     Notice how the three <code>publish()</code> calls are now within a function passed to <code>batch()</code>.
@@ -124,8 +122,7 @@ var _subscription;
     _subscription = cometd.subscribe('/foo', function(message) { ... });
     cometd.publish('/bar', { ... });
 });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The Bayeux server processes batched messages in the order they are sent.

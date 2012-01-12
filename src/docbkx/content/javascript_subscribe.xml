@@ -187,8 +187,7 @@ var subscription2 = cometd.subscribe('/foo/bar/', function() { ... });
 // Some de-initialization code
 cometd.unsubscribe(subscription2);
 cometd.removeListener(subscription1);
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     A common use pattern is to handle the subscription code in an idempotent method, like this:
@@ -215,8 +214,7 @@ function _appSubscribe()
 {
     _subscription = cometd.subscribe('/foo/bar', function() { ... });
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     The same of course applies also for <code>addListener()/removeListener()</code>.
@@ -258,8 +256,7 @@ cometd.onListenerException = function(exception, subscriptionHandle, isListener,
     else
         this.unsubscribe(subscriptionHandle);
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     It is possible to send messages to the server from the listener exception handler.
@@ -278,8 +275,7 @@ cometd.onListenerException = function(exception, subscriptionHandle, isListener,
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 cometd.subscribe("/chatrooms/*", function(message) { ... });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     A single asterisk has the meaning of matching a single channel segment; in the example above it matches channels
@@ -289,8 +285,7 @@ cometd.subscribe("/chatrooms/*", function(message) { ... });
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 cometd.subscribe("/events/**", function(message) { ... });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     With the double asterisk, the channels <code>/events/stock/FOO</code> and <code>/events/forex/EUR</code> match,
@@ -302,8 +297,7 @@ cometd.subscribe("/events/**", function(message) { ... });
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 cometd.addListener("/meta/*", function(message) { ... });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     By default, subscriptions to the global wildcards <code>/*</code> and <code>/**</code> result in an error, but
@@ -385,8 +379,7 @@ cometd.addListener('/meta/disconnect', function(message)
         _connected = false;
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
     One small caveat with the <code>/meta/connect</code> channel is that <code>/meta/connect</code> is also used

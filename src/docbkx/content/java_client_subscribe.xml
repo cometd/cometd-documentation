@@ -49,8 +49,7 @@ public class Example
         }
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <note>
 <para>
@@ -71,8 +70,7 @@ public class Example
         client.getChannel(CHANNEL).unsubscribe(fooListener);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <tip>
 <para>
@@ -106,8 +104,7 @@ public class Example
         });
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>
 </section>

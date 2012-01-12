@@ -31,8 +31,7 @@ cometd.configure('http://localhost:8080/cometd');
 cometd.configure({
     url: 'http://localhost:8080/cometd'
 });
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 The first way is a shorthand for the second way.

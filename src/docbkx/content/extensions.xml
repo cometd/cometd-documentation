@@ -77,8 +77,7 @@ var LoggerExt = function()
         }
     };
 };
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Notice that meta messages are also passed to the extension methods; you normally have to filter the messages that the extension method receives by looking at the channel or at some other message value.
@@ -121,8 +120,7 @@ Following the example above, you can register the extension like this:
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 cometd.registerExtension('loggerExt', new LoggerExt());
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 From now on, the meta connect messages are modified to carry the counter from the example extension above.
@@ -133,8 +131,7 @@ Unregistering the extension is similar:
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 cometd.unregisterExtension('loggerExt');
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 It is not possible to register two extensions under the same name.
@@ -168,8 +165,7 @@ cometd.onExtensionException = function(exception, extensionName, outgoing, messa
         badExtension.exception = exception;
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Be <emphasis>very</emphasis> careful to use the CometD object to publish messages within the extension exception handler, or you might end up in an infinite loop (the extensions process the publish message, which might fail and call again the extension exception handler).

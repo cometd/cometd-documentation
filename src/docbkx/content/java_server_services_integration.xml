@@ -45,8 +45,7 @@ Here is a sample <code>web.xml</code>:
     </servlet>
 
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Notice that the <code>web.xml</code> file specifies <code>&lt;load-on-startup&gt;</code> to be:
@@ -82,8 +81,7 @@ public class ConfigurationServlet extends GenericServlet
         throw new ServletException();
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 See <xref linkend="java_server_services_inherited" /> about the <code>EchoService</code>.
@@ -122,8 +120,7 @@ Here is a sample <code>web.xml</code> file:
     </listener>
 
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 This is the code for the <code>BayeuxInitializer</code>:
@@ -154,8 +151,7 @@ public class BayeuxInitializer implements ServletContextAttributeListener
     {
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>
 <section>
@@ -206,8 +202,7 @@ public class ConfigurationServlet extends GenericServlet
         throw new ServletException();
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>
 <section>
@@ -242,8 +237,7 @@ This is a sample <code>web.xml</code>:
     </servlet-mapping>
 
 </web-app>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 In this example, the <code>AnnotationCometdServlet</code> instantiates and processes the annotations of one object of class <code>com.acme.cometd.FooService</code> and of one object of class <code>com.acme.cometd.BarService</code>.

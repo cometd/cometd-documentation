@@ -25,8 +25,7 @@ public class EchoService extends AbstractService                                
         remote.deliver(getServerSession(), "/echo", data, null);                  (6)
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 This is a simple echo service that returns the message sent by the remote client on channel "/echo" to the remote client itself.
@@ -71,8 +70,7 @@ public void processEcho(ServerSession remote, String channelName, Message messag
 
 // Obtains the remote session object, the channel name, the message's data object and the message id
 public void processEcho(ServerSession remote, String channelName, Map<String, Object> data, String messageId)
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Notice that the channel name specified in the <code>subscribe()</code> method can be a wildcard, for example:
@@ -93,8 +91,7 @@ public class BaseballTeamService extends AbstractService
         getBayeux().getChannel("/events" + channelName).publish(getServerSession(), data, null);
     }
 }
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Notice also how the first example uses <code>ServerSession.deliver()</code> to send a message to a particular remote client, while the second uses <code>ServerChannel.publish()</code> to send a message to anyone who subscribes to channel "/events/baseball/team/*".

@@ -25,8 +25,7 @@ boolean canCreate(BayeuxServer server, ServerSession session, String channelId, 
 boolean canSubscribe(BayeuxServer server, ServerSession session, ServerChannel channel, ServerMessage messsage);
 
 boolean canPublish(BayeuxServer server, ServerSession session, ServerChannel channel, ServerMessage messsage);
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 The methods control, respectively, whether a handshake, a channel creation, a subscription to a channel or a publish to a channel are to be authorized.

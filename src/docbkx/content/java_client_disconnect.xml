@@ -13,8 +13,7 @@ Disconnecting is straightforward:
 <informalexample>
 <programlisting language="java"><![CDATA[
 BayeuxClient.disconnect();
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 Additionally, you can wait for the disconnect to complete:
@@ -24,7 +23,6 @@ Additionally, you can wait for the disconnect to complete:
 BayeuxClient client = ...;
 client.disconnect();
 client.waitFor(1000, BayeuxClient.State.DISCONNECTED);
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>

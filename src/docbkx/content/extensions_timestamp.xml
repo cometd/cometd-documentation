@@ -22,8 +22,7 @@ To enable support for time-stamped messages, you must add the extension to the <
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 bayeuxServer.addExtension(new org.cometd.server.ext.TimestampExtension());
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 </section>
 <section>
@@ -36,8 +35,7 @@ The <code>dojox/cometd/ack.js</code> provides the client-side extension binding 
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 dojo.require("dojox.cometd.timestamp");
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 The the file <code>jquery.cometd-timestamp.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code>tag:
@@ -46,8 +44,7 @@ The the file <code>jquery.cometd-timestamp.js</code> provides the client-side ex
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 <script type="text/javascript" src="jquery.cometd-timestamp.js"></script>
-]]>
-</programlisting>
+]]></programlisting>
 </informalexample>
 <para>
 In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name "timestamp".
