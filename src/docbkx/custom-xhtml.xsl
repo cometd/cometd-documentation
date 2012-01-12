@@ -6,8 +6,9 @@
         version="1.0">
 
     <xsl:import href="urn:docbkx:stylesheet" />
-
     <xsl:import href="urn:docbkx:stylesheet/highlight.xsl" />
+
+    <xsl:param name="section.label.includes.component.label" select="1" />
     <xsl:param name="highlight.source" select="1" />
 
     <xsl:template match="processing-instruction('linebreak')">
