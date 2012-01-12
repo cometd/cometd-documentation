@@ -59,7 +59,8 @@
 <para>
     Here is the list of configuration init parameters that the <code>BayeuxServer</code> implementation accepts:
 </para>
-<informaltable>
+<table>
+<caption>BayeuxServer Configuration Parameters</caption>
 <thead>
 <tr>
   <th>Parameter Name</th>
@@ -104,7 +105,7 @@
   </td>
 </tr>
 </tbody>
-</informaltable>
+</table>
 </section>
 <section>
 <info>
@@ -124,7 +125,8 @@
 <para>
     Here is the list of configuration init parameters that server transports accept:
 </para>
-<informaltable>
+<table>
+<caption>Server Transports Configuration Parameters</caption>
 <thead>
 <tr>
   <th>Parameter Name</th>
@@ -226,7 +228,7 @@
   </td>
 </tr>
 </tbody>
-</informaltable>
+</table>
 <section>
 <info>
     <title>Advanced Configuration</title>

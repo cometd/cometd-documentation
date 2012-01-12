@@ -50,7 +50,8 @@ dojo.require("dojox.cometd.reload");
 <para>
     Here is the list of configuration parameters that the reload extension accepts:
 </para>
-<informaltable>
+<table>
+<caption>Reload Extension Configuration Parameters</caption>
 <thead>
 <tr>
   <th>Parameter Name</th>
@@ -75,7 +76,7 @@ dojo.require("dojox.cometd.reload");
     <td>The max age, in seconds, of the short lived cookie used by the reload extension</td>
 </tr>
 </tbody>
-</informaltable>
+</table>
 <para>
     The JavaScript <code>cometd</code> object is normally already configured with the default reload extension
     configuration. In order to change the reload extension configuration, the extension needs to be unregistered

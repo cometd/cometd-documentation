@@ -37,7 +37,8 @@ cometd.configure({
 The first way is a shorthand for the second way.
 However, the second way allows you to pass other configuration parameters, currently:
 </para>
-<informaltable>
+<table>
+<caption>JavaScript Library Configuration Parameters</caption>
 <thead>
 <tr>
   <th>Parameter Name</th>
@@ -108,7 +109,7 @@ However, the second way allows you to pass other configuration parameters, curre
   <td>Determines whether multiple publishes that get queued up are sent as a batch on the first occasion, without requiring explicit batching.</td>
 </tr>
 </tbody>
-</informaltable>
+</table>
 
 <para>
     After you have configured the <code>cometd</code> object, the Bayeux communication does not start until you call
