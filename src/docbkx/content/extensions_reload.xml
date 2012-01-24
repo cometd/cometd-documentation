@@ -7,7 +7,7 @@
 <info>
     <title>Reload Extension</title>
 </info>
-<para>>
+<para>
     The reload extension allows CometD to load or reload a page without having to re-handshake in the new
     (or reloaded) page, thereby resuming the existing CometD connection.
     This extension requires only the client-side extension.
@@ -79,19 +79,39 @@ dojo.require("dojox.cometd.reload");
 </table>
 <para>
     The JavaScript <code>cometd</code> object is normally already configured with the default reload extension
-    configuration. In order to change the reload extension configuration, the extension needs to be unregistered
-    and registered again, before performing the handshake:
+    configuration.
+    <?linebreak?>
+    This is how you can reconfigure the reload extension:
+</para>
+<orderedlist>
+<listitem>
+<para>
+    Reconfigure the extension at startup:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-var cometd = dojox.cometd; // Use $.cometd is using jquery
-cometd.unregisterExtension('reload');
-cometd.registerExtension('reload', new org.cometd.ReloadExtension({
-    cookieName: 'foo',
-    cookieMaxAge: 10
-}));
+var cometd = dojox.cometd; // Use $.cometd if using jquery
+cometd.getExtension('reload').configure({
+    cookieMaxAge: 15
+});
 ]]></programlisting>
 </informalexample>
+</listitem>
+<listitem>
+<para>
+    Reconfigure the extension every time the <code>cometd.reload()</code> method is invoked:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+var cometd = dojox.cometd; // Use $.cometd if using jquery
+...
+cometd.reload({
+    cookieMaxAge: 15
+});
+]]></programlisting>
+</informalexample>
+</listitem>
+</orderedlist>
 </section>
 <section>
 <info>
