@@ -533,7 +533,7 @@ Open questions remain:
     <emphasis>unsubscribe</emphasis> message (a message sent on <code>/meta/unsubscribe</code> channel).
     <?linebreak?>
     A client can publish messages containing application-specific data at any time while it is connected,
-    and to any channel (even if it is not subscribed to that channel).
+    and to any broadcast channel (even if it is not subscribed to that channel).
 </para>
 </section>
 </section>
