@@ -512,19 +512,19 @@ oort.addCometListener(new Oort.CometListener()
 {
     public void cometJoined(Event event)
     {
-        System.out.printf("Comet joined the cloud %s%n, event.getCometURL());
+        System.out.printf("Comet joined the cloud %s%n", event.getCometURL());
     }
 
     public void cometLeft(Event event)
     {
-        System.out.printf("Comet left the cloud %s%n, event.getCometURL());
+        System.out.printf("Comet left the cloud %s%n", event.getCometURL());
     }
 });
 ]]></programlisting>
 </informalexample>
 <para>
-    The comet joined event is notified only after the Oort comet it has been registered has allowed connection
-    from the remote comet (that may be denied by a <code>SecurityPolicy</code>).
+    The comet joined event is notified only after the local Oort comet has allowed connection
+    from the remote comet (this may be denied by a <code>SecurityPolicy</code>).
 </para>
 <para>
     When a comet joined event is notified, it is possible to obtain the <code>OortComet</code> connected
@@ -703,10 +703,10 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <important>
     <para>
         Message forwarding is not bidirectional; if <code>cometA</code> forwards messages to
-        <code>cometB</code> it is not automatic that <code>cometB</code> forwards messages to
+        other comets it is not automatic that the other comets forwards messages to
         <code>cometA</code>.
         However, in most cases the Oort comets are configured in the same way by the same
-        initialization code, and therefore all comets will forward the same channels.
+        initialization code, and therefore all comets will forward the same channels to other comets.
     </para>
 </important>
 <para>
