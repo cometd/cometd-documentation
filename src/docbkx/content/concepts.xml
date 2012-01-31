@@ -600,7 +600,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 <important>
 <para>
     Applications that need to perform lengthy tasks in a server channel listener should do so in a separate thread
-    in order to avoid blocking the processing of incoming messages.
+    in order to avoid blocking the processing of other incoming messages.
 </para>
 </important>
 </section>
@@ -622,14 +622,13 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     This latter solution can be done directly via API at initialization time (see
     <xref linkend="java_server_services_integration" />), or indirectly by using annotated services (see
     <xref linkend="java_server_services_inherited" />) using <code>@Subscription</code> annotations.
-    <?linebreak?>
-    <important>
-    <para>
-        Applications that need to perform lengthy tasks in subscription listener of a local session
-        should do so in a separate thread in order to avoid blocking the processing of incoming messages.
-    </para>
-    </important>
 </para>
+<important>
+<para>
+    Applications that need to perform lengthy tasks in subscription listener of a local session
+    should do so in a separate thread in order to avoid blocking the processing of other incoming messages.
+</para>
+</important>
 </section>
 
 <section>
@@ -676,6 +675,51 @@ public class PrivateMessageService
 
         // Deliver the message to the other peer
         recipient.deliver(session, message.getChannel(), message.getData(), null);
+    }
+}
+]]></programlisting>
+</informalexample>
+</section>
+
+<section>
+<info>
+<title>
+    Server-side Message Broadcasting
+</title>
+</info>
+<para>
+    Applications may need to broadcast messages on a particular channel in response to an external event.
+    Since <code>BayeuxServer</code> is the repository for server channels, the external event handler just need
+    a reference to <code>BayeuxServer</code> to broadcast messages:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class ExternalEventBroadcaster
+{
+    private final BayeuxServer bayeuxServer;
+
+    public ExternalEventBroadcaster(BayeuxServer bayeuxServer)
+    {
+        this.bayeuxServer = bayeuxServer;
+
+        // Create a local session that will act as the "sender"
+        this.session = bayeuxServer.newLocalSession("external");
+        this.session.handshake();
+    }
+
+    public void onExternalEvent(ExternalEvent event)
+    {
+        // Retrieve the channel to broadcast to, for example
+        // based on the "type" property of the external event
+        ServerChannel channel = this.bayeuxServer.getChannel("/events/" + event.getType());
+        if (channel != null)
+        {
+            // Create the data to broadcast by converting the external event
+            Map<String, Object> data = convertExternalEvent(event);
+
+            // Broadcast the data
+            channel.publish(this.session, data, null);
+        }
     }
 }
 ]]></programlisting>
