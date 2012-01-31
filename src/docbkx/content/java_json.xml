@@ -35,7 +35,7 @@
     for further details.
 </para>
 
-<section>
+<section xml:id="java_json_api">
 <info>
     <title>JSONContext API</title>
 </info>
