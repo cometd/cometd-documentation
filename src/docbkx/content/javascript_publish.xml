@@ -16,7 +16,7 @@ cometd.publish('/mychannel', { mydata: { foo: 'bar' } });
 ]]></programlisting>
 </informalexample>
 <para>
-    You cannot (and it makes no sense) to publish to a meta channel, and you can publish to a channel even if you are
+    You cannot (and it makes no sense to) publish to a meta channel, but you can publish to a service or normal channel even if you are
     not subscribed to that channel.
     However, you have to handshake before being able to publish.
 </para>

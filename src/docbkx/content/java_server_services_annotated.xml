@@ -298,7 +298,7 @@ Symmetrically, <code>ServerAnnotationProcessor.deprocess()</code> performs annot
 </para>
 </section>
 </section>
-<section>
+<section xml:id="client-side">
 <info>
     <title>Client-Side Annotated Services</title>
 </info>
@@ -502,7 +502,7 @@ bayeuxClient.getChannel("/foo/*").subscribe(new ClientSessionChannel.MessageList
     <title>Annotation Processing</title>
 </info>
 <para>
-Annotation processing is done by the <code>org.cometd.annotation.ClientAnnotationProcessor</code> class.
+The <code>org.cometd.annotation.ClientAnnotationProcessor</code> class does annotation processing.
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[

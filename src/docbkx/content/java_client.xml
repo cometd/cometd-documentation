@@ -41,4 +41,11 @@ The following sections provide details about the Java
 <xi:include href="java_client_publish.xml" />
 <xi:include href="java_client_disconnect.xml" />
 
+<section>
+<info>
+    <title>Client-side Annotations</title>
+</info>
+
+For information about client-side annotations, see <xref linkend="java_server_services_annotated_client-side" />
+</section>
 </section>

@@ -8,18 +8,18 @@
     <title>Scalability Clustering with Oort</title>
 </info>
 <para>
-    The CometD distribution ships a clustering solution called <emphasis role="bold">Oort</emphasis> that
+    The CometD distribution ships a clustering solution called <emphasis>Oort</emphasis> that
     enhances the scalability of a CometD-based system.
     Instead of connecting to a single node (usually represented by a virtual or physical host), clients connect
-    to multiple nodes so that the processing power needed to cope with the load is spread among multiple nodes,
+    to multiple nodes so that the processing power required to cope with the load is spread among multiple nodes,
     giving the whole system more scalability than using a single node.
 </para>
 <para>
     Oort clustering <emphasis role="bold">is not</emphasis> a high availability clustering solution: if one of
-    the nodes crashes, then all the clients will be disconnected and will reconnect to other nodes (with a new
+    the nodes crashes, then all the clients are disconnected and reconnect to other nodes (with a new
     handshake).
     All the information built by one client with its server up to that point (for example, the state of an
-    online chess game) is generally lost (unless - of course - the application has implemented some other way
+    online chess game) is generally lost (unless the application has implemented some other way
     to retrieve that information).
 </para>
 <section>
@@ -27,9 +27,9 @@
     <title>Typical Infrastructure</title>
 </info>
 <para>
-    A typical, but not the only, infrastructure to set up a Oort cluster is to have a load balancer in front
+    A typical, but not the only, infrastructure to set up an Oort cluster is to have a load balancer in front
     of Oort nodes, so that clients can connect transparently to any node.
-    The load balancer should implement stickyness, and this may be based on:
+    The load balancer should implement stickyness, which can be based on:
 <itemizedlist>
 <listitem>
 <para>The remote IP address.</para>
@@ -44,9 +44,9 @@
 </para>
 <para>
     You should configure DNS with a single host name/IP address pair (that of the load balancer), so
-    that in case of a node crash, clients will attempt to reconnect to the same host name, but the load
-    balancer will notice that the node is crashed and direct the connection to another node.
-    The second node will not know about this client, and upon receiving the connect request will send to
+    that in case of a node crash, when clients attempt to reconnect to the same host name, the load
+    balancer notices that the node has crashed and directs the connection to another node.
+    The second node does not know about this client, and upon receiving the connect request sends to
     the client the advice to handshake.
 </para>
 <mediaobject>
@@ -61,9 +61,17 @@
     <title>Terminology</title>
 </info>
 <para>
-    In the following sections, the following terminology will be used: an Oort cluster is also referred to
-    as "Oort cloud" (and therefore "cloud" is a synonym for "cluster"), and a Oort node is also referred to
-    as "Oort comet" (and therefore "comet" is a synonym for "node").
+    The next sections use the following terminology: 
+    <itemizedlist>
+    <listitem>
+    <para>an <emphasis>Oort cluster</emphasis> is also referred to
+    as an <emphasis>Oort cloud</emphasis>; it follows that <emphasis>cloud</emphasis> is a synonym for <emphasis>cluster</emphasis>)</para>
+    </listitem>
+    <listitem>
+    <para>An Oort node is also referred to
+    an <emphasis>Oort comet</emphasis>; it follows that <emphasis>comet</emphasis> is a synonym for <emphasis>node</emphasis>).</para>
+    </listitem>
+    </itemizedlist>
 </para>
 </section>
 <section>
@@ -78,33 +86,33 @@ The <classname>org.cometd.oort.Oort</classname> instance is associated to the
 <code>Oort</code> instance for each <code>BayeuxServer</code> instance.
 </para>
 <para>
-Oort comets need to know each other URLs in order to connect together and form a cloud.
+Oort comets need to know each others URLs to connect and form a cloud.
 A new comet that wants to join the cloud needs to know at least one URL of another comet that is already
 part of the cloud.
-Once it has connected to one comet, the cloud will inform the new comet of the other comets to which the
-new comet is not yet connected, so that the new comet will connect to all the existing nodes.
+Once it has connected to one comet, the cloud informs the new comet of the other comets to which the
+new comet is not yet connected, and the new comet then connects to all the existing nodes.
 </para>
 <para>
 There are two ways for a new comet to discover at least one other comet:
 <itemizedlist>
 <listitem>
-    <para>at runtime, via automatic discovery based on multicast</para>
+    <para>At runtime, via automatic discovery based on multicast.</para>
 </listitem>
 <listitem>
-    <para>at startup time, via static configuration</para>
+    <para>At startup time, via static configuration.</para>
 </listitem>
 </itemizedlist>
 </para>
 
-<section>
+<section xml:id="java_oort_common_configuration">
 <info>
     <title>Common Configuration</title>
 </info>
 <para>
-    For both static and automatic discovery there exist a set of parameters can be used to configure
+    For both static and automatic discovery there exists a set of parameters that you can use to configure
     the <code>Oort</code> instance.
-    The following is the list of common configuration parameters shared by both the automatic discovery
-    and static configuration servlets:
+    The following is the list of common configuration parameters the automatic discovery
+    and static configuration servlets share:
 </para>
 <table>
 <caption>Oort Common Configuration Parameters</caption>
@@ -127,13 +135,13 @@ There are two ways for a new comet to discover at least one other comet:
     <td>oort.secret</td>
     <td>N</td>
     <td>random string</td>
-    <td>The pre-shared secret used to authenticate connections from other Oort comets</td>
+    <td>The pre-shared secret that authenticates connections from other Oort comets</td>
 </tr>
 <tr>
     <td>oort.channels</td>
     <td>N</td>
     <td>empty string</td>
-    <td>A comma separated list of channels to observe at startup</td>
+    <td>A comma-separated list of channels to observe at startup</td>
 </tr>
 <tr>
     <td>clientDebug</td>
@@ -149,7 +157,7 @@ There are two ways for a new comet to discover at least one other comet:
     <title>Automatic Discovery Configuration</title>
 </info>
 <para>
-    Configuration of the automatic discovery mechanism can be done either via code, or by configuring a
+    You can configure the automatic discovery mechanism either via code, or by configuring a
     <classname>org.cometd.oort.OortMulticastConfigServlet</classname> in <filename>web.xml</filename>,
     for example:
 </para>
@@ -190,11 +198,11 @@ There are two ways for a new comet to discover at least one other comet:
 </para>
 <para>
     The mandatory <code>oort.url</code> init parameter must identify the URL at which this Oort comet
-    can be contacted, and it must be the URL served by the <code>CometdServlet</code> of this node.
-    This URL will be sent to other Oort comets, so it is important that the host part of the URL does
-    not point to "localhost" but to a resolvable host name or to an IP address, so that other comets
+    can be contacted, and it must be the URL the <code>CometdServlet</code> of this node serves.
+    This URL is sent to other Oort comets, so it is important that the host part of the URL does
+    not point to "localhost," but to a resolvable host name or to an IP address, so that other comets
     in the cluster can contact this comet.
-    Likewise, the context path part of the URL must be configured properly for this web application.
+    Likewise, the you must properly configure the context path part of the URL for this web application.
 </para>
 <para>
     In addition to the common configuration init parameters, <code>OortMulticastConfigServlet</code>
@@ -248,12 +256,12 @@ There are two ways for a new comet to discover at least one other comet:
 </table>
 
 <para>
-    Each comet that is configured with automatic discovery will emit an advertisement (containing the
+    Each comet that you configure with automatic discovery emits an advertisement (containing the
     comet URL) every <code>oort.multicast.advertiseInterval</code> milliseconds on the specified
     multicast address and port (<code>oort.multicast.groupAddress</code> and
     <code>oort.multicast.groupPort</code>) with the specified time-to-live
     (<code>oort.multicast.timeToLive</code>).
-    Advertisements are emitted until the web application is stopped, and only serve to advertise that a
+    Advertisements continue until the web application is stopped, and only serve to advertise that a
     new node has appeared.
     <code>Oort</code> has a built-in mechanism that takes care of membership organization
     (see below for details).
@@ -276,10 +284,10 @@ There are two ways for a new comet to discover at least one other comet:
 </itemizedlist>
 
 <para>
-    Linux is normally compiled with multicast support in the most common distributions, and network
-    interfaces can be controlled with the <code>ifconfig</code> command to check if they have
+    Linux is normally compiled with multicast support in the most common distributions. You can control network
+    interfaces with the <code>ifconfig</code> command to check if they have
     multicast enabled.
-    Multicast routing can be checked with the command <code>route -n</code>, and the output should
+    You can check multicast routing with the command <code>route -n</code>, and the output should
     contain a line similar to:
 </para>
 <screen>
@@ -287,7 +295,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 224.0.0.0      0.0.0.0    240.0.0.0      U         0       0      0     eth0
 </screen>
 <para>
-    You may also want to force the JVM to prefer an IPv4 stack by setting the system property
+    You might also want to force the JVM to prefer an IPv4 stack by setting the system property
     <code>-Djava.net.preferIPv4Stack=true</code> to facilitate multicast networking.
 </para>
 </section>
@@ -296,15 +304,15 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
     <title>Static Discovery Configuration</title>
 </info>
 <para>
-    The static discovery mechanism can be used if multicast is not available on the system where
-    CometD is deployed to.
-    It is only slightly more cumbersome to set up and does not allow dynamic discovery of new nodes,
+    You can use the static discovery mechanism if multicast is not available on the system where
+    CometD is deployed.
+    It is only slightly more cumbersome to set up. It does not allow dynamic discovery of new nodes,
     but it is enough to configure each comet with the well-known URL of an existing, started, comet
     (often named "master").
-    The master comet should of course be started before all other comets.
+    The master comet should, of course, be started before all other comets.
 </para>
 <para>
-    The static discovery configuration can be done either via code, or by configuring an
+    You can accomplish the static discovery configuration either via code, or by configuring an
     <classname>org.cometd.oort.OortStaticConfigServlet</classname> in <filename>web.xml</filename>,
     for example:
 </para>
@@ -339,7 +347,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 ]]></programlisting>
 </informalexample>
 <para>
-    Like for the automatic discovery, the <code>load-on-startup</code> parameter of the
+    Just as for the automatic discovery, the <code>load-on-startup</code> parameter of the
     <code>OortStaticConfigServlet</code> must be greater than the one of the <code>CometdServlet</code>.
 </para>
 <para>
@@ -361,17 +369,17 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
     <td>oort.cloud</td>
     <td>N</td>
     <td>empty string</td>
-    <td>A comma separated list of URLs of other Oort comets to connect to at startup</td>
+    <td>A comma-separated list of URLs of other Oort comets to connect to at startup</td>
 </tr>
 </tbody>
 </table>
 <para>
     Configured in this way, the Oort comet is ready to be part of the Oort cloud, but it's not part
-    of the could yet, since it does not know the URLs of other comets (and there is no automatic
+    of the cloud yet, since it does not know the URLs of other comets (and there is no automatic
     discovery).
     To make the Oort comet part of the Oort cloud, you can configure the
     <code>oort.cloud</code> init parameter of the <code>OortStaticConfigServlet</code> with one (or
-    a comma separated list) of Oort comet URL(s) to connect to:
+    a comma-separated list) of Oort comet URL(s) to connect to:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -410,8 +418,8 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 <para>
     Alternatively, it's possible to write custom initialization code (see the section on
     <xref linkend="java_server_services_integration" />
-    for suggestions on how to do it) that links the node to the Oort cloud (this may be useful if Oort
-    comet URLs cannot be know a priori, but may be known at runtime), for example:
+    for suggestions on how to do so) that links the node to the Oort cloud (this might be useful if Oort
+    comet URLs cannot be known a priori, but can be known at runtime), for example:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -442,7 +450,7 @@ public class OortConfigurationServlet extends GenericServlet
 ]]></programlisting>
 </informalexample>
 <para>
-    The <code>OortComet</code> instance returned by <code>Oort.observeComet(url)</code> is a
+    The <code>OortComet</code> instance that <code>Oort.observeComet(url)</code> returns is a
     specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client"/>.
 </para>
 </section>
@@ -451,34 +459,34 @@ public class OortConfigurationServlet extends GenericServlet
     <title>Membership Organization</title>
 </info>
 <para>
-    When an Oort comet is instructed to connect to another Oort comet, a bidirectional communication
+    When an Oort comet connects to another Oort comet, a bidirectional communication
     is established.
-    If <code>cometA</code> is being connected to <code>cometB</code> (for example via
-    <code>oortA.observeComet(urlB)</code>), then an <code>OortComet</code> instance will be created in
+    If <code>cometA</code> connects to <code>cometB</code> (for example, via
+    <code>oortA.observeComet(urlB)</code>), then an <code>OortComet</code> instance is created in
     <code>cometA</code> connected to <code>cometB</code>, and another <code>OortComet</code> instance
-    will be created in <code>cometB</code> connected to <code>cometA</code>.
+    is created in <code>cometB</code> connected to <code>cometA</code>.
 </para>
 <para>
-    After this direct bidirectional communication has been established, a special message is broadcasted
-    on the whole Oort cloud (on channel <code>/oort/cloud</code>) where the two comets broadcast their
+    After this direct, bidirectional communication has been established, a special message broadcasts
+    across the whole Oort cloud (on channel <code>/oort/cloud</code>) where the two comets broadcast their
     known siblings.
-    Every node receiving this message that does not know about those siblings will establish a
+    Every node receiving this message that does not know about those siblings then establishes a
     bidirectional communication with them.
 </para>
 <para>
     For example, imagine that there are two simple Oort clouds, one made of comets A and B and the other
     made of comets C and D.
-    When A and C gets connected, they broadcast their siblings (A broadcasts its siblings, now B and C,
+    When A and C connect, they broadcast their siblings (A broadcasts its siblings, now B and C,
     while C broadcasts its siblings, now A and D). All nodes connected, directly or indirectly, to the
-    broadcaster will receive this message.
-    When C receives A's siblings it notices that one is itself (so it does nothing since it's already
-    connected to A), but the other is the unknown sibling B, and establishes a bidirectional connection
+    broadcaster receive this message.
+    When C receives broadcasts from A's siblings it notices that one is itself (so it does nothing since it's already
+    connected to A). The other is the unknown sibling B, and C establishes a bidirectional connection
     with B as well. Likewise, A receives the sibling broadcast message from C, and connects to D.
-    Each new bidirectional connection that is established triggers a sibling broadcast message on the
-    whole cloud, until all comets are connected to all comets.
+    Each new bidirectional connection triggers a sibling broadcast message on the
+    whole cloud, until all comets are connected.
 </para>
 <para>
-    If a comet crashes, for example D, then all other comets will detect that and disconnect from the
+    If a comet crashes, for example D, then all other comets detect that and disconnect from the
     faulty comet.
 </para>
 <mediaobject>
@@ -489,7 +497,7 @@ public class OortConfigurationServlet extends GenericServlet
 </mediaobject>
 <para>
 In this way, an Oort cloud is aware of its members, but it does not do anything useful for the application.
-The next section will cover broadcast messages forwarding over the entire cloud.
+The next section covers broadcast messages forwarding over the entire cloud.
 </para>
 
 <section>
@@ -497,7 +505,7 @@ The next section will cover broadcast messages forwarding over the entire cloud.
     <title>Authentication</title>
 </info>
 <para>
-    When a Oort comet connects to another Oort comet, it sends a handshake message containing an
+    When an Oort comet connects to another Oort comet, it sends a handshake message containing an
     extension field that is peculiar to Oort, with the following format:
 </para>
 <informalexample>
@@ -516,15 +524,15 @@ The next section will cover broadcast messages forwarding over the entire cloud.
 ]]></programlisting>
 </informalexample>
 <para>
-    The <code>oortURL</code> field is the URL of the comet that initiates the handshakes; the
+    The <code>oortURL</code> field is the URL of the comet that initiates the handshake; the
     <code>cometURL</code> field is the URL of the comet that receives the handshake; the
     <code>oortSecret</code> is the base64 encoding of the SHA-1 digested bytes of the pre-shared
-    secret of the initiating Oort comet (see the section on common configuration above).
+    secret of the initiating Oort comet (see the earlier section, <xref linkend="java_oort_common_configuration" />).
 </para>
 <para>
-    These extension fields provide a way for a Oort comet to distinguish a handshake of a remote
-    client (which may be subject to authentication checks) from a handshake performed by remote comet.
-    For example, let's assume that remote clients always send an extension field containing an
+    These extension fields provide a way for an Oort comet to distinguish a handshake of a remote
+    client (which might be subject to authentication checks) from a handshake performed by a remote comet.
+    For example, assume that remote clients always send an extension field containing an
     authentication token; then it is possible to write an implementation of <code>SecurityPolicy</code>
     as follows (see also the section about <!-- TODO: relink to docbook section -->
     <link xl:href="http://cometd.org/documentation/2.x/howtos/authentication">authentication</link>):
@@ -572,21 +580,21 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     Broadcast messages (that is, messages sent to non-meta and non-service channels, see
     <xref linkend="javascript_subscribe" /> for further details)
-    are by definition messages that should be received by all clients that subscribed to the channel
-    the message is being sent.
+    are by definition messages that all clients that subscribe to the channel
+    the message is being sent to should receive.
 </para>
 <para>
-    In an Oort cloud, you may have clients connected to different comets but subscribed to the same channel.
-    If we have <code>clientA</code> connected to <code>cometA</code>, <code>clientB</code> connected
-    to <code>cometB</code> and <code>clientC</code> connected to <code>cometC</code>, then when
-    <code>clientA</code> broadcasts a message we want <code>clientB</code> and <code>clientC</code>
-    to receive that message, and therefore the Oort cloud must forward the message (sent by
+    In an Oort cloud, you might have clients connected to different comets but subscribe to the same channel.
+    If <code>clientA</code> connects to <code>cometA</code>, <code>clientB</code> connects
+    to <code>cometB</code> and <code>clientC</code> connects to <code>cometC</code>, when
+    <code>clientA</code> broadcasts a message you want <code>clientB</code> and <code>clientC</code>
+    to receive, the Oort cloud must forward the message (sent by
     <code>clientA</code> and received by <code>cometA</code>) to <code>cometB</code> and <code>cometC</code>.
 </para>
 <para>
-    This is accomplished by configuring the Oort configuration servlets to set the
-    <code>oort.channels</code> init parameter to a comma separated list of channels whose messages
-    will be forwarded to the Oort cloud:
+    You accomplish this by configuring the Oort configuration servlets to set the
+    <code>oort.channels</code> init parameter to a comma-separated list of channels whose messages
+    are forwarded to the Oort cloud:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -637,7 +645,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         <code>cometB</code> it is not automatic that <code>cometB</code> forwards messages to
         <code>cometA</code>.
         However, in most cases the Oort comets are configured in the same way by the same
-        initialization code, and therefore all comets will forward the same channels.
+        initialization code, and therefore all comets forward the same channels.
     </para>
 </important>
 <para>
@@ -645,7 +653,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     implement a simple chat application among users connected to different nodes.
     In the example below, when <code>clientA</code> publishes a message on channel <code>/chat</code>
     (green arrow), it arrives on <code>cometA</code>; since <code>cometB</code> and <code>cometC</code>
-    have been configured to observe channel <code>/chat</code>, they will both receive the message
+    have been configured to observe channel <code>/chat</code>, they both receive the message
     from <code>cometA</code> (green arrows), and therefore they can deliver the chat message to
     <code>clientB</code> and <code>clientC</code> respectively (green arrows).
 </para>
@@ -680,10 +688,10 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </para>
 <section>
 <info>
-    <title>Configuration</title>
+    <title>Configuring Seti</title>
 </info>
 <para>
-    An <classname>org.cometd.oort.Seti</classname> instance must be configured with an associated
+    You must configure an <classname>org.cometd.oort.Seti</classname> instance with an associated
     <classname>org.cometd.oort.Oort</classname> instance, either via code, or by configuring an
     <classname>org.cometd.oort.SetiServlet</classname> in <filename>web.xml</filename>, for example:
 </para>
@@ -724,7 +732,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 ]]></programlisting>
 </informalexample>
 <para>
-    Note how the <code>load-on-startup</code> parameter of the <code>SetiServlet</code> must be greater
+    Notice how the <code>load-on-startup</code> parameter of the <code>SetiServlet</code> must be greater
     than that of the <code>OortServlet</code>.
     <code>SetiServlet</code> does not have any configuration init parameter.
 </para>
@@ -734,17 +742,17 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     <title>Associating Users</title>
 </info>
 <para>
-    <code>Seti</code> allows to associate a unique string representation of a user with one or more
+    <code>Seti</code> allows you to associate a unique string representation of a user with one or more
     <code>ServerSession</code> (see <xref linkend="concepts" /> for more details on<code>ServerSession</code>).
     This is normally done when the user first logs in into the application, and the unique string
     representation of the user can be anything that the user provides to authenticate itself (a user
     name, a token, a database id, etc). For brevity, we will call this unique string representation of
     the user simply <code>userId</code>.
     Note that the same <code>userId</code> may login multiple times (for example from a desktop computer
-    and from a mobile device), so it will be associated to multiple <code>ServerSession</code>s.
+    and from a mobile device), so it is associated to multiple <code>ServerSessions</code>.
 </para>
 <para>
-    In practice, the best way of associating a <code>userId</code> with a <code>ServerSession</code>
+    In practice, the best way to associate a <code>userId</code> with a <code>ServerSession</code>
     is in a <code>SecurityPolicy</code> during <!-- TODO: link to docbook section -->
     <link xl:href="http://cometd.org/documentation/2.x/howtos/authentication">authentication</link>, for example:
 </para>
@@ -780,12 +788,12 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </informalexample>
 <para>
     Alternatively, you can perform the association in an <code>BayeuxServer.Extension</code> or in a
-    CometD service, in response to a specific message that it is always sent by the client after a
+    CometD service, in response to a specific message that the client always sends after a
     successful handshake.
 </para>
 <para>
     When <code>Seti</code> associates a <code>userId</code> with a session, it broadcasts an internal
-    message on the cloud (on channel <code>/seti/all</code>) that tells to all the other comets where
+    message on the cloud (on channel <code>/seti/all</code>) that tells all the other comets where
     this <code>userId</code> is.
     In this way, all the comets in the cloud know where a particular <code>userId</code> resides.
     The same <code>userId</code> may be associated in different comets (for example, the desktop
@@ -795,9 +803,9 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 <para>
     Similarly, you can disassociate a <code>userId</code> at any time by calling
     <code>Seti.disassociate(userId, session)</code>.
-    If the user disconnects or "disappears" (for example, it crashed or its network dropped), its
-    session will be removed or expired by the server and <code>Seti</code> will automatically
-    disassociate the <code>userId</code>.
+    If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
+    session and <code>Seti</code> automatically
+    disassociates the <code>userId</code>.
 </para>
 </section>
 <section>
@@ -805,8 +813,9 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     <title>Sending Messages</title>
 </info>
 <para>
-    After users have been associated, sending a message to a particular user in the cloud can be done
-    via <code>Seti.sendMessage(String userId, String channel, Object data)</code>.
+    After users have been associated,  
+    <code>Seti.sendMessage(String userId, String channel, Object data)</code> can send messages to a 
+    particular user in the cloud.
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -833,10 +842,10 @@ public class SetiForwarder
     <xref linkend="javascript_subscribe" />
     (so that the message is not broadcast), and then a specialized
     <xref linkend="java_server_services" /> routes
-    the message to the appropriate user using <code>Seti</code> (see above).
+    the message to the appropriate user using <code>Seti</code>.
     The <code>Seti</code> on <code>cometA</code> knows that the target user is on <code>cometC</code>
-    (thanks to the association) and forwards the message to <code>cometC</code> which will in turn
-    deliver the message to <code>clientC</code>.
+    (thanks to the association) and forwards the message to <code>cometC</code> which in turn
+    delivers the message to <code>clientC</code>.
 </para>
 
 <mediaobject>
