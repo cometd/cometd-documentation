@@ -876,10 +876,9 @@ public class SetiForwarder
     In the example below, <code>clientA</code> wants to send a message to <code>clientC</code>
     but not to <code>clientB</code>.
     Therefore <code>clientA</code> sends a message to the server it is connected to using a
-    <xref linkend="javascript_subscribe" />
-    (so that the message is not broadcast), and then a specialized
-    <xref linkend="java_server_services" /> routes
-    the message to the appropriate user using <code>Seti</code> (see above).
+    service channel so that the message is not broadcast (see <xref linkend="javascript_subscribe" />,
+    and then a specialized <xref linkend="java_server_services" /> routes
+    the message to the appropriate user using <code>Seti</code> (see code snippet above).
     The <code>Seti</code> on <code>cometA</code> knows that the target user is on <code>cometC</code>
     (thanks to the association) and forwards the message to <code>cometC</code> which will in turn
     deliver the message to <code>clientC</code>.
