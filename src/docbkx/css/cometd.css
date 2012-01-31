@@ -104,3 +104,9 @@ td
 {
     color: #880;
 }
+
+.caution, .important, .note, .tip, .warning
+{
+    border: 2px solid #369;
+    padding: 0 20px;
+}
