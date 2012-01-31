@@ -112,6 +112,11 @@ cometd.reload({
 </informalexample>
 </listitem>
 </orderedlist>
+<para>
+    If you increase the <code>maxCookieAge</code>, you should be aware that you should probably increase
+    the value of <code>maxInterval</code> too (see <xref linkend="java_server_configuration" />), to avoid
+    that the server expires the session while the page is reloading.
+</para>
 </section>
 <section>
 <info>
