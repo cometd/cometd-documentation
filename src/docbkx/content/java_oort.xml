@@ -35,7 +35,7 @@
 <para>The remote IP address.</para>
 </listitem>
 <listitem>
-<para>CometD's BAYEUX_BROWSER cookie (see the <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux Specification</link>, section 8.1).</para>
+<para>CometD's BAYEUX_BROWSER cookie (see the <xref linkend="bayeux_multiple_clients" />).</para>
 </listitem>
 <listitem>
 <para>Some other mechanism the load balancer supports.</para>
@@ -488,9 +488,78 @@ public class OortConfigurationServlet extends GenericServlet
     </imageobject>
 </mediaobject>
 <para>
-In this way, an Oort cloud is aware of its members, but it does not do anything useful for the application.
-The next section will cover broadcast messages forwarding over the entire cloud.
+    In this way, an Oort cloud is aware of its members, but it does not do anything useful for the application.
+    <?linebreak?>
+    In the next sections will cover broadcast messages forwarding over the entire cloud.
 </para>
+</section>
+
+<section>
+<info>
+<title>
+    Listening for Membership Events
+</title>
+</info>
+<para>
+    Application may need to know when other comets join or leave the Oort cloud, and they can do so by
+    registering comet listeners that will be notified when a new comet joined the cloud and when a comet
+    left the cloud:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+Oort oort = ...;
+oort.addCometListener(new Oort.CometListener()
+{
+    public void cometJoined(Event event)
+    {
+        System.out.printf("Comet joined the cloud %s%n, event.getCometURL());
+    }
+
+    public void cometLeft(Event event)
+    {
+        System.out.printf("Comet left the cloud %s%n, event.getCometURL());
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    The comet joined event is notified only after the Oort comet it has been registered has allowed connection
+    from the remote comet (that may be denied by a <code>SecurityPolicy</code>).
+</para>
+<para>
+    When a comet joined event is notified, it is possible to obtain the <code>OortComet</code> connected
+    to the remote Oort via <code>Oort.observeComet(String)</code>, and publish messages
+    (or subscribe to additional channels):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+final Oort oort = ...;
+oort.addCometListener(new Oort.CometListener()
+{
+    public void cometJoined(Event event)
+    {
+        String cometURL = event.getCometURL();
+        OortComet oortComet = oort.observeComet(cometURL);
+
+        // Push information to the new comet
+        oortComet.getChannel("/service/foo").publish("bar");
+    }
+
+    public void cometLeft(Event event)
+    {
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Applications may use comet listeners to synchronize comets, so that a new comet may request (or be pushed)
+    application data that needs to be present in all comets (for example to warm up a cache).
+    <?linebreak?>
+    Such activities may be done in concert with a <code>SecurityPolicy</code> that denies handshakes from
+    remote clients until the new comet is properly warmed up (clients will retry the handshakes until the
+    new comet is ready).
+</para>
+</section>
 
 <section>
 <info>
@@ -667,7 +736,6 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </para>
 </section>
 </section>
-</section>
 
 <section xml:id="java_oort_seti">
 <info>
@@ -841,6 +909,35 @@ seti.addPresenceListener(new Seti.PresenceListener()
     public void presenceRemoved(Event event)
     {
         System.out.printf("User ID %s is now absent in comet %s%n", event.getUserId(), event.getURL());
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    The URL returned by <code>event.getURL()</code> is the URL of a Oort comet, and can be used to
+    retrieve the <code>OortComet</code> instance connected to that comet, for example to publish messages
+    (or to subscribe to additional channels):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+final Seti seti = ...;
+seti.addPresenceListener(new Seti.PresenceListener()
+{
+    public void presenceAdded(Event event)
+    {
+        Oort oort = seti.getOort();
+        String oortURL = event.getURL();
+        OortComet oortComet = oort.getComet(oortURL);
+
+        Map<String, Object> data = new HashMap<String, Object>
+        data.put("action", "sync_request");
+        data.put("userId", event.getUserId());
+
+        oortComet.getChannel("/service/sync").publish(data);
+    }
+
+    public void presenceRemoved(Event event)
+    {
     }
 });
 ]]></programlisting>
