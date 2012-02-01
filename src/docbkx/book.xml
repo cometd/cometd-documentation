@@ -20,7 +20,7 @@
     <holder>The Original Author(s)</holder>
 </copyright>
 
-<releaseinfo><?eval ${project.version} ?></releaseinfo>
+<releaseinfo>CometD <?eval ${project.version} ?></releaseinfo>
 
 </info>
 

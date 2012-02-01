@@ -47,7 +47,10 @@
                     <xincludeSupported>true</xincludeSupported>
                     <paperType>A4</paperType>
                     <sectionAutolabel>true</sectionAutolabel>
-                    <generateToc>book toc,title,figure,table,example,equation</generateToc>
+                    <generateToc>
+                        book toc,title,figure,table,example
+                        chapter toc
+                    </generateToc>
                 </configuration>
                 <dependencies>
                     <dependency>
