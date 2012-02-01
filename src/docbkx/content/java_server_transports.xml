@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_transports">
+<info>
+<title>Server Transports</title>
+</info>
+<para>
+    The <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory
+    transports: <code>long-polling</code> and <code>callback-polling</code>.
+    <?linebreak?>
+    These two transports are automatically configured in the <code>BayeuxServer</code> instance, and there is no
+    need to explicitly specify them in the configuration.
+</para>
+<para>
+    For the <code>websocket</code> transport things are different because there is no standard API for server-side
+    WebSocket yet (it is under consideration for the Servlet 3.1 specification), and therefore any implementation
+    will bind you to the servlet container implementation.
+</para>
+<important>
+<para>
+    The CometD project borrows many libraries from the <link xl:href="http://eclipse.org/jetty">Jetty</link>
+    project.
+    <?linebreak?>
+    While CometD itself is not bound to Jetty and other WebSocket implementations can be plugged in, the CometD
+    projects ships a <code>websocket</code> server transport based on Jetty's WebSocket.
+    <?linebreak?>
+    As such, if you want to use the CometD WebSocket server transport shipped by default, you
+    <emphasis role="bold">must</emphasis> run your web application in Jetty.
+</para>
+</important>
+<?linebreak?>
+<note>
+<para>
+    While for the <code>websocket</code> <emphasis>server</emphasis> transport you are bound to run your
+    web application in a specific servlet container, it is possible to use the <code>websocket</code>
+    <emphasis>client</emphasis> transport on the server (for example to communicate with another WebSocket
+    CometD server) in any servlet container.
+    <?linebreak?>
+    While Jetty's WebSocket server library will only work in Jetty,
+    Jetty's WebSocket client library is portable and does not bind you to any servlet container.
+    <?linebreak?>
+    For example, it is perfectly possible to have a client communicating via HTTP to a CometD web application
+    running in Tomcat, which communicates via WebSocket to another CometD web application running in Jetty.
+</para>
+</note>
+<para>
+    In order to correctly configure the <code>websocket</code> transport on the server, follow these instructions:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+    Change the <code>CometdServlet</code> configuration in <code>web.xml</code> (see also
+    <xref linkend="java_server_configuration" />) to specify the <code>transports</code> parameter,
+    as follows:
+</para>
+<informalexample>
+<programlisting language="xml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <init-param>
+            <param-name>transports</param-name>
+            <param-value>org.cometd.websocket.server.WebSocketTransport</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>
+]]></programlisting>
+</informalexample>
+<para>
+    You do not need to worry about the <code>long-polling</code> and <code>callback-polling</code> transports.
+    Those will be present in any case, as the <code>transports</code> parameter specifies
+    <emphasis>additional</emphasis> non-required transports.
+</para>
+</listitem>
+<listitem>
+<para>
+    Be sure that you include the dependency <code>org.cometd.java:cometd-websocket-jetty</code>.
+    <?linebreak?>
+    This is very easy to do if you're using Maven: just declare the additional dependency in your application's
+    <filename>pom.xml</filename> file.
+    <?linebreak?>
+    If you are not using Maven, you need to make sure that
+    <filename>cometd-websocket-jetty-&lt;version&gt;.jar</filename> is present in the <code>WEB-INF/lib</code>
+    directory of your web application .war file.
+</para>
+</listitem>
+<listitem>
+<para>
+    If you plan to use the <code>websocket</code> <emphasis>client</emphasis> transport in your web application,
+    and you are not using Maven, then make sure that also
+    <filename>jetty-websocket-&lt;version&gt;.jar</filename>, <filename>jetty-io-&lt;version&gt;.jar</filename>
+    and <filename>jetty-http-&lt;version&gt;.jar</filename> are present in the <code>WEB-INF/lib</code>
+    directory of your web application .war file.
+</para>
+</listitem>
+</itemizedlist>
+<para>
+    If you have configured your web application to support cross-domain HTTP calls (see
+    <xref linkend="java_server_configuration_advanced" />) you do not need to worry because the
+    <code>CrossOriginFilter</code> is by default disabled for the WebSocket protocol.
+</para>
+</section>

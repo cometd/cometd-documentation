@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <book version="5.0"
       xmlns="http://docbook.org/ns/docbook"
-      xmlns:xi="http://www.w3.org/2001/XInclude">
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:xl="http://www.w3.org/1999/xlink">
 
 <info>
 <title>The CometD Reference Book</title>
@@ -20,7 +21,20 @@
     <holder>The Original Author(s)</holder>
 </copyright>
 
-<releaseinfo><?eval ${project.version} ?></releaseinfo>
+<releaseinfo>CometD <?eval ${project.version} ?></releaseinfo>
+<pubdate><?dbtimestamp format="d B Y" padding="0"?></pubdate>
+
+<legalnotice>
+<para>
+    This work is licensed under a
+    <link xl:href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</link>
+    <mediaobject>
+        <imageobject>
+            <imagedata fileref="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" />
+        </imageobject>
+    </mediaobject>
+</para>
+</legalnotice>
 
 </info>
 

@@ -8,38 +8,39 @@
     <title>Client Library</title>
 </info>
 <para>
-You can use the CometD client implementation in any <trademark>JSE</trademark> or
-<trademark>JEE</trademark> application.
-It consists of one main class, <code>org.cometd.client.BayeuxClient</code>, which
-implements the <code>org.cometd.bayeux.client.ClientSession</code> interface.
-Differently from CometD 1, this class now supports pluggable transports (to
-allow a WebSocket transport to be implemented when the WebSocket
-protocol is standardized), and currently only supports the long polling
-transport via HTTP, that depends on <link xl:href="http://eclipse.org/jetty">Jetty</link>'s asynchronous <link
-xl:href="http://wiki.eclipse.org/Jetty/Tutorial/HttpClient">HttpClient</link>.
+    You can use the CometD client implementation in any <trademark>JSE</trademark> or
+    <trademark>JEE</trademark> application.
+    It consists of one main class,<classname>org.cometd.client.BayeuxClient</classname>, which
+    implements the <classname>org.cometd.bayeux.client.ClientSession</classname>
+    interface.
 </para>
 <para>
-Typical usages of the CometD Java client include:
+    Typical usages of the CometD Java client include:
 </para>
 <itemizedlist>
 <listitem>
-<para>As the transport for a rich thick Java UI (for example, Swing) to
-communicate to a Bayeux Server (also via firewalls)</para>
+<para>
+    As the transport for a rich thick Java UI (for example, Swing) to
+    communicate to a Bayeux Server (also via firewalls)
+</para>
 </listitem>
 <listitem>
-<para>As a load generator to simulate thousands of CometD clients, like for
-example <code>org.cometd.client.BayeuxLoadGenerator</code></para>
+<para>
+    As a load generator to simulate thousands of CometD clients, like for
+    example <classname>org.cometd.benchmark.BayeuxLoadClient</classname>
+</para>
 </listitem>
 </itemizedlist>
 <para>
-The following sections provide details about the Java
-<code>BayeuxClient</code> APIs and their implementation secrets.
+    The following sections provide details about the Java
+    <code>BayeuxClient</code> APIs and their implementation secrets.
 </para>
 
 <xi:include href="java_client_handshake.xml" />
 <xi:include href="java_client_subscribe.xml" />
 <xi:include href="java_client_publish.xml" />
 <xi:include href="java_client_disconnect.xml" />
+<xi:include href="java_client_transports.xml" />
 
 <section>
 <info>

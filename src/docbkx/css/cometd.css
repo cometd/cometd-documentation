@@ -110,3 +110,15 @@ td
     border: 2px solid #369;
     padding: 0 20px;
 }
+
+.toc, .list-of-tables, .copyright, .legalnotice
+{
+    font-size: smaller;
+}
+
+.releaseinfo
+{
+    font-size: larger;
+    font-weight: bold;
+    text-decoration: underline;
+}

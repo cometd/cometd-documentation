@@ -229,7 +229,8 @@
 </tr>
 </tbody>
 </table>
-<section>
+</section>
+<section xml:id="java_server_configuration_advanced">
 <info>
     <title>Advanced Configuration</title>
 </info>
@@ -283,14 +284,58 @@
     for the filter configuration.
 </para>
 </section>
-</section>
 <section>
 <info>
 <title>Servlet 3 Configuration</title>
 </info>
 <para>
-    <!-- TODO: relink to the docbook section -->
-    Refer to <link xl:href="http://cometd.org/node/106"> CometD and Servlet3 Compliant Containers with Jetty Continuations</link>.
+    The CometD libraries are portable across servlet containers.
+    <?linebreak?>
+    When a CometD web application is deployed to a Servlet 3 compliant container (such as Jetty 7 or greater,
+    or Tomcat 7 or greater), CometD will make use of the Servlet 3 asynchronous features.
 </para>
+<para>
+    In order to enable the Servlet 3 asynchronous features, you need to modify the <filename>web.xml</filename>
+    configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0,
+    and by adding the <code>async-supported</code> element to filters that may be executed before the
+    <code>CometdServlet</code> and to the <code>CometdServlet</code> itself, for example:
+</para>
+<informalexample>
+<programlisting language="xml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="3.0">
+
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <async-supported>true</async-supported>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>cross-origin</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+        <filter-name>cross-origin</filter-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </filter-mapping>
+
+</web-app>
+]]></programlisting>
+</informalexample>
+<para>
+    The typical error that you get if you do not enable the Servlet 3 asynchronous features is the following:
+</para>
+<screen>
+IllegalStateException: the servlet does not support async operations for this request
+</screen>
 </section>
 </section>
