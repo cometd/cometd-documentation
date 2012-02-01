@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_json">
 <info>
-    <title>JSON Library Pluggability</title>
+    <title>JSON Libraries</title>
 </info>
 <para>
     Since version 2.4.0, CometD allows to customize the JSON library that is used to convert incoming JSON into
@@ -22,20 +22,20 @@
     the Jackson library is faster than Jetty's in both parsing and generating.
 </para>
 <para>
-    The Jackson library offers a richer API to customize JSON generation and parsing based on annotations,
-    so it may have an advantage if you want to use objects  of your custom classes as data of Bayeux messages
-    (instead of using <classname>java.util.Map</classname> objects).
+    The Jetty library allows to plug in custom serializers and deserializers, to fine control the conversion
+    from object to JSON and viceversa, via a custom API.
+    Refer to the <classname>org.eclipse.jetty.util.ajax.JSON</classname>
+    <link xl:href="http://download.eclipse.org/jetty/stable-7/apidocs/org/eclipse/jetty/util/ajax/JSON.html">javadocs</link>
+    for further information.
+</para>
+<para>
+    The Jackson library offers a rich API based on annotations to customize JSON generation but less so to customize
+    JSON parsing to obtain objects of custom classes.
     Refer to the <link xl:href="http://jackson.codehaus.org/Documentation">Jackson documentation</link>
     for further details.
 </para>
-<para>
-    Also the Jetty library allows to plug in custom serializers and deserializers, perhaps in a simpler but
-    more invasive way (your custom classes must implement Jetty's library interfaces).
-    Refer to the <classname>org.eclipse.jetty.util.ajax.JSON</classname>
-    <link xl:href="http://download.eclipse.org/jetty/stable-7/apidocs/org/eclipse/jetty/util/ajax/JSON.html">javadocs</link>
-    for further details.
-</para>
-<section>
+
+<section xml:id="java_json_api">
 <info>
     <title>JSONContext API</title>
 </info>
@@ -50,8 +50,8 @@
     Similarly, on the server, a <classname>org.cometd.common.JSONContext.Server</classname> implementation
     generates JSON from and parses JSON to <classname>org.cometd.bayeux.server.ServerMessage</classname> instances.
 </para>
-</section>
-<section>
+
+<section xml:id="java_json_client_config">
 <info>
     <title>Client Configuration</title>
 </info>
@@ -104,7 +104,8 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
 ]]></programlisting>
 </informalexample>
 </section>
-<section>
+
+<section xml:id="java_json_server_config">
 <info>
     <title>Server Configuration</title>
 </info>
@@ -146,6 +147,8 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
     serializers/deserializers as explained above.
 </para>
 </section>
+</section>
+
 <section>
 <info>
     <title>Portability Considerations</title>
@@ -188,6 +191,119 @@ long value = (Long)data.get("value");
 
 // CORRECT
 long value = ((Number)data.get("value")).longValue();
+]]></programlisting>
+</informalexample>
+
+</section>
+
+<section>
+<info>
+<title>
+    Customizing Deserialization of JSON objects
+</title>
+</info>
+<para>
+    Sometimes it is very useful to be able to obtain object of application classes instead of just
+    <code>Map&lt;String, Object&gt;</code> when calling <code>message.getData()</code>.
+</para>
+<para>
+    This is easily achieved with the Jetty JSON library. It is enough that the client formats the JSON object
+    adding an additional <code>class</code> field whose value is the fully qualified class name that you want to
+    convert the JSON to:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+cometd.publish('/echo', {
+    class: 'org.cometd.example.EchoInfo',
+    id: '42',
+    echo: 'cometd'
+});
+]]></programlisting>
+</informalexample>
+<para>
+    On the server, in the <code>web.xml</code> file, you register the
+    <classname>org.cometd.server.JettyJSONContextServer</classname> as <code>jsonContext</code> (see
+    <xref linkend="java_json_server_config" />), and at startup you add a custom converter for the
+    <classname>org.cometd.example.EchoInfo</classname> class (see <xref linkend="java_server_services_integration" />
+    for more details about configuring CometD at startup).
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxServer bayeuxServer = ...;
+JettyJSONContextServer jsonContext = (JettyJSONContextServer)bayeuxServer.getOption("jsonContext");
+jsonContext.getJSON().addConvertor(EchoInfo.class, new EchoInfoConvertor());
+]]></programlisting>
+</informalexample>
+<para>
+    Finally, these are the <classname>EchoInfoConvertor</classname> and <classname>EchoInfo</classname> classes:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class EchoInfoConvertor implements JSON.Convertor
+{
+    public void toJSON(Object obj, JSON.Output out)
+    {
+        EchoInfo echoInfo = (EchoInfo)obj;
+        out.addClass(EchoInfo.class);
+        out.add("id", echoInfo.getId());
+        out.add("echo", echoInfo.getEcho());
+    }
+
+    public Object fromJSON(Map map)
+    {
+        String id = (String)map.get("id");
+        String echo = (String)map.get("echo");
+        return new EchoInfo(id, echo);
+    }
+}
+
+public class EchoInfo
+{
+    private final String id;
+    private final String echo;
+
+    public EchoInfo(String id, String echo)
+    {
+        this.id = id;
+        this.echo = echo;
+    }
+
+    public String getId()
+    {
+        return id;
+    }
+
+    public String getEcho()
+    {
+        return echo;
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    If, instead of using the JavaScript client, you are using the Java client, it is possible to configure the
+    Java client to perform the serialization/deserialization of JSON objects in the same way (see also
+    <xref linkend="java_json_client_config" />):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+JettyJSONContextClient jsonContext = ...;
+jsonContext.getJSON().addConvertor(EchoInfo.class, new EchoInfoConvertor());
+
+// Later in the application
+BayeuxClient bayeuxClient = ...;
+
+bayeuxClient.getChannel("/echo").subscribe(new ClientSessionChannel.MessageListener()
+{
+    public void onMessage(ClientSessionChannel channel, Message message)
+    {
+        // Receive directly EchoInfo objects
+        EchoInfo data = (EchoInfo)message.getData();
+    }
+});
+
+// Publish directly EchoInfo objects
+bayeuxClient.getChannel("/echo").publish(new EchoInfo("42", "wohoo"));
 ]]></programlisting>
 </informalexample>
 

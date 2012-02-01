@@ -2315,7 +2315,7 @@ error_message    = string
 </section>
 </section>
 
-<section>
+<section xml:id="bayeux_multiple_clients">
 <info>
     <title>Multiple clients operation</title>
 </info>

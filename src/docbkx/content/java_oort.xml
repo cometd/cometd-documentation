@@ -35,7 +35,7 @@
 <para>The remote IP address.</para>
 </listitem>
 <listitem>
-<para>CometD's BAYEUX_BROWSER cookie (see the <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux Specification</link>, section 8.1).</para>
+<para>CometD's BAYEUX_BROWSER cookie (see the <xref linkend="bayeux_multiple_clients" />).</para>
 </listitem>
 <listitem>
 <para>Some other mechanism the load balancer supports.</para>
@@ -86,7 +86,7 @@ The <classname>org.cometd.oort.Oort</classname> instance is associated to the
 <code>Oort</code> instance for each <code>BayeuxServer</code> instance.
 </para>
 <para>
-Oort comets need to know each others URLs to connect and form a cloud.
+Oort comets need to know each others' URLs to connect and form a cloud.
 A new comet that wants to join the cloud needs to know at least one URL of another comet that is already
 part of the cloud.
 Once it has connected to one comet, the cloud informs the new comet of the other comets to which the
@@ -497,8 +497,75 @@ public class OortConfigurationServlet extends GenericServlet
 </mediaobject>
 <para>
 In this way, an Oort cloud is aware of its members, but it does not do anything useful for the application.
-The next section covers broadcast messages forwarding over the entire cloud.
+The next section covers broadcast message forwarding over the entire cloud.
 </para>
+</section>
+
+<section>
+<info>
+<title>
+    Listening for Membership Events
+</title>
+</info>
+<para>
+    Applications sometimes need to know when other comets join or leave the Oort cloud; they can do so by
+    registering comet listeners that are notified when a new comet joins the cloud and when a comet
+    leaves the cloud:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+Oort oort = ...;
+oort.addCometListener(new Oort.CometListener()
+{
+    public void cometJoined(Event event)
+    {
+        System.out.printf("Comet joined the cloud %s%n", event.getCometURL());
+    }
+
+    public void cometLeft(Event event)
+    {
+        System.out.printf("Comet left the cloud %s%n", event.getCometURL());
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    The comet joined event is notified only after the local Oort comet has allowed connection
+    from the remote comet (this may be denied by a <code>SecurityPolicy</code>).
+</para>
+<para>
+    When a comet joined event is notified, it is possible to obtain the <code>OortComet</code> connected
+    to the remote Oort via <code>Oort.observeComet(String)</code>, and publish messages
+    (or subscribe to additional channels):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+final Oort oort = ...;
+oort.addCometListener(new Oort.CometListener()
+{
+    public void cometJoined(Event event)
+    {
+        String cometURL = event.getCometURL();
+        OortComet oortComet = oort.observeComet(cometURL);
+
+        // Push information to the new comet
+        oortComet.getChannel("/service/foo").publish("bar");
+    }
+
+    public void cometLeft(Event event)
+    {
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Applications may use comet listeners to synchronize comets; a new comet can request (or be pushed)
+    application data that needs to be present in all comets (for example to warm up a cache).
+    Such activities occur in concert with a <code>SecurityPolicy</code> that denies handshakes from
+    remote clients until the new comet is properly warmed up (clients retry the handshakes until the
+    new comet is ready).
+</para>
+</section>
 
 <section>
 <info>
@@ -584,7 +651,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     the message is being sent to should receive.
 </para>
 <para>
-    In an Oort cloud, you might have clients connected to different comets but subscribe to the same channel.
+    In an Oort cloud, you might have clients connected to different comets that subscribe to the same channel.
     If <code>clientA</code> connects to <code>cometA</code>, <code>clientB</code> connects
     to <code>cometB</code> and <code>clientC</code> connects to <code>cometC</code>, when
     <code>clientA</code> broadcasts a message you want <code>clientB</code> and <code>clientC</code>
@@ -642,14 +709,14 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <important>
     <para>
         Message forwarding is not bidirectional; if <code>cometA</code> forwards messages to
-        <code>cometB</code> it is not automatic that <code>cometB</code> forwards messages to
+        other comets it is not automatic that the other comets forwards messages to
         <code>cometA</code>.
         However, in most cases the Oort comets are configured in the same way by the same
         initialization code, and therefore all comets forward the same channels.
     </para>
 </important>
 <para>
-    With the ability of observing messages published to broadcast channels, an Oort cloud can already
+    Since it has the ability to observe messages published to broadcast channels, an Oort cloud can already
     implement a simple chat application among users connected to different nodes.
     In the example below, when <code>clientA</code> publishes a message on channel <code>/chat</code>
     (green arrow), it arrives on <code>cometA</code>; since <code>cometB</code> and <code>cometC</code>
@@ -675,7 +742,6 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </para>
 </section>
 </section>
-</section>
 
 <section xml:id="java_oort_seti">
 <info>
@@ -693,7 +759,10 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     You must configure an <classname>org.cometd.oort.Seti</classname> instance with an associated
     <classname>org.cometd.oort.Oort</classname> instance, either via code, or by configuring an
-    <classname>org.cometd.oort.SetiServlet</classname> in <filename>web.xml</filename>, for example:
+    <classname>org.cometd.oort.SetiServlet</classname> in <filename>web.xml</filename>.
+    <?linebreak?>
+    There may be only one instance of <code>Seti</code> for each <code>Oort</code>. Below you can find
+    a configuration example:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -734,17 +803,22 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     Notice how the <code>load-on-startup</code> parameter of the <code>SetiServlet</code> must be greater
     than that of the <code>OortServlet</code>.
+    <?linebreak?>
     <code>SetiServlet</code> does not have any configuration init parameter.
 </para>
 </section>
 <section>
 <info>
-    <title>Associating Users</title>
+    <title>Associating and Disassociating Users</title>
 </info>
 <para>
     <code>Seti</code> allows you to associate a unique string representation of a user with one or more
     <code>ServerSession</code> (see <xref linkend="concepts" /> for more details on<code>ServerSession</code>).
-    This is normally done when the user first logs in into the application, and the unique string
+    <code>Seti</code> allows to associate a unique string representation of a user with one or more
+    <code>ServerSession</code> (see <xref linkend="concepts" /> for more details on <code>ServerSession</code>).
+</para>
+<para>
+    This normally occurs when the user first logs in into the application, and the unique string
     representation of the user can be anything that the user provides to authenticate itself (a user
     name, a token, a database id, etc). For brevity, we will call this unique string representation of
     the user simply <code>userId</code>.
@@ -787,17 +861,28 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 ]]></programlisting>
 </informalexample>
 <para>
-    Alternatively, you can perform the association in an <code>BayeuxServer.Extension</code> or in a
-    CometD service, in response to a specific message that the client always sends after a
+    Alternatively, you can perform the association in a <code>BayeuxServer.Extension</code> or in a
+    CometD service (see <xref linkend="java_server_services" />) in response to a specific message that the client always sends after a
     successful handshake.
 </para>
 <para>
-    When <code>Seti</code> associates a <code>userId</code> with a session, it broadcasts an internal
+    When a <code>Seti</code> instance first associates a <code>userId</code> with a session, it broadcasts an internal
     message on the cloud (on channel <code>/seti/all</code>) that tells all the other comets where
     this <code>userId</code> is.
+    CometD service (see <xref linkend="java_server_services" />), in response to a specific message
+    that the client always sends after a successful handshake.
+</para>
+<para>
+    When a <code>Seti</code> instance first associates a <code>userId</code> with a session, it broadcasts a
+    <emphasis>presence</emphasis> message on the cloud (on channel <code>/seti/all</code>, see
+    <xref linkend="java_oort_seti_listeners" />) that tells to all
+    the other comets where this <code>userId</code> is.
     In this way, all the comets in the cloud know where a particular <code>userId</code> resides.
-    The same <code>userId</code> may be associated in different comets (for example, the desktop
-    computer logs in - and therefore is associated - in <code>comet1</code>, while the mobile device
+    Further associations of the same <code>userId</code> (with different sessions) on the same <code>Seti</code>
+    do not broadcast any presence message, because other <code>Seti</code>s already know that that
+    particular <code>userId</code> resides in that <code>Seti</code>.
+    The same <code>userId</code> can be associated in different comets (for example, the desktop
+    computer logs in–and therefore is associated–in <code>comet1</code>, while the mobile device
     is associated in <code>comet2</code>).
 </para>
 <para>
@@ -806,7 +891,73 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
     session and <code>Seti</code> automatically
     disassociates the <code>userId</code>.
+    If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
+    session, and <code>Seti</code> automatically
+    disassociates the <code>userId</code>.
+    <?linebreak?>
+    When the last disassociation of a particular <code>userId</code> occurs on a <code>Seti</code>
+    instance, <code>Seti</code> broadcasts a presence message on the cloud (on channel <code>/seti/all</code>)
+    that tells all the other comets that <code>userId</code> is not present anymore on that
+    <code>Seti</code> (although the same <code>userId</code> might still be associated in other <code>Setis</code>).
 </para>
+</section>
+<section xml:id="java_oort_seti_listeners">
+<info>
+<title>
+    Listening for Presence Messages
+</title>
+</info>
+<para>
+    Applications can register presence listeners that are notified when a presence message arrives at a
+    <code>Seti</code> instance:
+>>>>>>> e68aa17c3f7f94c91d02301836a852b2f14e0c11
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+Seti seti = ...;
+seti.addPresenceListener(new Seti.PresenceListener()
+{
+    public void presenceAdded(Event event)
+    {
+        System.out.printf("User ID %s is now present in comet %s%n", event.getUserId(), event.getURL());
+    }
+
+    public void presenceRemoved(Event event)
+    {
+        System.out.printf("User ID %s is now absent in comet %s%n", event.getUserId(), event.getURL());
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    The URL returned by <code>event.getURL()</code> is the URL of a Oort comet; you can use it to
+    retrieve the <code>OortComet</code> instance connected to that comet, for example to publish messages
+    (or to subscribe to additional channels):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+final Seti seti = ...;
+seti.addPresenceListener(new Seti.PresenceListener()
+{
+    public void presenceAdded(Event event)
+    {
+        Oort oort = seti.getOort();
+        String oortURL = event.getURL();
+        OortComet oortComet = oort.getComet(oortURL);
+
+        Map<String, Object> data = new HashMap<String, Object>
+        data.put("action", "sync_request");
+        data.put("userId", event.getUserId());
+
+        oortComet.getChannel("/service/sync").publish(data);
+    }
+
+    public void presenceRemoved(Event event)
+    {
+    }
+});
+]]></programlisting>
+</informalexample>
 </section>
 <section>
 <info>
@@ -843,6 +994,9 @@ public class SetiForwarder
     (so that the message is not broadcast), and then a specialized
     <xref linkend="java_server_services" /> routes
     the message to the appropriate user using <code>Seti</code>.
+    service channel so that the message is not broadcast (see <xref linkend="javascript_subscribe" />,
+    and then a specialized <xref linkend="java_server_services" /> routes
+    the message to the appropriate user using <code>Seti</code> (see code snippet above).
     The <code>Seti</code> on <code>cometA</code> knows that the target user is on <code>cometC</code>
     (thanks to the association) and forwards the message to <code>cometC</code> which in turn
     delivers the message to <code>clientC</code>.

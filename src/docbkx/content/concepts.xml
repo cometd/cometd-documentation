@@ -139,29 +139,6 @@
     for efficiency reasons, this is not exactly what happens). If the sender also subscribes to the channel
     it published the message to, it receives a copy of the message back.
 </para>
-<para>
-Open questions remain:
-</para>
-<itemizedlist>
-<listitem>
-<para>
-    What can an application do with meta messages and service messages, if their journey ends on the server?
-</para>
-</listitem>
-<listitem>
-<para>
-    How can a client communicate with another, specific client?
-</para>
-</listitem>
-<listitem>
-<para>
-    Can the server be a publisher too?
-</para>
-</listitem>
-</itemizedlist>
-<para>
-    To answer these and others questions requires a closer look at how CometD works. Read on.
-</para>
 </section>
 
 <section>
@@ -245,11 +222,12 @@ Open questions remain:
     For this reason, on the server side, there is the additional concept of local session.
     A local session is a client session that happens to live on the server, and hence is local to the server.
     <?linebreak?>
-    For example, imagine that a client publishes a message every time it changes its state. Other remote clients
-    can just subscribe to the channel and receive those state update messages.
+    For example, imagine that a remote client publishes a message every time it changes its state. Other remote
+    clients can just subscribe to the channel and receive those state update messages.
     <?linebreak?>
-    But what if, upon receiving a client state update, you want to perform some activity on the server ?
-    Then what you need would be a <emphasis>client</emphasis>, but living on the server, and that's what local sessions are.
+    But what if, upon receiving a remote client state update, you want to perform some activity on the server ?
+    Then what you need would be the equivalent of a remote <emphasis>client</emphasis>, but living on the server,
+    and that's what local sessions are.
     <?linebreak?>
     Server-side services are associated with a local session. Upon creation of the server-side
     service, the local session handshakes and creates the correspondent server session half-object, so that
@@ -342,13 +320,15 @@ Open questions remain:
     <title>Listeners</title>
 </info>
 <para>
-    Applications need to interact with sessions, channels and the server, which they <emphasis>must</emphasis> use listeners to do.
+    Applications use <emphasis>listeners</emphasis> to interact with sessions, channels and the server.
 </para>
 <para>
-    The Java and JavaScript APIs allow applications to register different kinds of listeners that receive notifications of the correspondent events.
+    The Java and JavaScript APIs allow applications to register different kinds of listeners that receive
+    notifications of the correspondent events.
 </para>
 <para>
-   You can usefully think of extensions, security policies and authorizers as special types of listeners, and the following sections treat them as such.
+    You can usefully think of extensions, security policies and authorizers as special types of listeners,
+    and the following sections treat them as such.
 </para>
 <section>
 <info>
@@ -361,13 +341,15 @@ Examples of client session listeners include the following:
 <listitem>
 <para>
     You can add extensions to a client session to interact with the incoming
-    and outgoing messages that arrive and that the session sends.
+    and outgoing messages that arrive and that the session sends, via
+    <code>ClientSession.addExtension(ClientSession.Extension)</code>.
 </para>
 </listitem>
 <listitem>
 <para>
-    A client session is a repository for channels; you can add message listeners to a channel to 
-    notify you when a message arrives on that particular channel.
+    A client session is a repository for channels; you can add message listeners to a channel to
+    notify you when a message arrives on that particular channel, via
+    <code>ClientSession.getChannel(String).addListener(ClientSessionChannel.MessageListener)</code>.
 </para>
 </listitem>
 </itemizedlist>
@@ -382,31 +364,41 @@ Examples of client session listeners include the following:
 <itemizedlist>
 <listitem>
 <para>
-    You can add extensions to a <code>BayeuxServer</code> instance for all messages that flow through the server.
+    You can add extensions to a <code>BayeuxServer</code> instance for all messages that flow through the server
+    via <code>BayeuxServer.addExtension(BayeuxServer.Extension)</code>.
 </para>
 </listitem>
 <listitem>
 <para>
-    <code>BayeuxServer</code> allows you to add listeners that it notifies when channels are created or destroyed and when server sessions are created or destroyed.
+    <code>BayeuxServer</code> allows you to add listeners that it notifies when channels are created or destroyed
+    (via <code>BayeuxServer.addListener(BayeuxServer.ChannelListener)</code>)
+    and when server sessions are created or destroyed (via
+    <code>BayeuxServer.addListener(BayeuxServer.SessionListener)</code>.
 </para>
 </listitem>
 <listitem>
 <para>
-    <code>ServerChannel</code> allows you to add authorizers and listeners that get notified when a message arrives
-    on the channel, or when a client subscribes or unsubscribes to the channel.
+    <code>ServerChannel</code> allows you to add authorizers (via
+    <code>ServerChannel.addAuthorizer(Authorizer)</code>) and listeners that get notified when a message arrives
+    on the channel (via <code>ServerChannel.addListener(ServerChannel.MessageListener)</code>), or when a client
+    subscribes or unsubscribes to the channel (via
+    <code>ServerChannel.addListener(ServerChannel.SubscriptionListener)</code>).
 </para>
 </listitem>
 <listitem>
 <para>
-    <code>ServerSession</code> allows you to add extensions for messages that flow through the server session.
+    <code>ServerSession</code> allows you to add extensions for messages that flow through the server session
+    via <code>ServerSession.addExtension(ServerSession.Extension)</code>.
 </para>
 </listitem>
 <listitem>
 <para>
     <code>ServerSession</code> also allows you to add listeners that get notified when the session is removed (for example
     because the client disconnected, or because the client disappears and therefore the server expires the
-    correspondent server session), or listeners that can interact with the server session's message queue, or
-    when a message is received by the server session (no matter on which channel).
+    correspondent server session) via <code>ServerSession.addListener(ServerSession.RemoveListener)</code>,
+    or listeners that can interact with the server session's message queue, or
+    when a message is received by the server session (no matter on which channel) via
+    <code>ServerSession.addListener(ServerSession.MessageListener)</code>.
 </para>
 </listitem>
 </itemizedlist>
@@ -429,20 +421,23 @@ Examples of client session listeners include the following:
 </mediaobject>
 <para>
     When a client sends messages, it uses the client-side channel to publish them.
-    The client retrieves the client channel from the client session.
+    The client retrieves the client channel from the client session via
+    <code>ClientSession.getChannel(String)</code>.
     Messages first pass through the extensions, which process messages one by one;
     if one extension denies processing of a message, it is deleted and it is not sent to the server.
     At the end of extension processing, the messages pass to the client transport.
 </para>
 <para>
-    The client transport converts the messages to JSON, establishes the conduit with the server transport
-    and then sends the JSON string over the conduit, as the payload
+    The client transport converts the messages to JSON (for the Java client, this is done by a
+    <code>JSONContext.Client</code> instance, see <xref linkend="java_json_api" />), establishes the
+    conduit with the server transport and then sends the JSON string over the conduit, as the payload
     of a transport-specific envelope (for example, an HTTP request or a WebSocket message).
 </para>
 <para>
     The envelope travels to the server, where the server transport receives it.
-    The server transport converts the messages from the JSON format back to message objects, then passes them
-    to the <code>BayeuxServer</code> instance for processing.
+    The server transport converts the messages from the JSON format back to message objects
+    (through a <code>JSONContext.Server</code> instance, see <xref linkend="java_json_api" />),
+    then passes them to the <code>BayeuxServer</code> instance for processing.
 </para>
 <para>
     The <code>BayeuxServer</code> processes each message in the following steps:
@@ -450,13 +445,16 @@ Examples of client session listeners include the following:
 <orderedlist>
 <listitem>
 <para>
-    It invokes <code>BayeuxServer</code> extensions; if one extension denies processing, a reply is sent to the
+    It invokes <code>BayeuxServer</code> extensions (methods <code>rcv()</code> or <code>rcvMeta()</code>);
+    if one extension denies processing, a reply is sent to the
     client indicating that the message has been deleted, and no further processing is performed for the message.
 </para>
 </listitem>
 <listitem>
 <para>
-    It invokes <code>ServerSession</code> extensions (only if you have previously created the <code>ServerSession</code> for that client); if one extension denies processing, a reply is sent to the
+    It invokes <code>ServerSession</code> extensions (methods <code>rcv()</code> or <code>rcvMeta()</code>,
+    only if a <code>ServerSession</code> for that client exists);
+    if one extension denies processing, a reply is sent to the
     client indicating that the message has been deleted, and no further processing is performed for the message.
 </para>
 </listitem>
@@ -469,56 +467,263 @@ Examples of client session listeners include the following:
 <listitem>
 <para>
     If the message is a service or broadcast message, the message passes through
-    <code>BayeuxServer</code> extensions.
+    <code>BayeuxServer</code> extensions (methods <code>send()</code> or <code>sendMeta()</code>).
 </para>
 </listitem>
 <listitem>
 <para>
-    It invokes Server channel listeners; the application adds server channel listeners on the server, and offers the last chance to modify the message before it is eventually sent to all subscribers (if it is
+    It invokes server channel listeners; the application adds server channel listeners on the server, and offer
+    the last chance to modify the message before it is eventually sent to all subscribers (if it is
     a broadcast message).
-    All subscribers see any modification a server channel listener makes to the message, just as if the publisher has sent the
-    message already modified.
+    All subscribers see any modification a server channel listener makes to the message, just as if the publisher
+    has sent the message already modified.
     <?linebreak?>
     After the server channel listeners processing, the message is <emphasis>frozen</emphasis> and no further
     modifications should be made to the message. Applications should not worry about this freezing step, because
     the API clarifies whether the message is modifiable or not: the API has
     as a parameter a modifiable message interface or an unmodifiable one to represent the message object.
     <?linebreak?>
-    This step is the last processing step for incoming non-broadcast messages, and it therefore ends their
+    This step is the last processing step for an incoming non-broadcast messages, and it therefore ends its
     journey on the server. A reply is sent to publishers to confirm that the message made it to the server
     (see below), but the message is not broadcast to other server sessions.
 </para>
 </listitem>
 <listitem>
 <para>
-    If the message is a broadcast message, for each server session that subscribes to the channel,
-    the message passes through <code>ServerSession</code> extensions, then the server session queue
+    If the message is a broadcast message, for each server session that subscribed to the channel,
+    the message passes through <code>ServerSession</code> extensions (methods <code>send()</code> or
+    <code>sendMeta()</code>), then the server session queue
     listeners are invoked and finally the message is added to the server session queue for delivery.
+</para>
+</listitem>
+<listitem>
+<para>
+    If the message is a lazy message then it will be sent on first occasion. <!-- TODO: add link to lazy channels -->
+    Otherwise the message is to be delivered immediately.
     <?linebreak?>
-    If the message is to be delivered immediately, each server session is assigned a thread to deliver the message
-    through the server transport.
+    If the server session onto which the message has been queued correspond to a remote client session,
+    then it is assigned a thread to deliver the messages in its queue through the server transport.
     The server transport drains the server session message queue, converts the messages to JSON and sends them
     on the conduit as the payloads of transport-specific envelopes (for example, an HTTP response or a WebSocket
     message).
+    <?linebreak?>
+    Otherwise, the server session onto which the message has been queued correspond to a local session,
+    and the messages in its queue are delivered directly to the local session.
 </para>
 </listitem>
 <listitem>
 <para>
     For both broadcast and non-broadcast messages, a reply message is created, passes through
-    <code>BayeuxServer</code> extensions and <code>ServerSession</code> extensions. It then passes to the server
-    transport, which converts it to JSON and sends it on the conduit as the payload of a transport-specific envelope
+    <code>BayeuxServer</code> extensions and <code>ServerSession</code> extensions (methods <code>send()</code> or
+    <code>sendMeta()</code>). It then passes to the server
+    transport, which converts it to JSON (through a <code>JSONContext.Server</code> instance, see
+    <xref linkend="java_json_api" />) and sends it on the conduit as the payload of a transport-specific envelope
     (for example, an HTTP response or a WebSocket message).
 </para>
 </listitem>
 </orderedlist>
 <para>
     The envelope travels back to the client, where the client transport receives it.
-    The client transport converts the messages from the JSON format back to message objects; then each message
-    passes through the extensions, and channel listeners and subscribers are notified of the message.
+    The client transport converts the messages from the JSON format back to message objects (for the Java client,
+    this is done by a <code>JSONContext.Client</code> instance, see <xref linkend="java_json_api" />);
+    then each message passes through the extensions (methods <code>send()</code> or <code>sendMeta()</code>),
+    and channel listeners and subscribers are notified of the message.
 </para>
 <para>
     The round trip from client to server back to client is now complete.
 </para>
+</section>
+
+<section>
+<info>
+<title>
+    Application Interaction
+</title>
+</info>
+<para>
+    Now that we know that applications interact with CometD through listeners, and we know how the messages are
+    processed in both the client and the server, we know what an application should do to interact with
+    messages to perform its business logic.
+</para>
+
+<section>
+<info>
+<title>Server-side Authentication</title>
+</info>
+<para>
+    In order for an application to interact with authentication, it must register a custom instance of a
+    <code>SecurityPolicy</code> and override method <code>SecurityPolicy.canHandshake(...)</code>.
+    <?linebreak?>
+    The <code>SecurityPolicy</code> can customize the handshake reply (for example, to give details about
+    the authentication failure) by retrieving the handshake reply from the handshake request:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class MySecurityPolicy extends DefaultSecurityPolicy
+{
+    public boolean canHandshake(BayeuxServer server, ServerSession session, ServerMessage message)
+    {
+        boolean authenticated = authenticate(session, message);
+
+        if (!authenticated)
+        {
+            ServerMessage.Mutable reply = message.getAssociated();
+            // Here you can customize the reply
+        }
+
+        return authenticated;
+    }
+}
+]]></programlisting>
+</informalexample>
+</section>
+
+<section>
+<info>
+<title>
+    Interacting with Meta and Service Messages
+</title>
+</info>
+<para>
+    Meta messages and service messages ends their journey on the server.
+    An application can only interact with those kind of messages via server channel listeners,
+    and therefore must use such listeners to perform its business logic.
+</para>
+<para>
+    Server channel listeners can be directly added via API at initialization time (see
+    <xref linkend="java_server_services_integration" />), or indirectly by using inherited services (see
+    <xref linkend="java_server_services_inherited" />) by calling <code>AbstractService.addService(...)</code>
+    or by using annotated services (see<xref linkend="java_server_services_annotated" />) using <code>@Listener</code>
+    annotations.
+</para>
+<important>
+<para>
+    Applications that need to perform lengthy tasks in a server channel listener should do so in a separate thread
+    in order to avoid blocking the processing of other incoming messages.
+</para>
+</important>
+</section>
+
+<section>
+<info>
+<title>
+    Interacting with Broadcast Messages
+</title>
+</info>
+<para>
+    Broadcast messages arrive to the server and are delivered to all <code>ServerSession</code>s that subscribed
+    to the message's channel.
+    <?linebreak?>
+    Applications can interact with broadcast messages via server channel listeners (in the same way you do
+    with non-broadcast messages, see above), or using a <code>LocalSession</code> that subscribed to the message's
+    channel.
+    <?linebreak?>
+    This latter solution can be done directly via API at initialization time (see
+    <xref linkend="java_server_services_integration" />), or indirectly by using annotated services (see
+    <xref linkend="java_server_services_inherited" />) using <code>@Subscription</code> annotations.
+</para>
+<important>
+<para>
+    Applications that need to perform lengthy tasks in subscription listener of a local session
+    should do so in a separate thread in order to avoid blocking the processing of other incoming messages.
+</para>
+</important>
+</section>
+
+<section>
+<info>
+<title>
+    Communicating with a Specific Remote Client
+</title>
+</info>
+<para>
+    Applications that want to deliver messages to a specific client may do so by looking up its correspondent
+    server session and delivering the message using <code>ServerSession.deliver(...)</code>.
+</para>
+<para>
+    Remote client <code>client1</code> wants to send a message to another remote client <code>client2</code>.
+    Both clients are already connected and therefore have already performed the handshake with the server.
+    Their handshake contained additional information regarding their <code>userId</code>, so that
+    <code>client1</code> declared to be "Bob" and <code>client2</code> declared to be "Alice".
+    The application could have used a <code>SecurityPolicy</code> or a server channel message listener on channel
+    <code>/meta/handshake</code> to perform a mapping between the <code>userId</code> and the server session's id.
+    <?linebreak?>
+    Now Bob wants to send a private message to Alice only.
+    <?linebreak?>
+    Then <code>client1</code> can use a service channel for private messages (say <code>/service/private</code>),
+    so that messages are not broadcasted, and the application is setup so that a server channel listener routes
+    messages arriving to <code>/service/private</code> to the other remote client.
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+@Service
+public class PrivateMessageService
+{
+    @Session
+    private ServerSession session;
+
+    @Listener("/service/private")
+    public void handlePrivateMessage(ServerSession sender, ServerMessage message)
+    {
+        // Retrieve the userId from the message
+        String userId = message.get("targetUserId");
+
+        // Use the mapping established during handshake to
+        // retrieve the ServerSession for a given userId
+        ServerSession recipient = findServerSessionFromUserId(userId);
+
+        // Deliver the message to the other peer
+        recipient.deliver(session, message.getChannel(), message.getData(), null);
+    }
+}
+]]></programlisting>
+</informalexample>
+</section>
+
+<section>
+<info>
+<title>
+    Server-side Message Broadcasting
+</title>
+</info>
+<para>
+    Applications may need to broadcast messages on a particular channel in response to an external event.
+    Since <code>BayeuxServer</code> is the repository for server channels, the external event handler just need
+    a reference to <code>BayeuxServer</code> to broadcast messages:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class ExternalEventBroadcaster
+{
+    private final BayeuxServer bayeuxServer;
+
+    public ExternalEventBroadcaster(BayeuxServer bayeuxServer)
+    {
+        this.bayeuxServer = bayeuxServer;
+
+        // Create a local session that will act as the "sender"
+        this.session = bayeuxServer.newLocalSession("external");
+        this.session.handshake();
+    }
+
+    public void onExternalEvent(ExternalEvent event)
+    {
+        // Retrieve the channel to broadcast to, for example
+        // based on the "type" property of the external event
+        ServerChannel channel = this.bayeuxServer.getChannel("/events/" + event.getType());
+        if (channel != null)
+        {
+            // Create the data to broadcast by converting the external event
+            Map<String, Object> data = convertExternalEvent(event);
+
+            // Broadcast the data
+            channel.publish(this.session, data, null);
+        }
+    }
+}
+]]></programlisting>
+</informalexample>
+</section>
 </section>
 
 <section>
@@ -558,7 +763,7 @@ Examples of client session listeners include the following:
     <emphasis>unsubscribe</emphasis> message (a message sent on a <code>/meta/unsubscribe</code> channel).
     <?linebreak?>
     A client can publish messages containing application-specific data at any time while it is connected,
-    and to any channel (even if it does not subscribe to that channel).
+    and to any broadcast channel (even if it is not subscribed to that channel).
 </para>
 </section>
 </section>
