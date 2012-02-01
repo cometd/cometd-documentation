@@ -15,8 +15,9 @@
     <title>Channels</title>
 </info>
 <para>
-The Bayeux specification defines the concept of a channel: it is like a messaging topic where interested parties can subscribe to receive information published onto the channel.
-There are three types of channels:
+    The Bayeux specification defines the concept of a channel: it is like a messaging topic where interested parties
+    can subscribe to receive information published onto the channel.
+    There are three types of channels:
 </para>
 <orderedlist>
 <listitem>
@@ -26,26 +27,26 @@ There are three types of channels:
     <para>service channels</para>
 </listitem>
 <listitem>
-    <para>normal channels</para>
+    <para>broadcast channels</para>
 </listitem>
 </orderedlist>
 <para>
-A channel looks like a directory path such as:
+    A channel looks like a directory path such as:
 </para>
 <itemizedlist>
 <listitem>
 <para>
-    <code>/meta/connect</code>–a meta channel; all meta channels starts with the prefix <code>/meta/</code>
+    <code>/meta/connect</code> – a meta channel; all meta channels starts with the prefix <code>/meta/</code>
 </para>
 </listitem>
 <listitem>
 <para>
-    <code>/service/chat</code>–a service channel; all service channels starts with the prefix <code>/service/</code>
+    <code>/service/chat</code> – a service channel; all service channels starts with the prefix <code>/service/</code>
 </para>
 </listitem>
 <listitem>
 <para>
-    <code>/foo/bar</code>–a normal channel
+    <code>/foo/bar</code>–a broadcast channel
 </para>
 </listitem>
 </itemizedlist>
@@ -72,7 +73,7 @@ A channel looks like a directory path such as:
 </info>
 <para>
     Service channels are used in the case of request/response style of communication between client and server (as
-    opposed to the publish/subscribe style of communication on normal channels).
+    opposed to the publish/subscribe style of communication on broadcast channels).
     While subscribing to service channels yields no errors, this is a no-operation for the server: the server ignores
     the subscription request.
     It is possible to publish to service channels, with the semantic of a communication between a specific client
@@ -84,15 +85,15 @@ A channel looks like a directory path such as:
 
 <section>
 <info>
-    <title>Normal Channels</title>
+    <title>Broadcast Channels</title>
 </info>
 <para>
-    Normal channels have the semantic of a messaging topic and are used in the case of publish/subscribe style of
+    Broadcast channels have the semantic of a messaging topic and are used in the case of publish/subscribe style of
     communication.
-    Usually, it is possible to subscribe to normal channels and to publish to normal channels; this can only be
+    Usually, it is possible to subscribe to broadcast channels and to publish to broadcast channels; this can only be
     forbidden using a security policy on the Bayeux server or by using authorizers (see
     <xref linkend="java_server_authorizers" />).
-    Normal channels are useful to broadcast messages to all subscribed clients, for example in case
+    Broadcast channels are useful to broadcast messages to all subscribed clients, for example in case
     of a stock price change.
 </para>
 </section>
@@ -130,7 +131,7 @@ A channel looks like a directory path such as:
 </para>
 </listitem>
 <listitem>
-    <para>Should not be used to listen normal channel messages (use <code>subscribe()</code> instead). </para>
+    <para>Should not be used to listen broadcast channel messages (use <code>subscribe()</code> instead). </para>
 </listitem>
 <listitem>
 <para>
@@ -155,7 +156,7 @@ A channel looks like a directory path such as:
         </para>
     </listitem>
     <listitem>
-        <para>Should be used to listen to normal channel messages.</para>
+        <para>Should be used to listen to broadcast channel messages.</para>
     </listitem>
     <listitem>
         <para>Involves a communication with the Bayeux server and as such cannot be called before calling
@@ -190,39 +191,15 @@ cometd.removeListener(subscription1);
 ]]></programlisting>
 </informalexample>
 <para>
-    A common use pattern is to handle the subscription code in an idempotent method, like this:
-</para>
-<informalexample>
-<programlisting language="javascript"><![CDATA[
-var _subscription;
-
-// The idempotent method
-function _refresh()
-{
-    _appUnsubscribe();
-    _appSubscribe();
-}
-
-function _appUnsubscribe()
-{
-    if (_subscription)
-        cometd.unsubscribe(_subscription);
-    _subscription = null;
-}
-
-function _appSubscribe()
-{
-    _subscription = cometd.subscribe('/foo/bar', function() { ... });
-}
-]]></programlisting>
-</informalexample>
-<para>
-    The same of course applies also for <code>addListener()/removeListener()</code>.
+    A good place in the code where subscriptions should be performed is in a <code>/meta/handshake</code> listener.
+    Since <code>/meta/handshake</code> listener are invoked in both explicit handshake performed by the client
+    and in re-handshakes triggered by the server, it is guaranteed that your subscriptions will always be
+    performed properly.
 </para>
 <para>
-    The point is that you have to be careful in your application: to avoid leak functions, or to execute functions
-    more than once, you have to remove your subscriptions (since you could erroneously bind the same callback twice).
-    See the <xref linkend="primer" /> for a discussion about using idempotent methods.
+    Applications do not need to unsubscribe in case of re-handshake; the CometD library takes care of removing
+    all subscriptions upon re-handshake, so that when the <code>/meta/handshake</code> listener executes again
+    the subscriptions will be correctly restored (and not duplicated).
 </para>
 <para>
     How do <code>subscribe()</code> and <code>unsubscribe()</code> behave in case the Bayeux server is not reachable

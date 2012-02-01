@@ -28,7 +28,7 @@
 <itemizedlist>
 <listitem>
 <para>
-    Authorizers do not apply to meta channels, but only to service channels and to normal (broadcast) channels.
+    Authorizers do not apply to meta channels, but only to service channels and to broadcast channels.
 </para>
 </listitem>
 <listitem>

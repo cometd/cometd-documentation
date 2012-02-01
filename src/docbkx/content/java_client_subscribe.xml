@@ -12,10 +12,11 @@ The following sections provide information about subscribing and unsubscribing t
 </para>
 <section>
 <info>
-    <title>Subscription to Normal (Broadcast) Channels</title>
+    <title>Subscription to Broadcast Channels</title>
 </info>
 <para>
-The CometD 2 Java Client API for subscribing and unsubscribing is better designed than that in CometD 1, and we have moved it to the channel (where it belongs).
+    The CometD 2 Java Client API for subscribing and unsubscribing is better designed than that in CometD 1,
+    and we have moved it to the channel (where it belongs).
 </para>
 <note>
 <para>
@@ -53,12 +54,14 @@ public class Example
 </informalexample>
 <note>
 <para>
-Calling <code>subscribe()</code> <emphasis>does not</emphasis> mean that you have completed the subscription with the server when <code>subscribe()</code> returns.
+    Calling <code>subscribe()</code> <emphasis>does not</emphasis> mean that you have completed the subscription
+    with the server when <code>subscribe()</code> returns.
 </para>
 </note>
 <para>
-Unsubscribing is straightforward: if you unsubscribe to a channel, CometD does not deliver messages on that channel to message listeners.
-Using the <code>Example</code> class above:
+    Unsubscribing is straightforward: if you unsubscribe to a channel, CometD does not deliver messages
+    on that channel to message listeners.
+    Using the <code>Example</code> class above:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -72,21 +75,24 @@ public class Example
 }
 ]]></programlisting>
 </informalexample>
-<tip>
 <para>
-We recommend that you also remove the <code>ClientSessionChannel.MessageListener</code> that you registered when you subscribed.
+    Like in <xref linkend="javascript_subscribe" />, a good place to perform subscriptions is a
+    <code>/meta/handshake</code> listener, because it will be invoked transparently if a new handshake
+    is requested by the server.
 </para>
 <para>
-To make this simpler, avoid using the anonymous inner class style to register a message listener, since otherwise you will not have its reference when you want to remove it.
+    Applications do not need to unsubscribe in case of re-handshake; the CometD library takes care of removing
+    the subscriptions upon re-handshake, so that when the <code>/meta/handshake</code> listener executes again
+    the subscriptions will be correctly restored (and not duplicated).
 </para>
-</tip>
 </section>
 <section>
 <info>
     <title>Listening to Meta Channels</title>
 </info>
 <para>
-The internal implementation of the Bayeaux protocol uses Meta channels, and it does not make any sense to subscribe to them. It does make sense to listen to messages that might arrive on those channels.
+    The internal implementation of the Bayeux protocol uses meta channels, and it does not make any sense to
+    subscribe to them. It does make sense to listen to messages that might arrive on those channels.
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[

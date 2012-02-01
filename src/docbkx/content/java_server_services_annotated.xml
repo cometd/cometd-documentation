@@ -406,7 +406,7 @@ public class Service
 </info>
 <para>
 In client-side annotated services, methods annotated with <code>@Listener</code> represent callbacks that are called upon receipt of messages on meta channels.
-Do not use listener callbacks to subscribe to normal channels.
+Do not use listener callbacks to subscribe to broadcast channels.
 </para>
 <informaltable>
 <thead>
@@ -454,7 +454,8 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
     <title>Subscription Configuration Support</title>
 </info>
 <para>
-In client-side annotated services, methods annotated with <code>@Subscription</code> represent callbacks that are called upon receipt of messages on normal channels.
+    In client-side annotated services, methods annotated with <code>@Subscription</code> represent callbacks that are
+    called upon receipt of messages on broadcast channels.
 </para>
 <informaltable>
 <thead>
