@@ -5,30 +5,24 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="javascript_transports">
 <info>
-    <title>Transports</title>
+    <title>JavaScript Transports</title>
 </info>
 <para>
     The <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory
-    transports:
+    transports: <code>long-polling</code> and <code>callback-polling</code>.
 </para>
-<itemizedlist>
-    <listitem>
-        <para>long-polling</para>
-    </listitem>
-    <listitem>
-        <para>callback-polling</para>
-    </listitem>
-</itemizedlist>
 <para>
-    The JavaScript CometD implementation implements these two transports and supports also the
-    <link xl:href="http://en.wikipedia.org/wiki/WebSockets">WebSocket</link> transport.
+    The JavaScript CometD implementation implements these two transports and supports also the <code>websocket</code>
+    transport (based on HTML 5 <link xl:href="http://en.wikipedia.org/wiki/WebSockets">WebSockets</link>).
 </para>
 <note>
 <para>
-    The WebSocket protocol is still an experimental protocol under development by the IETF working group that is
-    standardizing it.
-    Browsers that have deployed an initial support for the WebSocket protocol might be buggy, so we do not recommend
-    that you use the WebSocket protocol yet, though the CometD project supports it.
+    At the time of this writing, the WebSocket protocol has been finalized by the IETF into
+    <link xl:href="http://www.ietf.org/rfc/rfc6455.txt">RFC 6455</link>.
+    However, most of the browsers still implement earlier drafts of the WebSocket protocol, so browser's support
+    may vary (most notably Microsoft's Internet Explorer will only support WebSocket out of the box in version 10).
+    <?linebreak?>
+    CometD will fallback to <code>long-polling</code> if the <code>websocket</code> transport cannot be used.
 </para>
 </note>
 
@@ -41,8 +35,8 @@
     WebSockets.
     This transport is used when the communication with the Bayeux server happens on the same domain, and also in the
     cross-domain mode for recent browsers, such as Firefox 3.5+ (see <xref linkend="javascript_transports_cross_origin" />).
-    The data is sent to the server by means of a POST request with Content-Type <code>text/json</code> via a plain
-    XMLHttpRequest call.
+    The data is sent to the server by means of a POST request with Content-Type <code>application/json</code>
+    via a plain XMLHttpRequest call.
 </para>
 </section>
 
@@ -52,7 +46,8 @@
 </info>
 <para>
     The <code>callback-polling</code> transport is used when the communication with the Bayeux server happens on a
-    different domain (when the cross-domain mode is not supported, see <xref linkend="javascript_transports_cross_origin" />).
+    different domain and when the cross-domain mode is not supported
+    (see <xref linkend="javascript_transports_cross_origin" />).
 </para>
 <para>
     It is well known that XMLHttpRequest calls have restrictions when the invocation is directed to a domain different
@@ -103,15 +98,39 @@
 <para>
     The <code>websocket</code> transport is available if the browser and the server support WebSocket
     (<link xl:href="http://eclipse.org/jetty">Jetty 7</link> supports the WebSocket protocol).
-    This transport is still experimental, but it is being designed to be the bidirectional communication protocol for
+    The WebSocket protocol it is being designed to be the bidirectional communication protocol for
     the web, so it is a natural fit in the CometD project.
-    However, the WebSocket protocol is still in alpha state, and browsers support it to various degrees of reliability,
-    so we do not yet recommend it in production (see <xref linkend="javascript_transports_unregistering" /> on how to
-    disable transports).
-    The websocket transport is disabled by default since CometD 2.1.0, but can be enabled easily, following
-    <!-- TODO: relink to the docbook section -->
-    <link xl:href="http://cometd.org/documentation/2.x/howtos/websocket">Enabling CometD</link>.
+    <?linebreak?>
+    Since support of browsers has greatly improved, the <code>websocket</code> transport is enabled by
+    default since CometD 2.4.0, but can easily be disabled if you experience problems with it.
 </para>
+<para>
+    The easiest way of enabling/disabling the <code>websocket</code> transport is to set a boolean variable
+    <emphasis>before</emphasis> performing the initial CometD handshake:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+var cometd = dojox.cometd; // Dojo style
+var cometd = $.cometd; // jQuery style
+
+// Disable the websocket transport
+cometd.websocketEnabled = false;
+
+// Initial handshake
+cometd.init('http://localhost:8080/cometd');
+]]></programlisting>
+</informalexample>
+<para>
+    An alternative way of disabling the <code>websocket</code> transport is to unregister its transport, see
+    <xref linkend="javascript_transports_unregistering" />.
+</para>
+<important>
+<para>
+    Remember that enabling the <code>websocket</code> transport on the client is not enough: it must
+    be enabled on the server too.
+    Follow <xref linkend="java_server_transports" /> for configuring <code>websocket</code> on the server.
+</para>
+</important>
 </section>
 <section xml:id="javascript_transports_unregistering">
 <info>

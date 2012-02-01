@@ -229,7 +229,7 @@
 </tr>
 </tbody>
 </table>
-<section>
+<section xml:id="java_server_configuration_advanced">
 <info>
     <title>Advanced Configuration</title>
 </info>
