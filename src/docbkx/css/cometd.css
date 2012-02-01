@@ -111,7 +111,7 @@ td
     padding: 0 20px;
 }
 
-.toc, .list-of-tables, .copyright
+.toc, .list-of-tables, .copyright, .legalnotice
 {
     font-size: smaller;
 }
