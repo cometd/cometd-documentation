@@ -59,7 +59,7 @@
     The Bayeux protocol itself creates meta channels.
     It is not possible to subscribe to meta channels: the server replies with an error message. It is possible to
     listen to meta channels (see below for the difference between <xref linkend="javascript_subscribe_vs_listen" />.
-    It makes no sense to publish messages to meta channels: only the Bayeux protocol implementation creates and sends
+    You cannot (and it makes no sense to) publish messages to meta channels: only the Bayeux protocol implementation creates and sends
     messages on meta channels.
     Meta channels are useful on the client to listen for error messages like handshake errors (for example, because
     the client did not provide the correct credentials) or network errors (for example, to know when the connection
@@ -127,7 +127,7 @@
 <listitem>
 <para>
     May be used to listen to service channel messages (you may also use<code>subscribe()</code>,
-    but is not recommended).
+    but we do not recommend it).
 </para>
 </listitem>
 <listitem>
@@ -206,7 +206,7 @@ cometd.removeListener(subscription1);
     (due to network failures or because the server crashed)?
     In <code>subscribe()</code> CometD first adds the local listener to the list of subscribers for that channel, then
     attempts the server communication. If the communication fails, the server does not know that it has to send
-    messages to this client and therefore on the client, the local listener (although present) will never be invoked.
+    messages to this client and therefore on the client, the local listener (although present) is never invoked.
     In <code>unsubscribe()</code>, CometD first removes the local listener from the list of subscribers for that channel,
     then attempts the server communication. If the communication fails, the server still sends the message to the
     client,  but there is no local listener to dispatch to.

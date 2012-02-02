@@ -42,4 +42,11 @@
 <xi:include href="java_client_disconnect.xml" />
 <xi:include href="java_client_transports.xml" />
 
+<section>
+<info>
+    <title>Client-side Annotations</title>
+</info>
+
+For information about client-side annotations, see <xref linkend="java_server_services_annotated_client-side" />
+</section>
 </section>
