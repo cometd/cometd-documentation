@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xml:id="java_server_lazy_messages">
+<info>
+    <title>Lazy Channels and Messages</title>
+</info>
+<para>
+    Sometimes applications need to send non-urgent messages to clients; a typical example are alert messages
+    such as "email received" or "server uptime", but could be the case also chat messages, etc.
+    <?linebreak?>
+    While these messages need to eventually be delivered to the client(s), there is no need to do so immediately:
+    they are queued into the <code>ServerSession</code>'s message queue, but their deliver can be postponed
+    to the first occasion.
+</para>
+<para>
+    In CometD, "first occasion" means one of the following things whichever comes first (see
+    <xref linkend="java_server_configuration" /> for the configuration of the following parameters):
+</para>
+<itemizedlist>
+<listitem>
+<para>
+    the <code>maxLazyTimeout</code> expired
+</para>
+</listitem>
+<listitem>
+<para>
+    the <code>timeout</code> expired
+</para>
+</listitem>
+<listitem>
+<para>
+    another non-lazy message triggered the <code>ServerSession</code>'s message queue to be delivered
+</para>
+</listitem>
+</itemizedlist>
+<para>
+    To support this feature, CometD introduces the concept of <emphasis>lazy channel</emphasis> and
+    <emphasis>lazy messages</emphasis>.
+</para>
+<para>
+    An application can mark a message as lazy by calling <code>ServerMessage.Mutable.setLazy(true)</code> on
+    the message instance itself, for example:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+@Service
+public class LazyService
+{
+    @Inject
+    private BayeuxServer bayeuxServer;
+    @Session
+    private LocalSession session;
+
+    public void receiveNewsFromExternalSystem(NewsInfo news)
+    {
+        ServerMessage.Mutable message = this.bayeuxServer.newMessage();
+        message.setChannel("/news");
+        message.setData(news);
+        message.setLazy(true);
+        this.bayeuxServer.getChannel("/news").publish(this.session, message);
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    In the example above, method <code>LazyService.receiveNewsFromExternalSystem(...)</code>
+    is invoked by an external system every time there is a news, and the service broadcasts
+    the news to all interested clients.
+    <?linebreak?>
+    However, the news need not to be delivered immediately, so the message is marked as lazy.
+    Each remote client will receive the message possibly at a different time: some will receive it
+    immediately (because for example they have other non-lazy messages to be delivered), some will
+    received it after few milliseconds (because for example their <code>/meta/connect</code> timeout
+    expires in few milliseconds), others will wait the whole <code>maxLazyInterval</code> timeout.
+</para>
+<para>
+    In the same way you can mark a message as lazy, you can also mark server channels to be lazy.
+    Every message that is published to a lazy channel becomes a lazy message and it is then queued
+    into the <code>ServerSession</code>'s message queue for delivery on first occasion.
+    <?linebreak?>
+    Server channels can be marked as lazy at any time, but they are best configured as lazy at
+    creation time, for example:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+@Service
+public class LazyService
+{
+    @Inject
+    private BayeuxServer bayeuxServer;
+    @Session
+    private LocalSession session;
+
+    @Configure("/news")
+    public void setupNewsChannel(ConfigurableServerChannel channel)
+    {
+        channel.setLazy(true);
+    }
+
+    public void receiveNewsFromExternalSystem(NewsInfo news)
+    {
+        this.bayeuxServer.getChannel("/news").publish(this.session, news, null);
+    }
+}
+]]></programlisting>
+</informalexample>
+</section>

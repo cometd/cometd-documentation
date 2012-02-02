@@ -10,29 +10,30 @@
 <para>
     To run the CometD server implementation, you need to deploy a Java web application to a servlet container.
 </para>
-<itemizedlist>
-<listitem>
 <para>
-    The web application needs a CometD <emphasis>servlet</emphasis> to interpret the Bayeux protocol (see
-    <xref linkend="java_server_configuration" /> for configuration details).
+    The web application needs a to be configured with the CometD <emphasis>servlet</emphasis> that interprets
+    the Bayeux protocol (see <xref linkend="java_server_configuration" /> for the CometD servlet configuration
+    details).
 </para>
-</listitem>
-<listitem>
 <para>
-    Most of the time you also need to write one or more user-defined services, see <xref linkend="java_server_services" />,
-    that can act upon receiving messages on Bayeux channels.
+    While CometD interprets Bayeux messages, applications normally need to implement their own business
+    logic, so they need to be able to interact with Bayeux messages, inspect them, modify them, publish more
+    messages on different channels, interacting with external systems such as web services or persistent storages, etc.
 </para>
-</listitem>
-</itemizedlist>
+<para>
+    In order to implement their own business logic, applications need to write one or more user-defined services, see
+    <xref linkend="java_server_services" />, that can act upon receiving messages on Bayeux channels.
+</para>
 <para>
     The following sections present detailed information about the Java Server APIs and their implementation.
 </para>
 
 <xi:include href="java_server_configuration.xml" />
+<xi:include href="java_server_services.xml" />
 <xi:include href="java_server_authorization.xml" />
 <xi:include href="java_server_authorizers.xml" />
-<xi:include href="java_server_multiple_sessions.xml" />
-<xi:include href="java_server_services.xml" />
 <xi:include href="java_server_transports.xml" />
+<xi:include href="java_server_lazy_messages.xml" />
+<xi:include href="java_server_multiple_sessions.xml" />
 
 </section>

@@ -48,7 +48,8 @@
 </listitem>
 <listitem>
 <para>
-    Study the CometD demos that ship with the CometD distribution (see <xref linkend="intallation_demos" />.
+    <!-- TODO: link to the tutorials ? -->
+    Study the CometD demos that ship with the CometD distribution <!--(see <xref linkend="intallation_demos" />)-->.
 </para>
 </listitem>
 <listitem>
@@ -66,7 +67,8 @@
 </listitem>
 <listitem>
 <para>
-    Participating in the <link xl:href="http://groups.google.com/group/cometd-users/?pli=1">CometD Users</link> and <link xl:href="http://groups.google.com/group/cometd-dev/">CometD Development"</link> mailing lists.
+    Participating in the <link xl:href="http://groups.google.com/group/cometd-users/">CometD Users</link>
+    and <link xl:href="http://groups.google.com/group/cometd-dev/">CometD Development</link> mailing lists.
 </para>
 </listitem>
 <listitem>
@@ -77,4 +79,3 @@
 </listitem>
 </itemizedlist>
 </preface>
-

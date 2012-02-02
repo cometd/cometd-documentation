@@ -8,7 +8,7 @@
     <title>Scalability Clustering with Oort</title>
 </info>
 <para>
-    The CometD distribution ships a clustering solution called <emphasis>Oort</emphasis> that
+    The CometD distribution ships a clustering solution called <emphasis role="bold">Oort</emphasis> that
     enhances the scalability of a CometD-based system.
     Instead of connecting to a single node (usually represented by a virtual or physical host), clients connect
     to multiple nodes so that the processing power required to cope with the load is spread among multiple nodes,
@@ -61,7 +61,7 @@
     <title>Terminology</title>
 </info>
 <para>
-    The next sections use the following terminology: 
+    The next sections use the following terminology:
     <itemizedlist>
     <listitem>
     <para>an <emphasis>Oort cluster</emphasis> is also referred to
@@ -200,7 +200,7 @@ There are two ways for a new comet to discover at least one other comet:
     The mandatory <code>oort.url</code> init parameter must identify the URL at which this Oort comet
     can be contacted, and it must be the URL the <code>CometdServlet</code> of this node serves.
     This URL is sent to other Oort comets, so it is important that the host part of the URL does
-    not point to "localhost," but to a resolvable host name or to an IP address, so that other comets
+    not point to "localhost", but to a resolvable host name or to an IP address, so that other comets
     in the cluster can contact this comet.
     Likewise, the you must properly configure the context path part of the URL for this web application.
 </para>
@@ -497,6 +497,7 @@ public class OortConfigurationServlet extends GenericServlet
 </mediaobject>
 <para>
 In this way, an Oort cloud is aware of its members, but it does not do anything useful for the application.
+<?linebreak?>
 The next section covers broadcast message forwarding over the entire cloud.
 </para>
 </section>
@@ -561,6 +562,7 @@ oort.addCometListener(new Oort.CometListener()
 <para>
     Applications may use comet listeners to synchronize comets; a new comet can request (or be pushed)
     application data that needs to be present in all comets (for example to warm up a cache).
+    <?linebreak?>
     Such activities occur in concert with a <code>SecurityPolicy</code> that denies handshakes from
     remote clients until the new comet is properly warmed up (clients retry the handshakes until the
     new comet is ready).
@@ -813,8 +815,6 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     <code>Seti</code> allows you to associate a unique string representation of a user with one or more
-    <code>ServerSession</code> (see <xref linkend="concepts" /> for more details on<code>ServerSession</code>).
-    <code>Seti</code> allows to associate a unique string representation of a user with one or more
     <code>ServerSession</code> (see <xref linkend="concepts" /> for more details on <code>ServerSession</code>).
 </para>
 <para>
@@ -862,13 +862,6 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </informalexample>
 <para>
     Alternatively, you can perform the association in a <code>BayeuxServer.Extension</code> or in a
-    CometD service (see <xref linkend="java_server_services" />) in response to a specific message that the client always sends after a
-    successful handshake.
-</para>
-<para>
-    When a <code>Seti</code> instance first associates a <code>userId</code> with a session, it broadcasts an internal
-    message on the cloud (on channel <code>/seti/all</code>) that tells all the other comets where
-    this <code>userId</code> is.
     CometD service (see <xref linkend="java_server_services" />), in response to a specific message
     that the client always sends after a successful handshake.
 </para>
@@ -877,17 +870,19 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     <emphasis>presence</emphasis> message on the cloud (on channel <code>/seti/all</code>, see
     <xref linkend="java_oort_seti_listeners" />) that tells to all
     the other comets where this <code>userId</code> is.
+    <?linebreak?>
     In this way, all the comets in the cloud know where a particular <code>userId</code> resides.
     Further associations of the same <code>userId</code> (with different sessions) on the same <code>Seti</code>
     do not broadcast any presence message, because other <code>Seti</code>s already know that that
     particular <code>userId</code> resides in that <code>Seti</code>.
     The same <code>userId</code> can be associated in different comets (for example, the desktop
-    computer logs in–and therefore is associated–in <code>comet1</code>, while the mobile device
+    computer logs in – and therefore is associated – in <code>comet1</code>, while the mobile device
     is associated in <code>comet2</code>).
 </para>
 <para>
     Similarly, you can disassociate a <code>userId</code> at any time by calling
     <code>Seti.disassociate(userId, session)</code>.
+    <?linebreak?>
     If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
     session and <code>Seti</code> automatically
     disassociates the <code>userId</code>.
@@ -910,7 +905,6 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 <para>
     Applications can register presence listeners that are notified when a presence message arrives at a
     <code>Seti</code> instance:
->>>>>>> e68aa17c3f7f94c91d02301836a852b2f14e0c11
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -964,8 +958,8 @@ seti.addPresenceListener(new Seti.PresenceListener()
     <title>Sending Messages</title>
 </info>
 <para>
-    After users have been associated,  
-    <code>Seti.sendMessage(String userId, String channel, Object data)</code> can send messages to a 
+    After users have been associated,
+    <code>Seti.sendMessage(String userId, String channel, Object data)</code> can send messages to a
     particular user in the cloud.
 </para>
 <informalexample>
@@ -990,13 +984,10 @@ public class SetiForwarder
     In the example below, <code>clientA</code> wants to send a message to <code>clientC</code>
     but not to <code>clientB</code>.
     Therefore <code>clientA</code> sends a message to the server it is connected to using a
-    <xref linkend="javascript_subscribe" />
-    (so that the message is not broadcast), and then a specialized
-    <xref linkend="java_server_services" /> routes
-    the message to the appropriate user using <code>Seti</code>.
-    service channel so that the message is not broadcast (see <xref linkend="javascript_subscribe" />,
-    and then a specialized <xref linkend="java_server_services" /> routes
+    service channel so that the message is not broadcast (see <xref linkend="javascript_subscribe" />),
+    and then a specialized service (see <xref linkend="java_server_services" />) routes
     the message to the appropriate user using <code>Seti</code> (see code snippet above).
+    <?linebreak?>
     The <code>Seti</code> on <code>cometA</code> knows that the target user is on <code>cometC</code>
     (thanks to the association) and forwards the message to <code>cometC</code> which in turn
     delivers the message to <code>clientC</code>.

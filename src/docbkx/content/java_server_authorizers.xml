@@ -5,10 +5,10 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_authorizers">
 <info>
-    <title>Authorizers</title>
+    <title>Server Channel Authorizers</title>
 </info>
 <para>
-    CometD 2.1.0 introduces authorizers: a new feature that allows fine-grained control of
+    CometD 2.1.0 introduced authorizers: a new feature that allows fine-grained control of
     authorization on channel operations.
 </para>
 
@@ -18,7 +18,24 @@
 </info>
 <para>
     Authorizers are objects that implement <classname>org.cometd.bayeux.server.Authorizer</classname>;
-    you add them to server-side channels at setup time (before any operation on that channel may happen).
+    you add them to server-side channels at setup time (before any operation on that channel may happen)
+    in the following way:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxServer bayeuxServer = ...;
+bayeuxServer.createIfAbsent("/my/channel", new ConfigurableServerChannel.Initializer()
+{
+    public void configureChannel(ConfigurableServerChannel channel)
+    {
+        channel.addAuthorizer(GrantAuthorizer.GRANT_PUBLISH);
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    The utility class <classname>org.cometd.server.authorizer.GrantAuthorizer</classname> provides you
+    some convenience pre-made authorizers, but you can create your own at will.
 </para>
 <para>
     Authorizers are particularly suited to control authorization on those channels that CometD creates at runtime,
@@ -106,7 +123,8 @@ public boolean canPublish  (BayeuxServer server, ServerSession session, ServerCh
 The order in which the authorizers are called is not important.
 </para>
 <para>
-The following method implements authorization:
+    The following method of <classname>org.cometd.bayeux.server.Authorizer</classname> must be implemented
+    with your authorization algorithm:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -114,7 +132,7 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 ]]></programlisting>
 </informalexample>
 <para>
-One of three possible results is returned:
+One of three possible results must be returned:
 </para>
 <orderedlist>
 <listitem>
