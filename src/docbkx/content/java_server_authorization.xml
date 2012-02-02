@@ -8,16 +8,26 @@
     <title>Authorization</title>
 </info>
 <para>
-You can configure the Bayeux object with a <code>org.cometd.bayeux.server.SecurityPolicy</code> object, which allows you to control various steps of the Bayeux protocol such as handshake, subscription, and publish. By default, the Bayeux object does not have a SecurityPolicy, which means that any operation is authorized.
+    You can configure the <code>BayeuxServer</code> object with a
+    <classname>org.cometd.bayeux.server.SecurityPolicy</classname>
+    object, which allows you to control various steps of the Bayeux protocol such as handshake, subscription,
+    and publish.
+    By default, the <code>BayeuxServer</code> object has a default <code>SecurityPolicy</code>,
+    that allows almost any operation (see below).
 </para>
 <para>
-The <code>org.cometd.bayeux.server.SecurityPolicy</code> has a default implementation in <code>org.cometd.server.DefaultSecurityPolicy</code>, that is useful as a base class to customize the SecurityPolicy (see how <link xl:href="/documentation/2.x/howtos/authentication">authentication</link> works for an example).
+    The <classname>org.cometd.bayeux.server.SecurityPolicy</classname> has a default implementation in
+    <classname>org.cometd.server.DefaultSecurityPolicy</classname>, that is useful as a base class to
+    customize the <code>SecurityPolicy</code>
+    <!-- TODO: relink to the docbook section -->
+    (see how <link xl:href="http://cometd.org/documentation/2.x/howtos/authentication">authentication</link>
+    works for an example).
 </para>
 <para>
-The <code>org.cometd.bayeux.server.SecurityPolicy</code> methods are:
+    The <classname>org.cometd.bayeux.server.SecurityPolicy</classname> methods are:
 </para>
 <informalexample>
-<programlisting language="javascript"><![CDATA[
+<programlisting language="java"><![CDATA[
 boolean canHandshake(BayeuxServer server, ServerSession session, ServerMessage message);
 
 boolean canCreate(BayeuxServer server, ServerSession session, String channelId, ServerMessage message);
@@ -28,17 +38,21 @@ boolean canPublish(BayeuxServer server, ServerSession session, ServerChannel cha
 ]]></programlisting>
 </informalexample>
 <para>
-The methods control, respectively, whether a handshake, a channel creation, a subscription to a channel or a publish to a channel are to be authorized.
+    Those methods control, respectively, whether a handshake, a channel creation, a subscription to a channel
+    or a publish to a channel are to be authorized.
 </para>
 <para>
-The default implementation <code>org.cometd.server.DefaultSecurityPolicy</code>:
+    The default implementation <classname>org.cometd.server.DefaultSecurityPolicy</classname>:
 </para>
 <itemizedlist>
 <listitem>
 <para>Allows any handshake.</para>
 </listitem>
 <listitem>
-<para>Allows creation of a channel only from clients that performed a handshake, and only if the channel is not a meta channel.</para>
+<para>
+    Allows creation of a channel only from clients that performed a handshake,
+    and only if the channel is not a meta channel.
+</para>
 </listitem>
 <listitem>
 <para>Allows subscription from clients that performed a handshake, but not if the channel is a meta channel.</para>
@@ -48,9 +62,13 @@ The default implementation <code>org.cometd.server.DefaultSecurityPolicy</code>:
 </listitem>
 </itemizedlist>
 <para>
-To understand how to install your custom <code>SecurityPolicy</code> on the Bayeux object, see how it is done in the <link xl:href="/documentation/2.x/howtos/authentication">authentication</link> howto.
+    To understand how to install your custom <code>SecurityPolicy</code> on the <code>BayeuxServer</code> object,
+    <!-- TODO: relink to the docbook section -->
+    see how it is done in the
+    <link xl:href="http://cometd.org/documentation/2.x/howtos/authentication">authentication</link> howto.
 </para>
 <para>
-Follow also the section on <link xl:href="/documentation/2.x/cometd-java/server/authorizers">authorizers</link>.
+    Follow also the section on <xref linkend="java_server_authorizers" /> for further information about
+    authorization.
 </para>
 </section>
