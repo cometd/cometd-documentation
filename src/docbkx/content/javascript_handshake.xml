@@ -18,7 +18,7 @@ The Bayeux handshake performs two tasks:
     <para>The client and the server negotiate the type of transport to use.</para>
 </listitem>
 <listitem>
-    <para>Once the transport is negotiated successfully, the server informs the client with the detailed timings of the
+    <para>Once the transport negotiates successfully, the server informs the client with the detailed timings of the
         requests.
     </para>
 </listitem>

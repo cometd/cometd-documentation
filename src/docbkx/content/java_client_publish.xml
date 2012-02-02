@@ -26,7 +26,7 @@ Publishing data on a channel is an asynchronous operation.
 </para>
 <note>
 <para>
-Calling <code>publish()</code> <emphasis>does not</emphasis> mean that you have published the message when <code>publish()</code> returns.
+Calling <code>publish()</code> <emphasis role="bold">does not</emphasis> mean that you have published the message when <code>publish()</code> returns.
 </para>
 </note>
 <para>
@@ -55,8 +55,8 @@ client.batch (new Runnable()
 
 <warning>
 <para>
-The <code>ClientSession</code> API allows you also to batch using <code>startBatch()</code> and <code>endBatch()</code>, but remember to call <code>endBatch()</code> after having called <code>startBatch()</code>, for example in a finally block.
-If you don't, your messages will continue to queue up, and your application will not work as expected.
+The <code>ClientSession</code> API also allows you to batch using <code>startBatch()</code> and <code>endBatch()</code>, but remember to call <code>endBatch()</code> after having called <code>startBatch()</code>, for example in a final block.
+If you don't, your messages continue to queue up, and your application does not work as expected.
 </para>
 </warning>
 </section>

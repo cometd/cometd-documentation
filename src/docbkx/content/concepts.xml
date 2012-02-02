@@ -9,7 +9,7 @@
 </info>
 <para>
     The CometD project implements various
-    <link xl:href="http://en.wikipedia.org/wiki/Comet_%28programming%29">Comet techniques</link> to provide 
+    <link xl:href="http://en.wikipedia.org/wiki/Comet_%28programming%29">Comet techniques</link> to provide a
     scalable web messaging system, one that can run over HTTP or over other emerging web protocols such as
     <link xl:href="http://en.wikipedia.org/wiki/WebSocket">WebSocket</link>.
 </para>
@@ -103,7 +103,7 @@
     that match the interest they have subscribed to. Senders, in general, have no idea which or how many recipients receive the messages they publish.
 </para>
 <para>
-    One of the features of messaging systems is their topology, and CometD implements the hub-spoke topology.
+    CometD implements the hub-spoke topology.
     In the default configuration, this means that there is one central server (the hub) and all clients connect to
     that server via conduit links (the spokes).
 </para>

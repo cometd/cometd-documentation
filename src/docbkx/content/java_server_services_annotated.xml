@@ -298,7 +298,7 @@ Symmetrically, <code>ServerAnnotationProcessor.deprocess()</code> performs annot
 </para>
 </section>
 </section>
-<section xml:id="client-side">
+<section xml:id="java_server_services_annotated_client-side">
 <info>
     <title>Client-Side Annotated Services</title>
 </info>

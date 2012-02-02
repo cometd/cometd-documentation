@@ -90,10 +90,10 @@
 <listitem>
 <para>
     Be sure that you include the dependency <code>org.cometd.java:cometd-websocket-jetty</code>.
-    <?linebreak?>
     This is very easy to do if you're using Maven: just declare the additional dependency in your application's
     <filename>pom.xml</filename> file.
-    <?linebreak?>
+</para>
+<para>
     If you are not using Maven, you need to make sure that
     <filename>cometd-websocket-jetty-&lt;version&gt;.jar</filename> is present in the <code>WEB-INF/lib</code>
     directory of your web application .war file.

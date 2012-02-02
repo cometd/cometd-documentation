@@ -18,7 +18,7 @@ cometd.publish('/mychannel', { mydata: { foo: 'bar' } });
 <para>
     You cannot (and it makes no sense to) publish to a meta channel, but you can publish to a service or normal channel even if you are
     not subscribed to that channel.
-    However, you have to handshake before being able to publish.
+    However, you have to handshake before you are able to publish.
 </para>
 <para>
     As with other JavaScript CometD API, <code>publish()</code> involves a communication with the server and it is

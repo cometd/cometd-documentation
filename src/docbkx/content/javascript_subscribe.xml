@@ -58,7 +58,7 @@
 <para>
     The Bayeux protocol itself creates meta channels.
     It is not possible to subscribe to meta channels: the server replies with an error message. It is possible to
-    listen to meta channels (see below for the difference between <xref linkend="javascript_subscribe_vs_listen" />.
+    listen to meta channels (see <xref linkend="javascript_subscribe_vs_listen" /> for and explanation of the difference between subscribers and listeners.
     You cannot (and it makes no sense to) publish messages to meta channels: only the Bayeux protocol implementation creates and sends
     messages on meta channels.
     Meta channels are useful on the client to listen for error messages like handshake errors (for example, because
