@@ -76,7 +76,7 @@
     A channel that starts with <code>/meta/</code> is a meta channel, a channel that starts with
     <code>/service/</code> is a service channel, and all other channels are broadcast channels.
 </para>
-<section.
+<section>
 <info>
     <title>Meta Channels</title>
 </info>
