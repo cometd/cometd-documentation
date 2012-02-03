@@ -290,15 +290,24 @@
 </info>
 <para>
     The CometD libraries are portable across servlet containers.
-    <?linebreak?>
     When a CometD web application is deployed to a Servlet 3 compliant container (such as Jetty 7 or greater,
-    or Tomcat 7 or greater), CometD will make use of the Servlet 3 asynchronous features.
+    or Tomcat 7 or greater), CometD makes use of the Servlet 3 asynchronous features.
 </para>
 <para>
-    In order to enable the Servlet 3 asynchronous features, you need to modify the <filename>web.xml</filename>
-    configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0,
-    and by adding the <code>async-supported</code> element to filters that may be executed before the
-    <code>CometdServlet</code> and to the <code>CometdServlet</code> itself, for example:
+    To enable the Servlet 3 asynchronous features, you need to 
+    <itemizedlist>
+    <listitem>
+    <para>Modify the <filename>web.xml</filename>
+    configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0</para>
+    </listitem>
+    <listitem
+    <para> Add the <code>async-supported</code> element to filters that might execute before the
+    <code>CometdServlet</code> <emphasis>and</emphasis> to the <code>CometdServlet</code> itself</para>
+    </listitem>
+    </itemizedlist>
+</para>
+<para>
+For example:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
