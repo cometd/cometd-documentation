@@ -300,7 +300,7 @@
     <para>Modify the <filename>web.xml</filename>
     configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0</para>
     </listitem>
-    <listitem
+    <listitem>
     <para> Add the <code>async-supported</code> element to filters that might execute before the
     <code>CometdServlet</code> <emphasis>and</emphasis> to the <code>CometdServlet</code> itself</para>
     </listitem>
