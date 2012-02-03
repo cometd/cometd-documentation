@@ -10,23 +10,20 @@
 <para>
     The <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory
     transports: <code>long-polling</code> and <code>callback-polling</code>.
-    <?linebreak?>
     These two transports are automatically configured in the <code>BayeuxServer</code> instance, and there is no
     need to explicitly specify them in the configuration.
 </para>
 <para>
     For the <code>websocket</code> transport things are different because there is no standard API for server-side
-    WebSocket yet (it is under consideration for the Servlet 3.1 specification), and therefore any implementation
-    will bind you to the servlet container implementation.
+    WebSocket yet (it is under consideration for the Servlet 3.1 specification), and therefore any implementation binds you to the servlet container implementation.
 </para>
 <important>
 <para>
     The CometD project borrows many libraries from the <link xl:href="http://eclipse.org/jetty">Jetty</link>
     project.
     <?linebreak?>
-    While CometD itself is not bound to Jetty and other WebSocket implementations can be plugged in, the CometD
+    While CometD itself is not bound to Jetty, and you can plug in other WebSocket implementations , the CometD
     projects ships a <code>websocket</code> server transport based on Jetty's WebSocket.
-    <?linebreak?>
     As such, if you want to use the CometD WebSocket server transport shipped by default, you
     <emphasis role="bold">must</emphasis> run your web application in Jetty.
 </para>
@@ -38,18 +35,18 @@
     web application in a specific servlet container, it is possible to use the <code>websocket</code>
     <emphasis>client</emphasis> transport on the server (for example to communicate with another WebSocket
     CometD server) in any servlet container.
-    <?linebreak?>
-    While Jetty's WebSocket server library will only work in Jetty,
+</para>
+<para>
+    While Jetty's WebSocket server library works only in Jetty,
     Jetty's WebSocket client library is portable and does not bind you to any servlet container.
-    <?linebreak?>
-    For example, it is perfectly possible to have a client communicating via HTTP to a CometD web application
+    For example, it is possible to have a client communicating via HTTP to a CometD web application
     running in Tomcat, which communicates via WebSocket to another CometD web application running in Jetty.
 </para>
 </note>
 <para>
-    In order to correctly configure the <code>websocket</code> transport on the server, follow these instructions:
+    To configure the <code>websocket</code> transport on the server, follow these instructions:
 </para>
-<itemizedlist>
+<orderedlist>
 <listitem>
 <para>
     Change the <code>CometdServlet</code> configuration in <code>web.xml</code> (see also
@@ -83,7 +80,7 @@
 </informalexample>
 <para>
     You do not need to worry about the <code>long-polling</code> and <code>callback-polling</code> transports.
-    Those will be present in any case, as the <code>transports</code> parameter specifies
+    Those are present in any case, as the <code>transports</code> parameter specifies
     <emphasis>additional</emphasis> non-required transports.
 </para>
 </listitem>
@@ -102,13 +99,13 @@
 <listitem>
 <para>
     If you plan to use the <code>websocket</code> <emphasis>client</emphasis> transport in your web application,
-    and you are not using Maven, then make sure that also
+    and you are not using Maven, make sure that also
     <filename>jetty-websocket-&lt;version&gt;.jar</filename>, <filename>jetty-io-&lt;version&gt;.jar</filename>
     and <filename>jetty-http-&lt;version&gt;.jar</filename> are present in the <code>WEB-INF/lib</code>
     directory of your web application .war file.
 </para>
 </listitem>
-</itemizedlist>
+</orderedlist>
 <para>
     If you have configured your web application to support cross-domain HTTP calls (see
     <xref linkend="java_server_configuration_advanced" />) you do not need to worry because the
