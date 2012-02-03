@@ -8,26 +8,25 @@
     <title>Lazy Channels and Messages</title>
 </info>
 <para>
-    Sometimes applications need to send non-urgent messages to clients; a typical example are alert messages
-    such as "email received" or "server uptime", but could be the case also chat messages, etc.
-    <?linebreak?>
-    While these messages need to eventually be delivered to the client(s), there is no need to do so immediately:
-    they are queued into the <code>ServerSession</code>'s message queue, but their deliver can be postponed
+    Sometimes applications need to send non-urgent messages to clients; alert messages
+    such as "email received" or "server uptime", are a typical example, but chat messages sometimes also fit this definition.
+    While these messages need to reach the client(s) eventually, there is no need to deliver them immediately:
+    they are queued into the <code>ServerSession</code>'s message queue, but their delivery can be postponed
     to the first occasion.
 </para>
 <para>
-    In CometD, "first occasion" means one of the following things whichever comes first (see
-    <xref linkend="java_server_configuration" /> for the configuration of the following parameters):
+    In CometD, "first occasion" means whichever of the following things first (see
+    <xref linkend="java_server_configuration" /> for information about configuring the following parameters):
 </para>
 <itemizedlist>
 <listitem>
 <para>
-    the <code>maxLazyTimeout</code> expired
+    <code>maxLazyTimeout</code> expired
 </para>
 </listitem>
 <listitem>
 <para>
-    the <code>timeout</code> expired
+    <code>timeout</code> expired
 </para>
 </listitem>
 <listitem>
@@ -37,7 +36,7 @@
 </listitem>
 </itemizedlist>
 <para>
-    To support this feature, CometD introduces the concept of <emphasis>lazy channel</emphasis> and
+    To support this feature, CometD introduces the concepts of <emphasis>lazy channel</emphasis> and
     <emphasis>lazy messages</emphasis>.
 </para>
 <para>
@@ -66,22 +65,22 @@ public class LazyService
 ]]></programlisting>
 </informalexample>
 <para>
-    In the example above, method <code>LazyService.receiveNewsFromExternalSystem(...)</code>
-    is invoked by an external system every time there is a news, and the service broadcasts
+    In this example, an external system invokes method <code>LazyService.receiveNewsFromExternalSystem(...)</code>
+    every time there is news, and the service broadcasts
     the news to all interested clients.
-    <?linebreak?>
-    However, the news need not to be delivered immediately, so the message is marked as lazy.
-    Each remote client will receive the message possibly at a different time: some will receive it
-    immediately (because for example they have other non-lazy messages to be delivered), some will
-    received it after few milliseconds (because for example their <code>/meta/connect</code> timeout
-    expires in few milliseconds), others will wait the whole <code>maxLazyInterval</code> timeout.
+    However, since the news need not be delivered immediately, the message is marked as lazy.
+    Each remote client possibly receives the message at a different time: some receive it
+    immediately (because, for example, they have other non-lazy messages to be delivered), some
+    receive it after few milliseconds (because, for example, their <code>/meta/connect</code> timeout
+    expires in a few milliseconds), while others receive it only upon the whole <code>maxLazyInterval</code> timeout.
 </para>
 <para>
-    In the same way you can mark a message as lazy, you can also mark server channels to be lazy.
-    Every message that is published to a lazy channel becomes a lazy message and it is then queued
+    In the same way you can mark a message as lazy, you can also mark server channels as lazy.
+    Every message that is published to a lazy channel becomes a lazy message which is then queued
     into the <code>ServerSession</code>'s message queue for delivery on first occasion.
-    <?linebreak?>
-    Server channels can be marked as lazy at any time, but they are best configured as lazy at
+</para>
+<para>
+    You can mark server channels as lazy at any time, but it is best to configure them as lazy at
     creation time, for example:
 </para>
 <informalexample>
