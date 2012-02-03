@@ -17,12 +17,11 @@
 </para>
 <note>
 <para>
-    At the time of this writing, the WebSocket protocol has been finalized by the IETF into
+    At the time of this writing, the IETF has finalized the WebSocket protocol into
     <link xl:href="http://www.ietf.org/rfc/rfc6455.txt">RFC 6455</link>.
-    However, most of the browsers still implement earlier drafts of the WebSocket protocol, so browser's support
-    may vary (most notably Microsoft's Internet Explorer will only support WebSocket out of the box in version 10).
-    <?linebreak?>
-    CometD will fallback to <code>long-polling</code> if the <code>websocket</code> transport cannot be used.
+    However, most of the browsers still implement earlier drafts of the WebSocket protocol, so browser support
+    varies (most notably Microsoft's Internet Explorer only supports WebSocket out of the box in version 10).
+    CometD falls back to <code>long-polling</code> if the <code>websocket</code> transport does not work.
 </para>
 </note>
 
@@ -65,16 +64,16 @@
 <itemizedlist>
 <listitem>
 <para>
-    The transport is chattier. This is due to the fact that the browser executes the injected scripts sequentially,
+    The transport is chatty. This is due to the fact that the browser executes the injected scripts sequentially,
     and until a script has been completely "downloaded", it cannot be executed.
     For example, imagine a communication that involves a script injection for the long poll, and a script injection
     for a message publish. The browser injects the long poll script, a request is made to the Bayeux server, but the
     Bayeux server holds the request waiting for server-side events (so the "script" is not "downloaded"). Then the
-    browser injects the publish script, the request is made to the Bayeux server, which replies (so the "script is
+    browser injects the publish script, the request is made to the Bayeux server, which replies (so the "script" is
     "downloaded"). However, the browser does not execute the second script, because it has not executed the first yet
-    (since its "download" is not finished). In these conditions, the publish would be executed only after the long poll
-    returns. To avoid this situation the Bayeux server, in case of <code>callback-polling</code> transport, resumes
-    the client's long poll for every message that arrives from that client, and that's why the transport is chattier:
+    (since its "download" is not finished). In these conditions, the publish is executed only after the long poll
+    returns. To avoid this situation, the Bayeux server, in case of <code>callback-polling</code> transport, resumes
+    the client's long poll for every message that arrives from that client, and that's why the transport is so chatty:
     the long poll returns more often.
 </para>
 </listitem>
@@ -86,7 +85,7 @@
 <listitem>
 <para>
     The reaction to failures is slower.This is due to the fact that if the script injection points to a URL that
-    returns an error (for example, the Bayeux server is down), this is silently ignored by the browser.
+    returns an error (for example, the Bayeux server is down), the browser silently ignores the error. 
 </para>
 </listitem>
 </itemizedlist>
@@ -97,12 +96,13 @@
 </info>
 <para>
     The <code>websocket</code> transport is available if the browser and the server support WebSocket
-    (<link xl:href="http://eclipse.org/jetty">Jetty 7</link> supports the WebSocket protocol).
-    The WebSocket protocol it is being designed to be the bidirectional communication protocol for
+    (<link xl:href="http://eclipse.org/jetty">Jetty 7 and later</link> support the WebSocket protocol).
+    The WebSocket protocol is designed to be the bidirectional communication protocol for
     the web, so it is a natural fit in the CometD project.
-    <?linebreak?>
-    Since support of browsers has greatly improved, the <code>websocket</code> transport is enabled by
-    default since CometD 2.4.0, but can easily be disabled if you experience problems with it.
+</para>
+<para>
+    Since browser support has greatly improved, the <code>websocket</code> transport is enabled by
+    default since CometD 2.4.0, but you can easily disable it if you experience problems.
 </para>
 <para>
     The easiest way of enabling/disabling the <code>websocket</code> transport is to set a boolean variable
@@ -126,8 +126,8 @@ cometd.init('http://localhost:8080/cometd');
 </para>
 <important>
 <para>
-    Remember that enabling the <code>websocket</code> transport on the client is not enough: it must
-    be enabled on the server too.
+    Remember that enabling the <code>websocket</code> transport on the client is not enough: you must
+    also enable it on the server.
     Follow <xref linkend="java_server_transports" /> for configuring <code>websocket</code> on the server.
 </para>
 </important>
@@ -142,8 +142,8 @@ cometd.init('http://localhost:8080/cometd');
 </para>
 <para>
     The CometD JavaScript API allows you to unregister transports, and this can be useful to force the use of only one
-    transport (for example for testing purposes), or to disable certain transports that might be unreliable.
-    For example, it is possible to unregister the websocket transport by unregistering it with the following code:
+    transport (for example, for testing purposes), or to disable certain transports that might be unreliable.
+    For example, it is possible to unregister the WebSocket transport by unregistering it with the following code:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
