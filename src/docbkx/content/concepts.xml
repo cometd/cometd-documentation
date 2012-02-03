@@ -43,50 +43,90 @@
     message has a field whose key is the string <emphasis>foo</emphasis>.
 </para>
 <para>
-    All messages the client and server exchange have a <emphasis >channel</emphasis> field. The channel field provides the characterization of messages in classes.
-    The channel is a central concept in CometD: publishers publish messages to channels, and subscribers subscribe to channels to receive messages.
+    All messages the client and server exchange have a <emphasis >channel</emphasis> field.
+    The channel field provides the characterization of messages in classes.
+    The channel is a central concept in CometD: publishers publish messages to channels, and subscribers subscribe
+    to channels to receive messages.
     This is strongly reflected in the CometD APIs.
 </para>
+
+<section xml:id="concepts_channels">
+<info>
+<title>Channel Definitions</title>
+</info>
 <para>
-    There are three types of channels: <emphasis>meta channels</emphasis>,
-    <emphasis>service channels</emphasis> and <emphasis>broadcast channels</emphasis>.
+    A channel is a string that looks like a URL path such as <code>/foo/bar</code>, <code>/meta/connect</code>
+    or <code>/service/chat</code>.
 </para>
-<itemizedlist>
-<listitem>
 <para>
-    The Bayeux implementation creates meta channels, and applications <emphasis>cannot</emphasis> create new meta channels.
+    There are three types of channels defined by the Bayeux specification: <emphasis>meta channels</emphasis>,
+    <emphasis>service channels</emphasis> and <emphasis>broadcast channels</emphasis> (see
+    <xref linkend="bayeux" />).
 </para>
-</listitem>
-<listitem>
-<para>
-    The application creates service channels and broadcast channels; an application can create as many as it needs, and do so at any time.
-</para>
-</listitem>
-<listitem>
-<para>
-    Channels are represented by a string and are similar to a URL path, for example: <code>/meta/handshake</code>,
-    <code>/service/game</code> or <code>/foo/bar</code>.
-</para>
-</listitem>
-<listitem>
 <para>
     A channel that starts with <code>/meta/</code> is a meta channel, a channel that starts with
     <code>/service/</code> is a service channel, and all other channels are broadcast channels.
 </para>
-</listitem>
-<listitem>
+<para>
+    A message whose channel field is a meta channel is referred to as a meta message, and similarly there are
+    service messages and broadcast messages.
+</para>
+
+<section>
+<info>
+    <title>Meta Channels</title>
+</info>
+<para>
+    The CometD implementation creates meta channels, and applications <emphasis>cannot</emphasis>
+    create new meta channels.
+    <?linebreak?>
+    Meta channels provide to applications information about the Bayeux protocol
+    (see <xref linkend="concepts_bayeux_protocol" />), for example whether handshakes have been successful or not
+    or whether the connection with the server is broken or it has been re-established.
+</para>
+</section>
+
+<section>
+<info>
+    <title>Service Channels</title>
+</info>
+<para>
+    Service channels are created by applications and are used in the case of request/response style of
+    communication between client and server (as opposed to the publish/subscribe style of communication of
+    broadcast channels, see below).
+</para>
+</section>
+
+<section>
+<info>
+    <title>Broadcast Channels</title>
+</info>
+<para>
+    Service channels are created by applications, have the semantic of a messaging topic and are used in the case
+    of publish/subscribe style of communication, where one sender wants to broadcast information to multiple
+    recipients.
+</para>
+</section>
+
+<section>
+<info>
+    <title>Use of Wildcards in Channels</title>
+</info>
 <para>
     You can use wildcards to match multiple channels: channel <code>/foo/*</code>
     matches <code>/foo/bar</code> but not <code>/foo/bar/baz</code>.
     The latter is matched by <code>/foo/**</code>.
+    <?linebreak?>
+    You can use wildcards for any type of channel: <code>/meta/*</code> matches all meta channels,
+    and <code>/service/**</code> matches <code>/service/bar</code> as well as <code>/service/bar/baz</code>.
+    <?linebreak?>
+    Channel <code>/**</code> matches all channels.
+    <?linebreak?>
+    You can specify the wildcards only as the last segment of the channel, so these are invalid channels:
+    <code>/**/foo</code> or <code>/foo/*/bar</code>.
 </para>
-</listitem>
-<listitem>
-<para>
-    A message whose channel field is a meta channel is referred to as a meta message, and similarly there are service messages and broadcast messages.
-</para>
-</listitem>
-</itemizedlist>
+</section>
+</section>
 </section>
 
 <section>
@@ -726,7 +766,7 @@ public class ExternalEventBroadcaster
 </section>
 </section>
 
-<section>
+<section xml:id="concepts_bayeux_protocol">
 <info>
     <title>Bayeux Protocol</title>
 </info>

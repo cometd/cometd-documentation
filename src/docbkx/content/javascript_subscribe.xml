@@ -8,59 +8,23 @@
    <title>Subscribing and Unsubscribing</title>
 </info>
 <para>
-    The following sections provide information about the CometD 2 API, subscribing and unsubscribing.
+    The following sections provide information about subscribing and unsubscribing with the JavaScript library.
 </para>
-<section>
-<info>
-    <title>Channels</title>
-</info>
 <para>
-    The Bayeux specification defines the concept of a channel: it is like a messaging topic where interested parties
-    can subscribe to receive information published onto the channel.
-    There are three types of channels:
+    Depending on the type of channel, subscribing and unsubscribing to a channel have different meaning.
+    Refer to <xref linkend="concepts_channels" /> for the channel type definitions.
 </para>
-<orderedlist>
-<listitem>
-    <para>meta channels</para>
-</listitem>
-<listitem>
-    <para>service channels</para>
-</listitem>
-<listitem>
-    <para>broadcast channels</para>
-</listitem>
-</orderedlist>
-<para>
-    A channel looks like a directory path such as:
-</para>
-<itemizedlist>
-<listitem>
-<para>
-    <code>/meta/connect</code> – a meta channel; all meta channels starts with the prefix <code>/meta/</code>
-</para>
-</listitem>
-<listitem>
-<para>
-    <code>/service/chat</code> – a service channel; all service channels starts with the prefix <code>/service/</code>
-</para>
-</listitem>
-<listitem>
-<para>
-    <code>/foo/bar</code>–a broadcast channel
-</para>
-</listitem>
-</itemizedlist>
 
 <section>
 <info>
     <title>Meta Channels</title>
 </info>
 <para>
-    The Bayeux protocol itself creates meta channels.
     It is not possible to subscribe to meta channels: the server replies with an error message. It is possible to
-    listen to meta channels (see <xref linkend="javascript_subscribe_vs_listen" /> for and explanation of the difference between subscribers and listeners.
-    You cannot (and it makes no sense to) publish messages to meta channels: only the Bayeux protocol implementation creates and sends
-    messages on meta channels.
+    listen to meta channels (see <xref linkend="javascript_subscribe_vs_listen" /> for an explanation of the
+    difference between subscribers and listeners).
+    You cannot (and it makes no sense to) publish messages to meta channels: only the Bayeux protocol
+    implementation creates and sends messages on meta channels.
     Meta channels are useful on the client to listen for error messages like handshake errors (for example, because
     the client did not provide the correct credentials) or network errors (for example, to know when the connection
     with the server has broken or when it has been re-established).
@@ -91,13 +55,13 @@
     Broadcast channels have the semantic of a messaging topic and are used in the case of publish/subscribe style of
     communication.
     Usually, it is possible to subscribe to broadcast channels and to publish to broadcast channels; this can only be
-    forbidden using a security policy on the Bayeux server or by using authorizers (see
-    <xref linkend="java_server_authorizers" />).
+    forbidden using a security policy on the Bayeux server (see <xref linkend="java_server_authorization" />)
+    or by using authorizers (see <xref linkend="java_server_authorizers" />).
     Broadcast channels are useful to broadcast messages to all subscribed clients, for example in case
     of a stock price change.
 </para>
 </section>
-</section>
+
 <section  xml:id="javascript_subscribe_vs_listen">
 <info>
     <title>Subscribers versus Listeners</title>
@@ -279,8 +243,6 @@ cometd.addListener("/meta/*", function(message) { ... });
 <para>
     By default, subscriptions to the global wildcards <code>/*</code> and <code>/**</code> result in an error, but
     you can change this behavior by specifying a custom security policy on the Bayeux server.
-    You can specify the wildcards only as the last segment of the channel, so these are invalid subscriptions:
-    <code>/**/foo</code> or <code>/foo/*/bar</code>.
 </para>
 </section>
 <section>
@@ -332,11 +294,11 @@ var _connected = false;
 
 cometd.addListener('/meta/connect', function(message)
 {
-    // if (cometd.getStatus() === 'disconnecting' || cometd.getStatus() === 'disconnected')
     if (cometd.isDisconnected())
     {
         return;
     }
+
     var wasConnected = _connected;
     _connected = message.successful;
     if (!wasConnected && _connected)
