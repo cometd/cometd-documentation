@@ -43,7 +43,7 @@ client.handshake();
 </informalexample>
 <section>
 <info>
-<title>Configuring the Long-polling Transport></title>
+<title>Configuring the Long-polling Transport</title>
 </info>
 <para>
     If you are building your application with <link xl:href="http://maven.apache.org">Maven</link> (the
