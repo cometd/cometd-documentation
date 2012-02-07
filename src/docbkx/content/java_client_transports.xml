@@ -18,14 +18,10 @@
 <para>
     You should configure <code>BayeuxClient</code> with the <code>websocket</code> transport
     before the <code>long-polling</code> transport, so that <code>BayeuxClient</code> can fallback
-<<<<<<< HEAD
-    to the <code>long-polling</code> if the <code>websocket</code> transport will fail.
+    to the <code>long-polling</code> if the <code>websocket</code> transport fails.
     <?linebreak?>
     This is done by passing the transports in order to the <code>BayeuxClient</code> constructor,
     for example:
-=======
-    to the <code>long-polling</code> if the <code>websocket</code> transport fails.
->>>>>>> b2f35bbf79703201e3a6a63a24f4ad7eef1f383a
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
