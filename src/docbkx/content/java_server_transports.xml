@@ -21,7 +21,6 @@
 <para>
     The CometD project borrows many libraries from the <link xl:href="http://eclipse.org/jetty">Jetty</link>
     project.
-    <?linebreak?>
     While CometD itself is not bound to Jetty, and you can plug in other WebSocket implementations , the CometD
     projects ships a <code>websocket</code> server transport based on Jetty's WebSocket.
     As such, if you want to use the CometD WebSocket server transport shipped by default, you
@@ -81,7 +80,7 @@
 <para>
     You do not need to worry about the <code>long-polling</code> and <code>callback-polling</code> transports.
     Those are present in any case, as the <code>transports</code> parameter specifies
-    <emphasis>additional</emphasis> non-required transports.
+    <emphasis>additional,</emphasis> non-required transports.
 </para>
 </listitem>
 <listitem>
