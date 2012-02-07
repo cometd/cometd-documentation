@@ -8,7 +8,7 @@
     <title>Scalability Clustering with Oort</title>
 </info>
 <para>
-    The CometD distribution ships a clustering solution called <emphasis role="bold">Oort</emphasis> that
+    The CometD distribution ships a clustering solution called <emphasis>Oort</emphasis> that
     enhances the scalability of a CometD-based system.
     Instead of connecting to a single node (usually represented by a virtual or physical host), clients connect
     to multiple nodes so that the processing power required to cope with the load is spread among multiple nodes,
@@ -64,8 +64,8 @@
     The next sections use the following terminology:
     <itemizedlist>
     <listitem>
-    <para>an <emphasis>Oort cluster</emphasis> is also referred to
-    as an <emphasis>Oort cloud</emphasis>; it follows that <emphasis>cloud</emphasis> is a synonym for <emphasis>cluster</emphasis>)</para>
+    <para>An <emphasis>Oort cluster</emphasis> is also referred to
+    as an <emphasis>Oort cloud</emphasis>; it follows that <emphasis>cloud</emphasis> is a synonym for <emphasis>cluster</emphasis>.)</para>
     </listitem>
     <listitem>
     <para>An Oort node is also referred to
@@ -193,7 +193,7 @@ There are two ways for a new comet to discover at least one other comet:
 </informalexample>
 <para>
     Since <code>Oort</code> depends on <code>BayeuxServer</code>, the <code>load-on-startup</code>
-    parameter of the <code>OortMulticastConfigServlet</code> must be greater than the one of the
+    parameter of the <code>OortMulticastConfigServlet</code> must be greater than that of the
     <code>CometdServlet</code>.
 </para>
 <para>
@@ -202,7 +202,7 @@ There are two ways for a new comet to discover at least one other comet:
     This URL is sent to other Oort comets, so it is important that the host part of the URL does
     not point to "localhost", but to a resolvable host name or to an IP address, so that other comets
     in the cluster can contact this comet.
-    Likewise, the you must properly configure the context path part of the URL for this web application.
+    Likewise, you must properly configure the context path part of the URL for this web application.
 </para>
 <para>
     In addition to the common configuration init parameters, <code>OortMulticastConfigServlet</code>
@@ -264,7 +264,7 @@ There are two ways for a new comet to discover at least one other comet:
     Advertisements continue until the web application is stopped, and only serve to advertise that a
     new node has appeared.
     <code>Oort</code> has a built-in mechanism that takes care of membership organization
-    (see below for details).
+    (see linkend="java_oort_membership_organization"/> for details).
 </para>
 
 <para>
@@ -273,7 +273,7 @@ There are two ways for a new comet to discover at least one other comet:
 
 <itemizedlist>
 <listitem>
-    <para>Multicast is enabled in the operative system of your choice.</para>
+    <para>Multicast is enabled in the operating system of your choice.</para>
 </listitem>
 <listitem>
     <para>The network interfaces have multicast enabled.</para>
@@ -348,11 +348,11 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 </informalexample>
 <para>
     Just as for the automatic discovery, the <code>load-on-startup</code> parameter of the
-    <code>OortStaticConfigServlet</code> must be greater than the one of the <code>CometdServlet</code>.
+    <code>OortStaticConfigServlet</code> must be greater than that of the <code>CometdServlet</code>.
 </para>
 <para>
     <code>OortStaticConfigServlet</code> supports the common init parameters listed in the previous
-    section, and the following additional init parameters:
+    section, and the following additional init parameter:
 </para>
 <table>
 <caption>Oort Static Configuration Parameters</caption>
@@ -454,7 +454,7 @@ public class OortConfigurationServlet extends GenericServlet
     specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client"/>.
 </para>
 </section>
-<section>
+<section xml:id="java_oort_membership_organization">
 <info>
     <title>Membership Organization</title>
 </info>
@@ -497,7 +497,8 @@ public class OortConfigurationServlet extends GenericServlet
 </mediaobject>
 <para>
 In this way, an Oort cloud is aware of its members, but it does not do anything useful for the application.
-<?linebreak?>
+</para>
+<para>
 The next section covers broadcast message forwarding over the entire cloud.
 </para>
 </section>
@@ -560,9 +561,8 @@ oort.addCometListener(new Oort.CometListener()
 ]]></programlisting>
 </informalexample>
 <para>
-    Applications may use comet listeners to synchronize comets; a new comet can request (or be pushed)
+    Applications can use comet listeners to synchronize comets; a new comet can request (or be pushed)
     application data that needs to be present in all comets (for example to warm up a cache).
-    <?linebreak?>
     Such activities occur in concert with a <code>SecurityPolicy</code> that denies handshakes from
     remote clients until the new comet is properly warmed up (clients retry the handshakes until the
     new comet is ready).
@@ -575,7 +575,7 @@ oort.addCometListener(new Oort.CometListener()
 </info>
 <para>
     When an Oort comet connects to another Oort comet, it sends a handshake message containing an
-    extension field that is peculiar to Oort, with the following format:
+    extension field that is peculiar to Oort with the following format:
 </para>
 <informalexample>
 <programlisting language="json"><![CDATA[
