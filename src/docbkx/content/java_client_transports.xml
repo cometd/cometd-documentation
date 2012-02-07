@@ -17,10 +17,9 @@
 </para>
 <para>
     You should configure <code>BayeuxClient</code> with the <code>websocket</code> transport
-    before the <code>long-polling</code> transport, so that <code>BayeuxClient</code> can fallback
+    before the <code>long-polling</code> transport, so that <code>BayeuxClient</code> can fall back
     to the <code>long-polling</code> if the <code>websocket</code> transport fails.
-    <?linebreak?>
-    This is done by passing the transports in order to the <code>BayeuxClient</code> constructor,
+    You do so by listing the WebSocket transport before the HTTP transport on the <code>BayeuxClient</code> constructor,
     for example:
 </para>
 <informalexample>
@@ -54,7 +53,7 @@ client.handshake();
 <listitem>
 <para>
     <code>org.cometd.java:cometd-java-client</code> (Maven automatically pulls the Jetty dependencies
-    needed by the <code>cometd-java-client</code> artifact).
+    that the <code>cometd-java-client</code> artifact needs).
 </para>
 </listitem>
 <listitem>
@@ -74,9 +73,8 @@ client.handshake();
     <title>Configuring the WebSocket Transport></title>
 </info>
 <para>
-    To use the <code>websocket</code> transport, you also need to declare dependencies for
-    <code>org.cometd.java:cometd-websocket-jetty</code> (Maven automatically pulls the Jetty dependencies
-    needed by the <code>cometd-websocket-jetty</code> artifact).
+    To use the <code>websocket</code> transport, you declare the dependencies listed above for the long-polling transport, <emphasis>and</emphasis> you also need to declare dependencies for
+    <code>org.cometd.java:cometd-websocket-jetty</code> (Maven automatically pulls the Jetty dependencies that the <code>cometd-websocket-jetty</code> artifact needs).
 </para>
 </section>
 </section>
