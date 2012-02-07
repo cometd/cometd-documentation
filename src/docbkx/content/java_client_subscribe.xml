@@ -12,7 +12,7 @@ The following sections provide information about subscribing and unsubscribing t
 </para>
 <section>
 <info>
-    <title>Subscription to Broadcast Channels</title>
+    <title>Subscribing to Broadcast Channels</title>
 </info>
 <para>
     The CometD 2 Java Client API for subscribing and unsubscribing is better designed than that in CometD 1,
@@ -76,14 +76,13 @@ public class Example
 ]]></programlisting>
 </informalexample>
 <para>
-    Like in <xref linkend="javascript_subscribe" />, a good place to perform subscriptions is a
-    <code>/meta/handshake</code> listener, because it will be invoked transparently if a new handshake
-    is requested by the server.
+    As in <xref linkend="javascript_subscribe" />, a good place to perform subscriptions is a
+    <code>/meta/handshake</code> listener, because it is invoked transparently if the server requests a new handshake.
 </para>
 <para>
-    Applications do not need to unsubscribe in case of re-handshake; the CometD library takes care of removing
+    Applications do not need to unsubscribe in case of re-handshake; the CometD library removes
     the subscriptions upon re-handshake, so that when the <code>/meta/handshake</code> listener executes again
-    the subscriptions will be correctly restored (and not duplicated).
+    the subscriptions are correctly restored (and not duplicated).
 </para>
 </section>
 <section>

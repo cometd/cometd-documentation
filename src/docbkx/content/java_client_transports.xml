@@ -8,20 +8,24 @@
 <title>Client Transports</title>
 </info>
 <para>
-    The <classname>org.cometd.client.BayeuxClient</classname> class can be configured to use
-    multiple transports and currently supports the <code>long-polling</code>
-    transport (that in turn depends on <link xl:href="http://eclipse.org/jetty">Jetty</link>'s
+    You can configure <classname>org.cometd.client.BayeuxClient</classname> class to use
+    multiple transports. It currently supports the <code>long-polling</code>
+    transport (that in turn depends on <link xl:href="http://eclipse.org/jetty">Jetty's</link>
     asynchronous <link xl:href="http://wiki.eclipse.org/Jetty/Tutorial/HttpClient">HttpClient</link>)
     and the <code>websocket</code> transport (that in turn depends on
     <link xl:href="http://eclipse.org/jetty">Jetty</link>'s asynchronous WebSocket client.
 </para>
 <para>
-    You want to configure <code>BayeuxClient</code> with the <code>websocket</code> transport
+    You should configure <code>BayeuxClient</code> with the <code>websocket</code> transport
     before the <code>long-polling</code> transport, so that <code>BayeuxClient</code> can fallback
+<<<<<<< HEAD
     to the <code>long-polling</code> if the <code>websocket</code> transport will fail.
     <?linebreak?>
     This is done by passing the transports in order to the <code>BayeuxClient</code> constructor,
     for example:
+=======
+    to the <code>long-polling</code> if the <code>websocket</code> transport fails.
+>>>>>>> b2f35bbf79703201e3a6a63a24f4ad7eef1f383a
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -42,19 +46,41 @@ BayeuxClient client = new BayeuxClient("http://localhost:8080/cometd", wsTranspo
 client.handshake();
 ]]></programlisting>
 </informalexample>
+<section>
+<info>
+<title>Configuring the Long-polling Transport></title>
+</info>
 <para>
     If you are building your application with <link xl:href="http://maven.apache.org">Maven</link> (the
-    recommended way), your application just needs to
-    declare dependencies for <code>org.cometd.java:cometd-java-client</code> (the Jetty dependencies
-    will be pulled automatically by Maven) and for an <link xl:href="http://slf4j.org">SLF4J</link>
-    (the logging library) implementation such as <code>org.slf4j:slf4j-simple</code> (but we recommend
-    at to use <code>org.slf4j:slf4j-log4j12</code> or <code>ch.qos.logback:logback-classic</code>).
-    <?linebreak?>
+    recommended way), your application just needs to declare dependencies for:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+    <code>org.cometd.java:cometd-java-client</code> (Maven automatically pulls the Jetty dependencies
+    needed by the <code>cometd-java-client</code> artifact).
+</para>
+</listitem>
+<listitem>
+<para>
+    an <link xl:href="http://slf4j.org">SLF4J</link>
+    (the logging library) implementation such as <code>org.slf4j:slf4j-simple</code> (we recommend
+    that you use <code>org.slf4j:slf4j-log4j12</code> or <code>ch.qos.logback:logback-classic</code>).
+</para>
+</listitem>
+</itemizedlist>
+<para>
     With these dependencies in place, you can use the <code>long-polling</code> transport out of the box.
 </para>
+</section>
+<section>
+<info>
+    <title>Configuring the WebSocket Transport></title>
+</info>
 <para>
-    To use the <code>websocket</code> transport, you need to add a dependency on
-    <code>org.cometd.java:cometd-websocket-jetty</code> (the Jetty dependencies needed by this artifact
-    will be pulled automatically by Maven).
+    To use the <code>websocket</code> transport, you also need to declare dependencies for
+    <code>org.cometd.java:cometd-websocket-jetty</code> (Maven automatically pulls the Jetty dependencies
+    needed by the <code>cometd-websocket-jetty</code> artifact).
 </para>
+</section>
 </section>
