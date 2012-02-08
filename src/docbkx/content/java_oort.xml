@@ -532,7 +532,7 @@ oort.addCometListener(new Oort.CometListener()
 ]]></programlisting>
 </informalexample>
 <para>
-    The comet joined event is notified only after the local Oort comet has allowed connection
+    The <emphasis>comet joined</emphasis> event is notified only after the local Oort comet has allowed connection
     from the remote comet (this may be denied by a <code>SecurityPolicy</code>).
 </para>
 <para>
@@ -647,8 +647,8 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     <title>Broadcast Messages Forwarding</title>
 </info>
 <para>
-    Broadcast messages (that is, messages sent to non-meta and non-service channels, see
-    <xref linkend="javascript_subscribe" /> for further details)
+    Broadcast messages (that is, messages sent to non-meta and non-service channels, (see
+    <xref linkend="javascript_subscribe" /> for further details) 
     are by definition messages that all clients that subscribe to the channel
     the message is being sent to should receive.
 </para>
@@ -711,7 +711,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <important>
     <para>
         Message forwarding is not bidirectional; if <code>cometA</code> forwards messages to
-        other comets it is not automatic that the other comets forwards messages to
+        other comets it is not automatic that the other comets forward messages to
         <code>cometA</code>.
         However, in most cases the Oort comets are configured in the same way by the same
         initialization code, and therefore all comets forward the same channels.
@@ -759,12 +759,34 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     <title>Configuring Seti</title>
 </info>
 <para>
+    Keep the following points in mind when configuring Seti:
+</para>
+<itemizedlist)
+<listitem>
+    <para>
     You must configure an <classname>org.cometd.oort.Seti</classname> instance with an associated
-    <classname>org.cometd.oort.Oort</classname> instance, either via code, or by configuring an
+    <classname>org.cometd.oort.Oort</classname> instance, either via code or by configuring an
     <classname>org.cometd.oort.SetiServlet</classname> in <filename>web.xml</filename>.
-    <?linebreak?>
-    There may be only one instance of <code>Seti</code> for each <code>Oort</code>. Below you can find
-    a configuration example:
+    </para>
+</listitem>
+<listitem>
+    There may be only one instance of <code>Seti</code> for each <code>Oort</code>. 
+</para>
+</listitem>
+<listitem>
+    <para>
+    The <code>load-on-startup</code> parameter of the <code>SetiServlet</code> must be greater
+    than that of the <code>OortServlet</code>.
+    </para>
+</listitem>
+<listitem>
+    <para>
+    <code>SetiServlet</code> does not have any configuration init parameter.
+    </para>
+</listitem>
+</itemizedlist>
+<para>
+    A configuration example follows:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -802,12 +824,6 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </web-app>
 ]]></programlisting>
 </informalexample>
-<para>
-    Notice how the <code>load-on-startup</code> parameter of the <code>SetiServlet</code> must be greater
-    than that of the <code>OortServlet</code>.
-    <?linebreak?>
-    <code>SetiServlet</code> does not have any configuration init parameter.
-</para>
 </section>
 <section>
 <info>
@@ -815,13 +831,13 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     <code>Seti</code> allows you to associate a unique string representation of a user with one or more
-    <code>ServerSession</code> (see <xref linkend="concepts" /> for more details on <code>ServerSession</code>).
+    <code>ServerSessions</code> (see <xref linkend="concepts" /> for more details on <code>ServerSession</code>).
 </para>
 <para>
     This normally occurs when the user first logs in into the application, and the unique string
     representation of the user can be anything that the user provides to authenticate itself (a user
-    name, a token, a database id, etc). For brevity, we will call this unique string representation of
-    the user simply <code>userId</code>.
+    name, a token, a database id, etc). For brevity, this unique string representation of
+    the user is called <code>userId</code>.
     Note that the same <code>userId</code> may login multiple times (for example from a desktop computer
     and from a mobile device), so it is associated to multiple <code>ServerSessions</code>.
 </para>
@@ -867,10 +883,11 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </para>
 <para>
     When a <code>Seti</code> instance first associates a <code>userId</code> with a session, it broadcasts a
-    <emphasis>presence</emphasis> message on the cloud (on channel <code>/seti/all</code>, see
+    <emphasis>presence</emphasis> message on the cloud (on channel <code>/seti/all</code>, (see
     <xref linkend="java_oort_seti_listeners" />) that tells to all
     the other comets where this <code>userId</code> is.
-    <?linebreak?>
+</para>
+<para>
     In this way, all the comets in the cloud know where a particular <code>userId</code> resides.
     Further associations of the same <code>userId</code> (with different sessions) on the same <code>Seti</code>
     do not broadcast any presence message, because other <code>Seti</code>s already know that that
@@ -882,14 +899,9 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 <para>
     Similarly, you can disassociate a <code>userId</code> at any time by calling
     <code>Seti.disassociate(userId, session)</code>.
-    <?linebreak?>
     If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
     session and <code>Seti</code> automatically
     disassociates the <code>userId</code>.
-    If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
-    session, and <code>Seti</code> automatically
-    disassociates the <code>userId</code>.
-    <?linebreak?>
     When the last disassociation of a particular <code>userId</code> occurs on a <code>Seti</code>
     instance, <code>Seti</code> broadcasts a presence message on the cloud (on channel <code>/seti/all</code>)
     that tells all the other comets that <code>userId</code> is not present anymore on that
@@ -924,7 +936,7 @@ seti.addPresenceListener(new Seti.PresenceListener()
 ]]></programlisting>
 </informalexample>
 <para>
-    The URL returned by <code>event.getURL()</code> is the URL of a Oort comet; you can use it to
+    The URL <code>event.getURL()</code> returns is the URL of an Oort comet; you can use it to
     retrieve the <code>OortComet</code> instance connected to that comet, for example to publish messages
     (or to subscribe to additional channels):
 </para>
@@ -987,9 +999,8 @@ public class SetiForwarder
     service channel so that the message is not broadcast (see <xref linkend="javascript_subscribe" />),
     and then a specialized service (see <xref linkend="java_server_services" />) routes
     the message to the appropriate user using <code>Seti</code> (see code snippet above).
-    <?linebreak?>
     The <code>Seti</code> on <code>cometA</code> knows that the target user is on <code>cometC</code>
-    (thanks to the association) and forwards the message to <code>cometC</code> which in turn
+    (thanks to the association) and forwards the message to <code>cometC</code>, which in turn
     delivers the message to <code>clientC</code>.
 </para>
 
