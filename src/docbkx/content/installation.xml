@@ -92,7 +92,7 @@ $ mvn jetty:deploy-war
 </info>
 <para>
     In the <filename>$COMETD/cometd-demo/target</filename> directory you can find a deployable WAR
-    file that can be deployed in any servlet container.
+    file that you can deploy in any servlet container.
     Refer to the servlet container configuration manual to learn how to deploy the WAR in your servlet
     container.
 </para>
