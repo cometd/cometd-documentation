@@ -1106,7 +1106,7 @@ id   =   alphanum *( alphanum )
 <para>
     Generation of IDs is implementation specific and may be provided by the
     application. Messages published to <code>/meta/**</code> and <code>/service/**</code> SHOULD have
-    <code>id</code> fields that are unique within the the connection.
+    <code>id</code> fields that are unique within the connection.
 </para>
 <para>
     Messages sent in response to messages delivered to <code>/meta/**</code> channels MUST use
@@ -1330,7 +1330,7 @@ error_message    = string
         connection being negotiated.
         This list MAY be a subset of the connection types actually supported if the
         server wishes to negotiate a specific connection type.
-        This list MUST contain at list one element in common with
+        This list MUST contain at least one element in common with
         the supportedConnectionType provided in the handshake request. If there are
         no connectionTypes in common, the handshake response MUST be
         unsuccessful.
@@ -2367,7 +2367,7 @@ error_message    = string
 </para>
 <para>
     A trivial example would be an echo service, that sent any message received from
-    a client back to that client unaltered. Bayeux clients would subscribe the the
+    a client back to that client unaltered. Bayeux clients would subscribe the
     <code>/service/echo</code> channel, but the Bayeux server would not need to record this
     subscription. When a client publishes a message to the <code>/service/echo</code> channel,
     it will be delivered only to server-side subscribers (in an implementation
