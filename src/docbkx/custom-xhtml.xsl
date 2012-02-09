@@ -35,6 +35,7 @@
 <script type="text/javascript">
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-11897685-1']);
+_gaq.push(['_setDomainName', '.cometd.org']);
 _gaq.push(['_trackPageview']);
 (function()
 {
