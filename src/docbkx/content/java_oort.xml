@@ -884,9 +884,6 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     <code>Seti.disassociate(userId, session)</code>.
     <?linebreak?>
     If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
-    session and <code>Seti</code> automatically
-    disassociates the <code>userId</code>.
-    If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
     session, and <code>Seti</code> automatically
     disassociates the <code>userId</code>.
     <?linebreak?>

@@ -30,7 +30,7 @@ bayeuxServer.addExtension(new org.cometd.server.ext.TimestampExtension());
 <title>Enabling the Client-side Extension</title>
 </info>
 <para>
-The <code>dojox/cometd/ack.js</code> provides the client-side extension binding for Dojo, and it is sufficient to use Dojo's <code>dojo.require</code> mechanism:
+The <code>dojox/cometd/timestamp.js</code> provides the client-side extension binding for Dojo, and it is sufficient to use Dojo's <code>dojo.require</code> mechanism:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
