@@ -805,6 +805,6 @@ public class ExternalEventBroadcaster
     A client can publish messages containing application-specific data at any time while it is connected,
     and to any broadcast channel (even if it is not subscribed to that channel).
 </para>
-</section>
+</section>pd
 </section>
 </chapter>
