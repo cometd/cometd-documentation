@@ -16,7 +16,7 @@
     The Dojo toolkit has one instance of this object available under the name <code>dojox.cometd</code>, while for
     jQuery it is available under the name <code>$.cometd</code>.
     This default <code>cometd</code> object has been instantiated and configured with the default values and it has
-    not started any Bayeux communication yet.
+    not yet started any Bayeux communication.
     Before it can start Bayeux communication it needs a mandatory parameter: the URL of the Bayeux server.
 </para>
 <para>
@@ -106,14 +106,14 @@ However, the second way allows you to pass other configuration parameters, curre
   <td>autoBatch</td>
   <td>no</td>
   <td>false</td>
-  <td>Determines whether multiple publishes that get queued up are sent as a batch on the first occasion, without requiring explicit batching.</td>
+  <td>Determines whether multiple publishes that get queued are sent as a batch on the first occasion, without requiring explicit batching.</td>
 </tr>
 </tbody>
 </table>
 
 <para>
     After you have configured the <code>cometd</code> object, the Bayeux communication does not start until you call
-    <code>handshake()</code>, see the <xref linkend="javascript_handshake" />.
+    <code>handshake()</code> (see the <xref linkend="javascript_handshake" />).
 </para>
 <para>
     Previous users of the JavaScript CometD implementation called a method named <code>init()</code>.

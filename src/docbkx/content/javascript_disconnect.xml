@@ -12,8 +12,7 @@
     <xref linkend="javascript_configure" /> describes the reconnect parameters.
 </para>
 <para>
-    Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux server,
-    so that it can clean up any state associated with that client.
+    Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux server so that it can clean up any state associated with that client.
     As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns
     immediately, well before the Bayeux server has received the disconnect request.
     If the server is unreachable (because it is down or because of network failures), the JavaScript CometD

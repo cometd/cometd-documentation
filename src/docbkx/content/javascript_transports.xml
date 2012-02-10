@@ -20,7 +20,7 @@
     At the time of this writing, the IETF has finalized the WebSocket protocol into
     <link xl:href="http://www.ietf.org/rfc/rfc6455.txt">RFC 6455</link>.
     However, most of the browsers still implement earlier drafts of the WebSocket protocol, so browser support
-    varies (most notably Microsoft's Internet Explorer only supports WebSocket out of the box in version 10).
+    varies (most notably, Microsoft's Internet Explorer only supports WebSocket out of the box in version 10).
     CometD falls back to <code>long-polling</code> if the <code>websocket</code> transport does not work.
 </para>
 </note>
@@ -68,10 +68,10 @@
     and until a script has been completely "downloaded", it cannot be executed.
     For example, imagine a communication that involves a script injection for the long poll, and a script injection
     for a message publish. The browser injects the long poll script, a request is made to the Bayeux server, but the
-    Bayeux server holds the request waiting for server-side events (so the "script" is not "downloaded"). Then the
-    browser injects the publish script, the request is made to the Bayeux server, which replies (so the "script" is
-    "downloaded"). However, the browser does not execute the second script, because it has not executed the first yet
-    (since its "download" is not finished). In these conditions, the publish is executed only after the long poll
+    Bayeux server holds the request waiting for server-side events (so the script is not downloaded). Then the
+    browser injects the publish script, the request is made to the Bayeux server, which replies (so the script is
+    downloaded). However, the browser does not execute the second script, because it has not executed the first yet
+    (since its download is not finished). In these conditions, the publish is executed only after the long poll
     returns. To avoid this situation, the Bayeux server, in case of <code>callback-polling</code> transport, resumes
     the client's long poll for every message that arrives from that client, and that's why the transport is so chatty:
     the long poll returns more often.
@@ -177,7 +177,7 @@ cometd.unregisterTransport('websocket');
 </listitem>
 <listitem>
 <para>
-    A compliant server (for example, Jetty configured with the<code>CrossOriginFilter.</code>)
+    A compliant server (for example, Jetty configured with the <code>CrossOriginFilter.</code>)
 </para>
 </listitem>
 </itemizedlist>

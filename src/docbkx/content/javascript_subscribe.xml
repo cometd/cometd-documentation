@@ -11,7 +11,7 @@
     The following sections provide information about subscribing and unsubscribing with the JavaScript library.
 </para>
 <para>
-    Depending on the type of channel, subscribing and unsubscribing to a channel have different meaning.
+    Depending on the type of channel, subscribing and unsubscribing to a channel have different meanings.
     Refer to <xref linkend="concepts_channels" /> for the channel type definitions.
 </para>
 
@@ -90,7 +90,7 @@
 </listitem>
 <listitem>
 <para>
-    May be used to listen to service channel messages (you may also use<code>subscribe()</code>,
+    May be used to listen to service channel messages (you can also use <code>subscribe()</code>,
     but we do not recommend it).
 </para>
 </listitem>
@@ -112,10 +112,10 @@
 </para>
 <itemizedlist>
     <listitem>
-        <para>Must not be used to listen to meta channels messages (otherwise the server returns an error).</para>
+        <para>Must not be used to listen to meta channels messages (if attempted, the server returns an error).</para>
     </listitem>
     <listitem>
-        <para>May be used to listen to service channel messages (you may also use<code>addListener()</code>, which is
+        <para>May be used to listen to service channel messages (you can also use<code>addListener()</code>, which is
             preferred).
         </para>
     </listitem>
@@ -155,26 +155,34 @@ cometd.removeListener(subscription1);
 ]]></programlisting>
 </informalexample>
 <para>
-    A good place in the code where subscriptions should be performed is in a <code>/meta/handshake</code> listener.
-    Since <code>/meta/handshake</code> listener are invoked in both explicit handshake performed by the client
-    and in re-handshakes triggered by the server, it is guaranteed that your subscriptions will always be
+    A good place in the code to perform subscriptions is in a <code>/meta/handshake</code> listener.
+    Since <code>/meta/handshake</code> listener are invoked in both explicit handshakes the client performs
+    and in re-handshakes the server triggers, it is guaranteed that your subscriptions are always
     performed properly.
 </para>
 <para>
     Applications do not need to unsubscribe in case of re-handshake; the CometD library takes care of removing
     all subscriptions upon re-handshake, so that when the <code>/meta/handshake</code> listener executes again
-    the subscriptions will be correctly restored (and not duplicated).
+    the subscriptions are correctly restored (and not duplicated).
 </para>
 <para>
-    How do <code>subscribe()</code> and <code>unsubscribe()</code> behave in case the Bayeux server is not reachable
-    (due to network failures or because the server crashed)?
+    In cases where the Bayeux server is not reachable (due to network failures or because the server crashed, <code>subscribe()</code> and <code>unsubscribe()</code> behave as follows:
+    <itemizedlist>
+    <listitem>
+    <para>
     In <code>subscribe()</code> CometD first adds the local listener to the list of subscribers for that channel, then
     attempts the server communication. If the communication fails, the server does not know that it has to send
     messages to this client and therefore on the client, the local listener (although present) is never invoked.
+    </para>
+    </listitem>
+    <listitem>
+    <para>
     In <code>unsubscribe()</code>, CometD first removes the local listener from the list of subscribers for that channel,
     then attempts the server communication. If the communication fails, the server still sends the message to the
     client,  but there is no local listener to dispatch to.
 </para>
+</listitem>
+</itemizedlist>
 </section>
 <section xml:id="exception_handling">
 <info>
@@ -182,7 +190,7 @@ cometd.removeListener(subscription1);
 </info>
 <para>
     If a listener or subscriber function throws an exception (for example, calls a method on an undefined object),
-    then the error message is logged (at level "debug").
+    the error message is logged at level "debug".
     However, there is a way to intercept these errors by defining the global listener exception handler that is
     invoked every time a listener or subscriber throws an exception:
 </para>
@@ -202,7 +210,7 @@ cometd.onListenerException = function(exception, subscriptionHandle, isListener,
 <para>
     It is possible to send messages to the server from the listener exception handler.
     If the listener exception handler itself throws an exception, this exception is logged at level "info" and the
-    CometD implementation will not break.
+    CometD implementation does not break.
     Notice that a similar mechanism exists for extensions, see <xref linkend="extensions" />.
 </para>
 </section>
@@ -280,7 +288,7 @@ cometd.addListener("/meta/*", function(message) { ... });
     The <code>/meta/unsuccessful</code> channel is notified in case of any failure.
 </para>
 <para>
-    By far the most interesting meta channel to subscribe to is <code>/meta/connect</code>, because it gives the
+    By far the most interesting meta channel to subscribe to is <code>/meta/connect</code> because it gives the
     status of the current connection with the Bayeux server. In combination with <code>/meta/disconnect</code>,
     you can use it, for example, to display a green <emphasis>connected</emphasis> icon or a red <emphasis>disconnected</emphasis> icon on the page,
     depending on the connection status with the Bayeux server.
