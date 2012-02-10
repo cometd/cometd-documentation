@@ -761,7 +761,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     Keep the following points in mind when configuring Seti:
 </para>
-<itemizedlist)
+<itemizedlist>
 <listitem>
     <para>
     You must configure an <classname>org.cometd.oort.Seti</classname> instance with an associated
@@ -770,8 +770,9 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     </para>
 </listitem>
 <listitem>
+    <para>
     There may be only one instance of <code>Seti</code> for each <code>Oort</code>. 
-</para>
+    </para>
 </listitem>
 <listitem>
     <para>
