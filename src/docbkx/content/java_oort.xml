@@ -264,7 +264,7 @@ There are two ways for a new comet to discover at least one other comet:
     Advertisements continue until the web application is stopped, and only serve to advertise that a
     new node has appeared.
     <code>Oort</code> has a built-in mechanism that takes care of membership organization
-    (see linkend="java_oort_membership_organization"/> for details).
+    (see <xref linkend="java_oort_membership_organization" /> for details).
 </para>
 
 <para>
@@ -449,9 +449,9 @@ public class OortConfigurationServlet extends GenericServlet
 }
 ]]></programlisting>
 </informalexample>
-<para>
+<para>" 
     The <code>OortComet</code> instance that <code>Oort.observeComet(url)</code> returns is a
-    specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client"/>.
+    specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client" />.
 </para>
 </section>
 <section xml:id="java_oort_membership_organization">
@@ -649,7 +649,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     Broadcast messages (that is, messages sent to non-meta and non-service channels, (see
     <xref linkend="javascript_subscribe" /> for further details) 
-    are by definition messages that all clients that subscribe to the channel
+    are by definition messages that all clients subscribing to the channel
     the message is being sent to should receive.
 </para>
 <para>
@@ -700,7 +700,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 ]]></programlisting>
 </informalexample>
 <para>
-    Alternatively, it is possible to use <code>Oort.observeChannel(String channelName)</code> to
+    Alternatively, you can use <code>Oort.observeChannel(String channelName)</code> to
     instruct a comet to listen for messages on that channel published to one of the known comets
     it is connected to.
 </para>
@@ -713,7 +713,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
         Message forwarding is not bidirectional; if <code>cometA</code> forwards messages to
         other comets it is not automatic that the other comets forward messages to
         <code>cometA</code>.
-        However, in most cases the Oort comets are configured in the same way by the same
+        However, in most cases you configure the Oort comets in the same way by the same
         initialization code, and therefore all comets forward the same channels.
     </para>
 </important>
@@ -739,7 +739,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     If you need to send messages directly to particular clients (for example, <code>clientA</code>
     wants to send a message to <code>clientC</code> but not to <code>clientB</code>, then you need
-    to setup an additional component of the Oort clustering called <emphasis>Seti</emphasis>, see
+    to set up an additional component of the Oort clustering called <emphasis>Seti</emphasis>, see
     <xref linkend="java_oort_seti" />
 </para>
 </section>
@@ -834,11 +834,11 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     <code>ServerSessions</code> (see <xref linkend="concepts" /> for more details on <code>ServerSession</code>).
 </para>
 <para>
-    This normally occurs when the user first logs in into the application, and the unique string
+    This normally occurs when the user first logs in to the application, and the unique string
     representation of the user can be anything that the user provides to authenticate itself (a user
-    name, a token, a database id, etc). For brevity, this unique string representation of
+    name, a token, a database ID). For brevity, this unique string representation of
     the user is called <code>userId</code>.
-    Note that the same <code>userId</code> may login multiple times (for example from a desktop computer
+    The same <code>userId</code> may log in multiple times (for example from a desktop computer
     and from a mobile device), so it is associated to multiple <code>ServerSessions</code>.
 </para>
 <para>
@@ -884,13 +884,13 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 <para>
     When a <code>Seti</code> instance first associates a <code>userId</code> with a session, it broadcasts a
     <emphasis>presence</emphasis> message on the cloud (on channel <code>/seti/all</code>, (see
-    <xref linkend="java_oort_seti_listeners" />) that tells to all
-    the other comets where this <code>userId</code> is.
+    <xref linkend="java_oort_seti_listeners" />) that tells all
+    the other comets where this <code>userId</code> is located.
 </para>
 <para>
     In this way, all the comets in the cloud know where a particular <code>userId</code> resides.
     Further associations of the same <code>userId</code> (with different sessions) on the same <code>Seti</code>
-    do not broadcast any presence message, because other <code>Seti</code>s already know that that
+    do not broadcast any presence message, because other <code>Setis</code> already know that that
     particular <code>userId</code> resides in that <code>Seti</code>.
     The same <code>userId</code> can be associated in different comets (for example, the desktop
     computer logs in – and therefore is associated – in <code>comet1</code>, while the mobile device
@@ -900,17 +900,11 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     Similarly, you can disassociate a <code>userId</code> at any time by calling
     <code>Seti.disassociate(userId, session)</code>.
     If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
-<<<<<<< HEAD
     session and <code>Seti</code> automatically
     disassociates the <code>userId</code>.
-=======
-    session, and <code>Seti</code> automatically
-    disassociates the <code>userId</code>.
-    <?linebreak?>
->>>>>>> c0daa545d4409f3cc4b42a70dc186cf3a357bda9
     When the last disassociation of a particular <code>userId</code> occurs on a <code>Seti</code>
     instance, <code>Seti</code> broadcasts a presence message on the cloud (on channel <code>/seti/all</code>)
-    that tells all the other comets that <code>userId</code> is not present anymore on that
+    that tells all the other comets that <code>userId</code> is no longer present on that
     <code>Seti</code> (although the same <code>userId</code> might still be associated in other <code>Setis</code>).
 </para>
 </section>
@@ -921,8 +915,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </title>
 </info>
 <para>
-    Applications can register presence listeners that are notified when a presence message arrives at a
-    <code>Seti</code> instance:
+    Applications can register presence listeners that are notified when a presence message arrives at a <code>Seti</code> instance:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
