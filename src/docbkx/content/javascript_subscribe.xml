@@ -166,7 +166,8 @@ cometd.removeListener(subscription1);
     the subscriptions are correctly restored (and not duplicated).
 </para>
 <para>
-    In cases where the Bayeux server is not reachable (due to network failures or because the server crashed, <code>subscribe()</code> and <code>unsubscribe()</code> behave as follows:
+    In cases where the Bayeux server is not reachable (due to network failures or because the server crashed), <code>subscribe()</code> and <code>unsubscribe()</code> behave as follows:
+</para>
     <itemizedlist>
     <listitem>
     <para>
@@ -180,9 +181,9 @@ cometd.removeListener(subscription1);
     In <code>unsubscribe()</code>, CometD first removes the local listener from the list of subscribers for that channel,
     then attempts the server communication. If the communication fails, the server still sends the message to the
     client,  but there is no local listener to dispatch to.
-</para>
-</listitem>
-</itemizedlist>
+    </para>
+    </listitem>
+    </itemizedlist>
 </section>
 <section xml:id="exception_handling">
 <info>
