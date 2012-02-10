@@ -31,8 +31,7 @@ var cometd = $.cometd;
     under <code>dojox/cometd.js</code>. For jQuery, the binding is under <code>jquery/jquery.cometd.js</code>.
     The use of the Bayeux APIs from the JavaScript toolkits is almost identical, and the following sections do not
     refer to a particular toolkit.
-    Small differences surface only when passing callback functions to the Bayeux API, where Dojo users might like to
-    use <code>dojo.hitch()</code>, while jQuery users might prefer an anonymous function approach.
+    Small differences surface only when passing callback functions to the Bayeux API, where Dojo users might use <code>dojo.hitch()</code>, while jQuery users might prefer an anonymous function approach.
 </para>
 <para>
     The following sections present details about the JavaScript Bayeux APIs and their implementation secrets.
