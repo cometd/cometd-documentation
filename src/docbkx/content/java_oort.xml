@@ -900,8 +900,14 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     Similarly, you can disassociate a <code>userId</code> at any time by calling
     <code>Seti.disassociate(userId, session)</code>.
     If the user disconnects or "disappears" (for example, it crashed or its network dropped), the server removes or expires its
+<<<<<<< HEAD
     session and <code>Seti</code> automatically
     disassociates the <code>userId</code>.
+=======
+    session, and <code>Seti</code> automatically
+    disassociates the <code>userId</code>.
+    <?linebreak?>
+>>>>>>> c0daa545d4409f3cc4b42a70dc186cf3a357bda9
     When the last disassociation of a particular <code>userId</code> occurs on a <code>Seti</code>
     instance, <code>Seti</code> broadcasts a presence message on the cloud (on channel <code>/seti/all</code>)
     that tells all the other comets that <code>userId</code> is not present anymore on that
