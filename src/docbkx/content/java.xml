@@ -12,20 +12,31 @@
     <link xl:href="http://eclipse.org/jetty">Jetty Http Server and Servlet Container</link>,
     for both the client and the server.
 </para>
+<section>
+<info>
+    <title>CometD Java Libraries and Servlet 2.5</title>
+</info>
 <para>
     The CometD Java implementation, though based on Jetty, is portable on other Servlet 2.5 compliant servlet
-    containers (because it uses the portable
+    containers because it uses the portable
     <link xl:href="http://wiki.eclipse.org/Jetty/Feature/Continuations">Jetty Continuation API</link>.
 </para>
 <para>
     You can deploy the WAR file resulting from the development of your CometD web application to other Servlet 2.5
-    compliant servlet containers, but it will scale less because it is less integrated with other servlet containers.
+    compliant servlet containers, but it does not scale as well because it is less integrated with other servlet containers.
+</para>
+</section>
+<section>
+<info>
+    <title>CometD Java Libraries and Servlet 3.0</title>
+</info>
+<para>
     When deployed to a Servlet 3.0 compliant servlet container, the CometD implementation makes use of the
-    asynchronous features offered by the servlet container and is fully portable and scalable (the scalability will
-    be as good as the servlet container's implementation). See <!-- TODO: relink to the docbook section -->
+    asynchronous features the servlet container offers, and is fully portable and scalable (the scalability is as good as the servlet container's implementation). See <!-- TODO: relink to the docbook section -->
     <link xl:href="http://cometd.org/node/106" /> when deploying to
     Servlet 3.0 compliant servlet containers.
 </para>
+</section>
 <para>
     The CometD Java Implementation offers a client library and a server library, which the following sections
     document in detail.

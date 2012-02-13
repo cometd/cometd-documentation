@@ -104,7 +104,7 @@ public void processEcho(ServerSession remote, EchoInfo data)
 ]]></programlisting>
 </informalexample>
 <para>
-    Refer to <xref linkend="java_json" /> for further information about customizing serialization and deserialization
+   See <xref linkend="java_json" /> for further information about customizing serialization and deserialization
     of JSON objects.
 </para>
 <para>

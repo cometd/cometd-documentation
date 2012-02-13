@@ -9,13 +9,13 @@
 </info>
 <para>
     Sometimes applications need to send non-urgent messages to clients; alert messages
-    such as "email received" or "server uptime", are a typical example, but chat messages sometimes also fit this definition.
+    such as "email received" or "server uptime", are typical examples, but chat messages sometimes also fit this definition.
     While these messages need to reach the client(s) eventually, there is no need to deliver them immediately:
     they are queued into the <code>ServerSession</code>'s message queue, but their delivery can be postponed
     to the first occasion.
 </para>
 <para>
-    In CometD, "first occasion" means whichever of the following things first (see
+    In CometD, "first occasion" means whichever of the following things occurs first (see
     <xref linkend="java_server_configuration" /> for information about configuring the following parameters):
 </para>
 <itemizedlist>

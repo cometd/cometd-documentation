@@ -11,14 +11,14 @@
     To run the CometD server implementation, you need to deploy a Java web application to a servlet container.
 </para>
 <para>
-    The web application needs a to be configured with the CometD <emphasis>servlet</emphasis> that interprets
+    You configure the web application with the CometD <emphasis>servlet</emphasis> that interprets
     the Bayeux protocol (see <xref linkend="java_server_configuration" /> for the CometD servlet configuration
     details).
 </para>
 <para>
-    While CometD interprets Bayeux messages, applications normally need to implement their own business
-    logic, so they need to be able to interact with Bayeux messages, inspect them, modify them, publish more
-    messages on different channels, interacting with external systems such as web services or persistent storages, etc.
+    While CometD interprets Bayeux messages, applications normally implement their own business
+    logic, so they need to be able to interact with Bayeux messages – inspect them, modify them, publish more
+    messages on different channels, and interact with external systems such as web services or persistent storage.
 </para>
 <para>
     In order to implement their own business logic, applications need to write one or more user-defined services, see

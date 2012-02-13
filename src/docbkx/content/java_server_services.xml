@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_services">
 <info>
-    <title>Services</title>
+    <title>Using Services</title>
 </info>
 <para>
     A CometD service is a Java class that allows a developer to specify the code to run when Bayeux channels
@@ -25,7 +25,7 @@
 </listitem>
 </itemizedlist>
 <para>
-    CometD 2 services can also be integrated with the Spring Framework as explained in
+    You can also integrate CometD 2 services with the Spring Framework as explained in
     <xref linkend="java_server_services_integration_spring" />.
 </para>
 <para>

@@ -5,7 +5,7 @@
          xmlns:xl="http://www.w3.org/1999/xlink"
          xml:id="java_server_configuration">
 <info>
-    <title>Configuration</title>
+    <title>Configuring the Java Server</title>
 </info>
 <para>
     You can specify <code>BayeuxServer</code> and server transport parameters in <code>web.xml</code> as init
@@ -54,7 +54,7 @@
 </para>
 <section>
 <info>
-    <title><code>BayeuxServer</code> Configuration</title>
+    <title>Configuring <code>BayeuxServer</code></title>
 </info>
 <para>
     Here is the list of configuration init parameters that the <code>BayeuxServer</code> implementation accepts:
@@ -91,7 +91,7 @@
   <td>empty string</td>
   <td>2.2.0</td>
   <td>
-      A comma-separated list of <code>ServerTransport</code>s names allowed.
+      A comma-separated list of <code>ServerTransport</code> names allowed.
       If not specified, the default server transports are allowed.
   </td>
 </tr>
@@ -109,11 +109,11 @@
 </section>
 <section>
 <info>
-    <title>Server Transport Configuration</title>
+    <title>Configuring Server Transports</title>
 </info>
 <para>
     In CometD 2 the server transports are pluggable. You can configure them using parameters that may have a
-    prefix that specifies the transport that the parameter refers to.
+    prefix that specifies the transport the parameter refers to.
 </para>
 <para>
     For example, the parameter <code>timeout</code> has no prefix, and hence it is valid for all transports;
@@ -159,7 +159,7 @@
 <tr>
   <td>ws.interval</td>
   <td>2500</td>
-  <td>Like the interval parameter but for the websocket transport.</td>
+  <td>Like the interval parameter, but for the websocket transport.</td>
 </tr>
 <tr>
   <td>maxInterval</td>
@@ -196,7 +196,7 @@
   <td>maxSessionsPerBrowser</td>
   <td>1</td>
   <td>
-      The max number of sessions (tab/frames) allowed to long poll from the same browser; a negative value
+      The max number of sessions (tabs/frames) allowed to long poll from the same browser; a negative value
       allows unlimited sessions (see also <xref linkend="java_server_multiple_sessions" />).
   </td>
 </tr>
@@ -204,7 +204,7 @@
   <td>allowMultiSessionsNoBrowser</td>
   <td>false</td>
   <td>
-      Whether to allow multiple sessions (tab/frames) in case the browser cannot be detected
+      Whether to allow multiple sessions (tabs/frames) in case the browser cannot be detected
       (see also <xref linkend="java_server_multiple_sessions" />).
   </td>
 </tr>
@@ -232,7 +232,7 @@
 </section>
 <section xml:id="java_server_configuration_advanced">
 <info>
-    <title>Advanced Configuration</title>
+    <title>Configuring the <code>CrossOriginFilter</code></title>
 </info>
 <para>
     If you are using <link xl:href="http://eclipse.org/jetty">Jetty 7</link>, you might want to configure the
@@ -286,7 +286,7 @@
 </section>
 <section>
 <info>
-<title>Servlet 3 Configuration</title>
+<title>Configuring Servlet 3 Asynchronous Features</title>
 </info>
 <para>
     The CometD libraries are portable across servlet containers.
@@ -294,15 +294,15 @@
     or Tomcat 7 or greater), CometD makes use of the Servlet 3 asynchronous features.
 </para>
 <para>
-    To enable the Servlet 3 asynchronous features, you need to 
+    To enable the Servlet 3 asynchronous features, you need to: 
     <itemizedlist>
     <listitem>
     <para>Modify the <filename>web.xml</filename>
-    configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0</para>
+    configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0.</para>
     </listitem>
     <listitem>
     <para> Add the <code>async-supported</code> element to filters that might execute before the
-    <code>CometdServlet</code> <emphasis>and</emphasis> to the <code>CometdServlet</code> itself</para>
+    <code>CometdServlet</code> <emphasis>and</emphasis> to the <code>CometdServlet</code> itself.</para>
     </listitem>
     </itemizedlist>
 </para>

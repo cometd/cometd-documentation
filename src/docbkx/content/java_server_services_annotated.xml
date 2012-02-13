@@ -35,7 +35,7 @@ Now annotated server-side services offer full support for CometD features, and l
 The CometD project offers limited support for dependency injection, since normally this is accomplished by other frameworks such as <link xl:href="http://www.springsource.org">Spring</link> or <link xl:href="http://code.google.com/p/google-guice">Guice</link>.
 </para>
 <para>
-In particular, it supports only the injection of the BayeuxServer object on fields and methods (not on constructors), and performs the injectiononly if the injection has not been performed yet.
+In particular, it supports only the injection of the BayeuxServer object on fields and methods (not on constructors), and performs the injection only if the injection has not yet been performed.
 </para>
 <para>
 The reason for this limited support is that the CometD project does not want to implement and support a generic dependency injection container, but instead offers a simple integration with existing dependency injection containers and a minimal support for required CometD objects (such as the BayeuxServer instance).
@@ -88,7 +88,7 @@ The <code>@Inject</code> annotation is supported (for example, by Spring 3.x) fo
     <title>Lifecycle Management Support</title>
 </info>
 <para>
-The CometD project provides lifecycle management via the standard JSR 250 <code>@PostConstruct</code> and <code>@PreDestroy</code> annotations.
+The CometD project provides lifecycle management via the standard <link xl:href="http://jcp.org/en/jsr/detail?id=250">JSR 250</link> <code>@PostConstruct</code> and <code>@PreDestroy</code> annotations.
 We offer this support for those that do not use a dependency injection container with lifecycle management such as <link xl:href="http://www.springsource.org">Spring</link>.
 </para>
 </section>
@@ -98,7 +98,7 @@ We offer this support for those that do not use a dependency injection container
 </info>
 <para>
 To initialize channels before they can be actually referenced for subscriptions, the CometD API provides the <code>BayeuxServer.createIfAbsent(String channelId, ConfigurableServerChannel.Initializer... initializers)</code> method, which allows you to pass initializers that configure the given channel.
-Furthermore, it is useful to have a configuration step for channels that happens before any subscription or listener addition, for example, to configure <link xl:href="/documentation/2.x/cometd-java/server/authorizers">authorizers</link> on the channel.
+Furthermore, it is useful to have a configuration step for channels that happens before any subscription or listener addition, for example, to configure authorizers on the channel (see <xref linkend="java_server_authorizers" />.
 </para>
 <para>
 In annotated services, you can use the <code>@Configure</code> annotation on methods:
@@ -148,7 +148,7 @@ public class EchoService
 </informalexample>
 </para>
 <para>
-Fields (or methods) annotated with the <code>@Session</code> annotation are optional; you can just have the LocalSession field, or only the ServerSession field, or both or none, depending if you need them or not.
+Fields (or methods) annotated with the <code>@Session</code> annotation are optional; you can just have the LocalSession field, or only the ServerSession field, or both or none, depending on whether you need them or not.
 </para>
 <para>
 You cannot inject Session fields (or methods) with <code>@Inject</code>. This is because the LocalSession object and the ServerSession object are related, and tied to a particular service instance. Using a generic injection mechanism could lead to confusion (for example, using the same sessions in two different services).
@@ -241,10 +241,10 @@ The callback method can return false to indicate that the processing of subseque
 <para>
 For server-side services, methods annotated with <code>@Subscription</code> represent callbacks that are invoked during the local-side processing of the message.
 The local-side processing is equivalent to the remote client-side processing, but it is local to the server.
-The semantic is very similar to the remote client-side processing, in the sense that the message has completed the server-side processing and has been published. When it arrives to the local side the information on the publisher is not available anymore, and the message is a plain <code>org.cometd.bayeux.Message</code> and not a <code>org.cometd.bayeux.server.ServerMessage</code>, exactly how it would happen for a remote client.
+The semantic is very similar to the remote client-side processing, in the sense that the message has completed the server-side processing and has been published. When it arrives to the local side the information on the publisher is not available anymore, and the message is a plain <code>org.cometd.bayeux.Message</code> and not a <code>org.cometd.bayeux.server.ServerMessage</code>, exactly as it would happen for a remote client.
 </para>
 <para>
-This is a rarer use case (most of the times user code must be triggered with <code>@Listener</code> semantic), but nonetheless is available.
+This is a rarer use case (most of the time user code must be triggered with <code>@Listener</code> semantic), but nonetheless is available.
 </para>
 <para>
 The callback method must have the following signature:
@@ -273,7 +273,7 @@ public class EchoService
     <title>Annotation Processing</title>
 </info>
 <para>
-Annotation processing is done by the <code>org.cometd.annotation.ServerAnnotationProcessor</code> class.
+The <code>org.cometd.annotation.ServerAnnotationProcessor</code> class performs annotation processing.
 
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -294,7 +294,7 @@ processor.process(service);
 After the <code>ServerAnnotationProcessor.process()</code> method returns, the service has been processed by injecting the BayeuxServer object and the sessions objects, by calling initialization lifecycle methods, and by registering listeners and subscribers.
 </para>
 <para>
-Symmetrically, <code>ServerAnnotationProcessor.deprocess()</code> performs annotation de-processing, which deregisters listeners and subscribers, and then calls destruction lifecycle methods (but does not de-inject the BayeuxServer object or session objects).
+Symmetrically, <code>ServerAnnotationProcessor.deprocess()</code> performs annotation deprocessing, which deregisters listeners and subscribers, and then calls destruction lifecycle methods (but does not deinject the BayeuxServer object or session objects).
 </para>
 </section>
 </section>
@@ -376,7 +376,7 @@ bayeuxClient.getChannel("/foo").subscribe(new ClientSessionChannel.MessageListen
     <title>Dependency Injection and Lifecycle Management Support</title>
 </info>
 <para>
-The CometD project does not offer dependency injection for client-side services, but supports lifecycle management via the standard JSR 250 <code>@PostConstruct</code> and <code>@PreDestroy</code> annotations.
+The CometD project does not offer dependency injection for client-side services, but supports lifecycle management via the standard <link xl:href="http://jcp.org/en/jsr/detail?id=250">JSR 250</link> <code>@PostConstruct</code> and <code>@PreDestroy</code> annotations.
 Client-side services usually have a shorter lifecycle than server-side services and their dependencies are usually injected directly while creating the client-side service instance.
 </para>
 </section>

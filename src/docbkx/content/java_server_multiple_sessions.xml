@@ -12,14 +12,14 @@ The <link xl:href="http://ietf.org/rfc/rfc2616.txt">HTTP protocol</link> recomme
 While modern browsers are configured by default with more than two connections per domain, it is not safe to make such an assumption; thus any iframes, tabs or windows on the same browser connecting to the same host need to share two connections.
 </para>
 <para>
-If two iframes/tabs/windows initiate a Bayeux communication, both starts a long poll connect request and both connections are consumed, making it impossible to send another Bayeux request (for example, a publish) until one of the two long polls returns.
+If two iframes/tabs/windows initiate a Bayeux communication, both start a long poll connect request and both connections are consumed, making it impossible to send another Bayeux request (for example, a publish) until one of the two long polls returns.
 </para>
 <para>
 The CometD Server implements the <link xl:href="http://svn.cometd.com/trunk/bayeux/bayeux.html#toc_35">multiple-clients advice</link> as set forth in the Bayeux specification.
 The server uses <code>BAYEUX_BROWSER</code> cookie to detect multiple CometD clients from the same browser.
 </para>
 <para>
-If the CometD server detects multiple clients, only one long poll connection is allowed and subsequent long poll requests do not wait for messages before returning. They return immediately with the <code>multiple-clients</code> field of the advice object set to true. The advice also contains an <code>interval</code> field set to the value of the <code>multiSessionInterval</code> servlet init parameter (see <xref linkend="java_server_configuration" />). This instructs the client not to send another poll until that interval has passed.
+If the CometD server detects multiple clients, only one long poll connection is allowed, and subsequent long poll requests do not wait for messages before returning. They return immediately with the <code>multiple-clients</code> field of the advice object set to true. The advice also contains an <code>interval</code> field set to the value of the <code>multiSessionInterval</code> servlet init parameter (see <xref linkend="java_server_configuration" />). This instructs the client not to send another poll until that interval has passed.
 The effect of this advice is that additional client connections normally poll the server with a period of <code>multiSessionInterval</code>. This avoids consuming both HTTP connections at the cost of some latency for the additional iframes/tabs/windows.
 </para>
 <para>

@@ -15,18 +15,18 @@
     interface.
 </para>
 <para>
-    Typical usages of the CometD Java client include:
+    Typical uses of the CometD Java client include:
 </para>
 <itemizedlist>
 <listitem>
 <para>
-    As the transport for a rich thick Java UI (for example, Swing) to
-    communicate to a Bayeux Server (also via firewalls)
+    The transport for a rich thick Java UI (for example, Swing) to
+    communicate to a Bayeux Server (also via firewalls).
 </para>
 </listitem>
 <listitem>
 <para>
-    As a load generator to simulate thousands of CometD clients, like for
+    A load generator to simulate thousands of CometD clients, for
     example <classname>org.cometd.benchmark.BayeuxLoadClient</classname>
 </para>
 </listitem>

@@ -9,12 +9,12 @@
 </info>
 <para>
 Integration of CometD services with <link xl:href="http://springframework.org">Spring</link> is particularly interesting, since most of the time your Bayeux services require other <emphasis>beans</emphasis> to perform their service.
-Not all Bayeux services are as simple as the <link xl:href="/documentation/cometd-java/server/services">EchoService</link>, and having Spring's dependency injection (as well as other facilities) integrated greatly simplifies development.
+Not all Bayeux services are as simple as the EchoService (see <xref linkend="java_server_services_inherited" />, and having Spring's dependency injection (as well as other facilities) integrated greatly simplifies development.
 </para>
 <para>
 The following instructions are valid from the 2.1.0 release onwards.
 </para>
-<section>
+<section xml:id="java_server_services_integration_spring_xml_based_spring_configuration">
 <info>
     <title>XML Based Spring Configuration</title>
 </info>
@@ -90,7 +90,7 @@ Spring's <code>applicationContext.xml</code> is as follows:
 Spring now creates the BayeuxServer object, configuring it via the <code>options</code> property, initializing via the <code>start()</code> method, and exporting to the servlet context via Spring's <code>ServletContextAttributeExporter</code>.
 </para>
 <para>
-Differently from <link xl:href="/documentation/cometd-java/server/services/integration-spring">CometD 1's Spring integration</link>, in CometD 2 the BayeuxServer object you create in this way is fully functional; therefore there is no need to mark dependent services as lazy, and no need for glue code.
+Differently from <link xl:href="http://cometd.org/documentation/cometd-java/server/services/integration-spring"> CometD 1's Spring integration</link>, in CometD 2 the BayeuxServer object you create in this way is fully functional; therefore there is no need to mark dependent services as lazy, and no need for glue code.
 </para>
 </section>
 <section>
@@ -100,13 +100,13 @@ Differently from <link xl:href="/documentation/cometd-java/server/services/integ
 <para>
 Spring 3.x supports annotation-based configuration, and <xref linkend="java_server_services_annotated" /> integrate nicely with Spring 3.x.
 Spring 3.x is required over Spring 2.5.x because it supports injection via <link xl:href="http://jcp.org/en/jsr/detail?id=330">JSR 330</link>.
-Prerequisite to making Spring 3.x work with CometD annotated services is to have JSR 330's <code>javax.inject</code> classes in the classpath along with JSR 250's <code>javax.annotation</code> classes (these are included in JDK 6 and therefore only required if you use JDK 5).
+Prerequisite to making Spring 3.x work with CometD annotated services is to have JSR 330's <code>javax.inject</code> classes in the classpath along with <link xl:href="http://jcp.org/en/jsr/detail?id=250">JSR 250's</link> <code>javax.annotation</code> classes (these are included in JDK 6 and therefore only required if you use JDK 5).
 </para>
 <note>
 <para>Do not forget that Spring 3.x requires CGLIB classes in the classpath as well.</para>
 </note>
 <para>
-The <code>web.xml</code> file is exactly equal to the one given as an example in the XML based configuration above.
+The <code>web.xml</code> file is exactly the same as the one given as an example in the XML based configuration above (see <xref linkend="java_server_services_integration_spring_xml_based_spring_configuration" />.
 </para>
 <para>
 Spring's <code>applicationContext.xml</code> is as follows:
@@ -223,7 +223,7 @@ Summary:
 <para>This Spring component is the factory for the BayeuxServer object via the <code>bayeuxServer()</code> method (annotated with Spring's <code>@Bean</code>).</para>
 </listitem>
 <listitem>
-<para>To create CometD's <code>ServerAnnotationProcessor</code>, it requires the BayeuxServer object, and therefore it <code>@Inject</code>s it into a setter method.</para>
+<para>Creating CometD's <code>ServerAnnotationProcessor</code> requires the BayeuxServer object, and therefore it <code>@Injects</code> it into a setter method.</para>
 </listitem>
 <listitem>
 <para>The lifecycle callback <code>init()</code> creates CometD's <code>ServerAnnotationProcessor</code>, which is then used during Spring's bean post processing phases.</para>

@@ -53,3 +53,61 @@ public class Main { // bad
 <important>
 <caution>
 <warning>
+
+==Table with 2 columns, each of which contains code:
+
+<informaltable>
+<thead>
+<tr>
+<th>Annotated Style</th>
+<th>Inherited Style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<informalexample>
+<programlisting language="java"><![CDATA[
+@Service("echoService")
+public class EchoService
+{
+    @Inject
+    private BayeuxServer bayeux;
+    @Session
+    private ServerSession serverSession;
+
+    @org.cometd.annotation.Listener("/echo")
+    public void echo(ServerSession remote, ServerMessage.Mutable message)
+    {
+        String channel = message.getChannel();
+        Object data = message.getData();
+        remote.deliver(serverSession, channel, data, null);
+    }
+}
+]]></programlisting>
+</informalexample>
+</td>
+<td>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class EchoService extends AbstractService
+{
+    public EchoService(BayeuxServer bayeux)
+    {
+        super(bayeux, "echoService");
+        addService("/echo", "echo");
+    }
+
+    public void echo(ServerSession remote, ServerMessage.Mutable message)
+    {
+        String channel = message.getChannel();
+        Object data = message.getData();
+        remote.deliver(getServerSession(), channel, data, null);
+    }
+}
+]]></programlisting>
+</informalexample>
+</td>
+</tr>
+</tbody>
+</informaltable>

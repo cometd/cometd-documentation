@@ -54,7 +54,7 @@ public class Example
 </informalexample>
 <note>
 <para>
-    Calling <code>subscribe()</code> <emphasis>does not</emphasis> mean that you have completed the subscription
+    Calling <code>subscribe()</code> <emphasis role="bold">does not</emphasis> mean that you have completed the subscription
     with the server when <code>subscribe()</code> returns.
 </para>
 </note>
@@ -91,7 +91,7 @@ public class Example
 </info>
 <para>
     The internal implementation of the Bayeux protocol uses meta channels, and it does not make any sense to
-    subscribe to them. It does make sense to listen to messages that might arrive on those channels.
+    subscribe to them. It does make sense to listen to messages that arrive on those channels.
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[

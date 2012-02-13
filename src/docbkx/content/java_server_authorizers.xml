@@ -8,7 +8,7 @@
     <title>Server Channel Authorizers</title>
 </info>
 <para>
-    CometD 2.1.0 introduced authorizers: a new feature that allows fine-grained control of
+    CometD 2.1.0 introduced authorizers, a feature that allows fine-grained control of
     authorization on channel operations.
 </para>
 
@@ -18,7 +18,7 @@
 </info>
 <para>
     Authorizers are objects that implement <classname>org.cometd.bayeux.server.Authorizer</classname>;
-    you add them to server-side channels at setup time (before any operation on that channel may happen)
+    you add them to server-side channels at setup time (before any operation on that channel can happen)
     in the following way:
 </para>
 <informalexample>
@@ -34,8 +34,8 @@ bayeuxServer.createIfAbsent("/my/channel", new ConfigurableServerChannel.Initial
 ]]></programlisting>
 </informalexample>
 <para>
-    The utility class <classname>org.cometd.server.authorizer.GrantAuthorizer</classname> provides you
-    some convenience pre-made authorizers, but you can create your own at will.
+    The utility class <classname>org.cometd.server.authorizer.GrantAuthorizer</classname> provides 
+    some pre-made authorizers, but you can create your own at will.
 </para>
 <para>
     Authorizers are particularly suited to control authorization on those channels that CometD creates at runtime,
@@ -45,18 +45,18 @@ bayeuxServer.createIfAbsent("/my/channel", new ConfigurableServerChannel.Initial
 <itemizedlist>
 <listitem>
 <para>
-    Authorizers do not apply to meta channels, but only to service channels and to broadcast channels.
+    Authorizers do not apply to meta channels, only to service channels and to broadcast channels.
 </para>
 </listitem>
 <listitem>
 <para>
-    You may add authorizers to wildcard channels (such as <code>/chat/*</code>);
+    You can add authorizers to wildcard channels (such as <code>/chat/*</code>);
     they impact all channels that match the wildcard channel on which you have added the authorizer.
 </para>
 </listitem>
 <listitem>
 <para>
-    An authorizer that you add to <code>/**</code> impacts all (non-meta) channels.
+    An authorizer that you add to <code>/**</code> impacts all non-meta channels.
 </para>
 </listitem>
 <listitem>
@@ -79,8 +79,7 @@ bayeuxServer.createIfAbsent("/my/channel", new ConfigurableServerChannel.Initial
     <classname>org.cometd.bayeux.server.SecurityPolicy</classname> that is currently installed.
 </para>
 <para>
-    The <classname>org.cometd.bayeux.server.SecurityPolicy</classname> class exposes three methods that can
-    be used to control access to channels:
+    The <classname>org.cometd.bayeux.server.SecurityPolicy</classname> class exposes three methods that you can use to control access to channels:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -90,11 +89,11 @@ public boolean canPublish  (BayeuxServer server, ServerSession session, ServerCh
 ]]></programlisting>
 </informalexample>
 <para>
-    which control, respectively, the operation to create a channel, the operation to subscribe to a channel,
+   These authorizers control, respectively, the operation to create a channel, the operation to subscribe to a channel,
     and the operation to publish to a channel.
 </para>
 <para>
-    The complete algorithm for the authorization is the following:
+    The complete algorithm for the authorization follows:
 </para>
 <orderedlist>
 <listitem>
@@ -147,7 +146,7 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 </informalexample>
 </para>
 <para>
-    <code>Result.grant()</code> explicitly grants permission to perform the operation passed in as parameter
+    <code>Result.grant()</code> explicitly grants permission to perform the operation passed in as a parameter
     on the channel. At least one authorizer must grant the operation, otherwise the operation is denied.
 </para>
 <para>
@@ -168,9 +167,9 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 </informalexample>
 </para>
 <para>
-    <code>Result.ignore()</code> neither grants nor denies the permission to perform the operation passed in as
-    parameter on the channel passed in as parameter.
-    Ignoring the authorization request is the usual way to not granting authorization if the conditions for which
+    <code>Result.ignore()</code> neither grants nor denies the permission to perform the operation passed in as a
+    parameter on the channel.
+    Ignoring the authorization request is the usual way to deny authorization if the conditions for which
     the operation must be granted do not apply.
 </para>
 </listitem>
@@ -186,13 +185,13 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 </informalexample>
 </para>
 <para>
-    <code>Result.deny()</code> explicitly denies the permission to perform the operation passed in as parameter
-    on the channel passed in as parameter.
-    Denying the authorization request immediately result in the authorization being denied without even consulting
+    <code>Result.deny()</code> explicitly denies the permission to perform the operation passed in as a parameter
+    on the channel.
+    Denying the authorization request immediately results in the authorization being denied without even consulting
     other authorizers in the authorizer set for that channel.
 </para>
 <para>
-    Typically, denying authorizers are used for cross-cutting concerns: where you can have a sophisticated logic
+    Typically, denying authorizers are used for cross-cutting concerns: where you have a sophisticated logic
     in authorizers to grant access to users for specific paid TV channels based on the user's contract
     (imagine that bronze, silver and gold contracts give access to different TV channels), you have a single
     authorizer that denies the operation if the user's balance is insufficient, no matter the contract or the
@@ -228,7 +227,7 @@ gameStarStar.addAuthorizer(GrantAuthorizer.GRANT_NONE);
 </informalexample>
 </para>
 <para>
-    This ensures that the authorizer set is not empty, and that by default (if no other authorizer grants or deny)
+    This ensures that the authorizer set is not empty, and that by default (if no other authorizer grants or denies)
     the authorization is ignored and hence denied.
 </para>
 <para>
@@ -289,15 +288,15 @@ gameChannel.addAuthorizer(new Authorizer()
 <informalexample>
 <screen>
 /game/**  --> one authorizer that ignores everything
-          --> one authorizer that grants captains to create games
-          --> one authorizer that grants everyone to watch games
-/game/123 --> one authorizer that grants players to play
+          --> one authorizer that grants captains authority to create games
+          --> one authorizer that grants everyone the ability to watch games
+/game/123 --> one authorizer that grants players the ability to play
 </screen>
 </informalexample>
 </para>
 <para>
-    Imagine that later you want to forbid to criminal supporters to watch games, so you can add another authorizer
-    (instead of modifying the one that grants everyone to watch games):
+    Imagine that later you want to forbid criminal supporters to watch games, so you can add another authorizer
+    (instead of modifying the one that allows everyone to watch games):
 </para>
 <para>
 <informalexample>
@@ -322,18 +321,18 @@ gameStarStar.addAuthorizer(new Authorizer()
 <informalexample>
 <screen>
 /game/**  --> one authorizer that ignores everything
-          --> one authorizer that grants captains to create games
-          --> one authorizer that grants everyone to watch games
-          --> one authorizer that denies criminal supporters to watch games
-/game/123 --> one authorizer that grants players to play
+          --> one authorizer that grants captains the ability to create games
+          --> one authorizer that grants everyone the ability to watch games
+          --> one authorizer that denies criminal supporters the ability to watch games
+/game/123 --> one authorizer that grants players the ability to play
 </screen>
 </informalexample>
 </para>
 <para>
     Notice how authorizers on <code>/game/**</code> never grant <code>Operation.PUBLISH</code>,
-    which is only granted by authorizers on specific game channels.
+    which authorizers only grant on specific game channels.
     Also, the specific game channel does not need to grant <code>Operation.SUBSCRIBE</code>,
-    because its authorizer ignores the subscribe operation that is therefore handled by authorizers
+    because its authorizer ignores the subscribe operation that is authorizers therefore handle
     on the <code>/game/**</code> channel.
 </para>
 </section>

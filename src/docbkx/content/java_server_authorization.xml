@@ -8,12 +8,12 @@
     <title>Authorization</title>
 </info>
 <para>
-    You can configure the <code>BayeuxServer</code> object with a
+    You can configure the <code>BayeuxServer</code> object with an
     <classname>org.cometd.bayeux.server.SecurityPolicy</classname>
     object, which allows you to control various steps of the Bayeux protocol such as handshake, subscription,
     and publish.
     By default, the <code>BayeuxServer</code> object has a default <code>SecurityPolicy</code>,
-    that allows almost any operation (see below).
+    that allows almost any operation.
 </para>
 <para>
     The <classname>org.cometd.bayeux.server.SecurityPolicy</classname> has a default implementation in

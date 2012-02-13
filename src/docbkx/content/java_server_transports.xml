@@ -98,16 +98,16 @@
 <listitem>
 <para>
     If you plan to use the <code>websocket</code> <emphasis>client</emphasis> transport in your web application,
-    and you are not using Maven, make sure that also
+    and you are not using Maven, make sure that 
     <filename>jetty-websocket-&lt;version&gt;.jar</filename>, <filename>jetty-io-&lt;version&gt;.jar</filename>
-    and <filename>jetty-http-&lt;version&gt;.jar</filename> are present in the <code>WEB-INF/lib</code>
+    and <filename>jetty-http-&lt;version&gt;.jar</filename> are also present in the <code>WEB-INF/lib</code>
     directory of your web application .war file.
 </para>
 </listitem>
 </orderedlist>
 <para>
     If you have configured your web application to support cross-domain HTTP calls (see
-    <xref linkend="java_server_configuration_advanced" />) you do not need to worry because the
+    <xref linkend="java_server_configuration_advanced" />), you do not need to worry because the
     <code>CrossOriginFilter</code> is by default disabled for the WebSocket protocol.
 </para>
 </section>
