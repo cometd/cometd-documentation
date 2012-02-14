@@ -17,7 +17,7 @@ This extension requires both a client-side extension and a server-side extension
     <title>Enabling the Server-side Extension</title>
 </info>
 <para>
-To enable support for acknowledged messages, you must add the extension to the <code>org.cometd.bayeux.server.BayeuxServer</code> instance during initialization:
+To enable support for time synchronization, you must add the extension to the <code>org.cometd.bayeux.server.BayeuxServer</code> instance during initialization:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -109,7 +109,7 @@ where:
 </listitem>
 </itemizedlist>
 <para>
-On receipt of the response, the client is able to use current time to determine the total trip time, from which p is subtracted to determine an approximate two way network traversal time. Thus:
+On receipt of the response, the client is able to use current time to determine the total trip time, from which it subtracts <emphasis>p</emphasis> to determine an approximate two way network traversal time. Thus:
 </para>
 <itemizedlist>
 <listitem>

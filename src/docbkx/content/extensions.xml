@@ -8,11 +8,11 @@
     <title>Extensions</title>
 </info>
 <para>
-The CometD implementation has the capability to add/remove <emphasis>extensions</emphasis>.
+The CometD implementation includes the ability to add/remove <emphasis>extensions</emphasis>.
 An extension is a function that CometD calls; it allows you to modify a message just before sending it (an <emphasis>outgoing</emphasis> extension) or just after receiving it (an <emphasis>incoming</emphasis> extension).
 </para>
 <para>
-An extension normally adds fields to the message being sent or received in the <link xl:href="http://svn.cometd.org/trunk/bayeux/bayeux.html#toc_45"><code>ext</code> object</link>) that the Bayeux specification defines.
+An extension normally adds fields to the message being sent or received in the <link xl:href="http://svn.cometd.org/trunk/bayeux/bayeux.html#toc_45"><code>ext</code> object</link> that the Bayeux specification defines.
 An extension is not a way to add business fields to a message, but rather a way to process all messages, including the meta messages the Bayeux protocol uses, and to extend the Bayeux protocol itself.
 </para>
 <para>
@@ -44,7 +44,7 @@ An extension is a JavaScript object with four optional methods:
 </listitem>
 </itemizedlist>
 <para>
-These methods are optional; you can use only one, or maybe two, three, or all of them. If they are present, CometD involkes them at the proper time.
+These methods are optional; you can use only one, or maybe two, three, or all of them. If they are present, CometD invokes them at the proper time.
 </para>
 <para>
 Writing an extension that logs and counts the long polls is quite easy: you need a reference to the <code>cometd</code> object that has the logging methods, and you need only the outgoing extension method:
@@ -105,13 +105,13 @@ The JavaScript CometD API defines three methods to manage extensions:
 </para>
 <itemizedlist>
 <listitem>
-<para><code>registerExtension(name, extension)</code>–to register an extension with the given name</para>
+<para><code>registerExtension(name, extension)</code> – registers an extension with the given name</para>
 </listitem>
 <listitem>
-<para><code>unregisterExtension(name)</code>–to unregister the extension previously registered with the given name</para>
+<para><code>unregisterExtension(name)</code> – unregisters the extension previously registered with the given name</para>
 </listitem>
 <listitem>
-<para><code>getExtension(name)</code>–to obtain a reference to the extension previously registered with the given name</para>
+<para><code>getExtension(name)</code> – obtains a reference to the extension previously registered with the given name</para>
 </listitem>
 </itemizedlist>
 <para>
@@ -171,9 +171,11 @@ cometd.onExtensionException = function(exception, extensionName, outgoing, messa
 Be <emphasis>very</emphasis> careful to use the CometD object to publish messages within the extension exception handler, or you might end up in an infinite loop (the extensions process the publish message, which might fail and call again the extension exception handler).
 If the extension exception handler itself throws an exception, this exception is logged at level "info" and the CometD implementation does not break.
 </para>
+<note>
 <para>
-To learn about a similar mechanism exists for listeners and subscribers, see <xref linkend="javascript_configure" />.
+To learn about a similar mechanism for listeners and subscribers, see <xref linkend="javascript_configure" />.
 </para>
+</note>
 <para>
 The next sections explain in detail the use of the extensions CometD provides.
 </para>

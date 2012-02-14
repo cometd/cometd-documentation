@@ -9,7 +9,7 @@
 </info>
 <para>
 The timestamp extension adds a <code>timestamp</code> to the message object for every message the client and/or server sends.
-It is a non standard extension because it does not add the additional fields to the <code>ext</code> field, but to the message object itself.
+It is a non-standard extension because it does not add the additional fields to the <code>ext</code> field, but to the message object itself.
 This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
 </para>
 <section>
@@ -38,7 +38,7 @@ dojo.require("dojox.cometd.timestamp");
 ]]></programlisting>
 </informalexample>
 <para>
-The the file <code>jquery.cometd-timestamp.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code>tag:
+The file <code>jquery.cometd-timestamp.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code>tag:
 </para>
 
 <informalexample>

@@ -8,40 +8,41 @@
     <title>JSON Libraries</title>
 </info>
 <para>
-    Since version 2.4.0, CometD allows to customize the JSON library that is used to convert incoming JSON into
+    Since version 2.4.0, CometD allows you to customize the JSON library that it uses to convert incoming JSON into
     Bayeux messages and generate JSON from Bayeux messages.
 </para>
 <para>
-    There are two implementations available, one based on Jetty's
+    Two implementations are available, one based on Jetty's
     <classname>org.eclipse.jetty.util.ajax.JSON</classname> class, and the other based on the
     <link xl:href="http://jackson.codehaus.org">Jackson</link> library.
     The default implementation uses the Jetty library.
+    These two libraries are among the fastest available; it turns out that, for CometD, 
+    the Jackson library is faster than Jetty's in both parsing and generating. Distinctions between them include:
 </para>
+<itemizedlist>
+<listitem>
 <para>
-    The two libraries are among the fastest around and it turns out that, for the CometD specific case,
-    the Jackson library is faster than Jetty's in both parsing and generating.
-</para>
-<para>
-    The Jetty library allows to plug in custom serializers and deserializers, to fine control the conversion
-    from object to JSON and viceversa, via a custom API.
+    The Jetty library allows you to plug in custom serializers and deserializers, to fine control the conversion from object to JSON and vice versa, via a custom API.
     Refer to the <classname>org.eclipse.jetty.util.ajax.JSON</classname>
     <link xl:href="http://download.eclipse.org/jetty/stable-7/apidocs/org/eclipse/jetty/util/ajax/JSON.html">javadocs</link>
     for further information.
 </para>
+</listitem>
+<listitem>
 <para>
-    The Jackson library offers a rich API based on annotations to customize JSON generation but less so to customize
-    JSON parsing to obtain objects of custom classes.
+    The Jackson library offers a rich API based on annotations to customize JSON generation, but less so to customize JSON parsing and obtain objects of custom classes.
     Refer to the <link xl:href="http://jackson.codehaus.org/Documentation">Jackson documentation</link>
     for further details.
 </para>
-
+</listitem>
+</itemizedlist>
 <section xml:id="java_json_api">
 <info>
     <title>JSONContext API</title>
 </info>
 <para>
-    The JSON library is used by the CometD Java client implementation (see
-    <xref linkend="java_client" />) to generate JSON from and to parse JSON to
+    The CometD Java client implementation (see
+    <xref linkend="java_client" />) uses the JSON library to generate JSON from and to parse JSON to
     <classname>org.cometd.bayeux.Message</classname> instances.
     The JSON library class that performs this generation/parsing on the client must implement
     <classname>org.cometd.common.JSONContext.Client</classname>.
@@ -57,7 +58,7 @@
 </info>
 <para>
     On the client, the <classname>org.cometd.common.JSONContext.Client</classname> instance must be passed
-    directly into the transport configuration; if omitted, the default Jetty JSON library will be used.
+    directly into the transport configuration; if omitted, the default Jetty JSON library is used.
     For example:
 </para>
 <informalexample>
@@ -76,8 +77,7 @@ BayeuxClient client = new BayeuxClient(cometdURL, transport);
 ]]></programlisting>
 </informalexample>
 <para>
-    The <classname>org.cometd.common.JSONContext.Client</classname> instance may be shared by all
-    client transports (since only one transport will be used at any time).
+    All client transports can share the <classname>org.cometd.common.JSONContext.Client</classname> instance (since only one transport is used at any time).
 </para>
 <para>
     You can customize the Jackson implementation and add your own serializers/deserializer in the following way:
@@ -110,10 +110,10 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
     <title>Server Configuration</title>
 </info>
 <para>
-    On the server, the full qualified name of a class implementing
-    <classname>org.cometd.common.JSONContext.Server</classname> may be specified as init-parameter of the
+    On the server, you can specify the fully qualified name of a class implementing
+    <classname>org.cometd.common.JSONContext.Server</classname> as init-parameter of the
     <code>CometdServlet</code> (see also <xref linkend="java_server_configuration" />);
-    if omitted, the default Jetty library will be used.
+    if omitted, the default Jetty library is used.
     For example:
 </para>
 <informalexample>
@@ -142,8 +142,8 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
 ]]></programlisting>
 </informalexample>
 <para>
-    The class specified must be instantiable using the default parameterless constructor and implement
-    <classname>org.cometd.common.JSONContext.Server</classname>, and it can be customized by adding
+    The class specified must be instantiable using the default parameterless constructor, and it must implement
+    <classname>org.cometd.common.JSONContext.Server</classname>. You can customize it by adding
     serializers/deserializers as explained above.
 </para>
 </section>
@@ -154,8 +154,8 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
     <title>Portability Considerations</title>
 </info>
 <para>
-    It is possible to switch from one implementation of the JSON library to another - for example from the
-    Jetty library to the Jackson library , provided that the application code is written carefully.
+    It is possible to switch from one implementation of the JSON library to another – for example from the
+    Jetty library to the Jackson library, provided that you write the application code carefully.
 </para>
 <para>
     As of version 1.8.4, Jackson can only produce instances of <classname>java.util.List</classname> when
@@ -163,7 +163,7 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
     The Jetty library, however, produces <classname>java.lang.Object[]</classname> when deserializing JSON arrays.
 </para>
 <para>
-    Similarly, Jackson may produce <classname>lava.lang.Integer</classname> where the Jetty library
+    Similarly, Jackson produces <classname>java.lang.Integer</classname> where the Jetty library
     produces <classname>java.lang.Long</classname>.
 </para>
 <para>
@@ -203,11 +203,11 @@ long value = ((Number)data.get("value")).longValue();
 </title>
 </info>
 <para>
-    Sometimes it is very useful to be able to obtain object of application classes instead of just
+    Sometimes it is very useful to be able to obtain objects of application classes instead of just
     <code>Map&lt;String, Object&gt;</code> when calling <code>message.getData()</code>.
 </para>
 <para>
-    This is easily achieved with the Jetty JSON library. It is enough that the client formats the JSON object
+    You can easily achieve this with the Jetty JSON library. It is enough that the client formats the JSON object
     adding an additional <code>class</code> field whose value is the fully qualified class name that you want to
     convert the JSON to:
 </para>

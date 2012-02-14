@@ -48,7 +48,7 @@ dojo.require("dojox.cometd.reload");
     <title>Configuring the Reload Extension</title>
 </info>
 <para>
-    Here is the list of configuration parameters that the reload extension accepts:
+    The reload extension accepts the following configuration parameters:
 </para>
 <table>
 <caption>Reload Extension Configuration Parameters</caption>
@@ -63,27 +63,26 @@ dojo.require("dojox.cometd.reload");
 <tr>
     <td>cookieName</td>
     <td>org.cometd.reload</td>
-    <td>The name of the short lived cookie used by the reload extension to save the connection state details</td>
+    <td>The name of the short-lived cookie the reload extension uses to save the connection state details</td>
 </tr>
 <tr>
     <td>cookiePath</td>
     <td>/</td>
-    <td>The path of the short lived cookie used by the reload extension</td>
+    <td>The path of the short-lived cookie the reload extension uses</td>
 </tr>
 <tr>
     <td>cookieMaxAge</td>
     <td>5</td>
-    <td>The max age, in seconds, of the short lived cookie used by the reload extension</td>
+    <td>The max age, in seconds, of the short-lived cookie the reload extension uses</td>
 </tr>
 </tbody>
 </table>
 <para>
     The JavaScript <code>cometd</code> object is normally already configured with the default reload extension
     configuration.
-    <?linebreak?>
-    This is how you can reconfigure the reload extension:
+    To reconfigure the reload extension:
 </para>
-<orderedlist>
+<itemizedlist>
 <listitem>
 <para>
     Reconfigure the extension at startup:
@@ -111,11 +110,11 @@ cometd.reload({
 ]]></programlisting>
 </informalexample>
 </listitem>
-</orderedlist>
+</itemizedlist>
 <para>
-    If you increase the <code>maxCookieAge</code>, you should be aware that you should probably increase
+    If you increase the <code>maxCookieAge</code>, be aware that you should probably increase
     the value of <code>maxInterval</code> too (see <xref linkend="java_server_configuration" />), to avoid
-    that the server expires the session while the page is reloading.
+     the server expiring the session while the page is reloading.
 </para>
 </section>
 <section>

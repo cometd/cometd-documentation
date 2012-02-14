@@ -8,7 +8,7 @@
     <title>Acknowledge Extension</title>
 </info>
 <para>
-    The <emphasis>acknowledged messages</emphasis> extension provides reliable, ordered messaging to the Bayeux protocol.
+    The <emphasis>acknowledge messages</emphasis> extension provides reliable, ordered messaging to the Bayeux protocol.
     This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
     If you are interested only in ordered messaging, see <!-- TODO: relink to docbook section -->
     <link xl:href="http://cometd.org/documentation/2.x/howtos/message-ordering">here</link>.
@@ -89,7 +89,7 @@ cometd.init(cometdURL);
 </para>
 <para>
     The extension does not insert ack IDs in every message, as this would impose a significant burden on the server
-    for messages sent to multiple clients (which would need to be reserialized to json for each client).
+    for messages sent to multiple clients (which would need to be reserialized to JSON for each client).
     Instead the ack ID is inserted in the <code>ext</code> field of the <code>/meta/connect</code> messages that are
     associated with message delivery.
     Each <code>/meta/connect</code> request contains the ack ID of the last received ack response:
