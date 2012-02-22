@@ -11,6 +11,8 @@
     <xsl:param name="section.label.includes.component.label" select="1" />
     <xsl:param name="highlight.source" select="1" />
 
+    <xsl:output method="html" encoding="UTF-8" indent="yes" />
+
     <xsl:template match="processing-instruction('linebreak')">
         <br />
     </xsl:template>
@@ -48,6 +50,5 @@ _gaq.push(['_trackPageview']);
 })();
 </script>
     </xsl:template>
-
 
 </xsl:stylesheet>
