@@ -32,9 +32,9 @@
 </info>
 <para>
     When deployed to a Servlet 3.0 compliant servlet container, the CometD implementation makes use of the
-    asynchronous features the servlet container offers, and is fully portable and scalable (the scalability is as good as the servlet container's implementation). See <!-- TODO: relink to the docbook section -->
-    <link xl:href="http://cometd.org/node/106" /> when deploying to
-    Servlet 3.0 compliant servlet containers.
+    asynchronous features the servlet container offers, and is fully portable and scalable (the scalability is as
+    good as the servlet container's implementation). See <xref linkend="java_server_configuration_servlet3" />
+    when deploying to Servlet 3.0 compliant servlet containers.
 </para>
 </section>
 <para>

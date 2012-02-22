@@ -284,7 +284,7 @@
     for the filter configuration.
 </para>
 </section>
-<section>
+<section xml:id="java_server_configuration_servlet3">
 <info>
 <title>Configuring Servlet 3 Asynchronous Features</title>
 </info>
@@ -294,7 +294,7 @@
     or Tomcat 7 or greater), CometD makes use of the Servlet 3 asynchronous features.
 </para>
 <para>
-    To enable the Servlet 3 asynchronous features, you need to: 
+    To enable the Servlet 3 asynchronous features, you need to:
     <itemizedlist>
     <listitem>
     <para>Modify the <filename>web.xml</filename>
