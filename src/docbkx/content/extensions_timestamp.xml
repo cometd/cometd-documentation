@@ -8,16 +8,20 @@
     <title>Timestamp Extension</title>
 </info>
 <para>
-The timestamp extension adds a <code>timestamp</code> to the message object for every message the client and/or server sends.
-It is a non-standard extension because it does not add the additional fields to the <code>ext</code> field, but to the message object itself.
-This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
+    The timestamp extension adds a <code>timestamp</code> to the message object for every message the client
+    and/or server sends.
+    It is a non-standard extension because it does not add the additional fields to the <code>ext</code> field,
+    but to the message object itself.
+    This extension requires both a client-side extension and a server-side extension. The server-side extension
+    is available in Java.
 </para>
 <section>
 <info>
     <title>Enabling the Server-side Extension</title>
 </info>
 <para>
-To enable support for time-stamped messages, you must add the extension to the <code>org.cometd.bayeux.server.BayeuxServer</code> instance during initialization:
+    To enable support for time-stamped messages, you must add the extension to the
+    <code>org.cometd.bayeux.server.BayeuxServer</code> instance during initialization:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
@@ -30,7 +34,8 @@ bayeuxServer.addExtension(new org.cometd.server.ext.TimestampExtension());
 <title>Enabling the Client-side Extension</title>
 </info>
 <para>
-The <code>dojox/cometd/timestamp.js</code> provides the client-side extension binding for Dojo, and it is sufficient to use Dojo's <code>dojo.require</code> mechanism:
+    The <code>dojox/cometd/timestamp.js</code> provides the client-side extension binding for Dojo,
+    and it is sufficient to use Dojo's <code>dojo.require</code> mechanism:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
@@ -38,16 +43,19 @@ dojo.require("dojox.cometd.timestamp");
 ]]></programlisting>
 </informalexample>
 <para>
-The file <code>jquery.cometd-timestamp.js</code> provides the client-side extension binding for jQuery. You must include this file in the HTML page via the <code>&lt;script&gt;</code>tag:
+    The file <code>jquery.cometd-timestamp.js</code> provides the client-side extension binding for jQuery.
+    You must include in the HTML page the implementation file and the jQuery extension binding, in order,
+    via <code>&lt;script&gt;</code> tags:
 </para>
-
 <informalexample>
 <programlisting language="javascript"><![CDATA[
+<script type="text/javascript" src="TimeStampExtension.js"></script>
 <script type="text/javascript" src="jquery.cometd-timestamp.js"></script>
 ]]></programlisting>
 </informalexample>
 <para>
-In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code> object under the name "timestamp".
+    In both Dojo and jQuery extension bindings, the extension is registered on the default <code>cometd</code>
+    object under the name "timestamp".
 </para>
 </section>
 </section>
