@@ -8,7 +8,7 @@
 <title>Server Transports</title>
 </info>
 <para>
-    The <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory
+    <xref linkend="bayeux" /> defines two mandatory
     transports: <code>long-polling</code> and <code>callback-polling</code>.
     These two transports are automatically configured in the <code>BayeuxServer</code> instance, and there is no
     need to explicitly specify them in the configuration.
@@ -98,7 +98,7 @@
 <listitem>
 <para>
     If you plan to use the <code>websocket</code> <emphasis>client</emphasis> transport in your web application,
-    and you are not using Maven, make sure that 
+    and you are not using Maven, make sure that
     <filename>jetty-websocket-&lt;version&gt;.jar</filename>, <filename>jetty-io-&lt;version&gt;.jar</filename>
     and <filename>jetty-http-&lt;version&gt;.jar</filename> are also present in the <code>WEB-INF/lib</code>
     directory of your web application .war file.

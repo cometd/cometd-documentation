@@ -1058,7 +1058,7 @@ clientId   =   alphanum *( alphanum )
     received from the server.
 </para>
 </section>
-<section>
+<section xml:id="bayeux_multiple_clients_advice">
 <info>
     <title><code>multiple-clients</code> advice field</title>
 </info>

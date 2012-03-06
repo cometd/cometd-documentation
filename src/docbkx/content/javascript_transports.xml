@@ -8,7 +8,7 @@
     <title>JavaScript Transports</title>
 </info>
 <para>
-    The <link xl:href="http://cometd.org/documentation/bayeux/spec">Bayeux specification</link> defines two mandatory
+    <xref linkend="bayeux" /> defines two mandatory
     transports: <code>long-polling</code> and <code>callback-polling</code>.
 </para>
 <para>
@@ -85,7 +85,7 @@
 <listitem>
 <para>
     The reaction to failures is slower.This is due to the fact that if the script injection points to a URL that
-    returns an error (for example, the Bayeux server is down), the browser silently ignores the error. 
+    returns an error (for example, the Bayeux server is down), the browser silently ignores the error.
 </para>
 </listitem>
 </itemizedlist>
