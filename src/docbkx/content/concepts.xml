@@ -530,7 +530,7 @@ Examples of client session listeners include the following:
 </listitem>
 <listitem>
 <para>
-    If the message is a lazy message (see <xref linkend="java_server_lazy_messages" />), it is sent on first occasion. 
+    If the message is a lazy message (see <xref linkend="java_server_lazy_messages" />), it is sent on first occasion.
     Otherwise the message is delivered immediately.
     If the server session onto which the message is queued corresponds to a remote client session,
     it is assigned a thread to deliver the messages in its queue through the server transport.
@@ -631,11 +631,11 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </listitem>
 <listitem>
     <para>Indirectly by using inherited services (see
-    <xref linkend="java_server_services_inherited" />). You accomplish this by 
+    <xref linkend="java_server_services_inherited" />). You accomplish this by
     calling <code>AbstractService.addService(...),</code>
     or via annotated services (see <xref linkend="java_server_services_annotated" />) using <code>@Listener</code> annotations.</para>
 </listitem>
-</itemizedlist>>
+</itemizedlist>
 <important>
 <para>
     Applications that need to perform lengthy tasks in a server channel listener should do so in a separate thread to avoid blocking the processing of other incoming messages.
@@ -679,7 +679,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 <para>
     For example:
 </para>
-<para>    
+<para>
     Remote client <code>client1</code> wants to send a message to another remote client <code>client2</code>.
     Both clients are already connected and therefore have already performed the handshake with the server.
     Their handshake contained additional information regarding their <code>userId</code>, so that
