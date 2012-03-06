@@ -362,7 +362,9 @@ IllegalStateException: the servlet does not support async operations for this re
     With the default security policy, server channels may be created simply by publishing to a channel: if the
     channel does not exist, it is created on-the-fly.
     This may open up for creation of a large number of server channel, for example when messages are published
-    to channels created with a random name, such as <code>/topic/atyd9834o329</code>.
+    to channels created with a random name, such as <code>/topic/atyd9834o329</code>, and for race conditions
+    during channel creation (since the same server channel may be created
+    concurrently by two remote clients publishing to that channel at the same time).
 </para>
 <para>
     To avoid that these transient server channels grow indefinitely and occupy a lot of memory, the CometD
@@ -375,19 +377,18 @@ IllegalStateException: the servlet does not support async operations for this re
 <itemizedlist>
 <listitem>
 <para>
-    atomic creation and configuration of a server channel (since the same server channel may be created
-    concurrently by two remote clients publishing to that channel at the same time)
+    how to atomically create and configure a server channel
 </para>
 </listitem>
 <listitem>
 <para>
-    avoid that channels that the application knows they will be used at a later time are swept prematurely
+    how to avoid that channels that the application knows they will be used at a later time are swept prematurely
 </para>
 </listitem>
 </itemizedlist>
 <para>
-    The solution offered by the CometD API for the first problem is to provide an atomic method to create
-    server channels, along with their initialization:
+    The solution offered by the CometD API for the first problem is to provide a method that atomically creates
+    and initializes server channels:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -425,8 +426,8 @@ boolean created = bayeuxServer.createIfAbsent("/my/channel", new ServerChannel.I
 ]]></programlisting>
 </informalexample>
 <para>
-    You can not only configured <code>ServerChannel</code> instances to be persistent, but to be
-    <emphasis>lazy</emphasis> (see<xref linkend="java_server_lazy_messages" />), you can add listeners, and you
+    You can not only configure <code>ServerChannel</code> instances to be persistent, but to be
+    <emphasis>lazy</emphasis> (see <xref linkend="java_server_lazy_messages" />), you can add listeners, and you
     can add <code>Authorizer</code>s (see <xref linkend="java_server_authorizers" />).
 </para>
 <para>
@@ -452,7 +453,7 @@ ServerChannel channel = bayeuxServer.getChannel(channelName);
     is guaranteed to be non-null (if <code>createIfAbsent(...)</code> returned true).
 </para>
 <para>
-    A typical error in CometD application is to create the channel without making it persistent, and then trying
+    A typical error in CometD applications is to create the channel without making it persistent, and then trying
     to obtain a reference to it without checking if it's null:
 </para>
 <informalexample>
