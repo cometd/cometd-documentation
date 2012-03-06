@@ -22,7 +22,7 @@ public class EchoService extends AbstractService                                
         addService("/echo", "processEcho");                                       (4)
     }
 
-    public void processEcho(ServerSession remote, Map<String, Object> data) (5)
+    public void processEcho(ServerSession remote, Map<String, Object> data)       (5)
     {
         remote.deliver(getServerSession(), "/echo", data, null);                  (6)
     }

@@ -298,11 +298,11 @@
     <itemizedlist>
     <listitem>
     <para>Modify the <filename>web.xml</filename>
-    configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0.</para>
+    configuration by updating the <code>version</code> attribute of the <code>web-app</code> element to 3.0 (1).</para>
     </listitem>
     <listitem>
     <para> Add the <code>async-supported</code> element to filters that might execute before the
-    <code>CometdServlet</code> <emphasis>and</emphasis> to the <code>CometdServlet</code> itself.</para>
+    <code>CometdServlet</code> <emphasis>and</emphasis> to the <code>CometdServlet</code> itself (2).</para>
     </listitem>
     </itemizedlist>
 </para>
@@ -315,12 +315,12 @@ For example:
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="3.0">
+         version="3.0">                                                                  (1)
 
     <servlet>
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometdServlet</servlet-class>
-        <async-supported>true</async-supported>
+        <async-supported>true</async-supported>                                          (2)
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -330,7 +330,7 @@ For example:
     <filter>
         <filter-name>cross-origin</filter-name>
         <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
-        <async-supported>true</async-supported>
+        <async-supported>true</async-supported>                                          (2)
     </filter>
     <filter-mapping>
         <filter-name>cross-origin</filter-name>
