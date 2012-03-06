@@ -347,4 +347,140 @@ For example:
 IllegalStateException: the servlet does not support async operations for this request
 </screen>
 </section>
+
+<section xml:id="java_server_configuration_channels">
+<info>
+    <title>Configuring <code>ServerChannel</code>s</title>
+</info>
+<para>
+    Server channels are used to broadcast messages to multiple clients, and are a central concept of CometD
+    (see <xref linkend="concepts" />).
+    Class <classname>org.cometd.bayeux.server.ServerChannel</classname> represents server channels; instances
+    of server channels can be obtained from a <code>BayeuxServer</code> instance.
+</para>
+<para>
+    With the default security policy, server channels may be created simply by publishing to a channel: if the
+    channel does not exist, it is created on-the-fly.
+    This may open up for creation of a large number of server channel, for example when messages are published
+    to channels created with a random name, such as <code>/topic/atyd9834o329</code>.
+</para>
+<para>
+    To avoid that these transient server channels grow indefinitely and occupy a lot of memory, the CometD
+    server aggressively sweeps server channels, by default every second, removing all channels that are not in
+    use by the application anymore.
+</para>
+<para>
+    Given the above, we need to solve two problems:
+</para>
+<itemizedlist>
+<listitem>
+<para>
+    atomic creation and configuration of a server channel (since the same server channel may be created
+    concurrently by two remote clients publishing to that channel at the same time)
+</para>
+</listitem>
+<listitem>
+<para>
+    avoid that channels that the application knows they will be used at a later time are swept prematurely
+</para>
+</listitem>
+</itemizedlist>
+<para>
+    The solution offered by the CometD API for the first problem is to provide an atomic method to create
+    server channels, along with their initialization:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxServer bayeuxServer = ...;
+boolean created = bayeuxServer.createIfAbsent("/my/channel", new ServerChannel.Initializer()
+{
+    public void configureChannel(ConfigurableServerChannel channel)
+    {
+        // Here configure the channel
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Method <code>BayeuxServer.createIfAbsent(String channelName, Initializer... initializers)</code> atomically
+    creates the channel, returning true or false to indicate whether the channel was created or if it existed
+    already.
+    The <code>Initializer</code> callback is called only if the channel is created by the invocation to
+    <code>createIfAbsent(...)</code>.
+</para>
+<para>
+    The solution to the second problem is to configure the channel as <emphasis>persistent</emphasis>, so that
+    the sweeper does not remove the channel:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxServer bayeuxServer = ...;
+boolean created = bayeuxServer.createIfAbsent("/my/channel", new ServerChannel.Initializer()
+{
+    public void configureChannel(ConfigurableServerChannel channel)
+    {
+        channel.setPersistent(true);
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    You can not only configured <code>ServerChannel</code> instances to be persistent, but to be
+    <emphasis>lazy</emphasis> (see<xref linkend="java_server_lazy_messages" />), you can add listeners, and you
+    can add <code>Authorizer</code>s (see <xref linkend="java_server_authorizers" />).
+</para>
+<para>
+    Creating a server channel does not return you the channel that has been created. In order to obtain the
+    server channel reference, you need to call <code>BayeuxServer.getChannel(String channelName)</code>:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxServer bayeuxServer = ...;
+String channelName = "/my/channel";
+bayeuxServer.createIfAbsent(channelName, new ServerChannel.Initializer()
+{
+    public void configureChannel(ConfigurableServerChannel channel)
+    {
+        channel.setPersistent(true);
+    }
+});
+ServerChannel channel = bayeuxServer.getChannel(channelName);
+]]></programlisting>
+</informalexample>
+<para>
+    The code above creates the channel, configures it to be persistent and then obtains a reference to it, that
+    is guaranteed to be non-null (if <code>createIfAbsent(...)</code> returned true).
+</para>
+<para>
+    A typical error in CometD application is to create the channel without making it persistent, and then trying
+    to obtain a reference to it without checking if it's null:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+BayeuxServer bayeuxServer = ...;
+String channelName = "/my/channel";
+
+// Wrong, channel not marked as persistent, but used later
+bayeuxServer.createIfAbsent(channelName);
+
+// Other application code here
+
+ServerChannel channel = bayeuxServer.getChannel(channelName);
+channel.publish(...); // May throw NullPointerException
+]]></programlisting>
+</informalexample>
+<para>
+    Between the <code>createIfAbsent(...)</code> call and the <code>getChannel(...)</code> call there is
+    application code that may take a while to complete (therefore allowing the sweeper to sweep the just created
+    server channel), so it is always safer to mark the channel as persistent, and when it is not needed anymore
+    mark the server channel as non persistent (by calling <code>channel.setPersistent(false)</code>), to allow
+    the sweeper to sweep it.
+</para>
+<para>
+    The server channel sweeper will sweep channels that are non-persistent, have no subscribers, have no listeners,
+    have no authorizers and have no children channels, and only after these conditions are met for three
+    consecutive sweeper passes.
+</para>
+</section>
+
 </section>
