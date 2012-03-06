@@ -21,7 +21,7 @@
 </para>
 <para>
     The CometD Server implements the <code>multiple-clients</code> advice (see
-    <xref linkend="bayeux_multiple_clients_advice").
+    <xref linkend="bayeux_multiple_clients_advice" />).
     The server uses <code>BAYEUX_BROWSER</code> cookie to detect multiple CometD clients from the same browser.
 </para>
 <para>
