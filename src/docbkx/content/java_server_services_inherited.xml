@@ -134,6 +134,14 @@ public class BaseballTeamService extends AbstractService
     subscribes to channel <code>/events/baseball/team/*</code>.
 </para>
 <para>
+    Each time a service instance is created, an associated <code>LocalSession</code> (see
+    <xref linkend="concepts_sessions" />) is created within the service itself: the service is a local client.
+    The <code>LocalSession</code> has an associated <code>ServerSession</code> and as such it is treated by the
+    server in the same way a remote client (that also creates a <code>ServerSession</code> within the server) is.
+    The <code>LocalSession</code> and <code>ServerSession</code> are accessible via the <code>AbstractService</code>
+    methods <code>getLocalSession()</code> and <code>getServerSession()</code> respectively.
+</para>
+<para>
     Once you have written your Bayeux services it is time to set them up in your web application:
     <xref linkend="java_server_services_integration" /> or <xref linkend="java_server_services_integration_spring" />.
 </para>
