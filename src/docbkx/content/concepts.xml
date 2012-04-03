@@ -250,7 +250,8 @@
 </listitem>
 <listitem>
 <para>
-    <emphasis>Local sessions</emphasis> – the client half-object on the server side.
+    <emphasis>Local sessions</emphasis> – the client half-object on the server side, represented by class
+    <classname>org.cometd.bayeux.server.LocalSession</classname>.
     Local sessions can be thought of as clients living in the server. They do not represent a remote client,
     but instead a server-side client. Local sessions can subscribe to channels and publish messages like a client
     session can, but they live on the server.
