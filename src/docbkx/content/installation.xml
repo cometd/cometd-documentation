@@ -58,7 +58,7 @@ $ cd cometd-<version>/
 To try out the CometD demos shipped with the distribution, you need a <productname>Java</productname>
 Development Kit (JDK) - version 5.0 or later, and either
 <link xl:href="http://maven.apache.org">Maven</link>, version 3 or later, or
-a compliant servlet 2.5 container such as <link xl:href="http://eclipse.org/jetty">Jetty</link>.
+a compliant servlet 2.5 or greater container such as <link xl:href="http://eclipse.org/jetty">Jetty</link>.
 </para>
 
 <section>
