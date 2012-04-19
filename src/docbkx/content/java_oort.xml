@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section version="5.0"
          xmlns="http://docbook.org/ns/docbook"
-         xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
+                             http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
          xml:id="java_oort">
 <info>
     <title>Scalability Clustering with Oort</title>
@@ -449,7 +451,7 @@ public class OortConfigurationServlet extends GenericServlet
 }
 ]]></programlisting>
 </informalexample>
-<para>" 
+<para>"
     The <code>OortComet</code> instance that <code>Oort.observeComet(url)</code> returns is a
     specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client" />.
 </para>
@@ -648,7 +650,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     Broadcast messages (that is, messages sent to non-meta and non-service channels, (see
-    <xref linkend="javascript_subscribe" /> for further details) 
+    <xref linkend="javascript_subscribe" /> for further details)
     are by definition messages that all clients subscribing to the channel
     the message is being sent to should receive.
 </para>
@@ -771,7 +773,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </listitem>
 <listitem>
     <para>
-    There may be only one instance of <code>Seti</code> for each <code>Oort</code>. 
+    There may be only one instance of <code>Seti</code> for each <code>Oort</code>.
     </para>
 </listitem>
 <listitem>
