@@ -146,6 +146,15 @@ There are two ways for a new comet to discover at least one other comet:
     <td>A comma-separated list of channels to observe at startup</td>
 </tr>
 <tr>
+    <td>enableAckExtension</td>
+    <td>N</td>
+    <td>false</td>
+    <td>
+        Whether to enable the message acknowledgement extension (<xref linkend="extensions_acknowledge" />)
+        in the <code>BayeuxServer</code> instance and in the <code>OortComet</code> instances
+    </td>
+</tr>
+<tr>
     <td>clientDebug</td>
     <td>N</td>
     <td>false</td>
@@ -720,6 +729,19 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     </para>
 </important>
 <para>
+    Forwarding of messages may be subject to temporary interruptions in case there is a temporary network
+    connectivity failure between two comets.
+    To overcome this problem, it is possible to configure the comets to enable the message acknowledgement
+    extension (see <xref linkend="extensions_acknowledge" />) so that, for short failures, the messages
+    lost can be resent.
+    Refer to <xref linkend="java_oort_common_configuration" /> for the configuration details.
+</para>
+<para>
+    Remember that the message acknowledgement extension is not a fully persistent solution for lost messages
+    (for example it does not guarantee message redelivery in case of long failures).
+    CometD does not provide yet a fully persistent solution for messages in case of long failures.
+</para>
+<para>
     Since it has the ability to observe messages published to broadcast channels, an Oort cloud can already
     implement a simple chat application among users connected to different nodes.
     In the example below, when <code>clientA</code> publishes a message on channel <code>/chat</code>
@@ -742,7 +764,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     If you need to send messages directly to particular clients (for example, <code>clientA</code>
     wants to send a message to <code>clientC</code> but not to <code>clientB</code>, then you need
     to set up an additional component of the Oort clustering called <emphasis>Seti</emphasis>, see
-    <xref linkend="java_oort_seti" />
+    <xref linkend="java_oort_seti" />.
 </para>
 </section>
 </section>
