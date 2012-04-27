@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section version="5.0"
          xmlns="http://docbook.org/ns/docbook"
-         xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
+                             http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
          xml:id="java_oort">
 <info>
     <title>Scalability Clustering with Oort</title>
@@ -142,6 +144,15 @@ There are two ways for a new comet to discover at least one other comet:
     <td>N</td>
     <td>empty string</td>
     <td>A comma-separated list of channels to observe at startup</td>
+</tr>
+<tr>
+    <td>enableAckExtension</td>
+    <td>N</td>
+    <td>false</td>
+    <td>
+        Whether to enable the message acknowledgement extension (<xref linkend="extensions_acknowledge" />)
+        in the <code>BayeuxServer</code> instance and in the <code>OortComet</code> instances
+    </td>
 </tr>
 <tr>
     <td>clientDebug</td>
@@ -449,7 +460,7 @@ public class OortConfigurationServlet extends GenericServlet
 }
 ]]></programlisting>
 </informalexample>
-<para>" 
+<para>"
     The <code>OortComet</code> instance that <code>Oort.observeComet(url)</code> returns is a
     specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client" />.
 </para>
@@ -648,7 +659,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </info>
 <para>
     Broadcast messages (that is, messages sent to non-meta and non-service channels, (see
-    <xref linkend="javascript_subscribe" /> for further details) 
+    <xref linkend="javascript_subscribe" /> for further details)
     are by definition messages that all clients subscribing to the channel
     the message is being sent to should receive.
 </para>
@@ -718,6 +729,19 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     </para>
 </important>
 <para>
+    Forwarding of messages may be subject to temporary interruptions in case there is a temporary network
+    connectivity failure between two comets.
+    To overcome this problem, it is possible to configure the comets to enable the message acknowledgement
+    extension (see <xref linkend="extensions_acknowledge" />) so that, for short failures, the messages
+    lost can be resent.
+    Refer to <xref linkend="java_oort_common_configuration" /> for the configuration details.
+</para>
+<para>
+    Remember that the message acknowledgement extension is not a fully persistent solution for lost messages
+    (for example it does not guarantee message redelivery in case of long failures).
+    CometD does not provide yet a fully persistent solution for messages in case of long failures.
+</para>
+<para>
     Since it has the ability to observe messages published to broadcast channels, an Oort cloud can already
     implement a simple chat application among users connected to different nodes.
     In the example below, when <code>clientA</code> publishes a message on channel <code>/chat</code>
@@ -740,7 +764,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
     If you need to send messages directly to particular clients (for example, <code>clientA</code>
     wants to send a message to <code>clientC</code> but not to <code>clientB</code>, then you need
     to set up an additional component of the Oort clustering called <emphasis>Seti</emphasis>, see
-    <xref linkend="java_oort_seti" />
+    <xref linkend="java_oort_seti" />.
 </para>
 </section>
 </section>
@@ -771,7 +795,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 </listitem>
 <listitem>
     <para>
-    There may be only one instance of <code>Seti</code> for each <code>Oort</code>. 
+    There may be only one instance of <code>Seti</code> for each <code>Oort</code>.
     </para>
 </listitem>
 <listitem>

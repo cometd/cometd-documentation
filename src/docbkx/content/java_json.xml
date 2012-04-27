@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section version="5.0"
          xmlns="http://docbook.org/ns/docbook"
-         xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xl="http://www.w3.org/1999/xlink"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
+                             http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
          xml:id="java_json">
 <info>
     <title>JSON Libraries</title>
@@ -16,7 +18,7 @@
     <classname>org.eclipse.jetty.util.ajax.JSON</classname> class, and the other based on the
     <link xl:href="http://jackson.codehaus.org">Jackson</link> library.
     The default implementation uses the Jetty library.
-    These two libraries are among the fastest available; it turns out that, for CometD, 
+    These two libraries are among the fastest available; it turns out that, for CometD,
     the Jackson library is faster than Jetty's in both parsing and generating. Distinctions between them include:
 </para>
 <itemizedlist>

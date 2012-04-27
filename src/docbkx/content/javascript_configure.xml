@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section version="5.0"
          xmlns="http://docbook.org/ns/docbook"
-         xmlns:xi="http://www.w3.org/2001/XInclude"
-         xmlns:xl="http://www.w3.org/1999/xlink"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
          xml:id="javascript_configure">
 <info>
     <title>Configuring and Initializing</title>
@@ -64,19 +64,28 @@ However, the second way allows you to pass other configuration parameters, curre
   <td>maxConnections</td>
   <td>no</td>
   <td>2</td>
-  <td>The maximum number of connections used to connect to the Bayeux server. Change this value only if you know exactly the client's connection limit and what "request queued behind long poll" means.</td>
+  <td>
+      The maximum number of connections used to connect to the Bayeux server. Change this value only if you know
+      exactly the client's connection limit and what "request queued behind long poll" means.
+  </td>
 </tr>
 <tr>
   <td>backoffIncrement</td>
   <td>no</td>
   <td>1000</td>
-  <td>The number of milliseconds that the backoff time increments every time a connection with the Bayeux server fails. CometD attempts to reconnect after the backoff time elapses.</td>
+  <td>
+      The number of milliseconds that the backoff time increments every time a connection with the Bayeux server fails.
+      CometD attempts to reconnect after the backoff time elapses.
+  </td>
 </tr>
 <tr>
   <td>maxBackoff</td>
   <td>no</td>
   <td>60000</td>
-  <td>The maximum number of milliseconds of the backoff time after which the backoff time is not incremented further.</td>
+  <td>
+      The maximum number of milliseconds of the backoff time after which the backoff time is not incremented
+      further.
+  </td>
 </tr>
 <tr>
   <td>reverseIncomingExtensions</td>
@@ -94,19 +103,37 @@ However, the second way allows you to pass other configuration parameters, curre
   <td>requestHeaders</td>
   <td>no</td>
   <td>{}</td>
-  <td>An object containing the request headers to be sent for every Bayeux request (for example, <code>{"My-Custom-Header":"MyValue"}</code>).</td>
+  <td>
+      An object containing the request headers to be sent for every Bayeux request
+      (for example, <code>{"My-Custom-Header":"MyValue"}</code>).
+  </td>
 </tr>
 <tr>
   <td>appendMessageTypeToURL</td>
   <td>no</td>
   <td>true</td>
-  <td>Determines whether or not the Bayeux message type (handshake, connect, disconnect) is appended to the URL of the Bayeux server (see above).</td>
+  <td>
+      Determines whether or not the Bayeux message type (handshake, connect, disconnect) is appended to the
+      URL of the Bayeux server (see above).
+  </td>
 </tr>
 <tr>
   <td>autoBatch</td>
   <td>no</td>
   <td>false</td>
-  <td>Determines whether multiple publishes that get queued are sent as a batch on the first occasion, without requiring explicit batching.</td>
+  <td>
+      Determines whether multiple publishes that get queued are sent as a batch on the first occasion,
+      without requiring explicit batching.
+  </td>
+</tr>
+<tr>
+  <td>connectTimeout</td>
+  <td>no</td>
+  <td>0</td>
+  <td>
+      The maximum number of milliseconds to wait for a WebSocket connection to be opened.
+      It does not apply to HTTP connections. A timeout value of 0 means to wait forever.
+  </td>
 </tr>
 </tbody>
 </table>
