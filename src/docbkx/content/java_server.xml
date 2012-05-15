@@ -35,6 +35,7 @@
 <xi:include href="java_server_authorization.xml" />
 <xi:include href="java_server_authorizers.xml" />
 <xi:include href="java_server_transports.xml" />
+<xi:include href="java_server_context.xml" />
 <xi:include href="java_server_lazy_messages.xml" />
 <xi:include href="java_server_multiple_sessions.xml" />
 
