@@ -10,8 +10,10 @@
     <title>Acknowledge Extension</title>
 </info>
 <para>
-    The <emphasis>acknowledge messages</emphasis> extension provides reliable, ordered messaging to the Bayeux protocol.
-    This extension requires both a client-side extension and a server-side extension. The server-side extension is available in Java.
+    The <emphasis>acknowledge messages</emphasis> extension provides reliable, ordered messaging to the Bayeux
+    protocol from server to client.
+    This extension requires both a client-side extension and a server-side extension.
+    The server-side extension is available in Java.
     If you are interested only in ordered messaging, see <!-- TODO: relink to docbook section -->
     <link xl:href="http://cometd.org/documentation/2.x/howtos/message-ordering">here</link>.
 </para>
@@ -29,13 +31,14 @@ bayeuxServer.addExtension(new org.cometd.server.ext.AcknowledgedMessagesExtensio
 ]]></programlisting>
 </informalexample>
 <para>
-    The <code>AcknowledgedMessageExtension</code> is a per-server extension that monitors handshakes from new clients,
-    looking for clients that also support the acknowledged message extension, and then adds the
-    <code>AcknowledgedMessagesClientExtension</code> to each client during the handshake.
+    The <code>AcknowledgedMessageExtension</code> is a per-server extension that monitors handshakes from new
+    remote clients, looking for those that also support the acknowledged message extension, and then adds the
+    <code>AcknowledgedMessagesClientExtension</code> to the <code>ServerSession</code> correspondent to the
+    remote client, during the handshake processing.
 </para>
 <para>
-    Once added to a client, the <code>AcknowledgedMessagesClientExtension</code> guarantees ordered delivery of
-    messages, and resend of unacknowledged messages.
+    Once added to a <code>ServerSession</code>, the <classname>AcknowledgedMessagesClientExtension</classname>
+    guarantees ordered delivery of messages, and resend of unacknowledged messages, from server to client.
     The extension also maintains a list of unacknowledged messages and intercepts the traffic on the
     <code>/meta/connect</code> channel to insert and check acknowledge IDs.
 </para>
@@ -87,7 +90,7 @@ cometd.init(cometdURL);
     To enable message acknowledgement, both client and server must indicate that they support message acknowledgement.
     This is negotiated during handshake. On handshake, the client sends <code>{"ext":{"ack": "true"}}</code> to
     indicate that it supports message acknowledgement.
-    If the server also supports message acknowledgment, it likewise replies with <code>{"ext":{"ack": "true"}}</code>.
+    If the server also supports message acknowledgement, it likewise replies with <code>{"ext":{"ack": "true"}}</code>.
 </para>
 <para>
     The extension does not insert ack IDs in every message, as this would impose a significant burden on the server
@@ -103,6 +106,12 @@ cometd.init(cometdURL);
     If a <code>/meta/connect</code> message is received with an ack ID lower that any unacknowledged messages
     held by the extension, then these messages are requeued prior to any more recently queued messages and the
     <code>/meta/connect</code> response sent with a new ack ID.
+</para>
+<para>
+    It is important to note that message acknowledgement is guaranteed from server to client only, and not from client
+    to server. This means that the ack extension guarantees that messages sent by the server to the clients will be
+    resent in case of temporary network failures that produce loss of messages.
+    It does not guarantee however, that messages sent by the client will reach the server.
 </para>
 </section>
 <section>
