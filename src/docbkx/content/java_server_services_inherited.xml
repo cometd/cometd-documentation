@@ -56,7 +56,7 @@ Notice the following:
 <listitem>
 <para>
     Subscribes to channel "/echo", and specifies the name of a method that must be called when
-    a message arrives to that channel.
+    a message arrives to that channel, via <code>addService(...)</code>.
 </para>
 </listitem>
 <listitem>
@@ -108,7 +108,7 @@ public void processEcho(ServerSession remote, EchoInfo data)
     of JSON objects.
 </para>
 <para>
-    Notice that the channel name specified in the <code>subscribe()</code> method can be a wildcard, for example:
+    Notice that the channel name specified in the <code>addService()</code> method can be a wildcard, for example:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -132,6 +132,51 @@ public class BaseballTeamService extends AbstractService
     Notice also how the first example uses <code>ServerSession.deliver()</code> to send a message to a particular
     remote client, while the second uses <code>ServerChannel.publish()</code> to send a message to anyone who
     subscribes to channel <code>/events/baseball/team/*</code>.
+</para>
+<para>
+    Method <code>addService(...)</code> is used to map a server-side channel listener with
+    a method that is invoked every time a message arrives on the channel.
+    It is not uncommon that a single service has multiple mappings, and mappings may be even added and removed
+    dynamically:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class GameService extends AbstractService
+{
+    public GameService(BayeuxServer bayeux)
+    {
+        super(bayeux, "game");
+        addService("/service/game/*", "processGameCommand");
+        addService("/game/event", "processGameEvent");
+    }
+
+    public void processGameCommand(ServerSession remote, GameCommand command)
+    {
+        switch (command.getType())
+        {
+            case GAME_START:
+            {
+                addService("/game/" + command.getGameId(), "processGame");
+                break;
+            }
+            case GAME_END:
+            {
+                removeService("/game/" + command.getGameId());
+                break;
+            }
+            ...
+        }
+    }
+
+    public void processGameEvent(ServerSession remote, GameEvent event)
+    {
+        ...
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    Note how mappings can be removed using method <code>removeService(...)</code>.
 </para>
 <para>
     Each time a service instance is created, an associated <code>LocalSession</code> (see
