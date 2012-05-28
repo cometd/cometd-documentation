@@ -8,17 +8,21 @@
     <title>Services Integration</title>
 </info>
 <para>
-There are several ways to integrate your Bayeux services into your web application. This is complicated because a servlet creates the BayeuxServer object, and there is no easy way to detect, in general, when the BayeuxServer object has been created.
+    There are several ways to integrate your Bayeux services into your web application.
+    This is complicated because a servlet creates the BayeuxServer object, and there is no easy way to detect,
+    in general, when the BayeuxServer object has been created.
 </para>
 <section>
 <info>
     <title>Integration via Configuration Servlet</title>
 </info>
 <para>
-The simplest way to initialize your web application with your services is to use a configuration servlet. This configuration servlet has no URL mapping because its only scope is to initialize (or <emphasis>wire</emphasis> together) services for your web application to work properly.
+    The simplest way to initialize your web application with your services is to use a configuration servlet.
+    This configuration servlet has no URL mapping because its only scope is to initialize (or
+    <emphasis>wire</emphasis> together) services for your web application to work properly.
 </para>
 <para>
-Here is a sample <code>web.xml</code>:
+    Here is a sample <code>web.xml</code>:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -48,18 +52,23 @@ Here is a sample <code>web.xml</code>:
 ]]></programlisting>
 </informalexample>
 <para>
-Notice that the <code>web.xml</code> file specifies <code>&lt;load-on-startup&gt;</code> to be:
+    Notice that the <code>web.xml</code> file specifies <code>&lt;load-on-startup&gt;</code> to be:
 </para>
 <itemizedlist>
 <listitem>
-<para>1 for the CometD servlet – so that the Bayeux object gets created and put in the <code>ServletContext</code>.</para>
+<para>
+    1 for the CometD servlet – so that the Bayeux object gets created and put in the <code>ServletContext</code>.
+</para>
 </listitem>
 <listitem>
-<para>2 for the configuration servlet – so that it will be initialized only after the CometD servlet has been initialized and hence the BayeuxServer object is available.</para>
+<para>
+    2 for the configuration servlet – so that it will be initialized only after the CometD servlet has been
+    initialized and hence the BayeuxServer object is available.
+</para>
 </listitem>
 </itemizedlist>
 <para>
-This is the code for the <code>ConfigurationServlet</code>:
+    This is the code for the <code>ConfigurationServlet</code>:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -84,7 +93,7 @@ public class ConfigurationServlet extends GenericServlet
 ]]></programlisting>
 </informalexample>
 <para>
-See <xref linkend="java_server_services_inherited" /> about the <code>EchoService</code>.
+    See <xref linkend="java_server_services_inherited" /> about the <code>EchoService</code>.
 </para>
 </section>
 <section>
@@ -92,10 +101,11 @@ See <xref linkend="java_server_services_inherited" /> about the <code>EchoServic
     <title>Integration via Configuration Listener</title>
 </info>
 <para>
-Instead of using a configuration servlet, you can use a configuration listener, by writing a class that implements <code>ServletContextAttributeListener</code>.
+    Instead of using a configuration servlet, you can use a configuration listener, by writing a class that
+    implements <code>ServletContextAttributeListener</code>.
 </para>
 <para>
-Here is a sample <code>web.xml</code> file:
+    Here is a sample <code>web.xml</code> file:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -123,7 +133,7 @@ Here is a sample <code>web.xml</code> file:
 ]]></programlisting>
 </informalexample>
 <para>
-This is the code for the <code>BayeuxInitializer</code>:
+    This is the code for the <code>BayeuxInitializer</code>:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -159,10 +169,12 @@ public class BayeuxInitializer implements ServletContextAttributeListener
     <title>Integration of Annotated Services</title>
 </info>
 <para>
-If you prefer to use annotated services (see <xref linkend="java_server_services_inherited" />, you still have to integrate them into your web application. The procedure is very similar to the procedures above, but it requires use of the annotation processor to process the annotations in your services.
+    If you prefer to use annotated services (see <xref linkend="java_server_services_inherited" />, you still
+    have to integrate them into your web application. The procedure is very similar to the procedures above,
+    but it requires use of the annotation processor to process the annotations in your services.
 </para>
 <para>
-For example, the <code>ConfigurationServlet</code> becomes:
+    For example, the <code>ConfigurationServlet</code> becomes:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -210,10 +222,11 @@ public class ConfigurationServlet extends GenericServlet
     <title>Integration of Annotated Services via <code>AnnotationCometdServlet</code></title>
 </info>
 <para>
-The <code>org.cometd.java.annotation.AnnotationCometdServlet</code> allows you to specify a comma-separated list of class names to instantiate and process using a <code>ServerAnnotationProcessor</code>.
+    The <classname>org.cometd.java.annotation.AnnotationCometdServlet</classname> allows you to specify
+    a comma-separated list of class names to instantiate and process using a <code>ServerAnnotationProcessor</code>.
 </para>
 <para>
-This is a sample <code>web.xml</code>:
+    This is a sample <code>web.xml</code>:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -240,8 +253,29 @@ This is a sample <code>web.xml</code>:
 ]]></programlisting>
 </informalexample>
 <para>
-In this example, the <code>AnnotationCometdServlet</code> instantiates and processes the annotations of one object of class <code>com.acme.cometd.FooService</code> and of one object of class <code>com.acme.cometd.BarService</code>.
-The services created are deprocessed when <code>AnnotationCometdServlet</code> is destroyed.
+    In this example, the <code>AnnotationCometdServlet</code> instantiates and processes the annotations
+    of one object of class <classname>com.acme.cometd.FooService</classname> and of one object of class
+    <classname>com.acme.cometd.BarService</classname>.
+</para>
+<para>
+    The service objects are stored as <code>ServletContext</code> attributes under their own class name,
+    so that they can be easily retrieved by other components.
+    For example, <code>FooService</code> can be retrieved using the following code:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public class AnotherServlet extends HttpServlet
+{
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        FooService service = (FooService)getServletContext().getAttribute("com.acme.cometd.FooService");
+        // Use the foo service here
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    The services created are deprocessed when <code>AnnotationCometdServlet</code> is destroyed.
 </para>
 </section>
 </section>
