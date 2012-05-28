@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.cometd.documentation</groupId>
     <artifactId>cometd-reference</artifactId>
-    <version>2.4.2</version>
+    <version>2.4.3</version>
     <name>CometD Reference</name>
     <packaging>pom</packaging>
 
@@ -17,7 +17,7 @@
                 <version>2.0.13</version>
                 <executions>
                     <execution>
-                        <id>documentation</id>
+                        <id>reference</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>generate-xhtml</goal>
@@ -26,7 +26,7 @@
                             <includes>book.xml</includes>
                             <chunkedOutput>false</chunkedOutput>
                             <htmlStylesheet>cometd.css</htmlStylesheet>
-                            <xhtmlCustomization>src/docbkx/custom-xhtml.xsl</xhtmlCustomization>
+                            <xhtmlCustomization>${basedir}/src/docbkx/custom-xhtml.xsl</xhtmlCustomization>
                             <postProcess>
                                 <copy todir="${project.build.directory}/docbkx/xhtml">
                                     <fileset dir="src/docbkx/css">
