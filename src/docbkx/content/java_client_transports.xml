@@ -165,7 +165,7 @@ client.handshake();
 
 <section>
 <info>
-    <title>WebSocket Transport Dependencies></title>
+    <title>WebSocket Transport Dependencies</title>
 </info>
 <para>
     To use the <code>websocket</code> transport, you declare the dependencies listed above for the
