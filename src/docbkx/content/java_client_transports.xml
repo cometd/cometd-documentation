@@ -43,9 +43,101 @@ BayeuxClient client = new BayeuxClient("http://localhost:8080/cometd", wsTranspo
 client.handshake();
 ]]></programlisting>
 </informalexample>
+
 <section>
 <info>
-<title>Configuring the Long-polling Transport</title>
+<title>Client Transports Configuration</title>
+</info>
+<para>
+    The transports used by <code>BayeuxClient</code> can be configured with a number of parameters.
+    Below you can find the parameters that are common to all transports, and those specific for each transport.
+</para>
+
+<table>
+<caption>Client Transports Common Parameters</caption>
+<thead>
+<tr>
+    <th>Parameter Name</th>
+    <th>Required</th>
+    <th>Default Value</th>
+    <th>Parameter Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>jsonContext</td>
+    <td>no</td>
+    <td>org.cometd.common.JettyJSONContextClient</td>
+    <td>The <code>JSONContext.Client</code> class name (see <xref linkend="java_json" />)</td>
+</tr>
+</tbody>
+</table>
+<?linebreak?>
+
+<table>
+<caption>Long Polling Client Transport Parameters</caption>
+<thead>
+<tr>
+    <th>Parameter Name</th>
+    <th>Required</th>
+    <th>Default Value</th>
+    <th>Parameter Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>maxNetworkDelay</td>
+    <td>no</td>
+    <td><code>HttpClient</code>'s <code>timeout</code></td>
+    <td>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</td>
+</tr>
+</tbody>
+</table>
+<?linebreak?>
+
+<table>
+<caption>WebSocket Client Transport Parameters</caption>
+<thead>
+<tr>
+    <th>Parameter Name</th>
+    <th>Required</th>
+    <th>Default Value</th>
+    <th>Parameter Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>maxNetworkDelay</td>
+    <td>no</td>
+    <td>15000</td>
+    <td>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</td>
+</tr>
+<tr>
+    <td>connectTimeout</td>
+    <td>no</td>
+    <td>30000</td>
+    <td>The maximum number of milliseconds to wait for a WebSocket connection to be opened.</td>
+</tr>
+<tr>
+    <td>idleTimeout</td>
+    <td>no</td>
+    <td>60000</td>
+    <td>The maximum number of milliseconds a WebSocket connection is kept idle before being closed.</td>
+</tr>
+<tr>
+    <td>maxMessageSize</td>
+    <td>no</td>
+    <td>8192</td>
+    <td>The maximum number of bytes allowed for each WebSocket message.</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+
+<section>
+<info>
+<title>Long-polling Transport Dependencies</title>
 </info>
 <para>
     If you are building your application with <link xl:href="http://maven.apache.org">Maven</link> (the
@@ -70,13 +162,16 @@ client.handshake();
     With these dependencies in place, you can use the <code>long-polling</code> transport out of the box.
 </para>
 </section>
+
 <section>
 <info>
-    <title>Configuring the WebSocket Transport></title>
+    <title>WebSocket Transport Dependencies></title>
 </info>
 <para>
-    To use the <code>websocket</code> transport, you declare the dependencies listed above for the long-polling transport, <emphasis>and</emphasis> you also need to declare dependencies for
-    <code>org.cometd.java:cometd-websocket-jetty</code> (Maven automatically pulls the Jetty dependencies that the <code>cometd-websocket-jetty</code> artifact needs).
+    To use the <code>websocket</code> transport, you declare the dependencies listed above for the
+    <code>long-polling</code> transport, <emphasis>and</emphasis> you also need to declare dependencies for
+    <code>org.cometd.java:cometd-websocket-jetty</code> (Maven automatically pulls the Jetty dependencies that
+    the <code>cometd-websocket-jetty</code> artifact needs).
 </para>
 </section>
 </section>
