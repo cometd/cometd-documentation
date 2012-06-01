@@ -121,7 +121,7 @@ There are two ways for a new comet to discover at least one other comet:
 <thead>
 <tr>
     <th>Parameter Name</th>
-    <th>Mandatory</th>
+    <th>Required</th>
     <th>Default Value</th>
     <th>Parameter Description</th>
 </tr>
@@ -225,7 +225,7 @@ There are two ways for a new comet to discover at least one other comet:
 <thead>
 <tr>
     <th>Parameter Name</th>
-    <th>Mandatory</th>
+    <th>Required</th>
     <th>Default Value</th>
     <th>Parameter Description</th>
 </tr>
@@ -370,7 +370,7 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 <thead>
 <tr>
     <th>Parameter Name</th>
-    <th>Mandatory</th>
+    <th>Required</th>
     <th>Default Value</th>
     <th>Parameter Description</th>
 </tr>
