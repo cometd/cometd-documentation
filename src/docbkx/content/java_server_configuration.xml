@@ -257,7 +257,7 @@
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.continuation.ContinuationCometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
         <init-param>
             <param-name>timeout</param-name>
             <param-value>60000</param-value>
@@ -286,7 +286,52 @@
     for the filter configuration.
 </para>
 </section>
-<section xml:id="java_server_configuration_servlet3">
+
+<section xml:id="java_server_configuration_servlet_25">
+<info>
+<title>Configuring Servlet 2.5 Containers</title>
+</info>
+<para>
+    CometD runs without additional configuration in Jetty 7 (a Servlet 2.5 Container) and in any Servlet 3.0
+    Container (see below).
+    In order to run in other Servlet 2.5 Containers, such as Tomcat, CometD requires additional configuration.
+</para>
+<para>
+    Non-Jetty Servlet 2.5 Containers need to install the <code>ContinuationFilter</code>, mapping it to the same
+    path of the <code>CometdServlet</code> (usual <code>/cometd/*</code>), for example:
+</para>
+<informalexample>
+<programlisting language="xml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>continuation</filter-name>
+        <filter-class>org.eclipse.jetty.continuation.ContinuationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>continuation</filter-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </filter-mapping>
+
+</web-app>
+]]></programlisting>
+</informalexample>
+</section>
+
+<section xml:id="java_server_configuration_servlet_30">
 <info>
 <title>Configuring Servlet 3 Asynchronous Features</title>
 </info>

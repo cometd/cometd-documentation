@@ -26,7 +26,8 @@
 </para>
 <para>
     You can deploy the WAR file resulting from the development of your CometD web application to other Servlet 2.5
-    compliant servlet containers, but it does not scale as well because it is less integrated with other servlet containers.
+    compliant servlet containers, but it does not scale as well because it is less integrated with other servlet
+    containers. See <xref linkend="java_server_configuration_servlet_25" /> for further details.
 </para>
 </section>
 <section>
@@ -36,7 +37,7 @@
 <para>
     When deployed to a Servlet 3.0 compliant servlet container, the CometD implementation makes use of the
     asynchronous features the servlet container offers, and is fully portable and scalable (the scalability is as
-    good as the servlet container's implementation). See <xref linkend="java_server_configuration_servlet3" />
+    good as the servlet container's implementation). See <xref linkend="java_server_configuration_servlet_30" />
     when deploying to Servlet 3.0 compliant servlet containers.
 </para>
 </section>
