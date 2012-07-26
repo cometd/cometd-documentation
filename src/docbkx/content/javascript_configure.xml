@@ -17,10 +17,16 @@
     jQuery it is available under the name <code>$.cometd</code>.
     This default <code>cometd</code> object has been instantiated and configured with the default values and it has
     not yet started any Bayeux communication.
-    Before it can start Bayeux communication it needs a mandatory parameter: the URL of the Bayeux server.
 </para>
 <para>
-    There are two ways of passing this parameter:
+    Before it can start Bayeux communication it needs a mandatory parameter: the URL of the Bayeux server.
+    The URL of the server must be absolute (and therefore include the scheme, host, optionally the port and the path
+    of the server).
+    The scheme of the URL must always be either "http" or "https". The CometD JavaScript implementation will
+    transparently take care of converting the scheme to "ws" or "wss" in case of usage of the WebSocket protocol.
+</para>
+<para>
+    There are two ways of passing the URL parameter:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
