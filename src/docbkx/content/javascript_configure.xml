@@ -228,7 +228,7 @@ cometd2.registerExtension('reload', new org.cometd.ReloadExtension());
 <para>
     You should configure extension manually like shown above only for additional <code>cometd</code> objects.
     You can configure zero, one, or all the extensions for the additional <code>cometd</code> objects,
-    depending on you application needs.
+    depending on your application needs.
 </para>
 </section>
 </section>
