@@ -19,11 +19,16 @@
     not yet started any Bayeux communication.
 </para>
 <para>
-    Before it can start Bayeux communication it needs a mandatory parameter: the URL of the Bayeux server.
+    Before the <code>cometd</code> object can start Bayeux communication it needs a mandatory parameter:
+    the URL of the Bayeux server.
     The URL of the server must be absolute (and therefore include the scheme, host, optionally the port and the path
     of the server).
     The scheme of the URL must always be either "http" or "https". The CometD JavaScript implementation will
     transparently take care of converting the scheme to "ws" or "wss" in case of usage of the WebSocket protocol.
+</para>
+<para>
+    One <code>cometd</code> object connects to one Bayeux server. If you need to connect to multiple Bayeux
+    servers, see <xref linkend="javascript_configure_multiple_objects" />
 </para>
 <para>
     There are two ways of passing the URL parameter:
@@ -154,4 +159,77 @@ However, the second way allows you to pass other configuration parameters, curre
     <code>handshake()</code>.
     Follow the advice in the <xref linkend="javascript_handshake" /> as it applies as well to <code>init()</code>.
 </para>
+
+<section xml:id="javascript_configure_multiple_objects">
+<info>
+    <title>Configuring and Initializing Multiple Objects</title>
+</info>
+<para>
+    Sometimes there is the need to connect to multiple Bayeux servers.
+    The default <code>cometd</code> object available as <code>dojox.cometd</code> or <code>$.cometd</code>
+    can only be configured to connect to one server.
+</para>
+<para>
+    However, it is easy to create other <code>cometd</code> objects.
+    In Dojo, there is a <code>dojox.Cometd</code> (note the capital 'C' of <code>Cometd</code>)
+    constructor function that can be used to create new <code>cometd</code> objects.
+    In jQuery, there is an equivalent <code>$.Cometd</code> constructor function.
+    It can be used in this way:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+// Dojo style
+var cometd1 = dojox.cometd; // The default cometd object
+var cometd2 = new dojox.Cometd(); // A second cometd object
+
+// jQuery style
+var cometd1 = $.cometd; // The default cometd object
+var cometd2 = new $.Cometd(); // A second cometd object
+
+// Configure and handshake
+cometd1.init('http://host1:8080/cometd');
+cometd2.init('http://host2:9090/cometd');
+]]></programlisting>
+</informalexample>
+<para>
+    Note how the two <code>cometd</code> objects are initialized with different URLs.
+</para>
+
+<section>
+<info>
+    <title>Configuring Extensions in Multiple Objects</title>
+</info>
+<para>
+    Configuring extensions in the default <code>cometd</code> object is covered in <xref linkend="extensions" />.
+    To configure extensions for the additional <code>cometd</code> objects must be done manually
+    in the following way:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+// Dojo style
+var cometd1 = dojox.cometd; // The default cometd object
+var cometd2 = new dojox.Cometd(); // A second cometd object
+
+// jQuery style
+var cometd1 = $.cometd; // The default cometd object
+var cometd2 = new $.Cometd(); // A second cometd object
+
+// Configure extensions for the second object
+cometd2.registerExtension('ack', new org.cometd.AckExtension());
+cometd2.registerExtension('timestamp', new org.cometd.TimeStampExtension());
+cometd2.registerExtension('timesync', new org.cometd.TimeSyncExtension());
+cometd2.registerExtension('reload', new org.cometd.ReloadExtension());
+]]></programlisting>
+</informalexample>
+<para>
+    You should not configure the extensions for the default <code>cometd</code> object in this way,
+    but instead follow <xref linkend="extensions" />.
+</para>
+<para>
+    You should configure extension manually like shown above only for additional <code>cometd</code> objects.
+    You can configure zero, one, or all the extensions for the additional <code>cometd</code> objects,
+    depending on you application needs.
+</para>
+</section>
+</section>
 </section>
