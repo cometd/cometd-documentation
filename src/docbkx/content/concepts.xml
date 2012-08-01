@@ -74,7 +74,8 @@
     service messages and broadcast messages.
 </para>
 <para>
-    The application creates service channels and broadcast channels; an application can create as many as it needs, and can do so at any time.
+    The application creates service channels and broadcast channels; an application can create as many as it needs,
+    and can do so at any time.
     A channel that starts with <code>/meta/</code> is a meta channel, a channel that starts with
     <code>/service/</code> is a service channel, and all other channels are broadcast channels.
 </para>
@@ -107,8 +108,9 @@
     <title>Broadcast Channels</title>
 </info>
 <para>
-    Applications also create broadcast channels, which have the semantic of a messaging topic and are used in the case
-    of the publish/subscribe style of communication, where one sender wants to broadcast information to multiple recipients.
+    Applications also create broadcast channels, which have the semantic of a messaging topic and are used
+    in the case of the publish/subscribe style of communication, where one sender wants to broadcast information
+    to multiple recipients.
 </para>
 </section>
 
@@ -141,7 +143,8 @@
 <para>
     In a publish/subscribe messaging system publishers send messages, which are characterized in
     classes. Subscribers express their interest in one or more classes of messages, and receive only messages
-    that match the interest they have subscribed to. Senders, in general, have no idea which or how many recipients receive the messages they publish.
+    that match the interest they have subscribed to. Senders, in general, have no idea which or how many
+    recipients receive the messages they publish.
 </para>
 <para>
     CometD implements the <emphasis>hub-spoke</emphasis> topology.
@@ -247,7 +250,8 @@
     Only when a client session establishes the Bayeux communication with the server does the server create its
     correspondent server session, as well as the link between the two half-objects.
     Each server session has a message queue. Messages publish to a channel and must be delivered
-    to remote client sessions that subscribe to the channel. They are first queued into the server session's message queue, and then delivered to the correspondent client session.
+    to remote client sessions that subscribe to the channel. They are first queued into the server session's
+    message queue, and then delivered to the correspondent client session.
 </para>
 </listitem>
 <listitem>
@@ -365,7 +369,8 @@
     Applications use <emphasis>listeners</emphasis> to interact with sessions, channels and the server.
     The Java and JavaScript APIs allow applications to register different kinds of listeners that receive
     notifications of the correspondent events.
-    You can usefully think of extensions, security policies and authorizers as special types of listeners. The following sections treat them as such.
+    You can usefully think of extensions, security policies and authorizers as special types of listeners.
+    The following sections treat them as such.
 </para>
 <section>
 <info>
@@ -430,8 +435,8 @@ Examples of client session listeners include the following:
 </listitem>
 <listitem>
 <para>
-    <code>ServerSession</code> also allows you to add listeners that get notified when the session is removed (for example
-    because the client disconnects, or because the client disappears and therefore the server expires the
+    <code>ServerSession</code> also allows you to add listeners that get notified when the session is removed (for
+    example because the client disconnects, or because the client disappears and therefore the server expires the
     correspondent server session) via <code>ServerSession.addListener(ServerSession.RemoveListener)</code>,
     or listeners that can interact with the server session's message queue, or
     when a message is received by the server session (no matter on which channel) via
@@ -556,7 +561,8 @@ Examples of client session listeners include the following:
 <listitem>
 <para>
     The envelope travels back to the client, where the client transport receives it.
-    The client transport converts the messages from the JSON format back to message objects, for the Java client via a <code>JSONContext.Client</code> instance (see <xref linkend="java_json_api" />).
+    The client transport converts the messages from the JSON format back to message objects, for the Java client
+    via a <code>JSONContext.Client</code> instance (see <xref linkend="java_json_api" />).
 </para>
 </listitem>
 <listitem>
@@ -571,6 +577,65 @@ Examples of client session listeners include the following:
 </para>
 </section>
 
+<section xml:id="concepts_threading">
+<info>
+<title>Threading</title>
+</info>
+<para>
+    When Bayeux messages is received by the server, a thread is allocated to handle the messages,
+    and server-side listeners are invoked in this thread.
+    The CometD implementation does not spawn new threads to call server-side listeners;
+    in this way the threading model is kept simple and very similar to the Servlet threading model.
+</para>
+<para>
+    This simple threading model implies that if a server-side listener takes a long time to process the
+    message and to return control to the implementation, then the implementation cannot process the next
+    messages that may arrive, most often halting the whole server processing.
+</para>
+<para>
+    This is due to the fact that a Bayeux client uses a limited number of connections to interact with the
+    server. If a message sent to one connection takes a long time to be processed on the server, the client
+    may send additional messages on that connection, but those will not be processed until the previous
+    message processing ends.
+</para>
+<para>
+    It is therefore very important that if the application knows that a message may trigger a time consuming
+    task (for example a database query), it does so in a separate thread.
+</para>
+<para>
+    Services (see <xref linkend="java_server_services" />) are an easy way to setup server-side listeners
+    but share the same threading model with normal server-side listeners: if they need to perform time
+    consuming tasks, they need to do so in a separate thread, for example:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+@Service
+public class MyService
+{
+    @Inject
+    private BayeuxServer bayeuxServer;
+    @Session
+    private LocalSession localSession;
+
+    @Listener("/service/query")
+    public void processQuery(final ServerSession remoteSession, final ServerMessage message)
+    {
+        new Thread()
+        {
+            public void run()
+            {
+                Map<String, Object> data = performTimeConsumingTask(message);
+
+                // Send data to client once the time consuming task is finished
+                remoteSession.deliver(localSession, message.getChannel(), responseData, null);
+            }
+        }.start();
+    }
+}
+]]></programlisting>
+</informalexample>
+</section>
+
 <section>
 <info>
 <title>
@@ -578,7 +643,8 @@ Examples of client session listeners include the following:
 </title>
 </info>
 <para>
-    Now that you know that applications interact with CometD through listeners, and how both the client and the server process messages, you need to know what an application should do to interact with
+    Now that you know that applications interact with CometD through listeners, and how both the client and
+    the server process messages, you need to know what an application should do to interact with
     messages to perform its business logic.
 </para>
 
@@ -636,12 +702,15 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
     <para>Indirectly by using inherited services (see
     <xref linkend="java_server_services_inherited" />). You accomplish this by
     calling <code>AbstractService.addService(...),</code>
-    or via annotated services (see <xref linkend="java_server_services_annotated" />) using <code>@Listener</code> annotations.</para>
+    or via annotated services (see <xref linkend="java_server_services_annotated" />) using <code>@Listener</code>
+    annotations.</para>
 </listitem>
 </itemizedlist>
 <important>
 <para>
-    Applications that need to perform lengthy tasks in a server channel listener should do so in a separate thread to avoid blocking the processing of other incoming messages.
+    Applications that need to perform time consuming tasks in server-side listeners should do so
+    in a separate thread to avoid blocking the processing of other incoming messages
+    (see <xref linkend="concepts_threading" />).
 </para>
 </important>
 </section>
@@ -655,7 +724,8 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 <para>
     Broadcast messages arrive to the server and are delivered to all <code>ServerSessions</code> that subscribe
     to the message's channel.
-    Applications can interact with broadcast messages via server channel listeners (in the same way as with non-broadcast messages, see above), or by using a <code>LocalSession</code> that subscribes to the message's
+    Applications can interact with broadcast messages via server channel listeners (in the same way as with
+    non-broadcast messages, see above), or by using a <code>LocalSession</code> that subscribes to the message's
     channel.
     You can use this latter solution directly via the API at initialization time (see
     <xref linkend="java_server_services_integration" />), or indirectly via annotated services (see
@@ -663,8 +733,9 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </para>
 <important>
 <para>
-    Applications that need to perform lengthy tasks in subscription listener of a local session
-    should do so in a separate thread to avoid blocking the processing of other incoming messages.
+    Applications that need to perform time consuming tasks in server-side listeners
+    should do so in a separate thread to avoid blocking the processing of other incoming messages
+    (see <xref linkend="concepts_threading" />).
 </para>
 </important>
 </section>
