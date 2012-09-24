@@ -119,16 +119,17 @@
 </para>
 <para>
     For example, the parameter <code>timeout</code> has no prefix, and hence it is valid for all transports;
-    the parameter <code>long-polling.jsonp.timeout</code> overrides the <code>timeout</code> parameter for the
+    the parameter <code>callback-polling.jsonp.timeout</code> overrides the <code>timeout</code> parameter for the
     callback polling transport only, while <code>ws.timeout</code> overrides it for the websocket transport
     (see <classname>org.cometd.bayeux.Transport</classname>
     <link xl:href="http://download.cometd.org/bayeux-api/org/cometd/bayeux/Transport.html">javadocs</link> for details).
 </para>
 <para>
-    Here is the list of configuration init parameters that server transports accept:
+    Here is the list of configuration init parameters (to be specified in <code>web.xml</code>)
+    that different server transports accept:
 </para>
 <table>
-<caption>Server Transports Configuration Parameters</caption>
+<caption>Server Transports Common Configuration Parameters</caption>
 <thead>
 <tr>
   <th>Parameter Name</th>
@@ -146,11 +147,6 @@
   </td>
 </tr>
 <tr>
-  <td>ws.timeout</td>
-  <td>15000</td>
-  <td>Like the timeout parameter, but for the websocket transport.</td>
-</tr>
-<tr>
   <td>interval</td>
   <td>0</td>
   <td>
@@ -159,22 +155,12 @@
   </td>
 </tr>
 <tr>
-  <td>ws.interval</td>
-  <td>2500</td>
-  <td>Like the interval parameter, but for the websocket transport.</td>
-</tr>
-<tr>
   <td>maxInterval</td>
   <td>10000</td>
   <td>
       The maximum period of time, in milliseconds, that the server waits for a new long poll
       from a client before that client is considered invalid and is removed.
   </td>
-</tr>
-<tr>
-  <td>ws.maxInterval</td>
-  <td>15000</td>
-  <td>Like the maxInterval parameter, but for the websocket transport.</td>
 </tr>
 <tr>
   <td>maxLazyTimeout</td>
@@ -187,13 +173,26 @@
 <tr>
   <td>metaConnectDeliverOnly</td>
   <td>false</td>
-  <td>Whether the transport should deliver the messages only via long poll (enables strict message ordering).</td>
+  <td>
+      Whether the transport should deliver the messages only via long poll (enables strict message ordering).
+      Enabling this option allows for strict message ordering at the cost of a slightly chattier protocol
+      (because delivery via <code>/meta/connect</code> requires waking up the long poll).
+  </td>
 </tr>
+</tbody>
+</table>
+<?linebreak?>
+
+<table>
+<caption>Long Polling &amp; Callback Polling Server Transports Configuration Parameters</caption>
+<thead>
 <tr>
-  <td>jsonDebug</td>
-  <td>false</td>
-  <td>Whether or not the full JSON input should be kept for debugging purposes.</td>
+  <th>Parameter Name</th>
+  <th>Default Value</th>
+  <th>Parameter Description</th>
 </tr>
+</thead>
+<tbody>
 <tr>
   <td>maxSessionsPerBrowser</td>
   <td>1</td>
@@ -221,17 +220,60 @@
   </td>
 </tr>
 <tr>
-  <td>long-polling.json.metaConnectDeliverOnly</td>
-  <td>false</td>
+  <td>browserId</td>
+  <td>BAYEUX_BROWSER</td>
   <td>
-      Whether or not delivery of messages should only happen via <code>/meta/connect</code>.
-      Enabling this option allows for strict message ordering at the cost of a slightly chattier protocol
-      (because delivery via <code>/meta/connect</code> requires waking up the long poll).
+      The name of the cookie used to identify multiple sessions (see <xref linkend="java_server_multiple_sessions" />).
+  </td>
+</tr>
+</tbody>
+</table>
+<?linebreak?>
+
+<table>
+<caption>WebSocket Server Transport Configuration Parameters</caption>
+<thead>
+<tr>
+  <th>Parameter Name</th>
+  <th>Default Value</th>
+  <th>Parameter Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ws.messagesPerFrame</td>
+  <td>1</td>
+  <td>
+      How many Bayeux messages should be sent per WebSocket frame.
+      Setting this parameter too high may result in WebSocket frames that may be rejected by the recipient
+      because they are too big.
+  </td>
+</tr>
+<tr>
+  <td>ws.bufferSize</td>
+  <td>65536</td>
+  <td>
+      The size, in bytes, of the buffer used to read and write WebSocket frames.
+  </td>
+</tr>
+<tr>
+  <td>ws.maxMessageSize</td>
+  <td>65520</td>
+  <td>
+      The maximum size, in bytes, of an incoming WebSocket message.
+  </td>
+</tr>
+<tr>
+  <td>ws.idleTimeout</td>
+  <td>300000</td>
+  <td>
+      The idle timeout, in milliseconds, for the WebSocket connection.
   </td>
 </tr>
 </tbody>
 </table>
 </section>
+
 <section xml:id="java_server_configuration_advanced">
 <info>
     <title>Configuring the <code>CrossOriginFilter</code></title>
