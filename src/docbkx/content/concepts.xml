@@ -76,8 +76,6 @@
 <para>
     The application creates service channels and broadcast channels; an application can create as many as it needs,
     and can do so at any time.
-    A channel that starts with <code>/meta/</code> is a meta channel, a channel that starts with
-    <code>/service/</code> is a service channel, and all other channels are broadcast channels.
 </para>
 <section>
 <info>
