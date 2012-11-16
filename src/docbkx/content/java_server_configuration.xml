@@ -179,6 +179,16 @@
       (because delivery via <code>/meta/connect</code> requires waking up the long poll).
   </td>
 </tr>
+<tr>
+  <td>maxQueue</td>
+  <td>-1</td>
+  <td>
+      The maximum size of the <code>ServerSession</code> queue. A value of -1 means no queue size limit.
+      A positive value triggers the invocation of
+      <classname>org.cometd.bayeux.server.ServerSession.MaxQueueListener</classname>s when the max queue
+      size is exceeded.
+  </td>
+</tr>
 </tbody>
 </table>
 <?linebreak?>
