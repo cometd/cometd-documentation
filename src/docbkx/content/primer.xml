@@ -293,7 +293,7 @@ contextPath: '${pageContext.request.contextPath}'
 <informalexample>
 <programlisting language="javascript">
 <xi:include href=
-"https://github.com/cometd/cometd/raw/master/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js" parse="text" />
+"https://raw.github.com/cometd/cometd/2.5.x/cometd-archetypes/dojo-jetty7/src/main/resources/archetype-resources/src/main/webapp/application.js" parse="text" />
 </programlisting>
 </informalexample>
 <para>

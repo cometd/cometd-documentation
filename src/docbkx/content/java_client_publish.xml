@@ -8,7 +8,7 @@
     <title>Publishing</title>
 </info>
 <para>
-The following is a typical example of publishing a message on a channel:
+    The following is a typical example of publishing a message on a channel:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -18,19 +18,51 @@ client.handshake();
 
 Map<String, Object> data = new HashMap<String, Object>();
 // Fill in the data
+
 client.getChannel("/game/table/1").publish(data);
 ]]></programlisting>
 </informalexample>
 <para>
-Publishing data on a channel is an asynchronous operation.
+    Publishing data on a channel is an asynchronous operation.
 </para>
+<para>
+    When the message you published arrives to the server, the server replies to the client with a publish
+    acknowledgment; this allows clients to be sure that the message reached the server.
+    The publish acknowledgment arrives on the same channel the message was published to, with the same
+    message <code>id</code>, with a <code>successful</code> field.
+    If the message publish fails for any reason, for example because server cannot be reached, then a publish
+    failure will be emitted, similarly to publish acknowledgments.
+</para>
+<para>
+    In order to be notified of publish acknowledgments or failures, you can use this variant of the
+    <code>publish()</code> method:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+Map<String, Object> data = new HashMap<String, Object>();
+// Fill in the data
+
+client.getChannel("/game/table/1").publish(data, new ClientSessionChannel.MessageListener()
+{
+    @Override
+    public void onMessage(ClientSessionChannel channel, Message message)
+    {
+        if (message.isSuccessful())
+        {
+            // The message reached the server
+        }
+    }
+});
+]]></programlisting>
+</informalexample>
 <note>
 <para>
-Calling <code>publish()</code> <emphasis role="bold">does not</emphasis> mean that you have published the message when <code>publish()</code> returns.
+    Calling <code>publish()</code> <emphasis role="bold">does not</emphasis> mean that you have published
+    the message when <code>publish()</code> returns.
 </para>
 </note>
 <para>
-Message batching is also available:
+    Message batching is also available:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
@@ -55,8 +87,10 @@ client.batch (new Runnable()
 
 <warning>
 <para>
-The <code>ClientSession</code> API also allows you to batch using <code>startBatch()</code> and <code>endBatch()</code>, but remember to call <code>endBatch()</code> after having called <code>startBatch()</code>, for example in a final block.
-If you don't, your messages continue to queue up, and your application does not work as expected.
+    The <code>ClientSession</code> API also allows you to batch using <code>startBatch()</code> and
+    <code>endBatch()</code>, but remember to call <code>endBatch()</code> after having called
+    <code>startBatch()</code>, for example in a final block.
+    If you don't, your messages continue to queue up, and your application does not work as expected.
 </para>
 </warning>
 </section>
