@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
+                             http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
+         xml:id="contribute">
+<info>
+    <title>Contributing to CometD</title>
+</info>
+<para>
+    You can contribute to the CometD projects in several ways.
+    The CometD project values your contribution, of <emphasis>any</emphasis> kind, and participating
+    in mailing lists, submitting bugs or documentation enhancements is equally important as contributing code.
+</para>
+<section id="contribute_mailing_lists">
+<info>
+    <title>Contributing via Mailing Lists</title>
+</info>
+<para>
+    The simplest way to contribute to the CometD project is to subscribe to the CometD mailing lists.
+    There are two mailing lists:
+    <itemizedlist>
+        <listitem>
+            <para>
+                <emphasis role="strong">cometd-users@googlegroups.com</emphasis>, to
+                be used for discussions about how to use CometD. This is a low traffic mailing list.
+                To subscribe to this list, go to the
+                <link xl:href="http://groups.google.com/group/cometd-users/">mailing list home page</link>
+                and follow the instructions to apply for membership.
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                <emphasis role="strong">cometd-dev@googlegroups.com</emphasis>, to
+                be used for discussions about the CometD implementation. This is a low traffic mailing list.
+                To subscribe to this list, go to the
+                <link xl:href="http://groups.google.com/group/cometd-dev/">mailing list home page</link>
+                and follow the instructions to apply for membership.
+            </para>
+        </listitem>
+    </itemizedlist>
+    New members can join immediately the mailing list and receive messages, but their first post will be
+    subject to moderation. If you post for the first time, please allow some hour to moderators to review
+    the message and approve your post. This is done to reduce spam to the minimum possible.
+</para>
+</section>
+
+<section id="contribute_issue_reporting">
+<info>
+    <title>Contributing by Reporting Issues</title>
+</info>
+<para>
+    The CometD project maintains a <link xl:href="http://bugs.cometd.org">JIRA issue tracker</link> that
+    is used to submit issues about the CometD project, from bugs to feature requests, to documentation tasks,
+    etc. Virtually every activity is tracked in this JIRA instance.
+</para>
+<para>
+    In order to submit an issue, you must have a valid Dojo Foundation login.
+</para>
+<para>
+    If you do not have one already, you can create one by visiting
+    <link xl:href="http://my.dojofoundation.org/register">this link</link>.
+    Choose your username and password, follow the instructions, and once your account is created,
+    do not try to login to the Dojo foundation, as you do not need to.
+    Go back to JIRA and login to JIRA with the account you just created.
+</para>
+<para>
+    Once you are logged in into JIRA, you will be able to submit new issues and browse and comment existing ones.
+    JIRA is a very nice issue tracking tool, and you can customize to your needs.
+    For more information about JIRA, see the
+    <link xl:href="http://www.atlassian.com/software/jira">JIRA documentation</link>.
+</para>
+</section>
+
+<section id="contribute_code">
+<info>
+    <title>Contributing Code Fixes and Enhancements</title>
+</info>
+<para>
+    The CometD project code is hosted at <link xl:href="https://github.com/cometd">GitHub CometD Organization</link>.
+    The repository for the CometD libraries is
+    <link xl:href="https://github.com/cometd/cometd">https://github.com/cometd/cometd</link>.
+    You can build the CometD project yourself by following the instruction in <xref linkend="build" />.
+</para>
+<para>
+    In order to contribute code, you need to have a Contributor License Agreement (CLA) with the Dojo Foundation.
+</para>
+<para>
+    Don't worry ! It's easy and you can fill it online.
+    Since contributing code normally requires also interaction with JIRA, it is best if you already have a
+    Dojo Foundation account before filling the CLA. See <xref linkend="contribute_issue_reporting" /> for how
+    to create a Dojo Foundation account.
+</para>
+<para>
+    Go to the <link xl:href="http://dojofoundation.org/about/claForm">Dojo Foundation CLA online form</link>,
+    read it carefully and fill in the form at the bottom of the page.
+    Once you have the CLA in place, you can contribute code via
+    <link xl:href="https://help.github.com/articles/using-pull-requests">GitHub pull requests</link>.
+</para>
+</section>
+
+<section id="contribute_documentation">
+<info>
+    <title>Contributing to Documentation &amp; Tutorials</title>
+</info>
+<para>
+    The repository for the CometD documentation is
+    <link xl:href="https://github.com/cometd/cometd-documentation">https://github.com/cometd/cometd-documentation</link>,
+    while the repository for the CometD tutorials is
+    <link xl:href="https://github.com/cometd/cometd-tutorials">https://github.com/cometd/cometd-tutorials</link>.
+    The CometD documentation and tutorials are written in <link xl:href="http://www.docbook.org/">DocBook</link>,
+    and built using Maven.
+</para>
+<para>
+    There is no need for a Contributor License Agreement to contribute fixes or enhancements to the documentation
+    or the tutorials, you can just contribute via
+    <link xl:href="https://help.github.com/articles/using-pull-requests">GitHub pull requests</link>.
+</para>
+</section>
+</chapter>
