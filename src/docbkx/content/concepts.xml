@@ -15,7 +15,7 @@
     scalable web messaging system, one that can run over HTTP or over other emerging web protocols such as
     <link xl:href="http://en.wikipedia.org/wiki/WebSocket">WebSocket</link>.
 </para>
-<section>
+<section id="concepts_definitions">
 <info>
     <title>Definitions</title>
 </info>
@@ -77,7 +77,7 @@
     The application creates service channels and broadcast channels; an application can create as many as it needs,
     and can do so at any time.
 </para>
-<section>
+<section id="concepts_channels_meta">
 <info>
     <title>Meta Channels</title>
 </info>
@@ -90,7 +90,7 @@
 </para>
 </section>
 
-<section>
+<section id="concepts_channels_service">
 <info>
     <title>Service Channels</title>
 </info>
@@ -101,7 +101,7 @@
 </para>
 </section>
 
-<section>
+<section id="concepts_channels_broadcast">
 <info>
     <title>Broadcast Channels</title>
 </info>
@@ -112,7 +112,7 @@
 </para>
 </section>
 
-<section>
+<section id="concepts_channels_wild">
 <info>
     <title>Use of Wildcards in Channels</title>
 </info>
@@ -130,7 +130,7 @@
 </section>
 </section>
 
-<section>
+<section id="concepts_high_level">
 <info>
     <title>The High Level View</title>
 </info>
@@ -183,7 +183,7 @@
 </para>
 </section>
 
-<section>
+<section id="concepts_low_level">
 <info>
     <title>The Lower Level View</title>
 </info>
@@ -285,7 +285,7 @@
 </itemizedlist>
 </section>
 
-<section>
+<section id="concepts_server">
 <info>
     <title>The Server</title>
 </info>
@@ -359,7 +359,7 @@
 </itemizedlist>
 </section>
 
-<section>
+<section id="concepts_listeners">
 <info>
     <title>Listeners</title>
 </info>
@@ -370,7 +370,7 @@
     You can usefully think of extensions, security policies and authorizers as special types of listeners.
     The following sections treat them as such.
 </para>
-<section>
+<section id="concepts_listeners_client">
 <info>
     <title>Client Sessions and Listeners</title>
 </info>
@@ -394,7 +394,7 @@ Examples of client session listeners include the following:
 </listitem>
 </itemizedlist>
 </section>
-<section>
+<section id="concepts_listeners_server">
 <info>
     <title> Servers and Listeners</title>
 </info>
@@ -433,11 +433,23 @@ Examples of client session listeners include the following:
 </listitem>
 <listitem>
 <para>
-    <code>ServerSession</code> also allows you to add listeners that get notified when the session is removed (for
+    <code>ServerSession</code> allows you to add listeners that get notified when the session is removed (for
     example because the client disconnects, or because the client disappears and therefore the server expires the
-    correspondent server session) via <code>ServerSession.addListener(ServerSession.RemoveListener)</code>,
-    or listeners that can interact with the server session's message queue, or
-    when a message is received by the server session (no matter on which channel) via
+    correspondent server session) via <code>ServerSession.addListener(ServerSession.RemoveListener)</code>.
+</para>
+</listitem>
+<listitem>
+<para>
+    <code>ServerSession</code> allows you add listeners that can interact with the server session's message queue
+    for example to detect whether the queue is too big via
+    <code>ServerSession.addListener(ServerSession.MaxQueueListener)</code>, or to add/remove/coalesce messages
+    just before they are sent via <code>ServerSession.addListener(ServerSession.DeQueueListener)</code>.
+</para>
+</listitem>
+<listitem>
+<para>
+    <code>ServerSession</code> allows you add listeners that get notified when a message is received by the
+    server session (no matter on which channel) via
     <code>ServerSession.addListener(ServerSession.MessageListener)</code>.
 </para>
 </listitem>
@@ -634,7 +646,7 @@ public class MyService
 </informalexample>
 </section>
 
-<section>
+<section id="concepts_application">
 <info>
 <title>
     Application Interaction
@@ -646,7 +658,7 @@ public class MyService
     messages to perform its business logic.
 </para>
 
-<section>
+<section id="concepts_application_authentication">
 <info>
 <title>Server-side Authentication</title>
 </info>
@@ -677,7 +689,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </informalexample>
 </section>
 
-<section>
+<section id="concepts_application_unicast_messages">
 <info>
 <title>
     Interacting with Meta and Service Messages
@@ -713,7 +725,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </important>
 </section>
 
-<section>
+<section id="concepts_application_broadcast_messages">
 <info>
 <title>
     Interacting with Broadcast Messages
@@ -738,7 +750,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 </important>
 </section>
 
-<section>
+<section id="concepts_application_peer_communication">
 <info>
 <title>
     Communicating with a Specific Remote Client
@@ -793,7 +805,7 @@ public class PrivateMessageService
 </informalexample>
 </section>
 
-<section>
+<section id="concepts_application_broadcast_communication">
 <info>
 <title>
     Server-side Message Broadcasting
@@ -877,6 +889,6 @@ public class ExternalEventBroadcaster
     A client can publish messages containing application-specific data at any time while it is connected,
     and to any broadcast channel (even if it is not subscribed to that channel).
 </para>
-</section>pd
+</section>
 </section>
 </chapter>
