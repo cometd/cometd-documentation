@@ -13,7 +13,7 @@
     Classes annotated with <code>@Service</code> qualify as annotated services, both on the client-side and on
     the server-side. Support for annotated services is available beginning with CometD 2.1.0.
 </para>
-<section>
+<section xml:id="java_server_services_annotated_server_side">
 <info>
     <title>Server-Side Annotated Services</title>
 </info>
@@ -39,6 +39,10 @@
     Now annotated server-side services offer full support for CometD features, and limited support for dependency
     injection and lifecycle management via the <classname>org.cometd.annotation.ServerAnnotationProcessor</classname>
     class.
+</para>
+<para>
+    Annotated service instances are stored in the servlet context under the key that correspond to their full
+    qualified class name.
 </para>
 <section>
 <info>
@@ -350,7 +354,7 @@ processor.process(service);
 </section>
 </section>
 
-<section xml:id="java_server_services_annotated_client-side">
+<section xml:id="java_server_services_annotated_client_side">
 <info>
     <title>Client-Side Annotated Services</title>
 </info>

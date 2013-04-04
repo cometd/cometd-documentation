@@ -3,8 +3,7 @@
          xmlns="http://docbook.org/ns/docbook"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
-                             http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd"
          xml:id="java_server">
 <info>
     <title>Server Library</title>
@@ -38,5 +37,6 @@
 <xi:include href="java_server_context.xml" />
 <xi:include href="java_server_lazy_messages.xml" />
 <xi:include href="java_server_multiple_sessions.xml" />
+<xi:include href="java_server_jmx.xml" />
 
 </section>
