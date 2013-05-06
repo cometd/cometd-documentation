@@ -242,6 +242,7 @@ cometd.onExtensionException = function(exception, extensionName, outgoing, messa
 </para>
 </section>
 
+<xi:include href="extensions_activity.xml" />
 <xi:include href="extensions_acknowledge.xml" />
 <xi:include href="extensions_reload.xml" />
 <xi:include href="extensions_timestamp.xml" />
