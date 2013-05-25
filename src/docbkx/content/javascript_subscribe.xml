@@ -86,16 +86,15 @@
 </para>
 <itemizedlist>
 <listitem>
-    <para>Must be used to listen to meta channel messages.</para>
+<para>Must be used to listen to meta channel messages.</para>
 </listitem>
 <listitem>
 <para>
-    May be used to listen to service channel messages (you can also use <code>subscribe()</code>,
-    but we do not recommend it).
+    May be used to listen to service channel messages.
 </para>
 </listitem>
 <listitem>
-    <para>Should not be used to listen broadcast channel messages (use <code>subscribe()</code> instead). </para>
+<para>Should not be used to listen broadcast channel messages (use <code>subscribe()</code> instead).</para>
 </listitem>
 <listitem>
 <para>
@@ -104,34 +103,35 @@
 </para>
 </listitem>
 <listitem>
-    <para>Is synchronous: when it returns, you are guaranteed that the listener has been added.</para>
+<para>Is synchronous: when it returns, you are guaranteed that the listener has been added.</para>
 </listitem>
 </itemizedlist>
 <para>
     The <code>subscribe()</code> method:
 </para>
 <itemizedlist>
-    <listitem>
-        <para>Must not be used to listen to meta channels messages (if attempted, the server returns an error).</para>
-    </listitem>
-    <listitem>
-        <para>May be used to listen to service channel messages (you can also use<code>addListener()</code>, which is
-            preferred).
-        </para>
-    </listitem>
-    <listitem>
-        <para>Should be used to listen to broadcast channel messages.</para>
-    </listitem>
-    <listitem>
-        <para>Involves a communication with the Bayeux server and as such cannot be called before calling
-            <code>handshake().</code>
-        </para>
-    </listitem>
-    <listitem>
-        <para>Is asynchronous: it returns immediately, well before the Bayeux server has received the subscription
-            request.
-        </para>
-    </listitem>
+<listitem>
+<para>Must not be used to listen to meta channels messages (if attempted, the server returns an error).</para>
+</listitem>
+<listitem>
+<para>May be used to listen to service channel messages.
+</para>
+</listitem>
+<listitem>
+<para>Should be used to listen to broadcast channel messages.</para>
+</listitem>
+<listitem>
+<para>
+    Involves a communication with the Bayeux server and as such cannot be called before calling
+    <code>handshake().</code>
+</para>
+</listitem>
+<listitem>
+<para>
+    Is asynchronous: it returns immediately, well before the Bayeux server has received the subscription
+    request.
+</para>
+</listitem>
 </itemizedlist>
 <note>
 <para>
@@ -155,18 +155,64 @@ cometd.removeListener(subscription1);
 ]]></programlisting>
 </informalexample>
 <para>
-    A good place in the code to perform subscriptions is in a <code>/meta/handshake</code> listener.
+    The major difference between listeners and subscribers is that subscribers are automatically removed
+    upon re-handshake, while listeners are not modified by a re-handshake.
+    When a client subscribes to a channel, the server maintains a client-specific server-side subscription state.
+    If the server requires a re-handshake, it means that it lost the state for that client, and therefore
+    also the server-side subscription state.
+    In order to maintain the client-side state consistent with that of the server, subscriptions - but not listeners -
+    are automatically removed upon re-handshake.
+</para>
+<para>
+    A good place in the code to perform subscriptions is in a <code>/meta/handshake</code> function.
     Since <code>/meta/handshake</code> listener are invoked in both explicit handshakes the client performs
     and in re-handshakes the server triggers, it is guaranteed that your subscriptions are always
-    performed properly.
+    performed properly and kept consistent with the server state.
 </para>
 <para>
     Applications do not need to unsubscribe in case of re-handshake; the CometD library takes care of removing
-    all subscriptions upon re-handshake, so that when the <code>/meta/handshake</code> listener executes again
+    all subscriptions upon re-handshake, so that when the <code>/meta/handshake</code> function executes again
     the subscriptions are correctly restored (and not duplicated).
 </para>
 <para>
-    In cases where the Bayeux server is not reachable (due to network failures or because the server crashed), <code>subscribe()</code> and <code>unsubscribe()</code> behave as follows:
+    For the same reason, you should never add listeners inside a <code>/meta/handshake</code> function,
+    because this will add another listener without removing the previous one, resulting in multiple notifications
+    of the same messages.
+</para>
+<informalexample>
+<programlisting language="javascript">
+var _reportListener;
+cometd.addListener('/meta/handshake', function(message)
+{
+    // Only subscribe if the handshake is successful
+    if (message.successful)
+    {
+        // Batch all subscriptions together
+        cometd.batch(function()
+        {
+            // Correct to subscribe to broadcast channels
+            cometd.subscribe('/members', function(m) { ... });
+
+            // Correct to subscribe to service channels
+            cometd.subscribe('/service/status', function(m) { ... });
+
+            // Messy to add listeners after removal, prefer using cometd.subscribe(...)
+            if (_reportListener)
+            {
+                cometd.removeListener(_reportListener);
+                _reportListener = cometd.addListener('/service/report', function(m) { ... });
+            }
+
+            // Wrong to add listeners without removal
+            <emphasis role="strike">cometd.addListener('/service/notification', function(m) { ... });</emphasis>
+        });
+    }
+});
+</programlisting>
+</informalexample>
+<para>
+    In cases where the Bayeux server is not reachable (due to network failures or because the server crashed),
+    <code>subscribe()</code> and <code>unsubscribe()</code> behave as follows:
 </para>
     <itemizedlist>
     <listitem>

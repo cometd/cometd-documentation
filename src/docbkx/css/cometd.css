@@ -111,6 +111,11 @@ td
     padding: 0 20px;
 }
 
+.strike
+{
+    text-decoration: line-through;
+}
+
 .toc, .list-of-tables, .copyright, .legalnotice
 {
     font-size: smaller;
