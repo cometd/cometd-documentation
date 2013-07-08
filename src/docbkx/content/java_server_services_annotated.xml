@@ -369,7 +369,7 @@ processor.process(service);
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th>Inherited Style</th>
+<th>Traditional Style</th>
 </tr>
 </thead>
 <tbody>
@@ -477,7 +477,7 @@ public class Service
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th>Inherited Style</th>
+<th>Traditional Style</th>
 </tr>
 </thead>
 <tbody>
@@ -527,7 +527,7 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
 <thead>
 <tr>
 <th>Annotated Style</th>
-<th>Inherited Style</th>
+<th>Traditional Style</th>
 </tr>
 </thead>
 <tbody>
