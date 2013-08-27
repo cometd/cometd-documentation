@@ -16,11 +16,15 @@
         <firstname>Simone</firstname>
         <surname>Bordet</surname>
     </personname>
+    <affiliation>
+          <shortaffil>CometD</shortaffil>
+          <jobtitle>Project Lead</jobtitle>
+    </affiliation>
 </author>
 </authorgroup>
 
 <copyright>
-    <year>2011</year>
+    <year>2013</year>
     <holder>The Original Author(s)</holder>
 </copyright>
 
