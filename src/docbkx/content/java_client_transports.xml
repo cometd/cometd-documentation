@@ -53,84 +53,91 @@ client.handshake();
     Below you can find the parameters that are common to all transports, and those specific for each transport.
 </para>
 
-<table>
-<caption>Client Transports Common Parameters</caption>
-<thead>
-<tr>
-    <th>Parameter Name</th>
-    <th>Required</th>
-    <th>Default Value</th>
-    <th>Parameter Description</th>
-</tr>
+<table xml:id="client-transport-common-parameters">
+<title>Client Transports Common Parameters</title>
+<tgroup cols="4">
+  <thead>
+    <row>
+      <entry>Parameter Name</entry>
+      <entry>Required</entry>
+      <entry>Default Value</entry>
+      <entry>Parameter Description</entry>
+    </row>
 </thead>
 <tbody>
-<tr>
-    <td>jsonContext</td>
-    <td>no</td>
-    <td>org.cometd.common.JettyJSONContextClient</td>
-    <td>The <code>JSONContext.Client</code> class name (see <xref linkend="java_json" />)</td>
-</tr>
+  <row>
+    <entry>jsonContext</entry>
+    <entry>no</entry>
+    <entry>org.cometd.common.JettyJSONContextClient</entry>
+    <entry>The <code>JSONContext.Client</code> class name (see <xref linkend="java_json" />)</entry>
+</row>
 </tbody>
+</tgroup>
+</table>
+
+<?linebreak?>
+
+<table xml:id="long-polling-client-transport-parameters">
+<title>Long Polling Client Transport Parameters</title>
+<tgroup cols="4">
+<thead>
+<row>
+    <entry>Parameter Name</entry>
+    <entry>Required</entry>
+    <entry>Default Value</entry>
+    <entry>Parameter Description</entry>
+</row>
+</thead>
+<tbody>
+<row>
+    <entry>maxNetworkDelay</entry>
+    <entry>no</entry>
+    <entry><code>HttpClient</code>'s <code>timeout</code></entry>
+    <entry>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</entry>
+</row>
+</tbody>
+</tgroup>
 </table>
 <?linebreak?>
 
 <table>
-<caption>Long Polling Client Transport Parameters</caption>
+<title>WebSocket Client Transport Parameters</title>
+<tgroup cols="4">
 <thead>
-<tr>
-    <th>Parameter Name</th>
-    <th>Required</th>
-    <th>Default Value</th>
-    <th>Parameter Description</th>
-</tr>
+<row>
+    <entry>Parameter Name</entry>
+    <entry>Required</entry>
+    <entry>Default Value</entry>
+    <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-    <td>maxNetworkDelay</td>
-    <td>no</td>
-    <td><code>HttpClient</code>'s <code>timeout</code></td>
-    <td>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</td>
-</tr>
+<row>
+    <entry>maxNetworkDelay</entry>
+    <entry>no</entry>
+    <entry>15000</entry>
+    <entry>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</entry>
+</row>
+<row>
+    <entry>connectTimeout</entry>
+    <entry>no</entry>
+    <entry>30000</entry>
+    <entry>The maximum number of milliseconds to wait for a WebSocket connection to be opened.</entry>
+</row>
+<row>
+    <entry>idleTimeout</entry>
+    <entry>no</entry>
+    <entry>60000</entry>
+    <entry>The maximum number of milliseconds a WebSocket connection is kept idle before being closed.</entry>
+</row>
+<row>
+    <entry>maxMessageSize</entry>
+    <entry>no</entry>
+    <entry>8192</entry>
+    <entry>The maximum number of bytes allowed for each WebSocket message.</entry>
+</row>
 </tbody>
-</table>
-<?linebreak?>
-
-<table>
-<caption>WebSocket Client Transport Parameters</caption>
-<thead>
-<tr>
-    <th>Parameter Name</th>
-    <th>Required</th>
-    <th>Default Value</th>
-    <th>Parameter Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-    <td>maxNetworkDelay</td>
-    <td>no</td>
-    <td>15000</td>
-    <td>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</td>
-</tr>
-<tr>
-    <td>connectTimeout</td>
-    <td>no</td>
-    <td>30000</td>
-    <td>The maximum number of milliseconds to wait for a WebSocket connection to be opened.</td>
-</tr>
-<tr>
-    <td>idleTimeout</td>
-    <td>no</td>
-    <td>60000</td>
-    <td>The maximum number of milliseconds a WebSocket connection is kept idle before being closed.</td>
-</tr>
-<tr>
-    <td>maxMessageSize</td>
-    <td>no</td>
-    <td>8192</td>
-    <td>The maximum number of bytes allowed for each WebSocket message.</td>
-</tr>
-</tbody>
+</tgroup>
 </table>
 
 </section>

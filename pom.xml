@@ -16,12 +16,12 @@
                 <artifactId>docbkx-maven-plugin</artifactId>
                 <version>2.0.13</version>
                 <executions>
+                    
                     <execution>
                         <id>reference</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>generate-xhtml</goal>
-                            <goal>generate-html</goal>
                         </goals>
                         <configuration>
                             <includes>book.xml</includes>
@@ -42,6 +42,7 @@
                             </postProcess>
                         </configuration>
                     </execution>
+                    
                     <execution>
                         <id>html</id>
                         <phase>compile</phase>

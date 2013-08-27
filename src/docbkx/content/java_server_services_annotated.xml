@@ -63,15 +63,16 @@
     containers and a minimal support for required CometD objects (such as the BayeuxServer instance).
 </para>
 <informaltable>
+<tgroup cols="2">
 <thead>
-<tr>
-<th>Annotated Style</th>
-<th>Inherited Style</th>
-</tr>
+<row>
+<entry>Annotated Style</entry>
+<entry>Inherited Style</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-<td>
+<row>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 @org.cometd.annotation.Service("echoService")
@@ -82,8 +83,8 @@ public class EchoService
 }
 ]]></programlisting>
 </informalexample>
-</td>
-<td>
+</entry>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 public class EchoService extends AbstractService
@@ -95,9 +96,10 @@ public class EchoService extends AbstractService
 }
 ]]></programlisting>
 </informalexample>
-</td>
-</tr>
+</entry>
+</row>
 </tbody>
+</tgroup>
 </informaltable>
 <para>
     The service class is annotated with <code>@Service</code> and specifies the (optional) service name "echoService".
@@ -220,14 +222,14 @@ public class EchoService
 </para>
 <informaltable>
 <thead>
-<tr>
-<th>Annotated Style</th>
-<th>Inherited Style</th>
-</tr>
+<row>
+<entry>Annotated Style</entry>
+<entry>Inherited Style</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-<td>
+<row>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 @Service("echoService")
@@ -248,8 +250,8 @@ public class EchoService
 }
 ]]></programlisting>
 </informalexample>
-</td>
-<td>
+</entry>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 public class EchoService extends AbstractService
@@ -269,8 +271,8 @@ public class EchoService extends AbstractService
 }
 ]]></programlisting>
 </informalexample>
-</td>
-</tr>
+</entry>
+</row>
 </tbody>
 </informaltable>
 <para>
@@ -366,15 +368,16 @@ processor.process(service);
     We have introduced client-side services to reduce the boilerplate code required:
 </para>
 <informaltable>
+<tgroup cols="2">
 <thead>
-<tr>
-<th>Annotated Style</th>
-<th>Traditional Style</th>
-</tr>
+<row>
+<entry>Annotated Style</entry>
+<entry>Traditional Style</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-<td>
+<row>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 @Service
@@ -397,8 +400,8 @@ public class Service
 }
 ]]></programlisting>
 </informalexample>
-</td>
-<td>
+</entry>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 ClientSession bayeuxClient = ...;
@@ -423,9 +426,10 @@ bayeuxClient.getChannel("/foo").subscribe(new ClientSessionChannel.MessageListen
 });
 ]]></programlisting>
 </informalexample>
-</td>
-</tr>
+</entry>
+</row>
 </tbody>
+</tgroup>
 </informaltable>
 
 <section>
@@ -474,15 +478,16 @@ public class Service
     Do not use listener callbacks to subscribe to broadcast channels.
 </para>
 <informaltable>
+<tgroup cols="2">
 <thead>
-<tr>
-<th>Annotated Style</th>
-<th>Traditional Style</th>
-</tr>
+<row>
+<entry>Annotated Style</entry>
+<entry>Traditional Style</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-<td>
+<row>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 @Service
@@ -496,8 +501,8 @@ public class Service
 }
 ]]></programlisting>
 </informalexample>
-</td>
-<td>
+</entry>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener()
@@ -509,9 +514,10 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
 });
 ]]></programlisting>
 </informalexample>
-</td>
-</tr>
+</entry>
+</row>
 </tbody>
+</tgroup>
 </informaltable>
 </section>
 
@@ -524,15 +530,16 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
     called upon receipt of messages on broadcast channels.
 </para>
 <informaltable>
+<tgroup cols="2">
 <thead>
-<tr>
-<th>Annotated Style</th>
-<th>Traditional Style</th>
-</tr>
+<row>
+<entry>Annotated Style</entry>
+<entry>Traditional Style</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-<td>
+<row>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 @Service
@@ -546,8 +553,8 @@ public class Service
 }
 ]]></programlisting>
 </informalexample>
-</td>
-<td>
+</entry>
+<entry>
 <informalexample>
 <programlisting language="java"><![CDATA[
 bayeuxClient.getChannel("/foo/*").subscribe(new ClientSessionChannel.MessageListener()
@@ -559,9 +566,10 @@ bayeuxClient.getChannel("/foo/*").subscribe(new ClientSessionChannel.MessageList
 });
 ]]></programlisting>
 </informalexample>
-</td>
-</tr>
+</entry>
+</row>
 </tbody>
+</tgroup>
 </informaltable>
 </section>
 <section>
