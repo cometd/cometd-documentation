@@ -221,6 +221,7 @@ public class EchoService
     The callback method must have the following signature, or a covariant version of it:
 </para>
 <informaltable>
+<tgroup cols="2">
 <thead>
 <row>
 <entry>Annotated Style</entry>
@@ -274,6 +275,7 @@ public class EchoService extends AbstractService
 </entry>
 </row>
 </tbody>
+</tgroup>
 </informaltable>
 <para>
     The callback method can return false to indicate that the processing of subsequent listeners should not be

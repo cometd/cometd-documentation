@@ -34,7 +34,7 @@
 </para>
 
 <xi:include href="java_server_services_inherited.xml" />
-<!--<xi:include href="java_server_services_annotated.xml" />-->
+<xi:include href="java_server_services_annotated.xml" />
 <xi:include href="java_server_services_integration.xml" />
 <xi:include href="java_server_services_integration_spring.xml" />
 

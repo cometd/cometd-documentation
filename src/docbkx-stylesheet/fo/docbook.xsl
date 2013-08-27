@@ -18,7 +18,7 @@
   <xsl:import href="urn:docbkx:stylesheet/highlight.xsl"/>
   <xsl:param name="highlight.source" select="1"/>
 
-  <xsl:param name="img.src.path">target/docbkx/pdf/</xsl:param>
+  <xsl:param name="img.src.path">target/docbkx/pdf/images/</xsl:param>
   <xsl:param name="keep.relative.image.uris">false</xsl:param>
 
 
@@ -149,7 +149,6 @@
   <xsl:apply-templates mode="book.titlepage.recto.auto.mode" select="d:info/d:authorgroup"/>
   
   <xsl:apply-templates mode="book.titlepage.mode" select="d:info/d:revhistory"/>
-
 </xsl:template>
 
 <!--
