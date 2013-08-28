@@ -52,18 +52,25 @@
                         <configuration>
                             <includes>book.xml</includes>
                             <chunkedOutput>false</chunkedOutput>
-                            <htmlStylesheet>cometd.css</htmlStylesheet>
+                            <htmlStylesheet>css/cometd.css</htmlStylesheet>
                              <htmlCustomization>${basedir}/src/docbkx-stylesheet/html/docbook.xsl</htmlCustomization>
                             <chunkedOutput>true</chunkedOutput>
                             <postProcess>
-                                <copy todir="${project.build.directory}/docbkx/html">
+                                <copy todir="${project.build.directory}/docbkx/html/book/css">
                                     <fileset dir="src/docbkx/css">
                                         <include name="*.css" />
                                     </fileset>
                                 </copy>
-                                <copy todir="${project.build.directory}/docbkx/html">
+                                <copy todir="${project.build.directory}/docbkx/html/book/font">
+                                    <fileset dir="src/docbkx/font">
+                                    </fileset>
+                                </copy>
+                                <copy todir="${project.build.directory}/docbkx/html/book/js">
+                                    <fileset dir="src/docbkx/js">
+                                    </fileset>
+                                </copy>
+                                <copy todir="${project.build.directory}/docbkx/html/book/images">
                                     <fileset dir="src/docbkx/images">
-                                        <include name="*.*" />
                                     </fileset>
                                 </copy>
                             </postProcess>

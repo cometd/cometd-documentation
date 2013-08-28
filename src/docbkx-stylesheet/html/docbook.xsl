@@ -148,24 +148,25 @@ xmlns:date="http://exslt.org/dates-and-times"
     <table>
       <tr>
         <td style="width: 25%">
-          <a href="http://www.eclipse.org/jetty"><img src="images/jetty-header-logo.png" alt="Jetty Logo"></img></a>
+          <a href="http://www.cometd.org/"><img src="images/cometd-header-logo.png" alt="CometD Logo"></img></a>
           <br/>
-         
+         <!--
           <span style="font-size: small">
             Version: <xsl:value-of select="/d:book/d:info/d:revhistory/d:revision[1]/d:revnumber"/>
           </span>
-        
+        -->
         </td>
         <td style="width: 50%">
-          <script type="text/javascript">  (function() {
-            var cx = '016459005284625897022:obd4lsai2ds';
-            var gcse = document.createElement('script');
-            gcse.type = 'text/javascript';
-            gcse.async = true;
-            gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-            '//www.google.com/cse/cse.js?cx=' + cx;
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(gcse, s);
+          <script>
+            (function() {
+              var cx = '016459005284625897022:cerl6-injdw';
+              var gcse = document.createElement('script');
+              gcse.type = 'text/javascript';
+              gcse.async = true;
+              gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+              '//www.google.com/cse/cse.js?cx=' + cx;
+              var s = document.getElementsByTagName('script')[0];
+              s.parentNode.insertBefore(gcse, s);
             })();
           </script>
           <gcse:search></gcse:search>
@@ -177,9 +178,9 @@ xmlns:date="http://exslt.org/dates-and-times"
   <xsl:template name="user.header.content">
     <!-- Include required JS files -->
 
-    <div class="jetty-callout">
+    <div class="cometd-callout">
       <h5 class="callout">
-        <a href="http://www.webtide.com/support.jsp">Contact the core Jetty developers at
+        <a href="http://www.webtide.com/support.jsp">Contact the core CometD developers at
           <span class="website">www.webtide.com</span>
         </a>
       </h5>
@@ -189,6 +190,7 @@ xmlns:date="http://exslt.org/dates-and-times"
       </p>
    </div>
 
+    <!--
      <xsl:if test="ancestor-or-self::*[@status][1]/@status = 'draft'">
         <div class="draft">
           <h5>DRAFT</h5>
@@ -206,6 +208,7 @@ xmlns:date="http://exslt.org/dates-and-times"
           </p>
         </div>
     </xsl:if>
+  -->
   </xsl:template>
 
   <xsl:template name="user.footer.content">
@@ -222,10 +225,10 @@ xmlns:date="http://exslt.org/dates-and-times"
   <xsl:template name="user.footer.navigation">
     
       <p>
-            <div class="jetty-callout">
+            <div class="cometd-callout">
             See an error or something missing?
             <span class="callout">
-              <a href="http://github.com/jetty-project/jetty-documentation">Contribute to this documentation at
+              <a href="http://github.com/cometd/cometd-documentation">Contribute to this documentation at
                 <span class="website"><i class="icon-github"></i> Github!</span>
               </a>
             </span>
@@ -237,7 +240,7 @@ xmlns:date="http://exslt.org/dates-and-times"
 
     <script type="text/javascript">
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-1149868-7']);
+  _gaq.push(['_setAccount', 'UA-11897685-1']);
   _gaq.push(['_trackPageview']);
 
   (function() {
@@ -291,6 +294,10 @@ xmlns:date="http://exslt.org/dates-and-times"
       <xsl:variable name="brushstyle">;toolbar: false<xsl:copy-of select="$highlight"/><xsl:copy-of select="$startinglinenumber"/><xsl:copy-of select="$linenumbering"/></xsl:variable>
 
       <xsl:choose>
+        <xsl:when test="@language='javascript'">
+          <xsl:attribute name="class">brush: javascript<xsl:copy-of select="$brushstyle"/></xsl:attribute>
+          &lt;![CDATA[<xsl:value-of select="text()"/>]]&gt;
+        </xsl:when>
         <xsl:when test="@language='bash'">
           <xsl:attribute name="class">brush: bash<xsl:copy-of select="$brushstyle"/></xsl:attribute>
           &lt;![CDATA[<xsl:value-of select="text()"/>]]&gt;
