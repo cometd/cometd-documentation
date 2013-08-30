@@ -69,7 +69,7 @@
                                     <fileset dir="src/docbkx/js">
                                     </fileset>
                                 </copy>
-                                <copy todir="${project.build.directory}/docbkx/html/book/images">
+                                <copy todir="${project.build.directory}/docbkx/html/book">
                                     <fileset dir="src/docbkx/images">
                                     </fileset>
                                 </copy>

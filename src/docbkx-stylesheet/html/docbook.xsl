@@ -295,7 +295,7 @@ xmlns:date="http://exslt.org/dates-and-times"
 
       <xsl:choose>
         <xsl:when test="@language='javascript'">
-          <xsl:attribute name="class">brush: javascript<xsl:copy-of select="$brushstyle"/></xsl:attribute>
+          <xsl:attribute name="class">brush: jscript<xsl:copy-of select="$brushstyle"/></xsl:attribute>
           &lt;![CDATA[<xsl:value-of select="text()"/>]]&gt;
         </xsl:when>
         <xsl:when test="@language='bash'">
