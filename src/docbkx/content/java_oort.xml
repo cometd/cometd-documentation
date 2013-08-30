@@ -54,7 +54,7 @@
 <mediaobject>
     <alt>Typical Oort Infrastructure</alt>
     <imageobject>
-        <imagedata fileref="oort_infrastructure.png" />
+        <imagedata align="center" fileref="oort_infrastructure.png" format="PNG" width="3in" />
     </imageobject>
 </mediaobject>
 </section>
@@ -118,49 +118,51 @@ There are two ways for a new comet to discover at least one other comet:
 </para>
 <table>
 <caption>Oort Common Configuration Parameters</caption>
+<tgroup cols="4">
 <thead>
-<tr>
-    <th>Parameter Name</th>
-    <th>Required</th>
-    <th>Default Value</th>
-    <th>Parameter Description</th>
-</tr>
+<row>
+    <entry>Parameter Name</entry>
+    <entry>Required</entry>
+    <entry>Default Value</entry>
+    <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-    <td>oort.url</td>
-    <td>Y</td>
-    <td>N/A</td>
-    <td>The unique URL of the Bayeux server associated to the Oort comet</td>
-</tr>
-<tr>
-    <td>oort.secret</td>
-    <td>N</td>
-    <td>random string</td>
-    <td>The pre-shared secret that authenticates connections from other Oort comets</td>
-</tr>
-<tr>
-    <td>oort.channels</td>
-    <td>N</td>
-    <td>empty string</td>
-    <td>A comma-separated list of channels to observe at startup</td>
-</tr>
-<tr>
-    <td>enableAckExtension</td>
-    <td>N</td>
-    <td>false</td>
-    <td>
+<row>
+    <entry>oort.url</entry>
+    <entry>Y</entry>
+    <entry>N/A</entry>
+    <entry>The unique URL of the Bayeux server associated to the Oort comet</entry>
+</row>
+<row>
+    <entry>oort.secret</entry>
+    <entry>N</entry>
+    <entry>random string</entry>
+    <entry>The pre-shared secret that authenticates connections from other Oort comets</entry>
+</row>
+<row>
+    <entry>oort.channels</entry>
+    <entry>N</entry>
+    <entry>empty string</entry>
+    <entry>A comma-separated list of channels to observe at startup</entry>
+</row>
+<row>
+    <entry>enableAckExtension</entry>
+    <entry>N</entry>
+    <entry>false</entry>
+    <entry>
         Whether to enable the message acknowledgement extension (<xref linkend="extensions_acknowledge" />)
         in the <code>BayeuxServer</code> instance and in the <code>OortComet</code> instances
-    </td>
-</tr>
-<tr>
-    <td>clientDebug</td>
-    <td>N</td>
-    <td>false</td>
-    <td>Whether to enable debug logging in the <code>OortComet</code> instances</td>
-</tr>
+    </entry>
+</row>
+<row>
+    <entry>clientDebug</entry>
+    <entry>N</entry>
+    <entry>false</entry>
+    <entry>Whether to enable debug logging in the <code>OortComet</code> instances</entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 </section>
 <section>
@@ -222,48 +224,50 @@ There are two ways for a new comet to discover at least one other comet:
 
 <table>
 <caption>Oort Multicast Configuration Parameters</caption>
+<tgroup cols="4">
 <thead>
-<tr>
-    <th>Parameter Name</th>
-    <th>Required</th>
-    <th>Default Value</th>
-    <th>Parameter Description</th>
-</tr>
+<row>
+    <entry>Parameter Name</entry>
+    <entry>Required</entry>
+    <entry>Default Value</entry>
+    <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr style="border: 1px solid #ccc">
-    <td>oort.multicast.bindAddress</td>
-    <td>N</td>
-    <td>the wildcard address</td>
-    <td>The bind address of the MulticastSocket that receives the advertisements</td>
-</tr>
-<tr style="border: 1px solid #ccc">
-    <td>oort.multicast.groupAddress</td>
-    <td>N</td>
-    <td>239.255.0.1</td>
-    <td>The multicast group address to join to receive the advertisements</td>
-</tr>
-<tr style="border: 1px solid #ccc">
-    <td>oort.multicast.groupPort</td>
-    <td>N</td>
-    <td>5577</td>
-    <td>The port over which advertisements are sent and received</td>
-</tr>
-<tr style="border: 1px solid #ccc">
-    <td>oort.multicast.timeToLive</td>
-    <td>N</td>
-    <td>1</td>
-    <td>The time to live of advertisement packets (1 = same subnet, 32 = same site, 255 =
+<row>
+    <entry>oort.multicast.bindAddress</entry>
+    <entry>N</entry>
+    <entry>the wildcard address</entry>
+    <entry>The bind address of the MulticastSocket that receives the advertisements</entry>
+</row>
+<row>
+    <entry>oort.multicast.groupAddress</entry>
+    <entry>N</entry>
+    <entry>239.255.0.1</entry>
+    <entry>The multicast group address to join to receive the advertisements</entry>
+</row>
+<row>
+    <entry>oort.multicast.groupPort</entry>
+    <entry>N</entry>
+    <entry>5577</entry>
+    <entry>The port over which advertisements are sent and received</entry>
+</row>
+<row>
+    <entry>oort.multicast.timeToLive</entry>
+    <entry>N</entry>
+    <entry>1</entry>
+    <entry>The time to live of advertisement packets (1 = same subnet, 32 = same site, 255 =
         global)
-    </td>
-</tr>
-<tr style="border: 1px solid #ccc">
-    <td>oort.multicast.advertiseInterval</td>
-    <td>N</td>
-    <td>1000</td>
-    <td>The interval in milliseconds at which advertisements are sent</td>
-</tr>
+    </entry>
+</row>
+<row>
+    <entry>oort.multicast.advertiseInterval</entry>
+    <entry>N</entry>
+    <entry>1000</entry>
+    <entry>The interval in milliseconds at which advertisements are sent</entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 
 <para>
@@ -367,22 +371,24 @@ Destination    Gateway    Genmask      Flags    Metric    Ref    Use    Iface
 </para>
 <table>
 <caption>Oort Static Configuration Parameters</caption>
+<tgroup cols="4">
 <thead>
-<tr>
-    <th>Parameter Name</th>
-    <th>Required</th>
-    <th>Default Value</th>
-    <th>Parameter Description</th>
-</tr>
+<row>
+    <entry>Parameter Name</entry>
+    <entry>Required</entry>
+    <entry>Default Value</entry>
+    <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr style="border: 1px solid #ccc">
-    <td>oort.cloud</td>
-    <td>N</td>
-    <td>empty string</td>
-    <td>A comma-separated list of URLs of other Oort comets to connect to at startup</td>
-</tr>
+<row>
+    <entry>oort.cloud</entry>
+    <entry>N</entry>
+    <entry>empty string</entry>
+    <entry>A comma-separated list of URLs of other Oort comets to connect to at startup</entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 <para>
     Configured in this way, the Oort comet is ready to be part of the Oort cloud, but it's not part
@@ -503,7 +509,7 @@ public class OortConfigurationServlet extends GenericServlet
 <mediaobject>
     <alt>Oort Cloud Membership Organization</alt>
     <imageobject>
-        <imagedata fileref="oort_cloud.png" />
+        <imagedata align="center" fileref="oort_cloud.png" format="PNG" scalefit="1" width="100%"/>
     </imageobject>
 </mediaobject>
 <para>
@@ -753,7 +759,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <mediaobject>
     <alt>Oort Chat</alt>
     <imageobject>
-        <imagedata fileref="oort_chat.png" />
+        <imagedata align="center" fileref="oort_chat.png" format="PNG" width="3in"/>
     </imageobject>
 </mediaobject>
 <para>
@@ -1031,7 +1037,7 @@ public class SetiForwarder
 <mediaobject>
     <alt>Seti Chat</alt>
     <imageobject>
-        <imagedata fileref="seti_chat.png" />
+        <imagedata align="center" fileref="seti_chat.png"  format="PNG" width="3in"/>
     </imageobject>
 </mediaobject>
 </section>

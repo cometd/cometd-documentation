@@ -63,50 +63,52 @@
 </para>
 <table>
 <caption>BayeuxServer Configuration Parameters</caption>
+<tgroup cols="4">
 <thead>
-<tr>
-  <th>Parameter Name</th>
-  <th>Default Value</th>
-  <th>Since</th>
-  <th>Parameter Description</th>
-</tr>
+<row>
+  <entry>Parameter Name</entry>
+  <entry>Default Value</entry>
+  <entry>Since</entry>
+  <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-  <td>logLevel</td>
-  <td>0</td>
-  <td>2.0.0</td>
-  <td>The log level: 0 = off, 1 = config, 2 = info, 3 = debug.</td>
-</tr>
-<tr>
-  <td>transports</td>
-  <td>empty string</td>
-  <td>2.2.0</td>
-  <td>
+<row>
+  <entry>logLevel</entry>
+  <entry>0</entry>
+  <entry>2.0.0</entry>
+  <entry>The log level: 0 = off, 1 = config, 2 = info, 3 = debug.</entry>
+</row>
+<row>
+  <entry>transports</entry>
+  <entry>empty string</entry>
+  <entry>2.2.0</entry>
+  <entry>
       A comma-separated list of <code>ServerTransport</code> implementation class names (that take a
       <code>org.cometd.server.BayeuxServerImpl</code> as only constructor parameter) to add to the
       default server transports.
-  </td>
-</tr>
-<tr>
-  <td>allowedTransports</td>
-  <td>empty string</td>
-  <td>2.2.0</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>allowedTransports</entry>
+  <entry>empty string</entry>
+  <entry>2.2.0</entry>
+  <entry>
       A comma-separated list of <code>ServerTransport</code> names allowed.
       If not specified, the default server transports are allowed.
-  </td>
-</tr>
-<tr>
-  <td>jsonContext</td>
-  <td><code>org.cometd.server.JettyJSONContextServer</code></td>
-  <td>2.4.0</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>jsonContext</entry>
+  <entry><code>org.cometd.server.JettyJSONContextServer</code></entry>
+  <entry>2.4.0</entry>
+  <entry>
       The full qualified name of a class implementing <code>org.cometd.common.JSONContext.Server</code>.
       The class is loaded and instantiated using the default constructor.
-  </td>
-</tr>
+  </entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 </section>
 <section>
@@ -130,157 +132,163 @@
 </para>
 <table>
 <caption>Server Transports Common Configuration Parameters</caption>
+<tgroup cols="3">
 <thead>
-<tr>
-  <th>Parameter Name</th>
-  <th>Default Value</th>
-  <th>Parameter Description</th>
-</tr>
+<row>
+  <entry>Parameter Name</entry>
+  <entry>Default Value</entry>
+  <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-  <td>timeout</td>
-  <td>30000</td>
-  <td>
+<row>
+  <entry>timeout</entry>
+  <entry>30000</entry>
+  <entry>
       The time, in milliseconds, that a server waits for a message before responding to a
       long poll with an empty response.
-  </td>
-</tr>
-<tr>
-  <td>interval</td>
-  <td>0</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>interval</entry>
+  <entry>0</entry>
+  <entry>
       The time, in milliseconds, that the client must wait between the
       end of one long poll request and the start of the next.
-  </td>
-</tr>
-<tr>
-  <td>maxInterval</td>
-  <td>10000</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>maxInterval</entry>
+  <entry>10000</entry>
+  <entry>
       The maximum period of time, in milliseconds, that the server waits for a new long poll
       from a client before that client is considered invalid and is removed.
-  </td>
-</tr>
-<tr>
-  <td>maxLazyTimeout</td>
-  <td>5000</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>maxLazyTimeout</entry>
+  <entry>5000</entry>
+  <entry>
       The maximum period of time, in milliseconds, that the server waits before delivering or
       publishing lazy messages.
-  </td>
-</tr>
-<tr>
-  <td>metaConnectDeliverOnly</td>
-  <td>false</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>metaConnectDeliverOnly</entry>
+  <entry>false</entry>
+  <entry>
       Whether the transport should deliver the messages only via long poll (enables strict message ordering).
       Enabling this option allows for strict message ordering at the cost of a slightly chattier protocol
       (because delivery via <code>/meta/connect</code> requires waking up the long poll).
-  </td>
-</tr>
-<tr>
-  <td>maxQueue</td>
-  <td>-1</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>maxQueue</entry>
+  <entry>-1</entry>
+  <entry>
       The maximum size of the <code>ServerSession</code> queue. A value of -1 means no queue size limit.
       A positive value triggers the invocation of
       <classname>org.cometd.bayeux.server.ServerSession.MaxQueueListener</classname>s when the max queue
       size is exceeded.
-  </td>
-</tr>
+  </entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 <?linebreak?>
 
 <table>
 <caption>Long Polling &amp; Callback Polling Server Transports Configuration Parameters</caption>
+<tgroup cols="3">
 <thead>
-<tr>
-  <th>Parameter Name</th>
-  <th>Default Value</th>
-  <th>Parameter Description</th>
-</tr>
+<row>
+  <entry>Parameter Name</entry>
+  <entry>Default Value</entry>
+  <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-  <td>maxSessionsPerBrowser</td>
-  <td>1</td>
-  <td>
+<row>
+  <entry>maxSessionsPerBrowser</entry>
+  <entry>1</entry>
+  <entry>
       The max number of sessions (tabs/frames) allowed to long poll from the same browser; a negative value
       allows unlimited sessions (see also <xref linkend="java_server_multiple_sessions" />).
-  </td>
-</tr>
-<tr>
-  <td>allowMultiSessionsNoBrowser</td>
-  <td>false</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>allowMultiSessionsNoBrowser</entry>
+  <entry>false</entry>
+  <entry>
       Whether to allow multiple sessions (tabs/frames) in case the browser cannot be detected
       (see also <xref linkend="java_server_multiple_sessions" />).
-  </td>
-</tr>
-<tr>
-  <td>multiSessionInterval</td>
-  <td>2000</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>multiSessionInterval</entry>
+  <entry>2000</entry>
+  <entry>
       The period of time, in milliseconds, that specifies the client normal polling period in case the server detects
       more sessions (tabs/frames) connected from the same browser than allowed by the
       <code>maxSessionsPerBrowser</code> parameter.
       A non-positive value means that additional sessions are disconnected.
-  </td>
-</tr>
-<tr>
-  <td>browserId</td>
-  <td>BAYEUX_BROWSER</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>browserId</entry>
+  <entry>BAYEUX_BROWSER</entry>
+  <entry>
       The name of the cookie used to identify multiple sessions (see <xref linkend="java_server_multiple_sessions" />).
-  </td>
-</tr>
+  </entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 <?linebreak?>
 
 <table>
 <caption>WebSocket Server Transport Configuration Parameters</caption>
+<tgroup cols="3">
 <thead>
-<tr>
-  <th>Parameter Name</th>
-  <th>Default Value</th>
-  <th>Parameter Description</th>
-</tr>
+<row>
+  <entry>Parameter Name</entry>
+  <entry>Default Value</entry>
+  <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-  <td>ws.messagesPerFrame</td>
-  <td>1</td>
-  <td>
+<row>
+  <entry>ws.messagesPerFrame</entry>
+  <entry>1</entry>
+  <entry>
       How many Bayeux messages should be sent per WebSocket frame.
       Setting this parameter too high may result in WebSocket frames that may be rejected by the recipient
       because they are too big.
-  </td>
-</tr>
-<tr>
-  <td>ws.bufferSize</td>
-  <td>65536</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>ws.bufferSize</entry>
+  <entry>65536</entry>
+  <entry>
       The size, in bytes, of the buffer used to read and write WebSocket frames.
-  </td>
-</tr>
-<tr>
-  <td>ws.maxMessageSize</td>
-  <td>65520</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>ws.maxMessageSize</entry>
+  <entry>65520</entry>
+  <entry>
       The maximum size, in bytes, of an incoming WebSocket message.
-  </td>
-</tr>
-<tr>
-  <td>ws.idleTimeout</td>
-  <td>300000</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>ws.idleTimeout</entry>
+  <entry>300000</entry>
+  <entry>
       The idle timeout, in milliseconds, for the WebSocket connection.
-  </td>
-</tr>
+  </entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 </section>
 

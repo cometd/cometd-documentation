@@ -29,7 +29,7 @@
     The following sections present detailed information about the Java Server APIs and their implementation.
 </para>
 
-<xi:include href="java_server_configuration.xml" />
+<xi:include href="java_server_configuration.xml" /> 
 <xi:include href="java_server_services.xml" />
 <xi:include href="java_server_authorization.xml" />
 <xi:include href="java_server_authorizers.xml" />

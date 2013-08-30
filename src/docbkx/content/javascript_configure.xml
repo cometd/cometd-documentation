@@ -50,103 +50,105 @@ However, the second way allows you to pass other configuration parameters, curre
 </para>
 <table>
 <caption>JavaScript Library Configuration Parameters</caption>
+<tgroup cols="4">
 <thead>
-<tr>
-  <th>Parameter Name</th>
-  <th>Required</th>
-  <th>Default Value</th>
-  <th>Parameter Description</th>
-</tr>
+<row>
+  <entry>Parameter Name</entry>
+  <entry>Required</entry>
+  <entry>Default Value</entry>
+  <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-  <td>url</td>
-  <td>yes</td>
-  <td></td>
-  <td>The URL of the Bayeux server this client will connect to.</td>
-</tr>
-<tr>
-  <td>logLevel</td>
-  <td>no</td>
-  <td>info</td>
-  <td>The log level. Possible values are: "warn", "info", "debug". Output to window.console if available.</td>
-</tr>
-<tr>
-  <td>maxConnections</td>
-  <td>no</td>
-  <td>2</td>
-  <td>
+<row>
+  <entry>url</entry>
+  <entry>yes</entry>
+  <entry></entry>
+  <entry>The URL of the Bayeux server this client will connect to.</entry>
+</row>
+<row>
+  <entry>logLevel</entry>
+  <entry>no</entry>
+  <entry>info</entry>
+  <entry>The log level. Possible values are: "warn", "info", "debug". Output to window.console if available.</entry>
+</row>
+<row>
+  <entry>maxConnections</entry>
+  <entry>no</entry>
+  <entry>2</entry>
+  <entry>
       The maximum number of connections used to connect to the Bayeux server. Change this value only if you know
       exactly the client's connection limit and what "request queued behind long poll" means.
-  </td>
-</tr>
-<tr>
-  <td>backoffIncrement</td>
-  <td>no</td>
-  <td>1000</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>backoffIncrement</entry>
+  <entry>no</entry>
+  <entry>1000</entry>
+  <entry>
       The number of milliseconds that the backoff time increments every time a connection with the Bayeux server fails.
       CometD attempts to reconnect after the backoff time elapses.
-  </td>
-</tr>
-<tr>
-  <td>maxBackoff</td>
-  <td>no</td>
-  <td>60000</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>maxBackoff</entry>
+  <entry>no</entry>
+  <entry>60000</entry>
+  <entry>
       The maximum number of milliseconds of the backoff time after which the backoff time is not incremented
       further.
-  </td>
-</tr>
-<tr>
-  <td>reverseIncomingExtensions</td>
-  <td>no</td>
-  <td>true</td>
-  <td>Controls whether the incoming extensions are called in reverse order with respect to the registration order.</td>
-</tr>
-<tr>
-  <td>maxNetworkDelay</td>
-  <td>no</td>
-  <td>10000</td>
-  <td>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</td>
-</tr>
-<tr>
-  <td>requestHeaders</td>
-  <td>no</td>
-  <td>{}</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>reverseIncomingExtensions</entry>
+  <entry>no</entry>
+  <entry>true</entry>
+  <entry>Controls whether the incoming extensions are called in reverse order with respect to the registration order.</entry>
+</row>
+<row>
+  <entry>maxNetworkDelay</entry>
+  <entry>no</entry>
+  <entry>10000</entry>
+  <entry>The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.</entry>
+</row>
+<row>
+  <entry>requestHeaders</entry>
+  <entry>no</entry>
+  <entry>{}</entry>
+  <entry>
       An object containing the request headers to be sent for every Bayeux request
       (for example, <code>{"My-Custom-Header":"MyValue"}</code>).
-  </td>
-</tr>
-<tr>
-  <td>appendMessageTypeToURL</td>
-  <td>no</td>
-  <td>true</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>appendMessageTypeToURL</entry>
+  <entry>no</entry>
+  <entry>true</entry>
+  <entry>
       Determines whether or not the Bayeux message type (handshake, connect, disconnect) is appended to the
       URL of the Bayeux server (see above).
-  </td>
-</tr>
-<tr>
-  <td>autoBatch</td>
-  <td>no</td>
-  <td>false</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>autoBatch</entry>
+  <entry>no</entry>
+  <entry>false</entry>
+  <entry>
       Determines whether multiple publishes that get queued are sent as a batch on the first occasion,
       without requiring explicit batching.
-  </td>
-</tr>
-<tr>
-  <td>connectTimeout</td>
-  <td>no</td>
-  <td>0</td>
-  <td>
+  </entry>
+</row>
+<row>
+  <entry>connectTimeout</entry>
+  <entry>no</entry>
+  <entry>0</entry>
+  <entry>
       The maximum number of milliseconds to wait for a WebSocket connection to be opened.
       It does not apply to HTTP connections. A timeout value of 0 means to wait forever.
-  </td>
-</tr>
+  </entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 
 <para>
