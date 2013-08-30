@@ -27,7 +27,7 @@ xmlns:date="http://exslt.org/dates-and-times"
   <!--xsl:param name="chunk.tocs.and.lots" select="1"/-->
   <xsl:param name="generate.toc">
     appendix  toc,title
-    article/appendix  nop
+    article/appendix  toc,title
     article   toc,title
     book      toc,title,figure,table,example,equation
     chapter   toc,title
@@ -68,7 +68,7 @@ xmlns:date="http://exslt.org/dates-and-times"
   <xsl:template name="generate.html.title"/>
 
   <xsl:template name="user.head.content">
-    <link rel="shortcut icon" href="images/favicon.ico" />
+    <link rel="shortcut icon" href="favicon.ico" />
     <!--
       - syntax highlighting bits and pieces
     -->
@@ -124,7 +124,7 @@ xmlns:date="http://exslt.org/dates-and-times"
       <style type="text/css">
         <xsl:text>
           body { 
-            background-image: url('images/draft-ribbon.png');
+            background-image: url('draft-ribbon.png');
             background-repeat: no-repeat;
             background-position: top left;
           }
@@ -135,7 +135,7 @@ xmlns:date="http://exslt.org/dates-and-times"
       <style type="text/css">
         <xsl:text>
           body { 
-            background-image: url('images/draft-ribbon.png');
+            background-image: url('draft-ribbon.png');
             background-repeat: no-repeat;
             background-position: top left;
           }
@@ -148,7 +148,7 @@ xmlns:date="http://exslt.org/dates-and-times"
     <table>
       <tr>
         <td style="width: 25%">
-          <a href="http://www.cometd.org/"><img src="images/cometd-header-logo.png" alt="CometD Logo"></img></a>
+          <a href="http://www.cometd.org/"><img src="cometd-header-logo.png" alt="CometD Logo"></img></a>
           <br/>
          <!--
           <span style="font-size: small">

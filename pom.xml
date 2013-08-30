@@ -16,7 +16,7 @@
                 <artifactId>docbkx-maven-plugin</artifactId>
                 <version>2.0.13</version>
                 <executions>
-                    
+                    <!--
                     <execution>
                         <id>reference</id>
                         <phase>compile</phase>
@@ -42,7 +42,7 @@
                             </postProcess>
                         </configuration>
                     </execution>
-                    
+                    -->
                     <execution>
                         <id>html</id>
                         <phase>compile</phase>
@@ -76,26 +76,7 @@
                             </postProcess>
                         </configuration>
                     </execution>
-                    <execution>
-              <id>pdf</id>
-              <phase>compile</phase>
-              <goals>
-                <goal>generate-pdf</goal>
-              </goals>
-              <configuration>
-                <includes>book.xml</includes>
-                <admonGraphics>true</admonGraphics>
-                <admonGraphicsPath>target/docbkx/pdf/images/</admonGraphicsPath>
-                <preProcess>
-                <copy todir="target/docbkx/pdf/images">
-                  <fileset dir="src/docbkx/images" />
-                </copy>
-              </preProcess>
-              <highlightSource>true</highlightSource>
-              <fop1Extensions>1</fop1Extensions>
-              <foCustomization>src/docbkx-stylesheet/fo/docbook.xsl</foCustomization>
-              </configuration>
-            </execution>
+                    
                 </executions>
                 <configuration>
                     <generatedSourceDirectory>${project.build.directory}/docbkx/generated</generatedSourceDirectory>
@@ -142,7 +123,7 @@
           <artifactId>docbkx-maven-plugin</artifactId>
           <version>2.0.14</version>
            <executions>
-            <execution>
+           <execution>
               <id>pdf</id>
               <phase>compile</phase>
               <goals>
