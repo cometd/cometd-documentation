@@ -7,7 +7,7 @@
                               http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
           xml:id="bayeux">
 <info>
-    <title>The Bayeux Protocol Specification v 1.0</title>
+    <title>The Bayeux Protocol Specification v1.0</title>
     <authorgroup>
         <author>
             <personname>
@@ -39,7 +39,6 @@
         <holder>The Dojo Foundation</holder>
     </copyright>
 </info>
-
 <section>
 <info>
     <title>Status of this Document</title>

@@ -54,30 +54,32 @@ dojo.require("dojox.cometd.reload");
 </para>
 <table>
 <caption>Reload Extension Configuration Parameters</caption>
+<tgroup cols="3">
 <thead>
-<tr>
-  <th>Parameter Name</th>
-  <th>Default Value</th>
-  <th>Parameter Description</th>
-</tr>
+<row>
+  <entry>Parameter Name</entry>
+  <entry>Default Value</entry>
+  <entry>Parameter Description</entry>
+</row>
 </thead>
 <tbody>
-<tr>
-    <td>cookieName</td>
-    <td>org.cometd.reload</td>
-    <td>The name of the short-lived cookie the reload extension uses to save the connection state details</td>
-</tr>
-<tr>
-    <td>cookiePath</td>
-    <td>/</td>
-    <td>The path of the short-lived cookie the reload extension uses</td>
-</tr>
-<tr>
-    <td>cookieMaxAge</td>
-    <td>5</td>
-    <td>The max age, in seconds, of the short-lived cookie the reload extension uses</td>
-</tr>
+<row>
+    <entry>cookieName</entry>
+    <entry>org.cometd.reload</entry>
+    <entry>The name of the short-lived cookie the reload extension uses to save the connection state details</entry>
+</row>
+<row>
+    <entry>cookiePath</entry>
+    <entry>/</entry>
+    <entry>The path of the short-lived cookie the reload extension uses</entry>
+</row>
+<row>
+    <entry>cookieMaxAge</entry>
+    <entry>5</entry>
+    <entry>The max age, in seconds, of the short-lived cookie the reload extension uses</entry>
+</row>
 </tbody>
+</tgroup>
 </table>
 <para>
     The JavaScript <code>cometd</code> object is normally already configured with the default reload extension
