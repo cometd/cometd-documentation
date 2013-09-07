@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
+                             http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
+         xml:id="java_oort_objects">
+<info>
+    <title>Distributed Objects and Services</title>
+</info>
+<para>
+    <xref linkend="java_oort" /> described how it is possible to link nodes to form an Oort cloud.
+    Oort nodes are all connected to each other so that they are aware of all the other peer nodes.
+    Additionally, each node can forward messages that have been published to broadcast channels
+    (see <xref linkend="concepts_channels" />) to other nodes.
+</para>
+<para>
+    Your application may need to maintain information, on each node, that is distributed across
+    all nodes. A typical example is the total number of users connected to all nodes.
+    Each node can easily know how many users are connected to itself, but in this case you want to
+    know the sum of all users connected to all nodes (for example to display the number in a user
+    interface). We name this feature "data distribution".
+</para>
+<para>
+    Furthermore, your application may need to perform certain actions on a specific node.
+    For example, your application may need to access a database system that is only accessible
+    from a specific node for security reasons. We name this feature "service forwarding".
+</para>
+<para>
+    Oort and Seti (see <xref linkend="java_oort_seti"/>) alone do not offer data distribution or
+    service forwarding out of the box, but it is possible to build on Oort features to implement
+    them, and this is exactly what CometD offers, respectively, with <code>OortObject</code> and
+    <code>OortService</code>.
+</para>
+
+<section xml:id="java_oort_objects_oort_object">
+<info>
+    <title>OortObject</title>
+</info>
+<para>
+    An <classname>org.cometd.oort.OortObject</classname> instance represents a named composite
+    data entity that is distributed in an Oort cluster.
+</para>
+<para>
+    The data entity may be the number of users connected to each node, or the number of games
+    played on each node, or the list of chat rooms created on each node, or the names of systems
+    monitored by each node, etc., depending on your application's business domain.
+</para>
+<para>
+    In the image below, you can see 3 nodes (<code>nodeA</code>, <code>nodeB</code> and
+    <code>nodeC</code>), each containing an Oort object named "users" (in orange) that stores
+    the names of the users connected to each Oort node.
+    The data entity in this case is a <code>List&lt;String&gt;</code> representing the names of the
+    connected users.
+    Oort objects are uniquely named, and there may be several Oort objects in the same node,
+    provided they all have different names.
+</para>
+<para>
+    <code>NodeA</code> has clients <code>Ca1</code> and <code>Ca2</code> connected, <code>nodeB</code>
+    has only client <code>Cb1</code> connected, while <code>nodeC</code> has 3 clients connected.
+    Oort objects are composites in that they store N data entity parts, where N is the number of
+    nodes in the Oort cloud.
+    You can see that each Oort object is made of 3 parts (the innermost boxes); each part is colored
+    like the node it represents. The part that has the same color as the node it lives in it's the
+    local part.
+</para>
+<mediaobject>
+    <alt>Three Nodes OortObject</alt>
+    <imageobject>
+        <imagedata fileref="oort_object.png" />
+    </imageobject>
+</mediaobject>
+<para>
+    Each Oort object can only update its local part: <code>nodeA</code> can only add/remove objects
+    from its local (blue) part, and cannot add/remove from the remote parts (in green and red).
+    Likewise, <code>nodeB</code> can only update the green part but not the blue and red parts,
+    and <code>nodeC</code> can only update the red part, but not the blue and green ones.
+</para>
+<para>
+    If a new client connects to <code>nodeB</code>, say <code>Cb2</code>, then the application on
+    <code>nodeB</code> creates
+    the object (<code>B2</code>) that wants to share with other nodes, and adds it to the Oort object on
+    <code>nodeB</code>.
+    Object <code>B2</code> will be added to the green part of <code>nodeB</code>, and a message broadcast
+    to the other nodes, which will also modify the correspondent green parts on themselves, adding a copy
+    of <code>B2</code>.
+    The remote parts of an Oort object can only be updated by messages internal to the <code>OortObject</code>
+    implementation.
+</para>
+<para>
+    Each Oort object instance <emphasis>owns</emphasis> only its local part.
+    In the example, <code>A2</code> is <emphasis>owned</emphasis> by the Oort object in <code>nodeA</code>.
+    Anyone that wants to modify or remove <code>A2</code> must perform this action in <code>nodeA</code>.
+    <xref linkend="java_oort_objects_oort_service"/> shows how to forward service actions from one node
+    to another.
+</para>
+<para>
+    <code>OortObject</code> allows application to add/remove <code>OortObject.Listener</code>s that are
+    notified of modification of a part, either local or remote.
+    Your application can implement these listeners to perform custom logic.
+</para>
+<section>
+<info>
+<title>OortObject Specializations</title>
+</info>
+<para>
+    While <code>OortObject</code> is a generic container of objects (like a <code>List&lt;String&gt;</code>),
+    it may not be very efficient.
+    Imagine the case where the list contains thousands of names: the addition/removal of one name will
+    cause the whole list to be replicated to all other nodes, because the whole list is the data entity.
+</para>
+<para>
+    To avoid this inefficiency, CometD offers these specializations of <code>OortObject</code>:
+</para>
+<itemizedlist>
+    <listitem>
+        <para>
+            <code>OortMap</code>, an <code>OortObject</code> that contains a <code>ConcurrentMap</code>
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            <code>OortStringMap</code>, an <code>OortMap</code> with <code>String</code> keys
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            <code>OortLongMap</code>, an <code>OortMap</code> with <code>Long</code> keys
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            <code>OortList</code>, an <code>OortObject</code> that contains a <code>List</code>
+        </para>
+    </listitem>
+</itemizedlist>
+<para>
+    Each specialization replicates single operations like the addition/removal of a key/value pair
+    in an <code>OortMap</code>, or the addition/removal of an element in an <code>OortList</code>.
+</para>
+<para>
+    <code>OortMap</code> provides an <code>OortMap.EntryListener</code> to notify applications of
+    map entry addition/removal, either local or remote.
+    <code>OortList</code> provides an <code>OortMap.ElementListener</code> to notify applications of
+    element addition/removal, either local or remote.
+</para>
+</section>
+<!--
+    // TODO: factories, merger, api usage,
+    // TODO: discuss tradeoff: oortobject vs oortservice + datastructure == memory versus latency
+-->
+</section>
+</section>

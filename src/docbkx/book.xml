@@ -7,6 +7,8 @@
       xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
                           http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd">
 
+<?dbhtml filename="index.html"?>
+
 <info>
 <title>The CometD Reference Book</title>
 
