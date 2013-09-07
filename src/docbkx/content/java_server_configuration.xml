@@ -16,7 +16,7 @@
     to the <code>BayeuxServer</code> instance, which in turn configures the server transports.
 </para>
 <para>
-    If you followed the <xref linkend="primer" />, Maven has configured the <code>web.xml</code> file for you;
+    If you followed <xref linkend="primer" />, Maven has configured the <code>web.xml</code> file for you;
     here are details its configuration, a sample <code>web.xml</code>:
 </para>
 <para>

@@ -36,7 +36,7 @@
 <para>
     In case of temporary network failures, the client is notified through the <code>/meta/connect</code> channel
     (see <xref linkend="javascript_subscribe" /> about meta channels) with messages that have the
-    <code>successful</code> field set to false (see also the archetypes in the <xref linkend="primer" /> as an example).
+    <code>successful</code> field set to false (see also the archetypes in <xref linkend="primer" /> as an example).
     However, the Bayeux server might be able to keep the client's state, and when the network resumes the Bayeux server
     might behave as if nothing happened.
     The client in this case just re-establishes the long poll, but any message the client publishes during the network

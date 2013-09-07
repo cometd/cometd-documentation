@@ -8,7 +8,7 @@
     <title>Configuring and Initializing</title>
 </info>
 <para>
-    After you set up your skeleton project following the <xref linkend="primer" />, you probably want to fully
+    After you set up your skeleton project following <xref linkend="primer" />, you probably want to fully
     understand how to customize and configure the parameters that govern the behavior of the CometD implementation.
 </para>
 <para>
@@ -153,13 +153,13 @@ However, the second way allows you to pass other configuration parameters, curre
 
 <para>
     After you have configured the <code>cometd</code> object, the Bayeux communication does not start until you call
-    <code>handshake()</code> (see the <xref linkend="javascript_handshake" />).
+    <code>handshake()</code> (see <xref linkend="javascript_handshake" />).
 </para>
 <para>
     Previous users of the JavaScript CometD implementation called a method named <code>init()</code>.
     This method still exists, and it is a shorthand for calling <code>configure()</code> followed by
     <code>handshake()</code>.
-    Follow the advice in the <xref linkend="javascript_handshake" /> as it applies as well to <code>init()</code>.
+    Follow the advice in <xref linkend="javascript_handshake" /> as it applies as well to <code>init()</code>.
 </para>
 
 <section xml:id="javascript_configure_multiple_objects">
