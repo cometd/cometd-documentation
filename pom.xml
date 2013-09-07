@@ -16,59 +16,24 @@
                 <artifactId>docbkx-maven-plugin</artifactId>
                 <version>2.0.14</version>
                 <executions>
-                    <!--
                     <execution>
-                        <id>reference</id>
+                        <id>xhtml</id>
                         <phase>compile</phase>
                         <goals>
                             <goal>generate-xhtml</goal>
                         </goals>
                         <configuration>
                             <includes>book.xml</includes>
-                            <chunkedOutput>false</chunkedOutput>
-                            <htmlStylesheet>cometd.css</htmlStylesheet>
-                            <xhtmlCustomization>${basedir}/src/docbkx-stylesheet/xhtml/custom-xhtml.xsl</xhtmlCustomization>
-                            <postProcess>
-                                <copy todir="${project.build.directory}/docbkx/xhtml">
-                                    <fileset dir="src/docbkx/css">
-                                        <include name="*.css" />
-                                    </fileset>
-                                </copy>
-                                <copy todir="${project.build.directory}/docbkx/xhtml">
-                                    <fileset dir="src/docbkx/images">
-                                        <include name="*.*" />
-                                    </fileset>
-                                </copy>
-                            </postProcess>
-                        </configuration>
-                    </execution>
-                    -->
-                    <execution>
-                        <id>html</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>generate-html</goal>
-                        </goals>
-                        <configuration>
-                            <includes>book.xml</includes>
                             <htmlStylesheet>css/cometd.css</htmlStylesheet>
-                            <htmlCustomization>${basedir}/src/docbkx-stylesheet/html/docbook.xsl</htmlCustomization>
+                            <xhtmlCustomization>${basedir}/src/docbkx-stylesheet/xhtml/custom-xhtml.xsl</xhtmlCustomization>
                             <chunkedOutput>true</chunkedOutput>
                             <postProcess>
-                                <copy todir="${project.build.directory}/docbkx/html/book/css">
+                                <copy todir="${project.build.directory}/docbkx/xhtml/book/css">
                                     <fileset dir="src/docbkx/css">
                                         <include name="*.css"/>
                                     </fileset>
                                 </copy>
-                                <copy todir="${project.build.directory}/docbkx/html/book/font">
-                                    <fileset dir="src/docbkx/font">
-                                    </fileset>
-                                </copy>
-                                <copy todir="${project.build.directory}/docbkx/html/book/js">
-                                    <fileset dir="src/docbkx/js">
-                                    </fileset>
-                                </copy>
-                                <copy todir="${project.build.directory}/docbkx/html/book">
+                                <copy todir="${project.build.directory}/docbkx/xhtml/book/images">
                                     <fileset dir="src/docbkx/images">
                                     </fileset>
                                 </copy>

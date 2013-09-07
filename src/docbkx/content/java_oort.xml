@@ -38,7 +38,7 @@
 <para>The remote IP address.</para>
 </listitem>
 <listitem>
-<para>CometD's BAYEUX_BROWSER cookie (see the <xref linkend="bayeux_multiple_clients" />).</para>
+<para>CometD's BAYEUX_BROWSER cookie (see <xref linkend="bayeux_multiple_clients" />).</para>
 </listitem>
 <listitem>
 <para>Some other mechanism the load balancer supports.</para>
