@@ -3,13 +3,16 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:xslthl="http://xslthl.sf.net"
+        xmlns:gcse="http://www.google.com"
         version="1.0">
 
     <xsl:import href="urn:docbkx:stylesheet" />
     <xsl:import href="urn:docbkx:stylesheet/highlight.xsl" />
 
+    <xsl:param name="use.id.as.filename" select="1"/>
     <xsl:param name="section.label.includes.component.label" select="1" />
     <xsl:param name="highlight.source" select="1" />
+    <xsl:param name="table.borders.with.css" select="1" />
 
     <xsl:output method="html" encoding="UTF-8" indent="yes" />
 
@@ -49,6 +52,31 @@ _gaq.push(['_trackPageview']);
     s.parentNode.insertBefore(ga, s);
 })();
 </script>
+    </xsl:template>
+
+    <xsl:template name="user.header.content">
+        <div class="callout">
+            <a href="https://www.webtide.com/support.jsp">
+                For CometD support, custom code development, clustering advices,
+                scalability and performance tuning, contact the core CometD developers at
+                <span class="website">www.webtide.com</span>
+            </a>
+        </div>
+        <div>
+            <script>
+                (function() {
+                    var cx = '016459005284625897022:cerl6-injdw';
+                    var gcse = document.createElement('script');
+                    gcse.type = 'text/javascript';
+                    gcse.async = true;
+                    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                            '//www.google.com/cse/cse.js?cx=' + cx;
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(gcse, s);
+                })();
+            </script>
+            <gcse:search></gcse:search>
+        </div>
     </xsl:template>
 
 </xsl:stylesheet>
