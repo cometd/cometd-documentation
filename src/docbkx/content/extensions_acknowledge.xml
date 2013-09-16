@@ -7,19 +7,23 @@
                              http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
          xml:id="extensions_acknowledge">
 <info>
-    <title>Acknowledge Extension</title>
+    <title>Message Acknowledgment Extension</title>
 </info>
 <para>
-    The <emphasis>acknowledge messages</emphasis> extension provides reliable, ordered messaging to the Bayeux
-    protocol from server to client.
+    By default, CometD does not enforce a strict order on server-to-client message delivery, nor it provides
+    the guarantee that messages sent by the server are received by the clients.
+</para>
+<para>
+    The <emphasis>message acknowledgment</emphasis> extension provides message ordering and message reliability
+    to the Bayeux protocol for messages sent from server to client.
     This extension requires both a client-side extension and a server-side extension.
     The server-side extension is available in Java.
-    If you are interested only in ordered messaging, see <!-- TODO: relink to docbook section -->
-    <link xl:href="http://cometd.org/documentation/2.x/howtos/message-ordering">here</link>.
+    If you are interested only in message ordering (and not reliability), see
+    <xref linkend="extensions_acknowledge_ordering" />.
 </para>
 <section>
 <info>
-    <title>Enabling the Server-side Extension</title>
+    <title>Enabling the Server-side Message Acknowledgment Extension</title>
 </info>
 <para>
     To enable support for acknowledged messages, you must add the extension to the
@@ -45,7 +49,7 @@ bayeuxServer.addExtension(new org.cometd.server.ext.AcknowledgedMessagesExtensio
 </section>
 <section>
 <info>
-    <title>Enabling the Client-side Extension</title>
+    <title>Enabling the Client-side Message Acknowledgment Extension</title>
 </info>
 <para>
     The <code>dojox/cometd/ack.js</code> provides the client-side extension binding for Dojo, and it is sufficient
@@ -112,6 +116,86 @@ cometd.init(cometdURL);
     to server. This means that the ack extension guarantees that messages sent by the server to the clients will be
     resent in case of temporary network failures that produce loss of messages.
     It does not guarantee however, that messages sent by the client will reach the server.
+</para>
+</section>
+<section xml:id="extensions_acknowledge_ordering">
+<info>
+    <title>Message Ordering</title>
+</info>
+<para>
+    Message ordering is not enforced by default by CometD.
+    A CometD server has two ways to deliver the messages present
+    in the <code>ServerSession</code> queue to its correspondent remote client:
+    <itemizedlist>
+        <listitem>
+            <para>through <code>/meta/connect</code> responses</para>
+        </listitem>
+    </itemizedlist>
+    <itemizedlist>
+        <listitem>
+            <para>through direct responses</para>
+        </listitem>
+    </itemizedlist>
+</para>
+<para>
+    Delivery through a <code>/meta/connect</code> response means that the server will deliver the messages
+    present in the <code>ServerSession</code> queue along with a <code>/meta/connect</code> response, so
+    that the messages delivered to the remote client are:
+    <code>[{/meta/connect response message}, {queued message 1}, {queued message 2}, ...]</code>.
+</para>
+<para>
+    Direct delivery depends on the transport.
+</para>
+<para>
+    For polling transports it means that the server will deliver the messages present in the
+    <code>ServerSession</code> queue along with some other response message that is being processed in that moment.
+    For example, let's assume that <code>clientA</code> is already subscribed to channel <code>/foo</code>,
+    and that it wants to subscribe also to channel <code>/bar</code>. Then <code>clientA</code> sends a
+    subscription request for channel <code>/bar</code> to the server, and just before processing the subscription
+    request for channel<code>/bar</code>, the server receives a message on channel <code>/foo</code>, that
+    therefore needs to be delivered to <code>clientA</code> (for example, <code>clientB</code> published a
+    message to channel<code>/foo</code>, or an external system produced a message on channel <code>/foo</code>).
+    The message on channel <code>/foo</code> gets queued on <code>clientA</code>'s <code>ServerSession</code>.
+    However, the server notices that it has to reply to subscription request for <code>/bar</code>, so
+    it includes the message on channel <code>/foo</code> in that response, thus avoiding to wake up
+    the <code>/meta/connect</code>, so that the messages delivered to the remote client are:
+    <code>[{subscription response message for /bar}, {queued message on /foo}]</code>.
+</para>
+<para>
+    For non-polling transports such as <code>websocket</code> the server will just deliver the messages
+    present in the <code>ServerSession</code> queue without waking up the <code>/meta/connect</code>,
+    because non-polling transports have a way to send server-to-client messages without the need to have a
+    pending response onto which the <code>ServerSession</code>'s queued messages are piggybacked.
+</para>
+<para>
+    These two ways of delivering messages compete each other to deliver messages with the smallest latency.
+    Therefore it is possible that a server receives from an external system two messages to be delivered for
+    the same client, say <code>message1</code> first and then <code>message2</code>; <code>message1</code> is
+    queued and immediately dequeued by a direct delivery, while <code>message2</code> is queued and then
+    dequeued by a <code>/meta/connect</code> delivery.
+    The client may see <code>message2</code> arriving before <code>message1</code>, for example because the
+    thread scheduling on the server favored <code>message2</code>'s processing or because the TCP communication
+    for <code>message1</code> was somehow slowed down (not to mention that browsers could as well be source of
+    uncertainty).
+</para>
+<para>
+    To enable just server-to-client message ordering (but not reliability), you need to configure the server
+    with the <code>metaConnectDeliverOnly</code> parameter, as explained in
+    <xref linkend="java_server_configuration" />.
+</para>
+<para>
+    When server-to-client message ordering is enabled, all messages will be delivered through
+    <code>meta/connect</code> responses.
+    In the example above, <code>message1</code> will be delivered to the client, and <code>message2</code>
+    will wait on the server until another <code>meta/connect</code> is issued by the client (which happens
+    immediately after <code>message1</code> has been received by the client).
+    When the server receives the second <code>meta/connect</code> request, it will respond to it immediately
+    and deliver <code>message2</code> to the client.
+</para>
+<para>
+    It is clear that server-to-client message ordering comes at the small price of slightly increased latencies
+    (<code>message2</code> has to wait the next <code>meta/connect</code> before being delivered), and slightly
+    more activity for the server (since <code>meta/connect</code>s will be resumed more frequently than normal).
 </para>
 </section>
 <section>
