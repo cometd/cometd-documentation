@@ -354,10 +354,12 @@
 <para>
     CometD runs without additional configuration in Jetty 7 (a Servlet 2.5 Container) and in any Servlet 3.0
     Container (see below).
-    In order to run in other Servlet 2.5 Containers, such as Tomcat, CometD requires additional configuration.
+    In order to run in other Servlet 2.5 (or greater) Containers, such as Tomcat, CometD requires additional
+    configuration.
 </para>
 <para>
-    Non-Jetty Servlet 2.5 Containers need to install the <code>ContinuationFilter</code>, mapping it to the same
+    Non-Jetty Servlet 2.5 Containers need to install the <code>ContinuationFilter</code>
+    (see <xref linkend="java_server_configuration_advanced" />), mapping it to the same
     path of the <code>CometdServlet</code> (usual <code>/cometd/*</code>), for example:
 </para>
 <informalexample>
@@ -396,8 +398,8 @@
 <title>Configuring Servlet 3 Asynchronous Features</title>
 </info>
 <para>
-    The CometD libraries are portable across servlet containers.
-    When a CometD web application is deployed to a Servlet 3 compliant container (such as Jetty 7 or greater,
+    The CometD libraries are portable across Servlet Containers.
+    When a CometD web application is deployed to a Servlet 3 compliant Container (such as Jetty 8 or greater,
     or Tomcat 7 or greater), CometD makes use of the Servlet 3 asynchronous features.
 </para>
 <para>
@@ -453,6 +455,15 @@ For example:
 <screen>
 IllegalStateException: the servlet does not support async operations for this request
 </screen>
+<note>
+<para>
+    While Jetty is configured by default with a non-blocking connector that allows CometD to run
+    out of the box, Tomcat 7 is not, by default, configured with a non-blocking connector.
+    You must first enable the non-blocking connector in Tomcat 7 in order for CometD to work properly.
+    Please refer to the <link xl:href="http://tomcat.apache.org">Tomcat documentation</link> for how
+    to configure a non-blocking connector in Tomcat.
+</para>
+</note>
 </section>
 
 <section xml:id="java_server_configuration_channels">

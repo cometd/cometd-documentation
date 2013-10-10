@@ -21,7 +21,7 @@
 <para>
     Then unpack the distribution in a directory of your choice:
 <screen><![CDATA[
-$ tar zxvf cometd-<version>.tgz
+$ tar zxvf cometd-<version>-distribution.tgz
 $ cd cometd-<version>/
 ]]></screen>
 </para>
@@ -95,9 +95,10 @@ $ mvn jetty:deploy-war
 </info>
 <para>
     In the <filename>$COMETD/cometd-demo/target</filename> directory you can find a deployable WAR
-    file that you can deploy in any servlet container.
-    Refer to the servlet container configuration manual to learn how to deploy the WAR in your servlet
-    container.
+    file that you can deploy in any Servlet (version 2.5 or greater) Container.
+    Refer to the Servlet Container configuration manual to learn how to deploy the WAR in your Servlet
+    Container. Refer also to <xref linkend="java_server_configuration_servlet_30" /> for further
+    information and for specific instructions related to deployment on Servlet 3.0 (or greater) Containers.
 </para>
 </section>
 </section>
