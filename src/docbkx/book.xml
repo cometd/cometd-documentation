@@ -51,6 +51,7 @@
 <xi:include href="content/support.xml" />
 <xi:include href="content/contribute.xml" />
 <xi:include href="content/installation.xml" />
+<xi:include href="content/troubleshooting.xml" />
 <xi:include href="content/primer.xml" />
 <xi:include href="content/concepts.xml" />
 <xi:include href="content/javascript.xml" />

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter version="5.0"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:xl="http://www.w3.org/1999/xlink"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://docbook.org/ns/docbook http://www.docbook.org/xml/5.0/xsd/docbook.xsd
+                             http://www.w3.org/1999/xlink http://docbook.org/xml/5.0/xsd/xlink.xsd"
+         xml:id="troubleshooting">
+<info>
+    <title>Troubleshooting</title>
+</info>
+
+<section xml:id="troubleshooting_logging">
+<info>
+    <title>Logging</title>
+</info>
+<para>
+    When CometD does not work, the first thing that you want to do is to enable debug logging.
+    This is helpful because by reading the debug logs you get a better understanding of what is going on
+    in the system (and that alone may give you the answers you need to fix the problem), and because
+    CometD developers will probably need the debug logs to help you.
+</para>
+
+<section xml:id="troubleshooting_logging_javascript">
+<info>
+    <title>Enabling Debug Logging in the JavaScript Library</title>
+</info>
+<para>
+    To enable debug logging on the JavaScript client library (see <xref linkend="javascript" />) you must pass
+    the <code>logLevel</code> field to the configuration of the <code>cometd</code> object, with value
+    <code>'debug'</code> (see also <xref linkend="javascript_configure" /> for other configuration options):
+</para>
+<informalexample>
+<programlisting language="javascript">
+cometd.configure({
+    url: 'http://localhost:8080/cometd',
+    logLevel: 'debug'
+});
+</programlisting>
+</informalexample>
+<para>
+    The CometD JavaScript library uses the <code>window.console</code> object to output log statements.
+</para>
+<para>
+    Once you have logging enabled on the JavaScript client library, you can see the debug logs in the
+    browser JavaScript console.
+    For example, in Firefox 24 you can open the JavaScript console by clicking on
+    <emphasis>Tools &#8594; Web Developer &#8594; Web Console</emphasis>, while in Chrome 30 you can
+    open the JavaScript console by clicking on <emphasis>Tools &#8594; Developer Tools</emphasis>.
+</para>
+<note>
+<para>
+    Internet Explorer does not define the <code>window.console</code> object as other browsers do,
+    resulting in CometD not being able to output logs in the JavaScript console, depending on the
+    Internet Explorer version.
+</para>
+</note>
+</section>
+
+<section xml:id="troubleshooting_logging_java_server">
+<info>
+    <title>Enabling Debug Logging in the Java Server Library</title>
+</info>
+<para>
+    To enable debug logging on the Java server library (see <xref linkend="java_server" />), you must pass
+    the <code>logLevel</code> option to the configuration, with the value <code>3</code> (see also
+    <xref linkend="java_server_configuration" /> for further information):
+</para>
+<informalexample>
+<programlisting language="xml"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <init-param>
+            <param-name>logLevel</param-name>
+            <param-value>3</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cometd</servlet-name>
+        <url-pattern>/cometd/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>
+]]></programlisting>
+</informalexample>
+<para>
+    The CometD Java libraries (both client and server) use <link xl:href="http://slf4j.org">SLF4J</link>
+    as logging framework.
+</para>
+<para>
+    By default, SLF4J comes with with a simple binding that <emphasis>does not</emphasis> log statements
+    produced at debug level.
+    Therefore you must configure SLF4J with a more advanced binding such as
+    <link xl:href="http://logging.apache.org/log4j">Log4J</link> or
+    <link xl:href="http://logback.qos.ch/">Logback</link>.
+    Refer to the SLF4J documentation and the binding implementation documentation on how to configure
+    logging when using the advanced bindings.
+</para>
+<para>
+    As a simple example, for Log4J it is usually enough to add the SLF4J-Log4J binding jar
+    (<filename>slf4j-log4j12-&lt;slf4j-version&gt;.jar</filename>) and the Log4J jar
+    (<filename>log4j-&lt;log4j-version&gt;.jar</filename>) in <code>WEB-INF/lib</code>, and then add
+    a properly configured <filename>log4j.properties</filename> file in <code>WEB-INF/classes</code>.
+    You don't want to add these files manually; they are reported here just as a simple reference.
+    Usually these dependencies are configured in the build system that you use to create your web application.
+</para>
+<para>
+    Once you have logging enabled on the Java server library, you can see the debug logs in the
+    terminal where you launched your Servlet Container (or in its log files, depending on how it is configured).
+</para>
+</section>
+
+</section>
+
+</chapter>
