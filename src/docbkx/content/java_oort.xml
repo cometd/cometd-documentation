@@ -162,6 +162,15 @@ There are two ways for a new comet to discover at least one other comet:
     <entry>false</entry>
     <entry>Whether to enable debug logging in the <code>OortComet</code> instances</entry>
 </row>
+<row>
+    <entry>jsonContext</entry>
+    <entry>N</entry>
+    <entry>empty string</entry>
+    <entry>
+        The full qualified name of a JSONContext.Client implementation used by the <code>OortComet</code>
+        instances used to connect to other Oort comets
+    </entry>
+</row>
 </tbody>
 </tgroup>
 </table>

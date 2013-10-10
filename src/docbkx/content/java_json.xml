@@ -67,13 +67,13 @@
 <programlisting language="java"><![CDATA[
 HttpClient httpClient = ...;
 
-Map<String, Object> clientOptions = new HashMap<String, Object>();
+Map<String, Object> transportOptions = new HashMap<String, Object>();
 
 // Use the Jackson implementation
 JSONContext.Client jsonContext = new JacksonJSONContextClient();
-clientOptions.put(ClientTransport.JSON_CONTEXT, jsonContext);
+transportOptions.put(ClientTransport.JSON_CONTEXT, jsonContext);
 
-ClientTransport transport = new LongPollingTransport(clientOptions, httpClient);
+ClientTransport transport = new LongPollingTransport(transportOptions, httpClient);
 
 BayeuxClient client = new BayeuxClient(cometdURL, transport);
 ]]></programlisting>
@@ -147,6 +147,25 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
     The class specified must be instantiable using the default parameterless constructor, and it must implement
     <classname>org.cometd.common.JSONContext.Server</classname>. You can customize it by adding
     serializers/deserializers as explained above.
+</para>
+</section>
+
+<section xml:id="java_json_oort_config">
+<info>
+    <title>Oort Configuration</title>
+</info>
+<para>
+    In the Oort clustering (see <xref linkend="java_oort" />), an <code>Oort</code> instance need to have
+    both the server and the client<code>JSONContext</code>: the server one to deserialize messages that
+    other Oort comets send, and the client one to serialize messages to send to other Oort comets.
+</para>
+<para>
+    The <code>Oort</code> instance will use the <code>JSONContext.Server</code> already configured for the
+    server, as explained in <xref linkend="java_json_server_config" />.
+</para>
+<para>
+    The <code>Oort</code> instance will use of the <code>JSONContext.Client</code> specified in the configuration
+    (see <xref linkend="java_oort_common_configuration" />).
 </para>
 </section>
 </section>
