@@ -15,7 +15,7 @@
     Refer to <xref linkend="concepts_channels" /> for the channel type definitions.
 </para>
 
-<section>
+<section xml:id="javascript_subscribe_meta_channels">
 <info>
     <title>Meta Channels</title>
 </info>
@@ -31,7 +31,7 @@
 </para>
 </section>
 
-<section>
+<section xml:id="javascript_subscribe_service_channels">
 <info>
     <title>Service Channels</title>
 </info>
@@ -47,7 +47,7 @@
 </para>
 </section>
 
-<section>
+<section xml:id="javascript_subscribe_broadcast_channels">
 <info>
     <title>Broadcast Channels</title>
 </info>
@@ -135,13 +135,13 @@
 </itemizedlist>
 <note>
 <para>
-    Calling <code>subscribe()</code> <emphasis role="bold"> does not</emphasis> mean that you have completed the
-    subscription with the server when <code>subscribe()</code> returns.
+    Calling <code>subscribe()</code> <emphasis role="bold"> does not</emphasis> mean that you
+    have completed the subscription with the server when function returns.
 </para>
 </note>
 <para>
-    Both <code>addListener()</code> and <code>subscribe()</code> return a subscription object that must be passed to,
-    respectively, <code>removeListener()</code> and <code>unsubscribe()</code>:
+    Both <code>addListener()</code> and <code>subscribe()</code> return a subscription object
+    that must be passed to, respectively, <code>removeListener()</code> and <code>unsubscribe()</code>:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
@@ -214,24 +214,91 @@ cometd.addListener('/meta/handshake', function(message)
     In cases where the Bayeux server is not reachable (due to network failures or because the server crashed),
     <code>subscribe()</code> and <code>unsubscribe()</code> behave as follows:
 </para>
-    <itemizedlist>
-    <listitem>
-    <para>
+<itemizedlist>
+<listitem>
+<para>
     In <code>subscribe()</code> CometD first adds the local listener to the list of subscribers for that channel, then
     attempts the server communication. If the communication fails, the server does not know that it has to send
     messages to this client and therefore on the client, the local listener (although present) is never invoked.
-    </para>
-    </listitem>
-    <listitem>
-    <para>
+</para>
+</listitem>
+<listitem>
+<para>
     In <code>unsubscribe()</code>, CometD first removes the local listener from the list of subscribers for that channel,
     then attempts the server communication. If the communication fails, the server still sends the message to the
     client,  but there is no local listener to dispatch to.
-    </para>
-    </listitem>
-    </itemizedlist>
+</para>
+</listitem>
+</itemizedlist>
 </section>
-<section xml:id="exception_handling">
+
+<section xml:id="javascript_subscribe_resubscribe">
+<info>
+    <title>Dynamic Resubscription</title>
+</info>
+<para>
+    Often times, applications need to perform dynamic subscriptions and unsubscriptions, for example when
+    a user clicks on a user interface element, you want to subscribe to a certain channel.
+    In this case the subscription object returned upon subscription is stored to be able to dynamically
+    unsubscribe from the channel upon user demand:
+</para>
+<informalexample>
+<programlisting language="javascript">
+var _subscription;
+function Controller()
+{
+    this.dynamicSubscribe = function()
+    {
+       _subscription = cometd.subscribe('/dynamic', this.onEvent);
+    };
+
+    this.onEvent = function(message)
+    {
+        ...
+    };
+
+    this.dynamicUnsubscribe = function()
+    {
+        if (_subscription)
+        {
+            cometd.unsubscribe(_subscription);
+            _subscription = undefined;
+        }
+    }
+}
+</programlisting>
+</informalexample>
+<para>
+    In case of a re-handshake, dynamic subscriptions are cleared (like any other subscription) and the
+    application needs to figure out which dynamic subscription must be performed again.
+    This information is already known to CometD at the moment <code>cometd.subscribe(...)</code> was called
+    (above in function <code>dynamicSubscribe()</code>), so applications can just call <code>resubscribe()</code>
+    using the subscription object obtained from <code>subscribe()</code>:
+</para>
+<informalexample>
+<programlisting language="javascript">
+cometd.addListener('/meta/handshake', function(message)
+{
+    if (message.successful)
+    {
+        cometd.batch(function()
+        {
+            // Static subscription, no need to remember the subscription handle
+            cometd.subscribe('/static', staticFunction);
+
+            // Dynamic re-subscription
+            if (_subscription)
+            {
+                _subscription = cometd.resubscribe(_subscription);
+            }
+        });
+    }
+});
+</programlisting>
+</informalexample>
+</section>
+
+<section xml:id="javascript_subscribe_exception_handling">
 <info>
     <title>Listeners and Subscribers Exception Handling</title>
 </info>
@@ -261,7 +328,8 @@ cometd.onListenerException = function(exception, subscriptionHandle, isListener,
     Notice that a similar mechanism exists for extensions, see <xref linkend="extensions" />.
 </para>
 </section>
-<section>
+
+<section xml:id="javascript_subscribe_wildcard">
 <info>
     <title>Wildcard Subscriptions</title>
 </info>
@@ -300,6 +368,7 @@ cometd.addListener("/meta/*", function(message) { ... });
     you can change this behavior by specifying a custom security policy on the Bayeux server.
 </para>
 </section>
+
 <section>
 <info>
     <title>Meta Channel List</title>
