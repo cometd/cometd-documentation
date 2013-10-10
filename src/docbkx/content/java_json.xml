@@ -24,7 +24,8 @@
 <itemizedlist>
 <listitem>
 <para>
-    The Jetty library allows you to plug in custom serializers and deserializers, to fine control the conversion from object to JSON and vice versa, via a custom API.
+    The Jetty library allows you to plug in custom serializers and deserializers, to fine control the conversion
+    from object to JSON and vice versa, via a custom API.
     Refer to the <classname>org.eclipse.jetty.util.ajax.JSON</classname>
     <link xl:href="http://download.eclipse.org/jetty/stable-7/apidocs/org/eclipse/jetty/util/ajax/JSON.html">javadocs</link>
     for further information.
@@ -32,7 +33,8 @@
 </listitem>
 <listitem>
 <para>
-    The Jackson library offers a rich API based on annotations to customize JSON generation, but less so to customize JSON parsing and obtain objects of custom classes.
+    The Jackson library offers a rich API based on annotations to customize JSON generation, but less so to
+    customize JSON parsing and obtain objects of custom classes.
     Refer to the <link xl:href="http://jackson.codehaus.org/Documentation">Jackson documentation</link>
     for further details.
 </para>
@@ -79,7 +81,8 @@ BayeuxClient client = new BayeuxClient(cometdURL, transport);
 ]]></programlisting>
 </informalexample>
 <para>
-    All client transports can share the <classname>org.cometd.common.JSONContext.Client</classname> instance (since only one transport is used at any time).
+    All client transports can share the <classname>org.cometd.common.JSONContext.Client</classname> instance
+    (since only one transport is used at any time).
 </para>
 <para>
     You can customize the Jackson implementation and add your own serializers/deserializer in the following way:
@@ -101,6 +104,47 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
             // Add your custom serializers/deserializers here
             addSerializer(Foo.class, new FooSerializer());
         }
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    The <code>JSONContext.Server</code> and <code>JSONContext.Client</code> classes also offer methods to obtain
+    a JSON parser (to deserialize JSON into objects) and a JSON generator (to generate JSON from objects),
+    so that the application does not need to hardcode the usage of a specific implementation library.
+</para>
+<para>
+    Class <code>JSONContext.Parser</code> can be used to convert into objects any JSON that the application
+    needs to read for other purposes, for example from configuration files, and of course convert into custom
+    objects (see <xref linkend="java_json_customization" />):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public EchoInfo readFromConfigFile(BayeuxServer bayeuxServer) throws ParseException
+{
+    // JDK 7's try-with-resources
+    try (FileReader reader = new FileReader("echo.json"))
+    {
+        JSONContext.Server jsonContext = (JSONContext.Server)bayeuxServer.getOption("jsonContext");
+        EchoInfo info = jsonContext.getParser().parse(reader, EchoInfo.class);
+        return info;
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    Similarly, objects can be converted into JSON:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+public EchoInfo writeToConfigFile(BayeuxServer bayeuxServer, EchoInfo info) throws IOException
+{
+    // JDK 7's try-with-resources
+    try (FileWriter writer = new FileWriter("echo.json"))
+    {
+        JSONContext.Server jsonContext = (JSONContext.Server)bayeuxServer.getOption("jsonContext");
+        String json = jsonContext.getGenerator().generate(info);
+        writer.write(json);
     }
 }
 ]]></programlisting>
@@ -170,7 +214,7 @@ public class MyJacksonJSONContextClient extends org.cometd.common.JacksonJSONCon
 </section>
 </section>
 
-<section>
+<section xml:id="java_json_portability">
 <info>
     <title>Portability Considerations</title>
 </info>
@@ -214,10 +258,9 @@ long value = (Long)data.get("value");
 long value = ((Number)data.get("value")).longValue();
 ]]></programlisting>
 </informalexample>
-
 </section>
 
-<section>
+<section xml:id="java_json_customization">
 <info>
 <title>
     Customizing Deserialization of JSON objects
@@ -327,6 +370,6 @@ bayeuxClient.getChannel("/echo").subscribe(new ClientSessionChannel.MessageListe
 bayeuxClient.getChannel("/echo").publish(new EchoInfo("42", "wohoo"));
 ]]></programlisting>
 </informalexample>
-
 </section>
+
 </section>
