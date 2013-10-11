@@ -60,5 +60,6 @@
 <xi:include href="content/build.xml" />
 <xi:include href="content/migration.xml" />
 <xi:include href="content/bayeux.xml" />
+<xi:include href="content/release.xml" />
 
 </book>
