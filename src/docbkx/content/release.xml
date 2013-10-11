@@ -67,7 +67,7 @@ $ mvn assembly:assembly
 </screen>
 <para>
     This creates the distribution tarball in the <code>cometd-distribution/target</code> directory.
-    The upload it.
+    Then upload it.
 </para>
 <screen>
 $ cd $COMETD/cometd-distribution/target
