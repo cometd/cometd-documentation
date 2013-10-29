@@ -30,8 +30,9 @@
 <para>
     Oort and Seti (see <xref linkend="java_oort_seti"/>) alone do not offer data distribution or
     service forwarding out of the box, but it is possible to build on Oort features to implement
-    them, and this is exactly what CometD offers, respectively, with <code>OortObject</code> and
-    <code>OortService</code>.
+    them, and this is exactly what CometD offers, respectively, with <code>OortObject</code>
+    (<xref linkend="java_oort_objects_oort_object" />) and <code>OortService</code>
+    (<xref linkend="java_oort_objects_oort_service" />).
 </para>
 
 <section xml:id="java_oort_objects_oort_object">
@@ -59,11 +60,11 @@
 <para>
     <code>NodeA</code> has clients <code>Ca1</code> and <code>Ca2</code> connected, <code>nodeB</code>
     has only client <code>Cb1</code> connected, while <code>nodeC</code> has 3 clients connected.
-    Oort objects are composites in that they store N data entity parts, where N is the number of
-    nodes in the Oort cloud.
-    You can see that each Oort object is made of 3 parts (the innermost boxes); each part is colored
-    like the node it represents. The part that has the same color as the node it lives in it's the
-    local part.
+    Oort objects are composites in that they store N data entity <emphasis>parts</emphasis>, where N
+    is the number of nodes in the Oort cloud.
+    You can see that each Oort object is made of 3 parts (the innermost blue, green and red boxes);
+    each part is colored like the node it represents. The part that has the same color as the node it
+    lives in it's the <emphasis>local</emphasis> part.
 </para>
 <mediaobject>
     <alt>Three Nodes OortObject</alt>
@@ -72,25 +73,25 @@
     </imageobject>
 </mediaobject>
 <para>
-    Each Oort object can only update its local part: <code>nodeA</code> can only add/remove objects
-    from its local (blue) part, and cannot add/remove from the remote parts (in green and red).
+    Each Oort object can only update its local part: <code>nodeA</code> can only add/remove user
+    names from its local (blue) part, and cannot add/remove from the remote parts (in green and red).
     Likewise, <code>nodeB</code> can only update the green part but not the blue and red parts,
     and <code>nodeC</code> can only update the red part, but not the blue and green ones.
 </para>
 <para>
     If a new client connects to <code>nodeB</code>, say <code>Cb2</code>, then the application on
-    <code>nodeB</code> creates
-    the object (<code>B2</code>) that wants to share with other nodes, and adds it to the Oort object on
-    <code>nodeB</code>.
-    Object <code>B2</code> will be added to the green part of <code>nodeB</code>, and a message broadcast
-    to the other nodes, which will also modify the correspondent green parts on themselves, adding a copy
-    of <code>B2</code>.
+    <code>nodeB</code> takes the user name (<code>B2</code>) that wants to share with other nodes,
+    and adds it to the Oort object on<code>nodeB</code>.
+    The user name <code>B2</code> will be added to the green part of <code>nodeB</code>, and a message
+    will be broadcast to the other nodes, which will also modify the correspondent green parts on themselves,
+    adding a copy of<code>B2</code>.
     The remote parts of an Oort object can only be updated by messages internal to the <code>OortObject</code>
     implementation.
 </para>
 <para>
     Each Oort object instance <emphasis>owns</emphasis> only its local part.
-    In the example, <code>A2</code> is <emphasis>owned</emphasis> by the Oort object in <code>nodeA</code>.
+    In the example, the user name <code>A2</code> is present in all the nodes, but it is
+    <emphasis>owned</emphasis> only by the Oort object in <code>nodeA</code>.
     Anyone that wants to modify or remove <code>A2</code> must perform this action in <code>nodeA</code>.
     <xref linkend="java_oort_objects_oort_service"/> shows how to forward service actions from one node
     to another.
@@ -100,7 +101,8 @@
     notified of modification of a part, either local or remote.
     Your application can implement these listeners to perform custom logic.
 </para>
-<section>
+
+<section xml:id="java_oort_objects_oort_object_specializations">
 <info>
 <title>OortObject Specializations</title>
 </info>
@@ -142,13 +144,264 @@
 <para>
     <code>OortMap</code> provides an <code>OortMap.EntryListener</code> to notify applications of
     map entry addition/removal, either local or remote.
-    <code>OortList</code> provides an <code>OortMap.ElementListener</code> to notify applications of
-    element addition/removal, either local or remote.
+    <code>OortList</code> provides an <code>OortList.ElementListener</code> to notify applications of
+    element addition/removal, either local or remote. Applications can implement these listeners
+    to be notified of entry or element updates in order to perform custom logic.
+</para>
+</section>
+
+<section xml:id="java_oort_objects_oort_object_creation">
+<info>
+<title>OortObject Creation</title>
+</info>
+<para>
+    <code>OortObject</code>s are created by providing an <code>OortObject.Factory</code>.
+    This factory is needed to create the data entity from its raw representation obtained from JSON.
+    This allows standard containers such as <classname>java.util.concurrent.ConcurrentHashMap</classname>
+    to be used as data entities, but replicated among nodes using standard JSON.
+</para>
+<para>
+    CometD provides a number of predefined factories in class
+    <classname>org.cometd.oort.OortObjectFactories</classname>, for example:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+Oort oort = ...;
+
+// The factory for data entities
+OortObject.Factory<List<String>> factory = OortObjectFactories.forList();
+
+// Create the OortObject
+OortObject<List<String>> users = new OortObject<List<String>>(oort, "users", factory);
+
+// Start it before using it
+users.start();
+]]></programlisting>
+</informalexample>
+<para>
+    The code above will create an <code>OortObject</code> named "users" whose data entity is a
+    <code>List&lt;String&gt;</code> (this is an example; you may want to use the richer and more
+    powerful <code>OortList&lt;String&gt;</code> instead).
+    Once you have created an <code>OortObject</code> you must start it before using it.
+</para>
+<para>
+    <code>OortObject</code>s are usually created at startup time, so that all the nodes have the
+    same <code>OortObject</code>s with the same names.
+    Remember that the data entity is shared among <code>OortObject</code>s with the same name, so
+    if a node does not have that particular named <code>OortObject</code>, then it will not receive
+    updates for that data entity.
+</para>
+<para>
+    It is possible to create <code>OortObject</code>s on-the-fly in response to some event,
+    but the application must make sure that this event is broadcast to all nodes so that
+    each node can create its own <code>OortObject</code> with the same name.
+</para>
+</section>
+
+<section xml:id="java_oort_objects_oort_object_sharing">
+<info>
+<title>OortObject Data Entity Sharing</title>
+</info>
+<para>
+    One <code>OortObject</code> owns one data entity, which is its local part.
+    In the example above, the data entity is a whole <code>List&lt;String&gt;</code>, so that's what we want
+    to share with other nodes:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+OortObject.Factory<List<String>> factory = users.getFactory();
+
+// Create a "default" data entity
+List<String> names = factory.newObject(null);
+
+// Fill it with data
+names.add("B1");
+
+// Share the new list with the other nodes
+users.setAndShare(names);
+]]></programlisting>
+</informalexample>
+<para>
+    Method <code>setAndShare(...)</code> will replace the empty list (created internally when the
+    <code>OortObject</code> was created) with the provided list, and broadcast this event to the cluster
+    so that other nodes can replace the part they have associated with this node with the new one.
+</para>
+<para>
+    Similarly, <code>OortMap</code> has the <code>putAndShare(...)</code> and <code>removeAndShare(...)</code>
+    methods to put/remove the map entries and share them:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+OortStringMap<UserInfo> userInfos = ...;
+
+// Map user name "B1" with its metadata
+userInfos.putAndShare("B1", new UserInfo("B1", ...));
+
+// In another place in the code
+
+// Remove the mapping for user "B1"
+userInfos.removeAndShare("B1");
+]]></programlisting>
+</informalexample>
+<para>
+    <code>OortList</code> has <code>addAndShare(...)</code> and <code>removeAndShare(...)</code>:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+OortList<String> names = ...;
+
+// Add user name "B1"
+names.addAndShare("B1");
+
+// In another place in the code
+
+// Remove user "B1"
+names.removeAndShare("B1");
+]]></programlisting>
+</informalexample>
+<para>
+    Both <code>OortMap</code> and <code>OortList</code> inherit from <code>OortObject</code>
+    method <code>setAndShare(...)</code> if you need to replace the whole map or list.
+</para>
+<para>
+    The <code>OortObject</code> API will try to make it hard for you to interact directly with the
+    data entity, and this is by design.
+    If you can modify the data entity directly without using the above methods, then the local data
+    entity will be out of sync with the correspondent data entities in the other nodes.
+    Whenever you feel the need to access the data entity, and you cannot find an easy way to do it,
+    consider that you are probably taking the wrong approach.
+</para>
+<para>
+    For the same reasons mentioned above, it is highly recommended that the data that you store
+    in an Oort object is immutable. In the <code>OortStringMap</code> example above, the <code>UserInfo</code>
+    object should be immutable, and if you need to change it, it is better to create a new <code>UserInfo</code>
+    instance with the new data and then call <code>putAndShare(...)</code> to replace the old one, which will
+    ensure that all nodes will get the update.
+</para>
+</section>
+
+<section xml:id="java_oort_objects_oort_object_merging">
+<info>
+<title>OortObject Data Entity Merging</title>
+</info>
+<para>
+    <code>OortObject</code>s are made of parts, and applications may need to access the data contained
+    in all parts. In the examples above, an application may want to be able to access all the user names
+    from all nodes.
+</para>
+<para>
+    In order to access the data from all parts, <code>OortObject</code> provides the
+    <code>merge(OortObject.Merger merger)</code> method.
+    Applications can use mergers provided by <classname>org.cometd.oort.OortObjectMergers</classname>
+    or implement their own, for example:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+OortList<String> names = ...;
+
+// Merge all the names from all the nodes
+List<String> allNames = names.merge(OortObjectMergers.listUnion());
+]]></programlisting>
+</informalexample>
+<para>
+    Merging is a local operation that does not involve network communication: it is just merging all the
+    data entity parts contained in the <code>OortObject</code>.
+</para>
+</section>
+
+<section xml:id="java_oort_objects_oort_object_listeners">
+<info>
+<title>OortObject Listeners</title>
+</info>
+<para>
+    When one node updates the data entity it owns, CometD notifies the other nodes so that they can keep
+    in sync the data entity part correspondent to the node that performed the update.
+    Applications can register listeners to be notified of such events, and perform their custom logic.
+</para>
+<para>
+    A typical example is when an application needs to show the total number of currently logged in users.
+    Every time a user connects and logs in, say, in NodeA, then NodeB needs to be notified to update
+    the total number in the user interface of the users connected to NodeB.
+</para>
+<para>
+    Since the application already updates the <code>OortObject&lt;Long&gt;</code> in NodeA, the
+    correspondent <code>OortObject&lt;Long&gt;</code> in NodeB is updated too.
+    The application can register a listener for such events, and update the user interface:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+// At initialization time, create the OortObject and add the listener
+final OortObject<Long> userCount = new ...;
+userCount.addListener(new OortObject.Listener()
+{
+    public void onUpdated(OortObject.Info<T> oldInfo, OortObject.Info<T> newInfo)
+    {
+        // The user count changed somewhere, broadcast the new value
+        long count = userCount.merge(OortObjectMergers.longSum());
+        broadcastUserCount(count);
+    }
+
+    public void onRemoved(OortObject.Info<T> info);
+    {
+        // A node disappeared, broadcast the new user count
+        long count = userCount.merge(OortObjectMergers.longSum());
+        broadcastUserCount(count);
+    }
+
+    private void broadcastUserCount(long count)
+    {
+        // Publish a message on "/user/count" to update the remote clients connected to this node
+        BayeuxServer bayeuxServer = userCount.getOort().getBayeuxServer();
+        bayeuxServer.getChannel("/user/count").publish(userCount.getLocalSession(), count, null);
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Class <classname>org.cometd.oort.OortObject.Info</classname> represents a data entity part
+    of an <code>OortObject</code> and contains the data entity and the Oort URL correspondent to
+    the node that it represent.
+    For this particular example, the <code>Info</code> objects are not important, since we are
+    only interested in the total user count, that can be obtained by merging (see
+    <xref linkend="java_oort_objects_oort_object_merging" />).
+    They can be used, however, to compute the difference before and after the update if needed.
+</para>
+<para>
+    Similarly, <code>OortMap</code> supports registration of <code>OortMap.EntryListener</code>s
+    that are notified when <code>OortMap</code> entries change due to calls to
+    <code>putAndShare(...)</code> or <code>removeAndShare(...)</code>.
+    <code>OortMap.EntryListener</code> are notified only when map entries are updated.
+    To be notified when the whole map changes due to calls to <code>setAndShare(...)</code>,
+    you can use an <code>OortMap.Listener</code> (inherited from <code>OortObject</code>) as
+    described above.
+    In some cases, the whole map is updated but you want to be notified as if single entries are
+    changed; in this case you can use an <code>OortMap.DeltaListener</code>, that converts
+    whole map updates into map entry updates.
+</para>
+<para>
+    <code>OortList</code> supports registration of <code>OortList.ElementListener</code>s
+    that are notified when <code>OortList</code> elements change due to calls to
+    <code>addAndShare(...)</code> or <code>removeAndShare(...)</code>.
+    <code>OortList.ElementListener</code> are notified only when list elements are updated.
+    To be notified when the whole list changes due to calls to <code>setAndShare(...)</code>,
+    you can use an <code>OortList.Listener</code> (inherited from <code>OortObject</code>) as
+    described above.
+    In some cases, the whole list is updated but you want to be notified as if single elements
+    are changed; in this case you can use an <code>OortList.DeltaListener</code>, that converts
+    whole list updates into list element updates.
+</para>
+</section>
+</section>
+
+<section xml:id="java_oort_objects_oort_service">
+<info>
+<title>OortService</title>
+</info>
+<para>
+    TODO
 </para>
 </section>
 <!--
-    // TODO: factories, merger, api usage,
     // TODO: discuss tradeoff: oortobject vs oortservice + datastructure == memory versus latency
 -->
-</section>
 </section>
