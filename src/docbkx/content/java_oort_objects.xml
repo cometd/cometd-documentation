@@ -72,7 +72,7 @@
 <mediaobject>
     <alt>Three Nodes OortObject</alt>
     <imageobject>
-        <imagedata align="center" fileref="images/oort_object.png" format="png" width="3in" />
+        <imagedata align="center" fileref="oort_object.png" format="png" />
     </imageobject>
 </mediaobject>
 <para>

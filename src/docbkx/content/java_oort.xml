@@ -55,7 +55,7 @@
 <mediaobject>
     <alt>Typical Oort Infrastructure</alt>
     <imageobject>
-        <imagedata align="center" fileref="images/oort_infrastructure.png" format="png" width="3in" />
+        <imagedata align="center" fileref="oort_infrastructure.png" format="png" />
     </imageobject>
 </mediaobject>
 </section>
@@ -476,7 +476,7 @@ public class OortConfigurationServlet extends GenericServlet
 }
 ]]></programlisting>
 </informalexample>
-<para>"
+<para>
     The <code>OortComet</code> instance that <code>Oort.observeComet(url)</code> returns is a
     specialized version of <code>BayeuxClient</code>, see <xref linkend="java_client" />.
 </para>
@@ -519,7 +519,7 @@ public class OortConfigurationServlet extends GenericServlet
 <mediaobject>
     <alt>Oort Cloud Membership Organization</alt>
     <imageobject>
-        <imagedata align="center" fileref="images/oort_cloud.png" format="png" scalefit="1" width="100%"/>
+        <imagedata align="center" fileref="oort_cloud.png" format="png" />
     </imageobject>
 </mediaobject>
 <para>
@@ -769,7 +769,7 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <mediaobject>
     <alt>Oort Chat</alt>
     <imageobject>
-        <imagedata align="center" fileref="images/oort_chat.png" format="png" width="3in"/>
+        <imagedata align="center" fileref="oort_chat.png" format="png" />
     </imageobject>
 </mediaobject>
 <para>
@@ -1047,7 +1047,7 @@ public class SetiForwarder
 <mediaobject>
     <alt>Seti Chat</alt>
     <imageobject>
-        <imagedata align="center" fileref="images/seti_chat.png"  format="png" width="3in"/>
+        <imagedata align="center" fileref="seti_chat.png"  format="png" />
     </imageobject>
 </mediaobject>
 </section>

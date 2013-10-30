@@ -9,11 +9,6 @@
     <xsl:import href="urn:docbkx:stylesheet" />
     <xsl:import href="urn:docbkx:stylesheet/highlight.xsl" />
 
-    <xsl:param name="use.id.as.filename" select="1"/>
-    <xsl:param name="section.label.includes.component.label" select="1" />
-    <xsl:param name="highlight.source" select="1" />
-    <xsl:param name="table.borders.with.css" select="1" />
-
     <xsl:output method="html" encoding="UTF-8" indent="yes" />
 
     <xsl:template match="processing-instruction('linebreak')">

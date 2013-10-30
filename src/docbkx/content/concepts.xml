@@ -152,7 +152,7 @@
 <mediaobject>
 <alt>Hub-Spoke Topology</alt>
 <imageobject>
-    <imagedata align="center" fileref="images/hub_spoke.png" format="png" width="3in" />
+    <imagedata align="center" fileref="hub_spoke.png" format="png" />
 </imageobject>
 </mediaobject>
 <para>
@@ -220,7 +220,7 @@
 <mediaobject>
 <alt>Session Objects</alt>
 <imageobject>
-    <imagedata align="center" fileref="images/hopp.png" format="png" width="3in" />
+    <imagedata align="center" fileref="hopp.png" format="png" />
 </imageobject>
 </mediaobject>
 <para>
@@ -468,7 +468,7 @@ Examples of client session listeners include the following:
 <mediaobject>
     <alt>Detailed CometD Components View</alt>
     <imageobject>
-        <imagedata align="center" fileref="images/hopp2.png" format="png" width="3in"/>
+        <imagedata align="center" fileref="hopp2.png" format="png" />
     </imageobject>
 </mediaobject>
 <para>
