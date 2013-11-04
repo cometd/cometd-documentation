@@ -17,9 +17,7 @@
     (see <xref linkend="java_server_services_inherited" />,
     and having Spring's dependency injection (as well as other facilities) integrated greatly simplifies development.
 </para>
-<para>
-    The following instructions are valid from the 2.1.0 release onwards.
-</para>
+
 <section xml:id="java_server_services_integration_spring_xml_based_spring_configuration">
 <info>
     <title>XML Based Spring Configuration</title>
@@ -30,7 +28,7 @@
     configuration or initialization.
 </para>
 <para>
-    The <code>web.xml</code> file is as follows:
+    The <filename>web.xml</filename> file is as follows:
 </para>
 <informalexample>
 <programlisting language="xml"><![CDATA[
@@ -56,6 +54,32 @@
 </web-app>
 ]]></programlisting>
 </informalexample>
+<important>
+<para>
+    It is important to note that the <filename>web.xml</filename> above does <emphasis>not</emphasis>
+    contain any configuration specified as <code>&lt;init-param&gt;</code>.
+    This is because if you are using Spring, you want the configuration to be specified in just one place,
+    that is in the Spring configuration files.
+</para>
+<para>
+    Furthermore, the <code>&lt;load-on-startup&gt;</code> directive is <emphasis>not</emphasis> present.
+    Since the Servlet Specification does not define the startup order between servlets and listeners
+    (in particular, <code>&lt;listener&gt;</code> elements cannot be ordered with a
+    <code>&lt;load-on-startup&gt;</code> element), you must make sure that the Spring
+    <code>&lt;listener&gt;</code> runs before the <code>CometdServlet</code>, otherwise
+    you risk that two <code>BayeuxServer</code> objects are created (one by <code>CometdServlet</code> and
+    the other by Spring), and your application will not work properly (likely, the connection with remote
+    clients will be handled by the <code>CometdServlet</code>'s <code>BayeuxServer</code>, while your
+    services will be bound to Spring's <code>BayeuxServer</code>).
+</para>
+<para>
+    By not specifying a <code>&lt;load-on-startup&gt;</code> element in the <code>CometdServlet</code>
+    definition, the <code>CometdServlet</code> will be initialized lazily <emphasis>after</emphasis> the
+    Spring <code>&lt;listener&gt;</code>, ensuring that only the Spring's <code>BayeuxServer</code> is
+    created and used also by <code>CometdServlet</code> when it is initialized upon receiving the first
+    request from remote clients.
+</para>
+</important>
 <para>
     Spring's <code>applicationContext.xml</code> is as follows:
 </para>
@@ -98,12 +122,8 @@
     Spring now creates the <code>BayeuxServer</code> object, configuring it via the <code>options</code> property,
     initializing via the <code>start()</code> method, and exporting to the servlet context via Spring's
     <code>ServletContextAttributeExporter</code>.
-</para>
-<para>
-    Differently from
-    <link xl:href="http://cometd.org/documentation/cometd-java/server/services/integration-spring"> CometD 1's Spring integration</link>,
-    in CometD 2 the <code>BayeuxServer</code> object you create in this way is fully functional;
-    therefore there is no need to mark dependent services as lazy, and no need for glue code.
+    This ensures that <code>CometdServlet</code> will <emphasis>not</emphasis> create its own instance of
+    <code>BayeuxServer</code>, but use the one that is already present in the servlet context, created by Spring.
 </para>
 <para>
     Below you can find a Spring's <code>applicationContext.xml</code> that configures the <code>BayeuxServer</code>
@@ -170,7 +190,8 @@
 </note>
 <para>
     The <code>web.xml</code> file is exactly the same as the one given as an example in the XML based configuration
-    above (see <xref linkend="java_server_services_integration_spring_xml_based_spring_configuration" />.
+    above (see <xref linkend="java_server_services_integration_spring_xml_based_spring_configuration" />), and
+    the same important notes apply.
 </para>
 <para>
     Spring's <code>applicationContext.xml</code> is as follows:
