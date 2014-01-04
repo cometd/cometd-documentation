@@ -21,7 +21,9 @@
     Each node can easily know how many users are connected to itself, but in this case you want to
     know the total number of all users connected to all nodes (for example to display the number in
     a user interface). The information that you want to distribute is the "data entity" - in this
-    case a number - and we name this feature "data distribution".
+    case the number of users connected to each node - and we name this feature "data distribution".
+    Having each node distributing its own data entity allows each node to know the data entity
+    of the other nodes, and compute the total number of users.
 </para>
 <para>
     Furthermore, your application may need to perform certain actions on a specific node.
@@ -45,6 +47,7 @@
     data entity that is distributed in an Oort cluster.
     Each node in the cluster has exactly one instance of an <code>OortObject</code> with a specific
     name, and the <code>OortObject</code> contains N data entities, one of each node in the cluster.
+    There may be several Oort objects in the same node, provided they all have different names.
 </para>
 <para>
     The data entity may be the number of users connected to each node, or the number of games
@@ -57,8 +60,6 @@
     the names of the users connected to each Oort node.
     The data entity in this case is a <code>List&lt;String&gt;</code> representing the names of the
     connected users for each node.
-    Oort objects are uniquely named, and there may be several Oort objects in the same node,
-    provided they all have different names.
 </para>
 <para>
     <code>NodeA</code> has clients <code>Ca1</code> and <code>Ca2</code> connected, <code>nodeB</code>
@@ -84,12 +85,12 @@
 <para>
     If a new client connects to <code>nodeB</code>, say <code>Cb2</code>, then the application on
     <code>nodeB</code> takes the user name (<code>B2</code>) that wants to share with other nodes,
-    and adds it to the Oort object on<code>nodeB</code>.
+    and adds it to the Oort object on <code>nodeB</code>.
     The user name <code>B2</code> will be added to the green part of <code>nodeB</code>, and a message
     will be broadcast to the other nodes, which will also modify the correspondent green parts on themselves,
-    adding a copy of<code>B2</code>.
+    adding a copy of <code>B2</code>.
     The remote parts of an Oort object can only be updated by messages internal to the <code>OortObject</code>
-    implementation.
+    implementation; they cannot be updated by application code directly.
 </para>
 <para>
     Each Oort object instance <emphasis>owns</emphasis> only its local part.
@@ -162,7 +163,7 @@
 <para>
     <code>OortObject</code>s are created by providing an <code>OortObject.Factory</code>.
     This factory is needed to create the data entity from its raw representation obtained from JSON.
-    This allows standard containers such as <classname>java.util.concurrent.ConcurrentHashMap</classname>
+    This allows standard JDK containers such as <classname>java.util.concurrent.ConcurrentHashMap</classname>
     to be used as data entities, but replicated among nodes using standard JSON.
 </para>
 <para>
@@ -282,6 +283,184 @@ names.removeAndShare("B1");
     object should be immutable, and if you need to change it, it is better to create a new <code>UserInfo</code>
     instance with the new data and then call <code>putAndShare(...)</code> to replace the old one, which will
     ensure that all nodes will get the update.
+</para>
+</section>
+
+<section xml:id="java_oort_objects_oort_object_serialization">
+<info>
+<title>OortObject Custom Data Entity Serialization</title>
+</info>
+<para>
+    The <code>OortObject</code> implementation must be able to transmit and receive the data entity
+    to/from other nodes in the cluster, and recursively so for all objects contained
+    in the data entity that is being transmitted.
+</para>
+<para>
+    The data entity and the objects it contains are serialized to JSON using the standard CometD mechanism,
+    and then transmitted. When a node receives the JSON representation of data entity and its contained objects,
+    it deserializes it from JSON into an object graph.
+</para>
+<para>
+    In the <code>OortStringMap</code> example above, the data entity is a
+    <code>ConcurrentMap&lt;String, Object&gt;</code> and the values of this data entity are objects
+    of class <code>UserInfo</code>.
+</para>
+<para>
+    While the <code>OortObject</code> implementation is able to serialize a <code>ConcurrentMap</code> to
+    JSON natively (because <code>ConcurrentMap</code> is a <code>Map</code> and therefore has a native
+    representation as a JSON object), it usually cannot serialize <code>UserInfo</code> instances correctly
+    (by default, CometD just calls <code>toString()</code> to convert such non natively representable objects
+    to JSON).
+</para>
+<para>
+    In order to serialize correctly instances of <code>UserInfo</code>, you must configure Oort as explained
+    in <xref linkend="java_json_oort_config" />.
+    This is done by creating a custom implementation of <code>JSONContent.Client</code>:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+package com.acme;
+
+import org.cometd.common.JettyJSONContextClient;
+
+public class MyCustomJSONContextClient extends JettyJSONContextClient
+{
+    public MyCustomJSONContextClient()
+    {
+        getJSON().addConvertor(UserInfo.class, new UserInfoConvertor());
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    In the example above the Jetty JSON library has been implicitly chosen by extending the CometD class
+    <code>JettyJSONContextClient</code>. A similar class exist for the Jackson JSON library.
+    In the class above a convertor for the <code>UserInfo</code> class is added to the root
+    <classname>org.eclipse.jetty.util.ajax.JSON</classname> object retrieved via <code>getJSON()</code>.
+    This root <code>JSON</code> object is the one responsible for CometD message serialization.
+</para>
+<para>
+    A typical implementation of the convertor could be (assuming that your <code>UserInfo</code> class
+    has an <code>id</code> property):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+import java.util.Map;
+import org.eclipse.jetty.util.ajax.JSON;
+
+public class UserInfoConvertor implements JSON.Convertor
+{
+    @Override
+    public void toJSON(Object obj, JSON.Output out)
+    {
+        UserInfo userInfo = (UserInfo)obj;
+        out.addClass(UserInfo.class);
+        out.add("id", userInfo.getId());
+    }
+
+    @Override
+    public Object fromJSON(Map object)
+    {
+        String id = (String)object.get("id");
+        return new UserInfo(id);
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    Class <code>UserInfoConvertor</code> depends on the Jetty JSON library; a similar class can be written
+    for the Jackson library (refer to <xref linkend="java_json" /> for further information).
+</para>
+<para>
+    Finally, you must specify class <code>MyCustomJSONContextClient</code> as the <code>jsonContext</code>
+    parameter of the Oort configuration (as explained in <xref linkend="java_oort_common_configuration" />)
+    in the <code>web.xml</code> file, for example:
+</para>
+<informalexample>
+<programlisting language="xml"><![CDATA[
+<web-app ... >
+    ...
+    <servlet>
+        <servlet-name>oort-config</servlet-name>
+        <servlet-class>org.cometd.oort.OortMulticastConfigServlet</servlet-class>
+        <init-param>
+            <param-name>oort.url</param-name>
+            <param-value>http://localhost:8080/cometd</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oort.secret</param-name>
+            <param-value>oort_secret</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jsonContext</param-name>
+            <param-value>com.acme.MyCustomJSONContextClient</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    ...
+</web-app>
+]]></programlisting>
+</informalexample>
+<para>
+    Similarly, in order to deserialize correctly instances of <code>UserInfo</code>, you must configure CometD,
+    again as explained in <xref linkend="java_json_oort_config" />.
+    This is done by creating a custom implementation of <code>JSONContext.Server</code>:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+package com.acme;
+
+import org.cometd.server.JettyJSONContextServer;
+
+public class MyCustomJSONContextServer extends JettyJSONContextServer
+{
+    public MyCustomJSONContextServer()
+    {
+        getJSON().addConvertor(UserInfo.class, new UserInfoConvertor());
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    Like before, the Jetty JSON library has been implicitly chosen by extending the CometD class
+    <code>JettyJSONContextServer</code>. A similar class exist for the Jackson JSON library.
+    Class <code>UserInfoConvertor</code> is the same class we defined above and it is therefore
+    used for both serialization and deserialization.
+</para>
+<para>
+    You must specify class <code>MyCustomJSONContextServer</code> as the <code>jsonContext</code>
+    parameter of the CometD configuration (as explained in <xref linkend="java_server_configuration" />)
+    in the <code>web.xml</code> file, for example:
+</para>
+<informalexample>
+<programlisting language="xml"><![CDATA[
+<web-app ... >
+    ...
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.annotation.AnnotationCometdServlet</servlet-class>
+        <init-param>
+            <param-name>jsonContext</param-name>
+            <param-value>com.acme.MyCustomJSONContextServer</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    ...
+</web-app>
+]]></programlisting>
+</informalexample>
+<para>
+    To summarize, the serialization of the <code>ConcurrentMap</code> data entity of a <code>OortStringMap</code>
+    will happen in the following way: the <code>ConcurrentMap</code> is a <code>Map</code> and is natively
+    represented as a JSON object; the <code>UserInfo</code> values will be converted to JSON as specified by the
+    <code>UserInfoConvertor.toJSON(...)</code> method.
+</para>
+<para>
+    The JSON obtained after the serialization is transmitted to other nodes. The node that receive it will
+    deserialize the received JSON into a plain <code>Map</code> containing <code>UserInfo</code> value objects
+    converted as specified by the <code>UserInfoConvertor.fromJSON(...)</code> method.
+    Finally the plain <code>Map</code> object will be passed to the Oort object factory (see
+    <xref linkend="java_oort_objects_oort_object_creation" />) to be converted into a <code>ConcurrentMap</code>.
 </para>
 </section>
 
