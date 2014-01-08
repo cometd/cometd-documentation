@@ -9,7 +9,8 @@
 <info>
     <title>Building</title>
 </info>
-<section>
+
+<simplesect>
 <info>
     <title>Requirements</title>
 </info>
@@ -24,9 +25,9 @@
     Make sure that the <application>mvn</application> executable is in your path, and that your <envar>JAVA_HOME</envar>
     environment variable points to the directory where Java is installed.
 </para>
-</section>
+</simplesect>
 
-<section>
+<simplesect>
 <info>
     <title>Obtaining the source code</title>
 </info>
@@ -53,9 +54,9 @@ $ git clone git://github.com/cometd/cometd.git cometd
 $ cd cometd
 ]]></programlisting>
 </informalexample>
-</section>
+</simplesect>
 
-<section>
+<simplesect>
 <info>
     <title>Performing the Build</title>
 </info>
@@ -75,9 +76,9 @@ $ mvn clean install
 $ mvn clean install -DskipTests=true
 ]]></programlisting>
 </informalexample>
-</section>
+</simplesect>
 
-<section>
+<simplesect>
 <info>
     <title>Trying out your Build</title>
 </info>
@@ -93,5 +94,5 @@ $ mvn jetty:run
 <para>
     Then point your browser at http://localhost:8080 and you should see the CometD Demo page.
 </para>
-</section>
+</simplesect>
 </appendix>

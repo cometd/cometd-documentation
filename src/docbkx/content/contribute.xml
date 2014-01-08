@@ -14,7 +14,8 @@
     The CometD project values your contribution, of <emphasis>any</emphasis> kind, and participating
     in mailing lists, submitting bugs or documentation enhancements is equally important as contributing code.
 </para>
-<section id="contribute_mailing_lists">
+
+<simplesect id="contribute_mailing_lists">
 <info>
     <title>Contributing via Mailing Lists</title>
 </info>
@@ -45,9 +46,9 @@
     subject to moderation. If you post for the first time, please allow some hour to moderators to review
     the message and approve your post. This is done to reduce spam to the minimum possible.
 </para>
-</section>
+</simplesect>
 
-<section id="contribute_issue_reporting">
+<simplesect id="contribute_issue_reporting">
 <info>
     <title>Contributing by Reporting Issues</title>
 </info>
@@ -72,9 +73,9 @@
     For more information about JIRA, see the
     <link xl:href="http://www.atlassian.com/software/jira">JIRA documentation</link>.
 </para>
-</section>
+</simplesect>
 
-<section id="contribute_code">
+<simplesect id="contribute_code">
 <info>
     <title>Contributing Code Fixes and Enhancements</title>
 </info>
@@ -99,9 +100,9 @@
     Once you have the CLA in place, you can contribute code via
     <link xl:href="https://help.github.com/articles/using-pull-requests">GitHub pull requests</link>.
 </para>
-</section>
+</simplesect>
 
-<section id="contribute_documentation">
+<simplesect id="contribute_documentation">
 <info>
     <title>Contributing to Documentation &amp; Tutorials</title>
 </info>
@@ -118,5 +119,5 @@
     or the tutorials, you can just contribute via
     <link xl:href="https://help.github.com/articles/using-pull-requests">GitHub pull requests</link>.
 </para>
-</section>
+</simplesect>
 </chapter>

@@ -15,7 +15,8 @@
     <link xl:href="http://eclipse.org/jetty">Jetty Http Server and Servlet Container</link>,
     for both the client and the server.
 </para>
-<section>
+
+<simplesect>
 <info>
     <title>CometD Java Libraries and Servlet 2.5</title>
 </info>
@@ -29,8 +30,9 @@
     compliant servlet containers, but it does not scale as well because it is less integrated with other servlet
     containers. See <xref linkend="java_server_configuration_servlet_25" /> for further details.
 </para>
-</section>
-<section>
+</simplesect>
+
+<simplesect>
 <info>
     <title>CometD Java Libraries and Servlet 3.0</title>
 </info>
@@ -40,7 +42,7 @@
     good as the servlet container's implementation). See <xref linkend="java_server_configuration_servlet_30" />
     when deploying to Servlet 3.0 compliant servlet containers.
 </para>
-</section>
+</simplesect>
 <para>
     The CometD Java Implementation offers a client library and a server library, which the following sections
     document in detail.

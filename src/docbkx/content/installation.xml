@@ -10,7 +10,7 @@
     <title>Installation</title>
 </info>
 
-<section>
+<simplesect>
 <info>
     <title>Downloading and Installing</title>
 </info>
@@ -25,7 +25,7 @@ $ tar zxvf cometd-<version>-distribution.tgz
 $ cd cometd-<version>/
 ]]></screen>
 </para>
-</section>
+</simplesect>
 
 <section xml:id="installation_demos">
 <info>
