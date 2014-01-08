@@ -147,6 +147,16 @@ However, the second way allows you to pass other configuration parameters, curre
       It does not apply to HTTP connections. A timeout value of 0 means to wait forever.
   </entry>
 </row>
+<row>
+  <entry>stickyReconnect</entry>
+  <entry>no</entry>
+  <entry>true</entry>
+  <entry>
+      Only applies to the WebSocket transport. Determines whether to stick using the WebSocket transport
+      when a WebSocket transport failure has been detected <emphasis>after</emphasis> the WebSocket transport
+      was able to successfully connect to the server.
+  </entry>
+</row>
 </tbody>
 </tgroup>
 </table>

@@ -136,6 +136,15 @@ client.handshake();
     <entry>8192</entry>
     <entry>The maximum number of bytes allowed for each WebSocket message.</entry>
 </row>
+<row>
+    <entry>stickyReconnect</entry>
+    <entry>no</entry>
+    <entry>true</entry>
+    <entry>
+        Whether to stick using the WebSocket transport when a WebSocket transport failure has been detected
+        <emphasis>after</emphasis> the WebSocket transport was able to successfully connect to the server.
+    </entry>
+</row>
 </tbody>
 </tgroup>
 </table>
