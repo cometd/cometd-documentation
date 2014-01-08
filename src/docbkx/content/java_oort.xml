@@ -266,15 +266,28 @@ There are two ways for a new comet to discover at least one other comet:
     <entry>oort.multicast.timeToLive</entry>
     <entry>N</entry>
     <entry>1</entry>
-    <entry>The time to live of advertisement packets (1 = same subnet, 32 = same site, 255 =
-        global)
-    </entry>
+    <entry>The time to live of advertisement packets (1 = same subnet, 32 = same site, 255 = global)</entry>
 </row>
 <row>
     <entry>oort.multicast.advertiseInterval</entry>
     <entry>N</entry>
-    <entry>1000</entry>
+    <entry>2000</entry>
     <entry>The interval in milliseconds at which advertisements are sent</entry>
+</row>
+<row>
+    <entry>oort.multicast.connectTimeout</entry>
+    <entry>N</entry>
+    <entry>1000</entry>
+    <entry>The timeout in milliseconds to connect to other nodes</entry>
+</row>
+<row>
+    <entry>oort.multicast.maxTransmissionLength</entry>
+    <entry>N</entry>
+    <entry>1400</entry>
+    <entry>
+        The maximum length in bytes of multicast messages (the MTU of datagrams) -
+        limits the length of the Oort URL advertised by the node
+    </entry>
 </row>
 </tbody>
 </tgroup>
