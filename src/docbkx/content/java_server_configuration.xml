@@ -235,10 +235,25 @@
   </entry>
 </row>
 <row>
-  <entry>browserId</entry>
+  <entry>browserCookieName</entry>
   <entry>BAYEUX_BROWSER</entry>
   <entry>
       The name of the cookie used to identify multiple sessions (see <xref linkend="java_server_multiple_sessions" />).
+  </entry>
+</row>
+<row>
+  <entry>browserCookieDomain</entry>
+  <entry>&#160;</entry>
+  <entry>
+      The domain of the cookie used to identify multiple sessions (see
+      <xref linkend="java_server_multiple_sessions" />). By default there is no domain
+  </entry>
+</row>
+<row>
+  <entry>browserCookiePath</entry>
+  <entry>/</entry>
+  <entry>
+      The path of the cookie used to identify multiple sessions (see <xref linkend="java_server_multiple_sessions" />).
   </entry>
 </row>
 </tbody>
