@@ -137,9 +137,13 @@ There are two ways for a new comet to discover at least one other comet:
 </row>
 <row>
     <entry>oort.secret</entry>
-    <entry>N</entry>
+    <entry>Y/N</entry>
     <entry>random string</entry>
-    <entry>The pre-shared secret that authenticates connections from other Oort comets</entry>
+    <entry>
+        The pre-shared secret that authenticates connections from other Oort comets.
+        It is mandatory when applications want to authenticate other Oort comets, see
+        <xref linkend="java_oort_authentication" />.
+    </entry>
 </row>
 <row>
     <entry>oort.channels</entry>
@@ -609,7 +613,7 @@ oort.addCometListener(new Oort.CometListener()
 </para>
 </section>
 
-<section>
+<section xml:id="java_oort_authentication">
 <info>
     <title>Authentication</title>
 </info>
@@ -678,8 +682,11 @@ public class OortSecurityPolicy extends DefaultSecurityPolicy
 <para>
     The <code>Oort.isOortHandshake(Message)</code> method validates the handshake message and
     returns true if it is a handshake from another Oort comet that has been configured with the
-    same pre-shared secret. The pre-shared secret must be explicitly set because it defaults to a
-    random string that is different for each Oort comet.
+    same pre-shared secret.
+    In this case, where you want to validate that the handshake attempt really comes from a valid
+    Oort comet (and not from an attacker that forged a message similar to what an Oort comet sends),
+    the pre-shared secret must be explicitly set to the same value for all Oort comets, because it
+    defaults to a random string that is different for each Oort comet.
 </para>
 </section>
 <section>
