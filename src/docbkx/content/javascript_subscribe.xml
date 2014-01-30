@@ -140,6 +140,27 @@
 </para>
 </note>
 <para>
+    If you want to be certain that the server received your subscription request (or not), you can either
+    register a <code>/meta/subscribe</code> listener, or pass a callback function to <code>subscribe()</code>:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+cometd.subscribe('/foo', function(message) { ... }, function(subscribeReply)
+{
+    if (subscribeReply.successful)
+    {
+        // The server successfully subscribed this client to the "/foo" channel.
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Remember that subscriptions may fail on the server (for example, the client does not have enough
+    permissions to subscribe) or on the client (for example, there is a network failure).
+    In both cases <code>/meta/subscribe</code> listener, or the callback function, will be invoked with
+    an unsuccessful subscribe message reply.
+</para>
+<para>
     Both <code>addListener()</code> and <code>subscribe()</code> return a subscription object
     that must be passed to, respectively, <code>removeListener()</code> and <code>unsubscribe()</code>:
 </para>
@@ -165,9 +186,13 @@ cometd.removeListener(subscription1);
 </para>
 <para>
     A good place in the code to perform subscriptions is in a <code>/meta/handshake</code> function.
-    Since <code>/meta/handshake</code> listener are invoked in both explicit handshakes the client performs
+    Since <code>/meta/handshake</code> listeners are invoked in both explicit handshakes the client performs
     and in re-handshakes the server triggers, it is guaranteed that your subscriptions are always
     performed properly and kept consistent with the server state.
+</para>
+<para>
+    Equivalently, a callback function passed to the handshake method behaves exactly like a
+    <code>/meta/handshake</code> listener, and therefore can be used to perform subscriptions.
 </para>
 <para>
     Applications do not need to unsubscribe in case of re-handshake; the CometD library takes care of removing

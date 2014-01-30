@@ -12,9 +12,10 @@
     <xref linkend="javascript_configure" /> describes the reconnect parameters.
 </para>
 <para>
-    Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux server so that it can clean up any state associated with that client.
-    As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it returns
-    immediately, well before the Bayeux server has received the disconnect request.
+    Calling the JavaScript CometD API <code>disconnect()</code> results in a message being sent to the Bayeux
+    server so that it can clean up any state associated with that client.
+    As with all methods that involve a communication with the Bayeux server, it is an asynchronous method: it
+    returns immediately, well before the Bayeux server has received the disconnect request.
     If the server is unreachable (because it is down or because of network failures), the JavaScript CometD
     implementation stops any reconnection attempt and cleans up any local state.
     It is normally safe to ignore if the <code>disconnect()</code> call has been successful or not: the client is in
@@ -29,6 +30,21 @@
     <code>$.cometd.disconnect()</code> (for jQuery).
 </para>
 </tip>
+<para>
+    In case you really want to know whether the server received the disconnect request, you can pass a callback
+    function to the <code>disconnect()</code> function:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+cometd.disconnect(function(disconnectReply)
+{
+    if (disconnectReply.successful)
+    {
+        // Server truly received the disconnect request
+    }
+});
+]]></programlisting>
+</informalexample>
 <section>
  <info>
      <title>Short Network Failures</title>
@@ -41,7 +57,7 @@
     might behave as if nothing happened.
     The client in this case just re-establishes the long poll, but any message the client publishes during the network
     failure is not automatically re-sent (though it is possible to be notified, through the <code>/meta/publish</code>
-    channel, of the failed publishes).
+    channel or better yet through callback functions, of the failed publishes).
 </para>
 </section>
 <section>
@@ -68,8 +84,8 @@
 </listitem>
 </itemizedlist>
 <para>
-    If you register with meta channels, be aware of these steps, since a reconnection might involve more than one
-    message exchange with the server.
+    If you register meta channels listener, or if you use callback functions, be aware of these steps,
+    since a reconnection might involve more than one message exchange with the server.
 </para>
 </section>
 </section>

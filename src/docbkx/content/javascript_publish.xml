@@ -17,8 +17,8 @@ cometd.publish('/mychannel', { mydata: { foo: 'bar' } });
 </informalexample>
 <para>
     You cannot (and it makes no sense to) publish to a meta channel, but you can publish to a service
-    or normal channel even if you are not subscribed to that channel.
-    However, you have to handshake before you are able to publish.
+    or broadcast channel even if you are not subscribed to that channel.
+    However, you have to handshake (see <xref linkend="javascript_handshake" />) before you can publish.
 </para>
 <para>
     As with other JavaScript CometD API, <code>publish()</code> involves a communication with the server and it is
@@ -39,13 +39,13 @@ cometd.publish('/mychannel', { mydata: { foo: 'bar' } });
 </para>
 <para>
     In order to be notified of publish acknowledgments or failures, is it recommended that you use this variant
-    of the <code>publish()</code> method:
+    of the <code>publish()</code> function, passing a callback function:
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-cometd.publish('/mychannel', { mydata: { foo: 'bar' } }, function(reply)
+cometd.publish('/mychannel', { mydata: { foo: 'bar' } }, function(publishReply)
 {
-    if (reply.successful)
+    if (publishReply.successful)
     {
         // The message reached the server
     }

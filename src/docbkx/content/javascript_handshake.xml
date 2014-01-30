@@ -8,58 +8,100 @@
     <title>Handshaking</title>
 </info>
 <para>
-The call to <code>handshake()</code> (or to <code>init()</code>) initiates the Bayeux communication with the Bayeux server.
+    In order to initiate the communication with the Bayeux server, you must call either the
+    <code>handshake()</code> or the <code>init()</code> methods on the <code>cometd</code> object.
+    The <code>init()</code> function is a shorthand for a call to <code>configure()</code> (see
+    <xref linkend="javascript_configure" />) followed by a call to <code>handshake()</code>.
 </para>
 <para>
-The Bayeux handshake performs two tasks:
+    Calling <code>handshake()</code> effectively sends a handshake message request to the server,
+    and the Bayeux protocol requires that the server sends to the client a handshake message reply.
 </para>
-<orderedlist>
-<listitem>
-    <para>The client and the server negotiate the type of transport to use.</para>
-</listitem>
-<listitem>
-    <para>Once the transport negotiates successfully, the server informs the client with the detailed timings of the
-        requests.
-    </para>
-</listitem>
-</orderedlist>
 <para>
-    As with several methods of the JavaScript CometD API, it is an asynchronous method: it returns immediately, well
-    before the Bayeux handshake steps have completed.
+    The Bayeux handshake creates a network communication with the Bayeux server, negotiates the type
+    of transport to use, and negotiates a number of protocol parameters to be used in subsequent
+    communications.
+</para>
+<para>
+    As with several methods of the JavaScript CometD API, <code>handshake()</code> is an asynchronous function:
+    it returns immediately, well before the Bayeux handshake steps have completed.
 </para>
 <note>
 <para>
-    Calling <code>handshake()</code> <emphasis role="bold"> does not</emphasis> mean that you have completed the
+    Calling <code>handshake()</code> <emphasis role="bold">does not</emphasis> mean that you have completed the
     handshake with the server when <code>handshake()</code> returns.
 </para>
 </note>
 <para>
-The handshake might fail for several reasons:
-</para>
-<itemizedlist>
-<listitem>
-<para>You mistyped the server URL.</para>
-</listitem>
-<listitem>
-<para>The transport could not be negotiated successfully.</para>
-</listitem>
-<listitem>
-<para>The server denied the handshake (for example, the authentication credentials were wrong).</para>
-</listitem>
-<listitem>
-<para>The server crashed.</para>
-</listitem>
-<listitem>
-<para>There was a network failure.</para>
-</listitem>
-</itemizedlist>
-<para>
-    Therefore it is not a good idea to write this code:
+    It is possible to invoke the <code>handshake()</code> function passing as parameter a callback function that
+    will be invoked when the handshake message reply from the server arrives to the client (or, in case the
+    server does not reply, when the client detects a handshake failure):
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-// Configure and handshake
-cometd.init('http://localhost:8080/cometd');
+// Configure
+cometd.configure({
+    url: 'http://localhost:8080/cometd'
+});
+
+// Handshake with callback
+cometd.init(function(handshakeReply)
+{
+    if (handshakeReply.successful)
+    {
+        // Successfully connected to the server.
+        // Now it is possible to subscribe or send messages
+    }
+    else
+    {
+        // Cannot handshake with the server, alert user.
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Passing a callback function to <code>handshake()</code> is equivalent to register a
+    <code>/meta/handshake</code> listener (see <xref linkend="javascript_subscribe_vs_listen" />).
+</para>
+<para>
+    The handshake might fail for several reasons:
+</para>
+<itemizedlist>
+<listitem>
+    <para>You mistyped the server URL.</para>
+</listitem>
+<listitem>
+    <para>The transport could not be negotiated successfully.</para>
+</listitem>
+<listitem>
+    <para>The server denied the handshake (for example, the authentication credentials were wrong).</para>
+</listitem>
+<listitem>
+    <para>The server crashed.</para>
+</listitem>
+<listitem>
+    <para>There was a network failure.</para>
+</listitem>
+</itemizedlist>
+<para>
+    In case of a handshake failure, applications should not try to call <code>handshake()</code> again:
+    the CometD library will do this on behalf of the application.
+    A corollary of this is that applications should usually only ever call <code>handshake()</code> once in
+    their code.
+</para>
+<para>
+    Since the <code>handshake()</code> call is asynchronous, it is not a good idea to write this code:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+// WRONG CODE
+
+cometd.configure({
+    url: 'http://localhost:8080/cometd'
+});
+
+// Handshake
+cometd.handshake();
 
 // Publish to a channel
 cometd.publish('/foo', { foo: 'bar' });
@@ -68,12 +110,33 @@ cometd.publish('/foo', { foo: 'bar' });
 <para>
     It is not a good idea because there is no guarantee that the call to <code>publish()</code> (see
     <xref linkend="javascript_publish" />) can actually succeed in contacting the Bayeux server.
-    Since the API is asynchronous, you have no way of knowing synchronously (that is, by having <code>handshake()</code>
-    return an error code or by throwing an exception) that the handshake failed.
-    Even if the handshake succeeds, you might still be disconnected from the Bayeux server, for example because the
-    server crashed just after the successful handshake.
-    Fortunately there is a way to receive notifications about the details of the Bayeux protocol message exchange: by
-    adding listeners to special channels (called <emphasis>meta channels</emphasis>).
-    <xref linkend="javascript_subscribe" /> section explains this functionality.
+    Since the API is asynchronous, you have no way of knowing synchronously (that is, by having
+    <code>handshake()</code> function return an error code or by throwing an exception) that the handshake failed.
+</para>
+<para>
+    The right way is the following:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+cometd.configure({
+    url: 'http://localhost:8080/cometd'
+});
+
+// Handshake
+cometd.handshake(function(handshakeReply)
+{
+    if (handshakeReply.successful)
+    {
+        // Publish to a channel
+        cometd.publish('/foo', { foo: 'bar' });
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    The CometD JavaScript API offer an easy way to receive notifications about the details of the Bayeux protocol
+    message exchange: either by adding listeners to special channels (called <emphasis>meta channels</emphasis>),
+    explained in<xref linkend="javascript_subscribe" />, or by passing callback functions to the API like you did
+    for <code>handshake()</code> in the example above.
 </para>
 </section>
