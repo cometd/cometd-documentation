@@ -89,7 +89,7 @@ client.batch (new Runnable()
 <para>
     The <code>ClientSession</code> API also allows you to batch using <code>startBatch()</code> and
     <code>endBatch()</code>, but remember to call <code>endBatch()</code> after having called
-    <code>startBatch()</code>, for example in a final block.
+    <code>startBatch()</code>, for example in a <code>finally</code> block.
     If you don't, your messages continue to queue up, and your application does not work as expected.
 </para>
 </warning>

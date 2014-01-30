@@ -22,15 +22,17 @@ The following is a typical use:
 <programlisting language="java"><![CDATA[
 // Create (and eventually set up) Jetty's HttpClient:
 HttpClient httpClient = new HttpClient();
-//Here set up Jetty's HttpClient, for example:
+// Here set up Jetty's HttpClient, for example:
 // httpClient.setMaxConnectionsPerAddress(2);
 httpClient.start();
 
 // Prepare the transport
 Map<String, Object> options = new HashMap<String, Object>();
-ClientTransport transport = LongPollingTransport.create(options, httpClient);
+ClientTransport transport = new LongPollingTransport(options, httpClient);
 
+// Create the BayeuxClient
 ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
+
 // Here set up the BayeuxClient, for example:
 // client.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChannel.MessageListener() { ... });
 ]]></programlisting>
@@ -52,7 +54,27 @@ ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transpor
 </para>
 </note>
 <para>
-    To verify that the handshake is successful, you can add a <code>MessageListener</code> before calling
+    To verify that the handshake is successful, you can pass a callback <code>MessageListener</code> to
+    <code>BayeuxClient.handshake()</code>:
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+ClientTransport transport = ...
+ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transport);
+client.handshake(new ClientSessionChannel.MessageListener()
+{
+    public void onMessage(ClientSessionChannel channel, Message message)
+    {
+        if (message.isSuccessful())
+        {
+            // Here handshake is successful
+        }
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    An alternative, equivalent, way is to add a <code>MessageListener</code> before calling
     <code>BayeuxClient.handshake()</code>:
 </para>
 <informalexample>
@@ -73,8 +95,8 @@ client.handshake();
 ]]></programlisting>
 </informalexample>
 <para>
-    An alternative is to use the built-in synchronous features of the CometD 2 BayeuxClient and wait for the
-    handshake to complete:
+    Another alternative is to use the built-in synchronous features of the <code>BayeuxClient</code>
+    and wait for the handshake to complete:
 </para>
 <informalexample>
 <programlisting language="java"><![CDATA[
