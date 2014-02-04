@@ -71,12 +71,8 @@
 </itemizedlist>
 
 <para>
-    <link xl:href="https://webtide.com">Webtide</link>, the company that was formerly providing CometD
-    commercial support, is now part of <link xl:href="http://intalio.com">Intalio</link>.
-</para>
-<para>
-    Intalio provides <link xl:href="http://www.intalio.com/products/jetty/cometd/">commercial support</link>
-    for the CometD project.
+    <link xl:href="https://webtide.com">Webtide</link>, part of <link xl:href="http://intalio.com">Intalio</link>,
+    is the company that provides CometD commercial support.
 </para>
 <para>
     <link xl:href="https://www.webtide.com/contact/">Contact us</link> for any information you need,
