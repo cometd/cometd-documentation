@@ -12,12 +12,10 @@
  </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-        cometd.handshake();
-
-        // Warning: non-optimal code
-        cometd.publish('/channel1', { product: 'foo' });
-        cometd.publish('/channel2', { notificationType: 'all' });
-        cometd.publish('/channel3', { update: false });
+// Warning: non-optimal code
+cometd.publish('/channel1', { product: 'foo' });
+cometd.publish('/channel2', { notificationType: 'all' });
+cometd.publish('/channel3', { update: false });
 ]]></programlisting>
 </informalexample>
 <para>
@@ -59,8 +57,7 @@
 </para>
 <informalexample>
 <programlisting language="javascript"><![CDATA[
-cometd.handshake();
-
+cometd.batch(function()
 {
     cometd.publish('/channel1', { product: 'foo' });
     cometd.publish('/channel2', { notificationType: 'all' });
@@ -85,7 +82,7 @@ cometd.endBatch()
 <warning>
 <para>
     Remember to call <code>endBatch()</code> after calling <code>startBatch()</code>.
-    If you don't – for example, because an exception is thrown in the middle of the batch – your messages continue to
+    If you don't - for example, because an exception is thrown in the middle of the batch - your messages continue to
     queue, and your application does not work as expected.
 </para>
 </warning>
@@ -115,8 +112,7 @@ cometd.endBatch()
 <informalexample>
 <programlisting language="javascript"><![CDATA[
 var _subscription;
-
-(function()
+cometd.batch(function()
 {
     cometd.unsubscribe(_subscription);
     _subscription = cometd.subscribe('/foo', function(message) { ... });
