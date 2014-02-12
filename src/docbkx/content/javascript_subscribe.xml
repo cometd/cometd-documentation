@@ -161,6 +161,26 @@ cometd.subscribe('/foo', function(message) { ... }, function(subscribeReply)
     an unsuccessful subscribe message reply.
 </para>
 <para>
+    You can pass additional information to the subscribe message by passing an additional object to the
+    <code>subscribe()</code> function:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+var additional = {
+    com.acme.priority: 10
+};
+cometd.subscribe('/foo', function(message) { ... }, additional, function(subscribeReply)
+{
+    // Your logic here.
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Remember that the subscribe message is sent to the server only when subscribing to a channel for the first
+    time. Additional subscriptions to the same channel will not result in a message being sent to the server.
+    See also <xref linkend="javascript_handshake" /> for further information about passing additional objects.
+</para>
+<para>
     Both <code>addListener()</code> and <code>subscribe()</code> return a subscription object
     that must be passed to, respectively, <code>removeListener()</code> and <code>unsubscribe()</code>:
 </para>
@@ -175,6 +195,29 @@ cometd.unsubscribe(subscription2);
 cometd.removeListener(subscription1);
 ]]></programlisting>
 </informalexample>
+<para>
+    Function <code>unsubscribe()</code> can too take an additional object and a callback function as parameters:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+// Some initialization code
+var subscription1 = cometd.subscribe('/foo/bar/', function() { ... });
+
+// Some de-initialization code
+var additional = {
+    com.acme.discard: true
+}
+cometd.unsubscribe(subscription1, additional, function(unsubscribeReply)
+{
+    // Your logic here.
+});
+]]></programlisting>
+</informalexample>
+<para>
+    Similarly to <code>subscribe()</code>, the unsubscribe message is sent to the server only when unsubscribing
+    from a channel for the last time.
+    See also <xref linkend="javascript_handshake" /> for further information about passing additional objects.
+</para>
 <para>
     The major difference between listeners and subscribers is that subscribers are automatically removed
     upon re-handshake, while listeners are not modified by a re-handshake.

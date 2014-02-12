@@ -45,6 +45,23 @@ cometd.disconnect(function(disconnectReply)
 });
 ]]></programlisting>
 </informalexample>
+<para>
+    Like other APIs, also <code>disconnect()</code> may take an additional object that is sent to the server:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+var additional = {
+    com.acme.reset: false
+};
+cometd.disconnect(additional, function(disconnectReply)
+{
+    // Your logic here.
+});
+]]></programlisting>
+</informalexample>
+<para>
+    See also <xref linkend="javascript_handshake" /> for further information about passing additional objects.
+</para>
 <section>
  <info>
      <title>Short Network Failures</title>

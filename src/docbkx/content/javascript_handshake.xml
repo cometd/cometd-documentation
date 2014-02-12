@@ -134,9 +134,60 @@ cometd.handshake(function(handshakeReply)
 ]]></programlisting>
 </informalexample>
 <para>
+    If you want to pass additional information to the handshake message (for example, authentication credentials)
+    you can pass an additional object to the <code>handshake()</code> function:
+</para>
+<informalexample>
+<programlisting language="javascript"><![CDATA[
+cometd.configure({
+    url: 'http://localhost:8080/cometd'
+});
+
+// Handshake with additional information.
+var additional = {
+    com.acme.credentials: {
+        user: 'cometd',
+        token: 'xyzsecretabc'
+    }
+};
+cometd.handshake(additional, function(handshakeReply)
+{
+    if (handshakeReply.successful)
+    {
+        // Your logic here.
+    }
+});
+]]></programlisting>
+</informalexample>
+<para>
+    The additional object will be <emphasis>merged</emphasis> into the handshake message, and the server
+    will be able to access the additional information in a <code>/meta/handshake</code> listener, for example
+    using annotated services (see <xref linkend="java_server_services_annotated" />):
+</para>
+<informalexample>
+<programlisting language="java"><![CDATA[
+@Service
+public class MyService
+{
+    @Listener(Channel.META_HANDSHAKE)
+    public void metaHandshake(ServerSession remote, ServerMessage message)
+    {
+        Map<String, Object> credentials = (Map<String, Object>)message.get("com.acme.credentials");
+        // Verify credentials.
+    }
+}
+]]></programlisting>
+</informalexample>
+<para>
+    The additional object must not be used to tamper the handshake message by using reserved fields defined
+    by the Bayeux protocol (see <xref linkend="bayeux" />).
+    Instead, you should use field names that are unique to your application, better yet when fully qualified
+    like <code>com.acme.credentials</code>.
+</para>
+<para>
     The CometD JavaScript API offer an easy way to receive notifications about the details of the Bayeux protocol
     message exchange: either by adding listeners to special channels (called <emphasis>meta channels</emphasis>),
-    explained in<xref linkend="javascript_subscribe" />, or by passing callback functions to the API like you did
+    explained in <xref linkend="javascript_subscribe" />, or by passing callback functions to the API like you did
     for <code>handshake()</code> in the example above.
 </para>
 </section>
