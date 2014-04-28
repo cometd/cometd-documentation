@@ -255,7 +255,7 @@
 </simplesect>
 </section>
 
-<section>
+<section xml:id="bayeux_operation">
 <info>
     <title>Overall Operation</title>
 </info>
@@ -622,7 +622,7 @@ CONNECTED    ||            | UNCONNECTED |            | UNCONNECTED
 </simplesect>
 </section>
 
-<section id="bayeux_protocol_elements">
+<section xml:id="bayeux_protocol_elements">
 <info>
     <title>Protocol Elements</title>
 </info>
@@ -2370,7 +2370,7 @@ error_message    = string
 </section>
 </section>
 
-<section>
+<section xml:id="bayeux_security">
 <info>
     <title>Security</title>
 </info>

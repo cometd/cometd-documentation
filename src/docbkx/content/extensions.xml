@@ -56,7 +56,8 @@
     JavaScript CometD implementation uses: a portable implementation of the extension with
     <emphasis>bindings</emphasis> for the specific JavaScript toolkit, currently Dojo and jQuery.
 </para>
-<section>
+
+<section xml:id="extensions_writing">
 <info>
     <title>Writing the Extension</title>
 </info>
@@ -145,7 +146,8 @@ var LoggerExt = function()
     CometD does not send the message to the server, nor notify listeners.
 </para>
 </section>
-<section>
+
+<section xml:id="extensions_registering">
 <info>
     <title>Registering the Extension</title>
 </info>
@@ -196,7 +198,8 @@ cometd.unregisterExtension('loggerExt');
     <code>extA.incoming()</code>.
 </para>
 </section>
-<section>
+
+<section xml:id="extensions_exceptions">
 <info>
     <title>Extension Exception Handling</title>
 </info>
