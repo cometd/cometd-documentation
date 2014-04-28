@@ -20,7 +20,7 @@
                         <id>xhtml</id>
                         <phase>compile</phase>
                         <goals>
-                            <goal>generate-xhtml</goal>
+                            <goal>generate-html</goal>
                         </goals>
                         <configuration>
                             <includes>book.xml</includes>
@@ -30,7 +30,7 @@
                             <sectionLabelIncludesComponentLabel>1</sectionLabelIncludesComponentLabel>
                             <imgSrcPath>images/</imgSrcPath>
                             <htmlStylesheet>css/cometd.css</htmlStylesheet>
-                            <xhtmlCustomization>${basedir}/src/docbkx-stylesheet/xhtml/docbook.xsl</xhtmlCustomization>
+                            <htmlCustomization>${basedir}/src/docbkx-stylesheet/xhtml/docbook.xsl</htmlCustomization>
                             <chunkedOutput>true</chunkedOutput>
                             <postProcess>
                                 <copy todir="${project.build.directory}/docbkx/xhtml/book/css">
