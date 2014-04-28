@@ -622,7 +622,7 @@ CONNECTED    ||            | UNCONNECTED |            | UNCONNECTED
 </simplesect>
 </section>
 
-<section>
+<section id="bayeux_protocol_elements">
 <info>
     <title>Protocol Elements</title>
 </info>

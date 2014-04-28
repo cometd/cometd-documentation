@@ -63,12 +63,11 @@
 </para>
 <table>
 <caption>BayeuxServer Configuration Parameters</caption>
-<tgroup cols="4">
+<tgroup cols="3">
 <thead>
 <row>
   <entry>Parameter Name</entry>
   <entry>Default Value</entry>
-  <entry>Since</entry>
   <entry>Parameter Description</entry>
 </row>
 </thead>
@@ -76,13 +75,11 @@
 <row>
   <entry>logLevel</entry>
   <entry>0</entry>
-  <entry>2.0.0</entry>
   <entry>The log level: 0 = off, 1 = config, 2 = info, 3 = debug.</entry>
 </row>
 <row>
   <entry>transports</entry>
   <entry>empty string</entry>
-  <entry>2.2.0</entry>
   <entry>
       A comma-separated list of <code>ServerTransport</code> implementation class names (that take a
       <code>org.cometd.server.BayeuxServerImpl</code> as only constructor parameter) to add to the
@@ -92,7 +89,6 @@
 <row>
   <entry>allowedTransports</entry>
   <entry>empty string</entry>
-  <entry>2.2.0</entry>
   <entry>
       A comma-separated list of <code>ServerTransport</code> names allowed.
       If not specified, the default server transports are allowed.
@@ -101,10 +97,18 @@
 <row>
   <entry>jsonContext</entry>
   <entry><code>org.cometd.server.JettyJSONContextServer</code></entry>
-  <entry>2.4.0</entry>
   <entry>
       The full qualified name of a class implementing <code>org.cometd.common.JSONContext.Server</code>.
       The class is loaded and instantiated using the default constructor.
+  </entry>
+</row>
+<row>
+  <entry>validateMessageFields</entry>
+  <entry>true</entry>
+  <entry>
+      Whether message fields such as <code>channel</code>, <code>id</code> and
+      <code>subscription</code> should be validated to contain legal characters
+      as defined in <xref linkend="bayeux_protocol_elements" />.
   </entry>
 </row>
 </tbody>
