@@ -120,7 +120,10 @@ $ git clone https://github.com/cometd/cometd-dojo.git
 $ cd cometd-dojo
 </screen>
 <para>
-    Edit the <code>package.json</code> file, updating the CometD version and the Dojo version, then commit it.
+    Make sure that the JavaScript files are in sync with the main CometD distribution.
+</para>
+<para>
+    Edit the <code>package.json</code> file, update the CometD version and the Dojo version, then commit it.
 </para>
 <screen>
 $ git push
