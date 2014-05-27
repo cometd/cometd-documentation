@@ -123,15 +123,14 @@ You can configure the automatic discovery mechanism either via code, or by
 configuring a +org.cometd.oort.OortMulticastConfigServlet+ in +web.xml+,
 for example:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-     version="2.5">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <servlet>
         <servlet-name>cometd</servlet-name>
@@ -258,15 +257,14 @@ each node with the well-known URL of an existing, started, node (often named
 You can accomplish the static discovery configuration either via code, or by
 configuring an +org.cometd.oort.OortStaticConfigServlet+ in +web.xml+, for example:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-     version="2.5">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <servlet>
         <servlet-name>cometd</servlet-name>
@@ -318,15 +316,14 @@ Oort cluster, you can configure the +oort.cluster+ init parameter of the
 +OortStaticConfigServlet+ with one (or a comma-separated list) of Oort node
 URL(s) to connect to:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-     version="2.5">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <servlet>
         <servlet-name>cometd</servlet-name>
@@ -587,15 +584,14 @@ You accomplish this by configuring the Oort configuration servlets to set the
 +oort.channels+ init parameter to a comma-separated list of channels whose
 messages are forwarded to the Oort cluster:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-     version="2.5">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <servlet>
         <servlet-name>cometd</servlet-name>

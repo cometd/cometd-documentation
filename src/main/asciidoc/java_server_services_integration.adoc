@@ -16,15 +16,14 @@ This configuration servlet has no URL mapping because its only scope is to initi
 
 Here is a sample +web.xml+:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <servlet>
         <servlet-name>cometd</servlet-name>
@@ -88,15 +87,14 @@ by writing a class that implements +ServletContextAttributeListener+.
 
 Here is a sample +web.xml+ file:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <servlet>
         <servlet-name>cometd</servlet-name>
@@ -208,15 +206,14 @@ a comma-separated list of class names to instantiate and process using a
 
 This is a sample +web.xml+:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <servlet>
         <servlet-name>cometd</servlet-name>

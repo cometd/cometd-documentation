@@ -15,15 +15,14 @@ CometD MBeans build on Jetty's JMX support, and are portable across servlet cont
 If your CometD application is deployed in Jetty, then it is enough that you
 modify +web.xml+ by adding a Jetty-specific context parameter:
 
-TODO: XSD version (and callout ?)
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <context-param>
         <param-name>org.eclipse.jetty.server.context.ManagedAttributes</param-name>
@@ -35,8 +34,8 @@ TODO: XSD version (and callout ?)
 ----
 ====
 
-The value of the context parameter is a comma separated list of attribute
-names stored in the servlet context.
+The value of the +org.eclipse.jetty.server.context.ManagedAttributes+ context
+parameter is a comma separated list of attribute names stored in the servlet context.
 The CometD implementation stores for you the +BayeuxServer+ instance in the
 servlet context under the name defined by the constant +BayeuxServer.ATTRIBUTE+
 which is indeed the string +org.cometd.bayeux+ that you can find in the example
@@ -131,15 +130,14 @@ public class CometDJMXExporter extends GenericServlet
 
 with the corresponding +web.xml+ configuration:
 
-TODO: XSD version
 ====
 [source,xml]
 ----
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5">
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
 
     <!-- The rest of your web.xml -->
 
