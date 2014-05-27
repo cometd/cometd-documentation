@@ -1,0 +1,51 @@
+
+[[_extensions_timestamp]]
+=== Timestamp Extension
+
+The timestamp extension adds a +timestamp+ to the message object for every
+message the client and/or server sends.
+It is a non-standard extension because it does not add the additional fields
+to the +ext+ field, but to the message object itself.
+This extension requires both a client-side extension and a server-side extension.
+The server-side extension is available in Java. 
+
+==== Enabling the Server-side Extension
+
+To enable support for time-stamped messages, you must add the extension to
+the +org.cometd.bayeux.server.BayeuxServer+ instance during initialization:
+
+====
+[source,javascript]
+----
+bayeuxServer.addExtension(new org.cometd.server.ext.TimestampExtension());
+----
+====
+
+==== Enabling the Client-side Extension
+
+The +dojox/cometd/timestamp.js+ provides the client-side extension binding for
+Dojo, and it is sufficient to use Dojo's +dojo.require+ mechanism:
+
+TODO: require.js syntax
+====
+[source,javascript]
+----
+dojo.require("dojox.cometd.timestamp");
+----
+====
+
+The file +jquery.cometd-timestamp.js+ provides the client-side extension
+binding for jQuery.
+You must include in the HTML page the implementation file and the jQuery
+extension binding, in order, via +<script>+ tags:
+
+====
+[source,javascript]
+----
+<script type="text/javascript" src="TimeStampExtension.js"></script>
+<script type="text/javascript" src="jquery.cometd-timestamp.js"></script>
+----
+====
+
+In both Dojo and jQuery extension bindings, the extension is registered on
+the default +cometd+ object under the name "timestamp".

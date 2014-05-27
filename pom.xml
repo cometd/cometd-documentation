@@ -4,102 +4,69 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.cometd.documentation</groupId>
     <artifactId>cometd-reference</artifactId>
-    <version>2.9.0</version>
+    <version>3.0.0</version>
     <name>CometD Reference</name>
     <packaging>pom</packaging>
+
+    <properties>
+        <asciidoctor.version>0.1.4</asciidoctor.version>
+        <html.directory>${project.build.directory}/html</html.directory>
+    </properties>
 
     <build>
         <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
-                <groupId>com.agilejava.docbkx</groupId>
-                <artifactId>docbkx-maven-plugin</artifactId>
-                <version>2.0.14</version>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
                 <executions>
                     <execution>
-                        <id>xhtml</id>
-                        <phase>compile</phase>
+                        <id>copy-assets</id>
+                        <phase>generate-resources</phase>
                         <goals>
-                            <goal>generate-html</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <includes>book.xml</includes>
-                            <useIdAsFilename>1</useIdAsFilename>
-                            <highlightSource>1</highlightSource>
-                            <tableBordersWithCss>1</tableBordersWithCss>
-                            <sectionLabelIncludesComponentLabel>1</sectionLabelIncludesComponentLabel>
-                            <imgSrcPath>images/</imgSrcPath>
-                            <htmlStylesheet>css/cometd.css</htmlStylesheet>
-                            <htmlCustomization>${basedir}/src/docbkx-stylesheet/xhtml/docbook.xsl</htmlCustomization>
-                            <chunkedOutput>true</chunkedOutput>
-                            <postProcess>
-                                <copy todir="${project.build.directory}/docbkx/xhtml/book/css">
-                                    <fileset dir="src/docbkx/css">
-                                        <include name="*.css"/>
-                                    </fileset>
-                                </copy>
-                                <copy todir="${project.build.directory}/docbkx/xhtml/book/images">
-                                    <fileset dir="src/docbkx/images" />
-                                </copy>
-                            </postProcess>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>pdf</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>generate-pdf</goal>
-                        </goals>
-                        <configuration>
-                            <preProcess>
-                                <copy todir="target/docbkx/pdf/images/content">
-                                    <fileset dir="src/docbkx/images" />
-                                </copy>
-                            </preProcess>
-                            <includes>book.xml</includes>
-                            <highlightSource>1</highlightSource>
-                            <admonGraphics>true</admonGraphics>
-                            <admonGraphicsPath>${project.basedir}/src/docbkx/images/</admonGraphicsPath>
-                            <admonGraphicsExtension>.svg</admonGraphicsExtension>
-                            <imgSrcPath>${project.build.directory}/docbkx/pdf/images/</imgSrcPath>
-                            <defaultImageWidth>4in</defaultImageWidth>
-                            <fop1Extensions>1</fop1Extensions>
-                            <foCustomization>src/docbkx-stylesheet/fo/docbook.xsl</foCustomization>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>**</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <outputDirectory>${html.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <generatedSourceDirectory>${project.build.directory}/docbkx/generated</generatedSourceDirectory>
-                    <xincludeSupported>true</xincludeSupported>
-                    <paperType>A4</paperType>
-                    <sectionAutolabel>true</sectionAutolabel>
-                    <generateToc>
-                        book toc,title,figure,table,example
-                        chapter toc
-                    </generateToc>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sf.docbook</groupId>
-                        <artifactId>docbook-xml</artifactId>
-                        <version>5.1b4-all</version>
-                        <classifier>resources</classifier>
-                        <type>zip</type>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.sf.xslthl</groupId>
-                        <artifactId>xslthl</artifactId>
-                        <version>2.1.0</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.sf.offo</groupId>
-                        <artifactId>fop-hyph</artifactId>
-                        <version>2.0</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctor.version}</version>
+                <executions>
+                    <execution>
+                        <id>output-html</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                        <configuration>
+                            <backend>html5</backend>
+                            <doctype>book</doctype>
+                            <sourceDocumentName>book.adoc</sourceDocumentName>
+                            <imagesDir>images</imagesDir>
+                            <outputDirectory>${html.directory}</outputDirectory>
+                            <sourceHighlighter>coderay</sourceHighlighter>
+                            <attributes>
+                                <docVersion>${project.version}</docVersion>
+                                <toclevels>3</toclevels>
+                                <linkcss>true</linkcss>
+                            </attributes>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

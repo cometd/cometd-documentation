@@ -1,0 +1,10 @@
+
+:numbered!:
+
+[appendix]
+[[_migration]]
+== Migrating from CometD 2
+
+TODO
+
+:numbered:

@@ -1,0 +1,57 @@
+
+[[_installation]]
+== Installation
+
+=== Downloading and Installing
+
+You can download the CometD distribution from http://download.cometd.org/. 
+
+Then unpack the distribution in a directory of your choice:
+
+----
+$ tar zxvf cometd-<version>-distribution.tgz
+$ cd cometd-<version>/
+----
+
+[[_installation_demos]]
+=== Running the Demos
+
+The CometD Demos contain: 
+
+* Two full chat applications (one developed with Dojo, one with jQuery). 
+* Examples of extensions such as message acknowledgement, reload, timesync and timestamp. 
+* An example of how to echo private messages to a particular client only. 
+* Clustered Auction demo (using the <<_oort,Oort clustering>>).
+
+To try out the CometD demos shipped with the distribution, you need a
+Java Development Kit (JDK) – version 7.0 or later, and either
+http://maven.apache.org[Maven] (version 3 or later) or a compliant Servlet 3.0
+or greater container such as http://eclipse.org/jetty[Jetty].
+
+==== Running the Demos with Maven
+
+Maven requires you to set up the +JAVA_HOME+ environment variable to point to
+your JDK installation.
+
+After that, running the CometD demos is very simple.
+Assuming that +$COMETD+ is the CometD installation directory, and that you have
+the +mvn+ executable in your path:
+
+----
+$ cd $COMETD
+$ cd cometd-demo
+$ mvn jetty:deploy-war
+----
+
+The last command starts an embedded Jetty that listens on port 8080.
+Now point your browser to http://localhost:8080, to see the CometD Demos main page. 
+
+==== Running the Demos with Jetty or Another Servlet Container
+
+In the +$COMETD/cometd-demo/target+ directory you can find a deployable WAR file
+that you can deploy in any Servlet Container (version 3.0 or greater).
+Refer to the Servlet Container configuration manual to learn how to deploy the
+WAR in your Servlet Container.
+Refer also to <<_java_server_configuration_servlet_30,this section>> for further
+information and for specific instructions related to deployment on Servlet 3.0
+(or greater) Containers.

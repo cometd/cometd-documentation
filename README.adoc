@@ -1,0 +1,6 @@
+= CometD Documentation
+
+Welcome to the official documentation for the http://cometd.org[CometD project].
+
+The documentation is written in http://asciidoc.org/[AsciiDoc] and built using
+http://asciidoctor.org/[Asciidoctor] and http://maven.apache.org/[Maven].
