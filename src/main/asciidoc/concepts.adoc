@@ -274,7 +274,6 @@ Examples of client session listeners include the following:
 
 On the server, the model is similar but much richer. 
 
-TODO: review all listeners, or perhaps move them down to the processing section
 * You can add extensions to a +BayeuxServer+ instance for all messages that
   flow through the server via +BayeuxServer.addExtension(BayeuxServer.Extension)+.
 * +BayeuxServer+ allows you to add listeners that it notifies when channels
@@ -292,9 +291,11 @@ TODO: review all listeners, or perhaps move them down to the processing section
   disappears and therefore the server expires the correspondent server session)
   via +ServerSession.addListener(ServerSession.RemoveListener)+.
 * +ServerSession+ allows you add listeners that can interact with the server
-  session's message queue for example to detect whether the queue is too big via
-  +ServerSession.addListener(ServerSession.MaxQueueListener)+, or to add/remove/coalesce
-  messages just before they are sent via +ServerSession.addListener(ServerSession.DeQueueListener)+.
+  session's message queue for example to detect when a message is added to the
+  queue, via +ServerSession.addListener(ServerSession.QueueListener)+, or when
+  the queue is exceed a maximum number of messages, via
+  +ServerSession.addListener(ServerSession.MaxQueueListener)+, or when the queue
+  is ready to be sent via +ServerSession.addListener(ServerSession.DeQueueListener)+.
 * +ServerSession+ allows you add listeners that get notified when a message is
   received by the server session (no matter on which channel) via
   +ServerSession.addListener(ServerSession.MessageListener)+.
@@ -532,12 +533,9 @@ Applications that want to deliver messages to a specific client can do so by
 looking up its correspondent server session and delivering the message using
 +ServerSession.deliver(...)+.
 
-// TODO: use a sidebar here ?
-For example: 
-
-Remote client +client1+ wants to send a message to another remote client +client2+.
-Both clients are already connected and therefore have already performed the
-handshake with the server.
+For example, remote client +client1+ wants to send a message to another remote
+client +client2+. Both clients are already connected and therefore have already
+performed the handshake with the server.
 Their handshake contained additional information regarding their +userId+, so
 that +client1+ declared to be "Bob" and +client2+ declared to be "Alice".
 The application could have used a +SecurityPolicy+ or a server channel message
