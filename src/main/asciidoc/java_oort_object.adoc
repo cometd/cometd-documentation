@@ -464,7 +464,7 @@ userCount.addListener(new OortObject.Listener()
     {
         // Publish a message on "/user/count" to update the remote clients connected to this node
         BayeuxServer bayeuxServer = userCount.getOort().getBayeuxServer();
-        bayeuxServer.getChannel("/user/count").publish(userCount.getLocalSession(), count, null);
+        bayeuxServer.getChannel("/user/count").publish(userCount.getLocalSession(), count);
     }
 });
 ----

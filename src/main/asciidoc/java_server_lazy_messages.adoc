@@ -83,7 +83,7 @@ public class LazyService
 
     public void receiveNewsFromExternalSystem(NewsInfo news)
     {
-        this.bayeuxServer.getChannel("/news").publish(this.session, news, null);
+        this.bayeuxServer.getChannel("/news").publish(this.session, news);
     }
 }
 ----

@@ -610,7 +610,7 @@ public class ExternalEventBroadcaster
             Map<String, Object> data = convertExternalEvent(event);
 
             // Broadcast the data
-            channel.publish(this.session, data, null);
+            channel.publish(this.session, data);
         }
     }
 }
