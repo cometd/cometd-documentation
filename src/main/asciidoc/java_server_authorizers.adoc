@@ -167,13 +167,12 @@ Imagine an application that allows you to watch and play games.
 
 Typically, an ignoring authorizer is added on a root channel: 
 
-TODO: change example using new APIs.
 ====
 [source,java]
 ----
 BayeuxServer bayeuxServer = ...;
-bayeuxServer.createChannelIfAbsent("/game/**");
-ServerChannel gameStarStar = bayeuxServer.getChannel("/game/**");
+MarkedReference<ServerChannel> ref = bayeuxServer.createChannelIfAbsent("/game/**");
+ServerChannel gameStarStar = ref.getReference();
 gameStarStar.addAuthorizer(GrantAuthorizer.GRANT_NONE);
 ----
 ====
