@@ -4,6 +4,7 @@ Simone Bordet
 :numbered:
 :toc: left
 :icons: font
+:raw-github: https://raw.github.com/cometd/cometd/master
 
 {localdate} +
 Copyright (C) The Original Author(s) +

@@ -63,6 +63,7 @@
                                 <docVersion>${project.version}</docVersion>
                                 <toclevels>3</toclevels>
                                 <linkcss>true</linkcss>
+                                <allow-uri-read>true</allow-uri-read>
                             </attributes>
                         </configuration>
                     </execution>

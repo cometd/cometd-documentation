@@ -40,44 +40,42 @@ to Rails scaffolding.
 Issue the following command from a directory that does _not_ contain a +pom.xml+
 file (otherwise you will get a Maven error), for example an empty directory:
 
-TODO: review the archetype versions below
 ----
 $ cd /tmp
 $ mvn archetype:generate -DarchetypeCatalog=http://cometd.org
 ...
 Choose archetype:
-1: http://cometd.org -> cometd-archetype-dojo-jetty6
-2: http://cometd.org -> cometd-archetype-jquery-jetty6
-3: http://cometd.org -> cometd-archetype-dojo-jetty7
-4: http://cometd.org -> cometd-archetype-jquery-jetty7
-5: http://cometd.org -> cometd-archetype-spring-jquery-jetty7
-6: http://cometd.org -> cometd-archetype-spring-dojo-jetty7
+1: local -> org.cometd.archetypes:cometd-archetype-dojo-jetty9
+2: local -> org.cometd.archetypes:cometd-archetype-spring-dojo-jetty9
+3: local -> org.cometd.archetypes:cometd-archetype-jquery-jetty9
+4: local -> org.cometd.archetypes:cometd-archetype-spring-jquery-jetty9
 Choose a number:
 ----
 
-TODO: review the jetty versions
-As you can see, there are six archetypes available that build a skeleton application
+As you can see, there are four archetypes available that build a skeleton application
 using the Dojo or jQuery JavaScript toolkits, both with the choice of using
-Jetty 6 or Jetty 7 and Spring.
-Choose Dojo with Jetty 7, which is archetype number 3.
+Jetty 9 and/or Spring.
+Choose Dojo with Jetty 9, which is archetype number 1.
 The archetype generation requires that you define several properties and generates
 the application skeleton for you, for example:
 
 ----
-Choose a number: : 3
-Define value for property 'groupId': : org.cometd.primers
-Define value for property 'artifactId': : dojo-jetty7-primer
+Choose a number: : 1
+Define value for property 'groupId': : org.cometd.primer
+Define value for property 'artifactId': : dojo-jetty9-primer
 Define value for property 'version':  1.0-SNAPSHOT: :
-Define value for property 'package':  org.cometd.primers: :
-[INFO] Using property: cometdVersion = 2.3.1
-[INFO] Using property: jettyVersion = 7.4.4.v20110707
+Define value for property 'package':  org.cometd.primer: :
+[INFO] Using property: cometdVersion = 3.0.0
+[INFO] Using property: jettyVersion = 9.2.0.v20140526
+[INFO] Using property: slf4jVersion = 1.7.7
 Confirm properties configuration:
-groupId: org.cometd.primers
-artifactId: dojo-jetty7-primer
+groupId: org.cometd.primer
+artifactId: dojo-jetty9-primer
 version: 1.0-SNAPSHOT
-package: org.cometd.primers
-cometdVersion: 2.3.1
-jettyVersion: 7.4.4.v20110707
+package: org.cometd.primer
+cometdVersion: 3.0.0
+jettyVersion: 9.2.0.v20140526
+slf4jVersion: 1.7.7
 Y: :
 ...
 [INFO] BUILD SUCCESS
@@ -86,7 +84,7 @@ Y: :
 Then:
 
 ----
-$ cd dojo-jetty7-primer/
+$ cd dojo-jetty9-primer/
 ----
 
 The skeleton project now exists as follows:
@@ -96,28 +94,27 @@ $ tree .
 .
 |-- pom.xml
 `-- src
-`-- main
-|-- java
-|   `-- org
-|       `-- cometd
-|           `-- primers
-|               |-- BayeuxInitializer.java
-|               `-- HelloService.java
-`-- webapp
-|-- WEB-INF
-|   `-- web.xml
-|-- application.js
-`-- index.jsp
+    `-- main
+        |-- java
+        |   `-- org
+        |       `-- cometd
+        |           `-- primer
+        |               |-- CometDInitializer.java
+        |               `-- HelloService.java
+        `-- webapp
+            |-- application.js
+            |-- index.jsp
+            `-- WEB-INF
+                `-- web.xml
 ----
 
 The skeleton project is ready for you to run using the following command:
 
 ----
 $ mvn install jetty:run
-...
 ----
 
-Now point your browser at http://localhost:8080/dojo-jetty7-primer, and you should see this message:
+Now point your browser at http://localhost:8080/dojo-jetty9-primer, and you should see this message:
 
 ----
 CometD Connection Succeeded
@@ -130,31 +127,35 @@ You have already written your first CometD application :-)
 [[_primer_non_maven_way]]
 ==== The Non-Maven Way
 
-TODO: review these steps, as Dojo does not ship cometd anymore.
 The first step is to configure your favorite JavaScript toolkit, in our example Dojo,
 that the web container must serve.
 Using the Maven Way, this is obtained automatically by overlaying the CometD Dojo
 bindings WAR file, +cometd-javascript-dojo-[version].war+, but here you must do it
-manually.
-The +cometd-javascript-dojo-[version].war+ is located in the +cometd-javascript/dojo/target+
-directory of the CometD distribution.
+manually (the +cometd-javascript-dojo-[version].war+ is located in the
++cometd-javascript/dojo/target+ directory of the CometD distribution).
 
-. Unpack the Dojo toolkit to a directory. 
-. Delete the +dojox/cometd+ directory that Dojo provides and replace it with the
-  one the +cometd-javascript-dojo-[version].war+ contains.
-  The content of the +dojox/cometd+ directory should be the following:
+. Download Dojo from http://dojotoolkit.org
+. Unpack the dojo-release-[version].tar.gz to a directory, for example +/tmp+,
+  so that you have the +/tmp/dojo-release-[version]+ directory that we will call
+  +$DOJO+.
+. Delete the +$DOJO/dojox/cometd.js+ and +$DOJO/dojox/cometd.js.uncompressed.js+ files
+  that Dojo provides (these files are empty and just stubs for the real ones that
+  we will put in place in a moment).
+. Delete the +$DOJO/dojox/cometd+ directory that Dojo provides.
+. Copy the +dojox/cometd.js+ file of the +cometd-javascript-dojo-[version].war+ into +$DOJO/+.
+. Copy the +dojox/cometd+ directory of the +cometd-javascript-dojo-[version].war+ into +$DOJO/+.
+  The content of the +$DOJO/dojox/cometd+ directory should be the following:
 +
 ----
 dojox/cometd
 |-- ack.js
+|-- main.js
 |-- reload.js
 |-- timestamp.js
 `-- timesync.js
 ----
-. Delete the file +dojox/cometd.js+ that Dojo provides and replace it with the
-  one at the same path in the +cometd-javascript-dojo-[version].war+.
 . Add the +org+ directory from the +cometd-javascript-dojo-[version].war+, and
-  all its content, at the same level of the +dojox+ directory.
+  all its content, at the same level of the +dojox+ directory in +$DOJO/+.
 
 The final content, equivalent to that produced by the Maven way, should be like this: 
 
@@ -165,6 +166,7 @@ The final content, equivalent to that produced by the Maven way, should be like 
 |-- dojox
 |   |-- cometd
 |   |   |-- ack.js
+|   |   |-- main.js
 |   |   |-- reload.js
 |   |   |-- timestamp.js
 |   |   `-- timesync.js
@@ -180,25 +182,32 @@ The final content, equivalent to that produced by the Maven way, should be like 
 |   |-- classes
 |   |   `-- org
 |   |       `-- cometd
-|   |           `-- primers
-|   |               |-- BayeuxInitializer.class
+|   |           `-- primer
+|   |               |-- CometDInitializer.class
 |   |               `-- HelloService.class
 |   |-- lib
 |   |   |-- bayeux-api-[version].jar
 |   |   |-- cometd-java-common-[version].jar
 |   |   |-- cometd-java-server-[version].jar
+|   |   |-- cometd-java-websocket-common-server-[version].jar
+|   |   |-- cometd-java-websocket-javax-server-[version].jar
 |   |   |-- jetty-continuation-[version].jar
+|   |   |-- jetty-http-[version].jar
+|   |   |-- jetty-io-[version].jar
 |   |   |-- jetty-jmx-[version].jar
 |   |   |-- jetty-servlets-[version].jar
-|   |   `-- jetty-util-[version].jar
+|   |   |-- jetty-util-[version].jar
+|   |   |-- jetty-util-ajax-[version].jar
+|   |   |-- slf4j-api-[version].jar
+|   |   `-- slf4j-simple-[version].jar
 |   `-- web.xml
 |-- application.js
 `-- index.jsp
 ----
 
-The +org+ directory contains the new shared CometD implementation and the shared
-extensions, while the correspondent files in the +dojox+ directory are the Dojo _bindings_.
-Other bindings exist for the jQuery toolkit, but the shared CometD implementation is the same. 
+The +org+ directory contains the CometD implementation and extensions,
+while the correspondent files in the +dojox+ directory are the Dojo _bindings_.
+Other bindings exist for the jQuery toolkit, but the CometD implementation is the same.
 
 The second step is to configure the server side.
 If you use Java, this means that you have to set up the CometD servlet that
@@ -217,11 +226,11 @@ dependencies and to the JavaScript application file:
 
 [source,html]
 ----
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html>
   <head>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/dojo/dojo.js.uncompressed.js"></script>
-    <script type="text/javascript" src="application.js"></script>
+    <script data-dojo-config="async: true, deps: ['application.js'], tlmSiblingOfDojo: true"
+            src="${symbol_dollar}{pageContext.request.contextPath}/dojo/dojo.js.uncompressed.js"></script>
     <script type="text/javascript">
       var config = {
         contextPath: '${pageContext.request.contextPath}'
@@ -235,8 +244,7 @@ dependencies and to the JavaScript application file:
 ----
 
 It also configures a JavaScript configuration object, +config+, with variables
-that the JavaScript application might need.
-This is totally optional. 
+that the JavaScript application might need. This is totally optional.
 
 The JavaScript application, contained in the +application.js+ file, configures
 the +cometd+ object and starts the application.
@@ -245,18 +253,19 @@ The archetypes provide:
 ====
 [source,javascript]
 ----
-TODO: restore included file
+include::{raw-github}/cometd-archetypes/dojo-jetty9/src/main/resources/archetype-resources/src/main/webapp/application.js[]
 ----
 ====
 
 Notice the following: 
 
-* The use of +dojo.addOnLoad()+ to wait for the document to load up before
+* The use of the +dojo/domReady!+ dependency to wait for the document to load up before
   executing the +cometd+ object initialization.
 * The use of +dojo.addOnUnload()+ to disconnect when the page is refreshed or closed.
 * The use of the function +_metaHandshake()+ to set up the initial configuration
   on first contact with the server (or when the server has lost client information,
-  for example because of a server restart). This is totally optional, but highly recommended.
+  for example because of a server restart). This is totally optional, but highly
+  recommended and it is the recommended way to perform subscriptions.
 * The use of the function +_metaConnect()+ to detect when the communication has
   been successfully established (or re-established). This is totally optional,
   but highly recommended. +
