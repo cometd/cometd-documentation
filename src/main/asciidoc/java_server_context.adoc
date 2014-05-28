@@ -27,7 +27,6 @@ BayeuxContext context = bayeuxServer.getContext();
 A typical usage in a +SecurityPolicy+ (see also
 <<_java_server_authorization,the authorization section>>) is the following:
 
-TODO: fix example to use remote address
 ====
 [source,java]
 ----
@@ -41,7 +40,7 @@ public class OneClientPerAddressSecurityPolicy extends DefaultSecurityPolicy
         BayeuxContext context = bayeuxServer.getContext();
 
         // Get the remote address of the client
-        final String remoteAddress = context.getRemoteAddress().getHostName();
+        final String remoteAddress = context.getRemoteAddress().getHostString();
 
         // Only allow clients from different remote addresses
 
