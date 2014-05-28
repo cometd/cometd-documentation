@@ -18,9 +18,9 @@ public class EchoService extends AbstractService                                
         addService("/echo", "processEcho");                                       <4>
     }
 
-    public void processEcho(ServerSession remote, Map<String, Object> data)       <5>
+    public void processEcho(ServerSession remote, ServerMessage message)          <5>
     {
-        remote.deliver(getServerSession(), "/echo", data);                        <6>
+        remote.deliver(getServerSession(), "/echo", message.getData());           <6>
     }
 }
 ----
@@ -41,43 +41,14 @@ client on channel +/echo+ to the remote client itself. Notice the following:
     back to that particular client.
 
 The contract that the +BayeuxService+ class requires for callback methods is
-that the methods must have one of the following signatures:
-
-TODO: review this, I think the signatures are now different (e.g. no messageId)
-====
-[source,java]
-----
-// Obtains the remote session object and the message object
-public void processEcho(ServerSession remote, Message message)
-
-// Obtains the remote session object and the message's data object
-// (additional message information, such as the channel or the id is lost)
-public void processEcho(ServerSession remote, Map<String, Object> data)
-
-// Obtains the remote session object, the channel name, the message object and the message id
-public void processEcho(ServerSession remote, String channelName, Message message, String messageId)
-
-// Obtains the remote session object, the channel name, the message's data object and the message id
-public void processEcho(ServerSession remote, String channelName, Map<String, Object> data, String messageId)
-----
-====
-
-Method signatures that take the message's data object (the second and fourth above)
-take a +Map<String, Object>+ as parameter type because that is the default
-deserialization of a JSON object in Java, but it is possible to specify a custom type,
-provided that the JSON object has been converted to an object of the custom Java class,
-for example:
+that the methods must have the following signature:
 
 ====
 [source,java]
 ----
-// Obtains the remote session object and a custom message's data object
-public void processEcho(ServerSession remote, EchoInfo data)
+public void processEcho(ServerSession remote, ServerMessage message)
 ----
 ====
-
-see also <<_java_json,the JSON section>> for further information about customizing
-serialization and deserialization of JSON objects.
 
 Notice that the channel name specified in the +addService()+ method may be a
 wildcard, for example:
@@ -93,10 +64,10 @@ public class BaseballTeamService extends AbstractService
         addService("/baseball/team/*", "processBaseballTeam");
     }
 
-    public void processBaseballTeam(ServerSession remote, String channelName, Map<String, Object> data, String messageId)
+    public void processBaseballTeam(ServerSession remote, ServerMessage message)
     {
         // Upon receiving a message on channel /baseball/team/*, forward to channel /events/baseball/team/*
-        getBayeux().getChannel("/events" + channelName).publish(getServerSession(), data);
+        getBayeux().getChannel("/events" + message.getChannel()).publish(getServerSession(), message.getData());
     }
 }
 ----
@@ -123,8 +94,9 @@ public class GameService extends AbstractService
         addService("/game/event", "processGameEvent");
     }
 
-    public void processGameCommand(ServerSession remote, GameCommand command)
+    public void processGameCommand(ServerSession remote, ServerMessage message)
     {
+        GameCommand command = (GameCommand)message.getData();
         switch (command.getType())
         {
             case GAME_START:
@@ -141,7 +113,12 @@ public class GameService extends AbstractService
         }
     }
 
-    public void processGameEvent(ServerSession remote, GameEvent event)
+    public void processGameEvent(ServerSession remote, ServerMessage message)
+    {
+        ...
+    }
+
+    public void processGame(ServerSession remote, ServerMessage message)
     {
         ...
     }
@@ -149,7 +126,7 @@ public class GameService extends AbstractService
 ----
 ====
 
-Note how mappings can be removed using method +removeService(...)+.
+Note how mappings can be removed using method +removeService()+.
 
 Each time a service instance is created, an associated +LocalSession+ (see also
 <<_concepts_sessions,this section>>) is created within the service itself: the
