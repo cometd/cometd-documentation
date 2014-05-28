@@ -225,7 +225,7 @@ public class EchoService
     {
         String channel = message.getChannel();
         Object data = message.getData();
-        remote.deliver(serverSession, channel, data, null);
+        remote.deliver(serverSession, channel, data);
     }
 }
 ----

@@ -195,7 +195,7 @@ public class EchoService
     {
         String channel = message.getChannel();
         Object data = message.getData();
-        remote.deliver(serverSession, channel, data, null);
+        remote.deliver(serverSession, channel, data);
     }
 }
 ----
@@ -217,7 +217,7 @@ public class EchoService extends AbstractService
     {
         String channel = message.getChannel();
         Object data = message.getData();
-        remote.deliver(getServerSession(), channel, data, null);
+        remote.deliver(getServerSession(), channel, data);
     }
 }
 ----

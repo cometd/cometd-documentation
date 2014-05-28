@@ -435,7 +435,7 @@ public class MyService
                 Map<String, Object> data = performTimeConsumingTask(message);
 
                 // Send data to client once the time consuming task is finished
-                remoteSession.deliver(localSession, message.getChannel(), responseData, null);
+                remoteSession.deliver(localSession, message.getChannel(), responseData);
             }
         }.start();
     }
@@ -531,7 +531,7 @@ incoming messages (see also <<_concepts_threading,the threading section>>).
 
 Applications that want to deliver messages to a specific client can do so by
 looking up its correspondent server session and delivering the message using
-+ServerSession.deliver(...)+.
++ServerSession.deliver()+.
 
 For example, remote client +client1+ wants to send a message to another remote
 client +client2+. Both clients are already connected and therefore have already
@@ -569,7 +569,7 @@ public class PrivateMessageService
         ServerSession recipient = findServerSessionFromUserId(userId);
 
         // Deliver the message to the other peer
-        recipient.deliver(session, message.getChannel(), message.getData(), null);
+        recipient.deliver(session, message.getChannel(), message.getData());
     }
 }
 ----
