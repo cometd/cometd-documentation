@@ -627,12 +627,15 @@ of the known nodes it is connected to.
 When +nodeA+ observes a channel, it means that messages sent on that channel,
 but received by other nodes, are automatically forwarded to +nodeA+.
 
-IMPORTANT: Message forwarding is not bidirectional; if +nodeA+ forwards
+[IMPORTANT]
+====
+Message forwarding is not bidirectional; if +nodeA+ forwards
 messages to other nodes it is not automatic that the other nodes forward
 messages to +nodeA+.
 However, in most cases you configure the Oort nodes in the same way by
 the same initialization code, and therefore all nodes forward the same
 channels.
+====
 
 Forwarding of messages may be subject to temporary interruptions in case
 there is a temporary network connectivity failure between two nodes.

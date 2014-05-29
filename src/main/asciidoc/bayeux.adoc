@@ -169,7 +169,10 @@ strategies and encodings may still evolve and continue to be conforming Bayeux
 implementations so long as they implement the JSON-based public/subscribe semantics
 outlined herein.
 
-NOTE: The rest of this document speaks as though HTTP will be used for message transport. 
+[NOTE]
+====
+The rest of this document speaks as though HTTP will be used for message transport.
+====
 
 ==== JavaScript
 

@@ -38,9 +38,12 @@ For example, in Firefox you can open the JavaScript console by clicking on
 _Tools -> Web Developer -> Web Console_, while in Chrome you can open the JavaScript
 console by clicking on _Tools -> Developer Tools_.
 
-NOTE: Internet Explorer does not define the +window.console+ object as other browsers do,
+[NOTE]
+====
+Internet Explorer does not define the +window.console+ object as other browsers do,
 resulting in CometD not being able to output logs in the JavaScript console,
 depending on the Internet Explorer version.
+====
 
 [[_troubleshooting_logging_java_server]]
 ==== Enabling Debug Logging in the Java Server Library

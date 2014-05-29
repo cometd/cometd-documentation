@@ -77,9 +77,12 @@ Notice how the three +publish()+ calls are now within a function passed to +batc
 Alternatively, but less recommended, you can surround the three +publish()+ calls
 between +startBatch()+ and +endBatch()+.
 
-WARNING: Remember to call +endBatch()+ after calling +startBatch()+.
+[WARNING]
+====
+Remember to call +endBatch()+ after calling +startBatch()+.
 If you don't – for example, because an exception is thrown in the middle of the
 batch – your messages continue to queue, and your application does not work as expected.
+====
 
 If you still want to risk using the +startBatch()+ and +endBatch()+ calls, remember
 that you must do so from the same context of execution; message batching has not been
