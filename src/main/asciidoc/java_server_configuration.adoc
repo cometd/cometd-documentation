@@ -27,10 +27,6 @@ file for you; here are details its configuration, a sample +web.xml+:
             <param-name>timeout</param-name>
             <param-value>60000</param-value>
         </init-param>
-        <init-param>
-            <param-name>logLevel</param-name>
-            <param-value>3</param-value>
-        </init-param>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -57,15 +53,11 @@ Here is the list of configuration init parameters that the +BayeuxServer+ implem
 | Default Value
 | Parameter Description
 
-| logLevel
-| 0
-| The log level: 0 = off, 1 = config, 2 = info, 3 = debug.
-
 | transports
 | ""
 | A comma-separated list of +ServerTransport+ implementation class names
   (that take a +org.cometd.server.BayeuxServerImpl+ as only constructor
-  parameter) to add to the default server transports.
+  parameter) that define the server transports.
 
 | allowedTransports
 | ""

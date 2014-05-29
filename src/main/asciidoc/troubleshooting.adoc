@@ -45,47 +45,20 @@ depending on the Internet Explorer version.
 [[_troubleshooting_logging_java_server]]
 ==== Enabling Debug Logging in the Java Server Library
 
-TODO: review this section
-To enable debug logging on the Java server library (see also <<_java_server,the Java server library section>>),
-you must pass the +logLevel+ option to the configuration, with the value +3+ (see also
-<<_java_server_configuration,the Java server library configuration section>>
-for further information):
-
-====
-[source,xml]
-----
-<?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-         version="3.0">
-
-    <servlet>
-        <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
-        <init-param>
-            <param-name>logLevel</param-name>
-            <param-value>3</param-value>
-        </init-param>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>cometd</servlet-name>
-        <url-pattern>/cometd/*</url-pattern>
-    </servlet-mapping>
-
-</web-app>
-----
-====
-
 The CometD Java libraries (both client and server) use http://slf4j.org[SLF4J]
 as logging framework.
-
+The Java server library uses the SLF4J APIs, but it does not bind to any specific
+logging implementation. You have to choose what implementation you want to use.
 By default, SLF4J comes with with a simple binding that _does not_ log statements
 produced at debug level.
+
 Therefore you must configure SLF4J with a more advanced binding such as
 http://logging.apache.org/log4j[Log4J] or http://logback.qos.ch/[Logback].
 Refer to the SLF4J documentation and the binding implementation documentation on
 how to configure logging when using the advanced bindings.
+
+Therefore, to enable CometD debug logging for your application you need to
+configure whatever SLF4J binding you have chosen to use.
 
 As a simple example, for Log4J it is usually enough to add the SLF4J-Log4J binding jar
 (+slf4j-log4j12-<slf4j-version>.jar+) and the Log4J jar (+log4j-<log4j-version>.jar+)
