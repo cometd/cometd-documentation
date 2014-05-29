@@ -26,18 +26,23 @@ bayeuxServer.addExtension(new org.cometd.server.ext.TimestampExtension());
 The +dojox/cometd/timestamp.js+ provides the client-side extension binding for
 Dojo, and it is sufficient to use Dojo's +dojo.require+ mechanism:
 
-TODO: require.js syntax
 ====
 [source,javascript]
 ----
-dojo.require("dojox.cometd.timestamp");
+require(["dojox/cometd", "dojox/cometd/timestamp"], function(cometd)
+{
+    ...
+});
 ----
 ====
 
+The example above is valid also when using the +require()+ syntax with jQuery.
+
 The file +jquery.cometd-timestamp.js+ provides the client-side extension
 binding for jQuery.
-You must include in the HTML page the implementation file and the jQuery
-extension binding, in order, via +<script>+ tags:
+When you are not using the +require()+ syntax, you must include the
+implementation file and the jQuery extension binding
+in the HTML page via the +<script>+ tag:
 
 ====
 [source,javascript]
