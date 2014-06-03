@@ -4,10 +4,13 @@
 
 You can configure +org.cometd.client.BayeuxClient+ class to use multiple transports.
 It currently supports the +long-polling+ transport (that in turn depends on
-http://eclipse.org/jetty[Jetty's] asynchronous
-http://wiki.eclipse.org/Jetty/Tutorial/HttpClient[HttpClient]) and the +websocket+
-transport (that in turn depends on http://eclipse.org/jetty[Jetty]'s asynchronous
-WebSocket client.
+Jetty's asynchronous https://www.eclipse.org/jetty/documentation/current/http-client.html[HttpClient])
+and the +websocket+ transport (that in turn depends on Jetty's asynchronous
+https://www.eclipse.org/jetty/documentation/current/websocket-java.html[WebSocketClient]).
+
+There are two WebSocket transports available: one based on
+https://jcp.org/en/jsr/detail?id=356[JSR 356], the standard Java WebSocket APIs
+and one based on the Jetty WebSocket APIs.
 
 You should configure +BayeuxClient+ with the +websocket+ transport before the
 +long-polling+ transport, so that +BayeuxClient+ can fall back to the +long-polling+
@@ -18,10 +21,45 @@ You do so by listing the WebSocket transport before the HTTP transport on the
 ====
 [source,java]
 ----
-// Prepare the WebSocket transport
-WebSocketClientFactory wsFactory = new WebSocketClientFactory();
-wsFactory.start();
-ClientTransport wsTransport = new WebSocketTransport(null, wsFactory, null);
+// Prepare the JSR WebSocket transport
+WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
+
+// The WebSocketContainer must be started, but JSR 356 APIs do not define any
+// lifecycle APIs, so a Jetty specific cast would be required.
+// However, this is avoidable by piggybacking on HttpClient like shown below.
+// ((LifeCycle)webSocketContainer).start();
+
+ClientTransport wsTransport = new WebSocketTransport(null, null, webSocketContainer);
+
+// Prepare the HTTP transport
+HttpClient httpClient = new HttpClient();
+
+// Add the webSocketContainer as a dependent bean of HttpClient
+// so that it follows HttpClient's lifecycle.
+httpClient.addBean(webSocketContainer, true);
+httpClient.start();
+
+ClientTransport  httpTransport = new LongPollingTransport(null, httpClient);
+
+// Configure the BayeuxClient, with the websocket transport listed before the http transport
+BayeuxClient client = new BayeuxClient("http://localhost:8080/cometd", wsTransport, httpTransport);
+
+// Handshake
+client.handshake();
+----
+====
+
+It is always recommended that the WebSocket transport is never used without a
+fallback transport such as +LongPollingTransport+. This is how you configure
+the Jetty WebSocket transport:
+
+====
+[source,java]
+----
+// Prepare the Jetty WebSocket transport
+WebSocketClient webSocketClient = new WebSocketClient();
+webSocketClient.start();
+ClientTransport wsTransport = new JettyWebSocketTransport(null, null, webSocketClient);
 
 // Prepare the HTTP transport
 HttpClient httpClient = new HttpClient();
@@ -121,8 +159,18 @@ With these dependencies in place, you can use the +long-polling+ transport out o
 
 ===== WebSocket Transport Dependencies
 
-TODO: update this section for Jetty specific and JSR
-To use the +websocket+ transport, you declare the dependencies listed above for
-the +long-polling+ transport, _and_ you also need to declare dependencies for
-+org.cometd.java:cometd-websocket-jetty+ (Maven automatically pulls the Jetty
-dependencies that the +cometd-websocket-jetty+ artifact needs).
+The dependencies for the JSR 356 WebSocket transport are:
+
+* +org.cometd.java:cometd-java-websocket-javax-client+ (and transitive dependencies)
+* an http://slf4j.org[SLF4J] (the logging library) implementation such as
+  +org.slf4j:slf4j-simple+ (we recommend that you use +org.slf4j:slf4j-log4j12+
+  or +ch.qos.logback:logback-classic+).
+
+The dependencies for the Jetty WebSocket transport are:
+
+* +org.cometd.java:cometd-java-websocket-jetty-client+ (and transitive dependencies)
+* an http://slf4j.org[SLF4J] (the logging library) implementation such as
+  +org.slf4j:slf4j-simple+ (we recommend that you use +org.slf4j:slf4j-log4j12+
+  or +ch.qos.logback:logback-classic+).
+
+Maven will automatically pull the transitive dependencies that each artifact needs.
