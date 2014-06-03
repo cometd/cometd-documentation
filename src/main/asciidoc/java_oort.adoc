@@ -134,7 +134,7 @@ for example:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -156,10 +156,10 @@ for example:
 ====
 
 Since +Oort+ depends on +BayeuxServer+, the +load-on-startup+ parameter of the
-+OortMulticastConfigServlet+ must be greater than that of the +CometdServlet+.
++OortMulticastConfigServlet+ must be greater than that of the +CometDServlet+.
 
 The mandatory +oort.url+ init parameter must identify the URL at which this
-Oort node can be contacted, and it must be the URL the +CometdServlet+ of this
+Oort node can be contacted, and it must be the URL the +CometDServlet+ of this
 node serves.
 This URL is sent to other Oort nodes, so it is important that the host part of
 the URL does not point to "localhost", but to a resolvable host name or to an
@@ -268,7 +268,7 @@ configuring an +org.cometd.oort.OortStaticConfigServlet+ in +web.xml+, for examp
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -290,7 +290,7 @@ configuring an +org.cometd.oort.OortStaticConfigServlet+ in +web.xml+, for examp
 ====
 
 Just as for the automatic discovery, the +load-on-startup+ parameter of the
-+OortStaticConfigServlet+ must be greater than that of the +CometdServlet+.
++OortStaticConfigServlet+ must be greater than that of the +CometDServlet+.
 
 +OortStaticConfigServlet+ supports the common init parameters listed in the
 previous section, and the following additional init parameter:
@@ -327,7 +327,7 @@ URL(s) to connect to:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -595,7 +595,7 @@ messages are forwarded to the Oort cluster:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

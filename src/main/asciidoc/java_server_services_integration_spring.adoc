@@ -30,7 +30,7 @@ The +web.xml+ file is as follows:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -56,16 +56,16 @@ Furthermore, the +<load-on-startup>+ directive is _not_ present.
 Since the Servlet Specification does not define the startup order between
 servlets and listeners (in particular, +<listener>+ elements cannot be
 ordered with a +<load-on-startup>+ element), you must make sure that the
-Spring +<listener>+ runs before the +CometdServlet+, otherwise you risk
-that two +BayeuxServer+ objects are created (one by +CometdServlet+ and
+Spring +<listener>+ runs before the +CometDServlet+, otherwise you risk
+that two +BayeuxServer+ objects are created (one by +CometDServlet+ and
 the other by Spring), and your application will not work properly (likely,
 the connection with remote clients will be handled by the +CometDServlet+'s
 +BayeuxServer+, while your services will be bound to Spring's +BayeuxServer+).
 
-By not specifying a +<load-on-startup>+ element in the +CometdServlet+
-definition, the +CometdServlet+ will be initialized lazily _after_ the Spring
+By not specifying a +<load-on-startup>+ element in the +CometDServlet+
+definition, the +CometDServlet+ will be initialized lazily _after_ the Spring
 +<listener>+, ensuring that only the Spring's +BayeuxServer+ is created and
-used also by +CometdServlet+ when it is initialized upon receiving the first
+used also by +CometDServlet+ when it is initialized upon receiving the first
 request from remote clients.
 ====
 
@@ -108,7 +108,7 @@ Spring's +applicationContext.xml+ is as follows:
 Spring now creates the +BayeuxServer+ object, configuring it via the +options+
 property, initializing via the +start()+ method, and exporting to the servlet
 context via Spring's +ServletContextAttributeExporter+.
-This ensures that +CometdServlet+ will _not_ create its own instance of +BayeuxServer+,
+This ensures that +CometDServlet+ will _not_ create its own instance of +BayeuxServer+,
 but use the one that is already present in the servlet context, created by Spring.
 
 Below you can find a Spring's +applicationContext.xml+ that configures the +BayeuxServer+
@@ -148,7 +148,7 @@ object with the WebSocket transport:
 ====
 When configuring the +BayeuxServer+ transports, you need to explicitly
 specify all the transports you want, included the default transports that you
-do not need to specify when configuring a +BayeuxServer+ using the +CometdServlet+.
+do not need to specify when configuring a +BayeuxServer+ using the +CometDServlet+.
 The order of the transports is important, and you want the +WebSocketTransport+
 to be the first of the list, followed by at least the +JSONTransport+ (also
 known as the "long-polling" transport) as a fallback.

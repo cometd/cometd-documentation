@@ -138,7 +138,7 @@ public EchoInfo writeToConfigFile(BayeuxServer bayeuxServer, EchoInfo info) thro
 ===== Server Configuration
 
 On the server, you can specify the fully qualified name of a class implementing
-+org.cometd.common.JSONContext.Server+ as init-parameter of the +CometdServlet+
++org.cometd.common.JSONContext.Server+ as init-parameter of the +CometDServlet+
 (see also <<_java_server_configuration,the server configuration section>>);
 if omitted, the default Jetty library is used.
 For example: 
@@ -154,7 +154,7 @@ For example:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <!-- other parameters -->
         <init-param>
             <param-name>jsonContext</param-name>

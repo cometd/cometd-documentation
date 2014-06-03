@@ -275,7 +275,7 @@ For example:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <async-supported>true</async-supported>                                          <2>
     </servlet>
     <servlet-mapping>

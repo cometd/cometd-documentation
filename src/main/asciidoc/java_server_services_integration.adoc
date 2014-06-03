@@ -27,7 +27,7 @@ Here is a sample +web.xml+:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -98,7 +98,7 @@ Here is a sample +web.xml+ file:
 
     <servlet>
         <servlet-name>cometd</servlet-name>
-        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -254,4 +254,4 @@ public class AnotherServlet extends HttpServlet
 ----
 ====
 
-The services created are deprocessed when +AnnotationCometdServlet+ is destroyed.
+The services created are deprocessed when +AnnotationCometDServlet+ is destroyed.
