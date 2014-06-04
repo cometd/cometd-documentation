@@ -37,7 +37,7 @@ a subscription to a channel or a publish to a channel are to be authorized.
 
 [IMPORTANT]
 ====
-The +SecurityPolicy+ methods are invoked for +ServerSession+s that correspond
+The +SecurityPolicy+ methods are invoked for +ServerSession+ that correspond
 to both local clients and remote clients (see also <<_concepts_sessions,the sessions section>>).
 
 Application code can determine whether a +ServerSession+ correspond to a

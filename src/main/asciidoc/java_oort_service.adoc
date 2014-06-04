@@ -51,7 +51,7 @@ The typical workflow of an +OortService+ is the following:
 [[_java_oort_objects_oort_service_creation]]
 ===== OortService Creation
 
-+OortService+s are uniquely named across the cluster, and are usually created
++OortService+ are uniquely named across the cluster, and are usually created
 at startup by subclassing them.
 Since they are CometD services, they are usually annotated to listen for messages
 on certain channels (see also <<_java_server_services_annotated,the annotated services section>>
@@ -224,7 +224,7 @@ the server machine specification (especially available memory), and may even
 change over time.
 
 For example, an application that is able to handle user information for a user
-base of 500 users using +OortObject+s may not be able to do so when it grows
+base of 500 users using +OortObject+ may not be able to do so when it grows
 to 500,000 users.
 Similarly, if the nodes are colocated in the same data center connected via a
 fast network, it may be worth using +OortService+ (as the network time will be

@@ -181,7 +181,7 @@ will respond to it immediately and deliver +message2+ to the client.
 It is clear that server-to-client message ordering comes at the small price
 of slightly increased latencies (+message2+ has to wait the next +meta/connect+
 before being delivered), and slightly more activity for the server (since
-+meta/connect+s will be resumed more frequently than normal).
++meta/connect+ will be resumed more frequently than normal).
 
 ==== Demo
 

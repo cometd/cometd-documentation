@@ -54,7 +54,7 @@ Anyone that wants to modify or remove +A2+ must perform this action in +nodeA+.
 <<_java_oort_objects_oort_service,the +OortService+ section>> shows how to
 forward service actions from one node to another.
 
-+OortObject+ allows applications to add/remove +OortObject.Listener+s that
++OortObject+ allows applications to add/remove +OortObject.Listener+ that
 are notified of modification of a part, either local or remote.
 Your application can implement these listeners to perform custom logic, see
 also <<_java_oort_objects_oort_object_listeners,the +OortObject+ listeners section>>.
@@ -90,7 +90,7 @@ updates in order to perform custom logic, see also
 [[_java_oort_objects_oort_object_creation]]
 ===== OortObject Creation
 
-+OortObject+s are created by providing an +OortObject.Factory+.
++OortObject+ are created by providing an +OortObject.Factory+.
 This factory is needed to create the data entity from its raw representation
 obtained from JSON.
 This allows standard JDK containers such as +java.util.concurrent.ConcurrentHashMap+
@@ -119,13 +119,13 @@ a +List<String>+ (this is an example; you may want to use the richer and more
 powerful +OortList<String>+ instead). Once you have created an +OortObject+
 you must start it before using it.
 
-+OortObject+s are usually created at startup time, so that all the nodes have
-one instance of the same +OortObject+s with the same names.
-Remember that the data entity is distributed among +OortObject+s with the same
++OortObject+ are usually created at startup time, so that all the nodes have
+one instance of the same +OortObject+ with the same names.
+Remember that the data entity is distributed among +OortObject+ with the same
 name, so if a node does not have that particular named +OortObject+, then it
 will not receive updates for that data entity.
 
-It is possible to create +OortObject+s on-the-fly in response to some event,
+It is possible to create +OortObject+ on-the-fly in response to some event,
 but the application must make sure that this event is broadcast to all nodes
 so that each node can create its own +OortObject+ instance with the same name.
 
@@ -394,7 +394,7 @@ to be converted into a +ConcurrentMap+.
 [[_java_oort_objects_oort_object_merging]]
 ===== OortObject Data Entity Merging
 
-+OortObject+s are made of parts, and applications may need to access the
++OortObject+ are made of parts, and applications may need to access the
 data contained in all parts.
 In the examples above, an application may want to be able to access all
 the user names from all nodes.
@@ -478,7 +478,7 @@ are only interested in the total user count, that can be obtained by merging
 (see also <<_java_oort_objects_oort_object_merging,the +OortObject+ merging section>>).
 They can be used, however, to compute the difference before and after the update if needed.
 
-Similarly, +OortMap+ supports registration of +OortMap.EntryListener+s that
+Similarly, +OortMap+ supports registration of +OortMap.EntryListener+ that
 are notified when +OortMap+ entries change due to calls to +putAndShare(...)+
 or +removeAndShare(...)+. +OortMap.EntryListener+ are notified only when map
 entries are updated.
@@ -488,7 +488,7 @@ In some cases, the whole map is updated but you want to be notified as if
 single entries are changed; in this case you can use an +OortMap.DeltaListener+,
 that converts whole map updates into map entry updates.
 
-+OortList+ supports registration of +OortList.ElementListener+s that are
++OortList+ supports registration of +OortList.ElementListener+ that are
 notified when +OortList+ elements change due to calls to +addAndShare(...)+
 or +removeAndShare(...)+. +OortList.ElementListener+ are notified only when
 list elements are updated.

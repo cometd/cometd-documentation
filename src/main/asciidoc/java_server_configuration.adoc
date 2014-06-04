@@ -132,7 +132,7 @@ that different server transports accept:
 | -1
 | The maximum size of the +ServerSession+ queue. A value of -1 means no queue size limit.
   A positive value triggers the invocation of
-  +org.cometd.bayeux.server.ServerSession.MaxQueueListener+s when the max queue size is exceeded.
+  +org.cometd.bayeux.server.ServerSession.MaxQueueListener+ when the max queue size is exceeded.
 |===
 
 .+Long Polling & Callback Polling +ServerTransport+ Configuration Parameters
@@ -388,7 +388,7 @@ MarkedReference<ServerChannel> ref = bayeuxServer.createChannelIfAbsent("/my/cha
 
 You can not only configure +ServerChannel+ instances to be persistent, but to
 be _lazy_ (see also <<_java_server_lazy_messages,this section>>), you can add
-listeners, and you can add +Authorizer+s (see also
+listeners, and you can add +Authorizer+ (see also
 <<_java_server_authorizers,the authorizers section>>).
 
 Creating a server channel returns a +MarkedReference+ that contains
