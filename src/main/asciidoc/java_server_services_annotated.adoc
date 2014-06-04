@@ -47,7 +47,7 @@ to implement and support a generic dependency injection container, but instead
 offers a simple integration with existing dependency injection containers and
 a minimal support for required CometD objects (such as the BayeuxServer instance).
 
-[cols="1a,1a"]
+[cols="1a,1a", options="header"]
 |===
 | Annotated Style
 | Inherited Style
