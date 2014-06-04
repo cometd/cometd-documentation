@@ -182,6 +182,10 @@ that different server transports accept:
 | Default Value
 | Parameter Description
 
+| ws.cometdURLMapping
+|
+| *Mandatory*. The +url-pattern+ of the +servlet-mapping+ of the CometD Servlet.
+
 | ws.messagesPerFrame
 | 1
 | How many Bayeux messages should be sent per WebSocket frame.
