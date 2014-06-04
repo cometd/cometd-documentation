@@ -5,6 +5,130 @@
 [[_migration]]
 == Migrating from CometD 2
 
+=== Required JDK Version
+
+[cols="1,1", options="header"]
+|===
+| CometD 2 | CometD 3
+| JDK 5    | JDK 7
+|===
+
+=== Class Names
+
+Package names did not change.
+
+[cols="1,1", options="header"]
+|===
+| CometD 2 | CometD 3
+| CometdServlet | CometDServlet
+| AnnotationCometdServlet | AnnotationCometDServlet
+|===
+
+NOTE: Pay attention to the capital `D' of Comet**D**
+
+=== Maven Artifacts
+
+Only the WebSocket artifacts have changed.
+
+[cols="1,1", options="header"]
+|===
+| CometD 2
+| CometD 3
+
+.4| +org.cometd.java:cometd-websocket-jetty+
+| +org.cometd.java:cometd-java-websocket-javax-server+ (JSR 356 WebSocket Server)
+| +org.cometd.java:cometd-java-websocket-jetty-server+ (Jetty WebSocket Server)
+| +org.cometd.java:cometd-java-websocket-javax-client+ (JSR 356 WebSocket Client)
+| +org.cometd.java:cometd-java-websocket-jetty-client+ (Jetty WebSocket Client)
+|===
+
+=== +web.xml+
+
+[cols="1a,1a", options="header"]
+|===
+| CometD 2
+| CometD 3
+
+|
+====
+[source,xml]
+----
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+    ...
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometdServlet</servlet-class>
+    </servlet>
+    ...
+</web-app>
+----
+====
+
+|
+====
+[source,xml]
+----
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" <1>
+         version="3.0"> <2>
+    ...
+    <servlet>
+        <servlet-name>cometd</servlet-name>
+        <servlet-class>org.cometd.server.CometDServlet</servlet-class>
+        <async-supported>true</async-supported> <3>
+    </servlet>
+</web-app>
+----
+====
+<1> +schemaLocation+ attribute changed from +2.5+ to +3.0+ (or to +3.1+)
+<2> +version+ attribute changed from +2.5+ to +3.0+ (or to +3.1+)
+<3> +async-supported+ element now required
+|===
+
+=== CometD Servlet Parameters
+
+[cols="1,1,10", options="header"]
+|===
+| CometD 2
+| CometD 3
+| Notes
+
+| +logLevel+
+|
+| The parameter has been removed in CometD 3. +
+  In CometD 3 logging levels are controlled by the logging framework
+  implementation (for example, Log4J).
+
+| +transports+
+| +transports+
+| The parameter changed its meaning. +
+  In CometD 2 it is a comma separated list of class names of _additional_
+  server transports. In CometD 3 it is a comma separated list of the server
+  transports. +
+  For example, in CometD 3
+  +transports="org.cometd.websocket.server.JettyWebSocketTransport"+
+  defines just one server transport: a +websocket+ server transport based on
+  Jetty WebSocket APIs.
+
+|
+| +ws.cometdURLMapping+
+| A new, *mandatory*, parameter for WebSocket server transports. +
+  It must have the same value of the +url-pattern+ of the +servlet-mapping+ of
+  the CometD Servlet, example +/cometd/*+.
+|===
+
 TODO
+
+* signature change in BayeuxServer.createChannelIfAbsent()
+* signature change in ServerSession.deliver()
+* signature change in ServerChannel.publish()
+* signature change in AbstractService methods
+* BayeuxServer.SessionListener signature change
+* MaxQueueListener changes
+* RemoveListener changes
 
 :numbered:
