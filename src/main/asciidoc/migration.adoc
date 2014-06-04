@@ -5,7 +5,7 @@
 [[_migration]]
 == Migrating from CometD 2
 
-=== Required JDK Version
+=== Required JDK Version Changes
 
 [cols="1,1", options="header"]
 |===
@@ -13,7 +13,7 @@
 | JDK 5    | JDK 7
 |===
 
-=== Class Names
+=== Class Names Changes
 
 Package names did not change.
 
@@ -26,7 +26,7 @@ Package names did not change.
 
 NOTE: Pay attention to the capital `D' of Comet**D**
 
-=== Maven Artifacts
+=== Maven Artifacts Changes
 
 Only the WebSocket artifacts have changed.
 
@@ -42,7 +42,7 @@ Only the WebSocket artifacts have changed.
 | +org.cometd.java:cometd-java-websocket-jetty-client+ (Jetty WebSocket Client)
 |===
 
-=== +web.xml+
+=== +web.xml+ Changes
 
 [cols="1a,1a", options="header"]
 |===
@@ -89,7 +89,7 @@ Only the WebSocket artifacts have changed.
 <3> +async-supported+ element now required
 |===
 
-=== CometD Servlet Parameters
+=== CometD Servlet Parameters Changes
 
 [cols="1,1,10", options="header"]
 |===
@@ -121,14 +121,70 @@ Only the WebSocket artifacts have changed.
   the CometD Servlet, example +/cometd/*+.
 |===
 
-TODO
+=== Method Signature Changes
 
-* signature change in BayeuxServer.createChannelIfAbsent()
-* signature change in ServerSession.deliver()
-* signature change in ServerChannel.publish()
-* signature change in AbstractService methods
-* BayeuxServer.SessionListener signature change
-* MaxQueueListener changes
-* RemoveListener changes
+[cols="1a,1a", options="header"]
+|===
+| CometD 2
+| CometD 3
+
+| +BayeuxServer+::
+    +createIfAbsent(String, ConfigurableServerChannel.Initializer...)+
+| +BayeuxServer+::
+    +create**Channel**IfAbsent(String, ConfigurableServerChannel.Initializer...)+
+
+| +BayeuxServer.SessionListener+::
+    +sessionAdded(ServerSession)+
+| +BayeuxServer.SessionListener+::
+    +sessionAdded(ServerSession, *ServerMessage*)+
+
+| +BayeuxServer.SubscriptionListener+::
+    +subscribed(ServerSession, ServerChannel)+
+| +BayeuxServer.SubscriptionListener+::
+    +subscribed(ServerSession, ServerChannel, *ServerMessage*)+
+
+| +BayeuxServer.SubscriptionListener+::
+    +unsubscribed(ServerSession, ServerChannel)+
+| +BayeuxServer.SubscriptionListener+::
+    +unsubscribed(ServerSession, ServerChannel, *ServerMessage*)+
+
+| +ServerChannel+::
+    +publish(Session, Object, *String*)+
+| +ServerChannel+::
+    +publish(Session, Object)+
+
+| +ServerChannel.SubscriptionListener+::
+    +subscribed(ServerSession, ServerChannel)+
+| +ServerChannel.SubscriptionListener+::
+    +subscribed(ServerSession, ServerChannel, *ServerMessage*)+
+
+| +ServerChannel.SubscriptionListener+::
+    +unsubscribed(ServerSession, ServerChannel)+
+| +ServerChannel.SubscriptionListener+::
+    +unsubscribed(ServerSession, ServerChannel, *ServerMessage*)+
+
+| +ServerSession+::
+    +deliver(Session, String, Object, *String*)+
+| +ServerSession+::
+    +deliver(Session, String, Object)+
+
+| +MaxQueueListener+::
+    +queueMaxed(ServerSession, Session, Message)+
+| +MaxQueueListener+::
+    +queueMaxed(ServerSession, *Queue<ServerMessage>*, *ServerSession*, *Message*)+
+|===
+
+=== Inherited Services Service Method Signature Changes
+
+[cols="1a,1a", options="header"]
+|===
+| CometD 2
+| CometD 3
+
+| +class MyService extends AbstractService+::
+    +myMethod(ServerSession, [String], Object, [String])+
+| +class MyService extends AbstractService+::
+    +myMethod(ServerSession, *ServerMessage*)+
+|===
 
 :numbered:
