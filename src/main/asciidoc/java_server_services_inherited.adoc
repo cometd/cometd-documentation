@@ -10,17 +10,17 @@ class defines:
 ====
 [source,java]
 ----
-public class EchoService extends AbstractService                                  <1>
+public class EchoService extends AbstractService <1>
 {
-    public EchoService(BayeuxServer bayeuxServer)                                 <2>
+    public EchoService(BayeuxServer bayeuxServer) <2>
     {
-        super(bayeuxServer, "echo");                                              <3>
-        addService("/echo", "processEcho");                                       <4>
+        super(bayeuxServer, "echo"); <3>
+        addService("/echo", "processEcho"); <4>
     }
 
-    public void processEcho(ServerSession remote, ServerMessage message)          <5>
+    public void processEcho(ServerSession remote, ServerMessage message) <5>
     {
-        remote.deliver(getServerSession(), "/echo", message.getData());           <6>
+        remote.deliver(getServerSession(), "/echo", message.getData()); <6>
     }
 }
 ----
