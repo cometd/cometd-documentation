@@ -13,6 +13,14 @@
 | JDK 5    | JDK 7
 |===
 
+=== Servlet Specification Changes
+
+[cols="1,1", options="header"]
+|===
+| CometD 2 | CometD 3
+| Servlet 2.5 | Servlet 3.0 (recommended Servlet 3.1 with JSR 356's +javax.websocket+ support)
+|===
+
 === Class Names Changes
 
 Package names did not change.
@@ -35,7 +43,7 @@ Only the WebSocket artifacts have changed.
 | CometD 2
 | CometD 3
 
-.4| +org.cometd.java:cometd-websocket-jetty+
+| +org.cometd.java:cometd-websocket-jetty+
 | +org.cometd.java:cometd-java-websocket-javax-server+ (JSR 356 WebSocket Server)
 | +org.cometd.java:cometd-java-websocket-jetty-server+ (Jetty WebSocket Server)
 | +org.cometd.java:cometd-java-websocket-javax-client+ (JSR 356 WebSocket Client)
