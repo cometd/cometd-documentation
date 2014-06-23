@@ -184,12 +184,12 @@ public class MyAppAuthenticator extends DefaultSecurityPolicy implements ServerS
         if (!verify(authentication))
             return false;
 
-        // Authentication successful
+        // Authentication successful.
 
-        // Link authentication data to the session
+        // Link authentication data to the session.
         users.put(session, authentication);
 
-        // Be notified when the session disappears
+        // Be notified when the session disappears.
         session.addListener(this);
 
         return true;
@@ -230,6 +230,35 @@ public class Users
 The +Users+ object can now be injected in <<_java_server_services,CometD services>>
 and its API enriched to fit the application needs such as retrieving the user
 name for a given session, or the +ServerSession+ for a given user name, etc.
+
+Alternatively, the linking/unlinking (steps 5 and 8 above) can be performed in a
++BayeuxServer.SessionListener+. These listeners are invoked _after_
++SecurityPolicy.canHandshake()+ and are invoked also when a +ServerSession+ is
+removed, therefore there is no need to register a +RemoveListener+ with the
++ServerSession+ like done in step 6 above:
+
+====
+[source,java]
+----
+BayeuxServer bayeuxServer = ...;
+
+final Users users = ...;
+
+bayeuxServer.addListener(new BayeuxServer.SessionListener()
+{
+    public void sessionAdded(ServerSession session, ServerMessage message)
+    {
+        Map<String, Object> authentication = (Map<String, Object>)ext.get("com.myapp.authn");
+        users.put(session, authentication);
+    }
+
+    public void sessionRemoved(ServerSession session, boolean timedout)
+    {
+        users.remove(session);
+    }
+});
+----
+====
 
 Each Bayeux message always come with a session id, which can be thought as
 similar to the HTTP session id.
