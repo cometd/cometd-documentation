@@ -91,8 +91,8 @@ standard dependency injection as specified by JSR 330.
 The CometD project provides lifecycle management via the standard
 http://jcp.org/en/jsr/detail?id=250[JSR 250] +@PostConstruct+ and
 +@PreDestroy+ annotations.
-We offer this support for those that do not use a dependency injection container
-with lifecycle management such as http://www.springsource.org[Spring].
+CometD offers this support for those that do not use a dependency injection
+container with lifecycle management such as http://www.springsource.org[Spring].
 
 ===== Channel Configuration Support
 

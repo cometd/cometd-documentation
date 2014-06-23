@@ -186,7 +186,7 @@ cometd.onExtensionException = function(exception, extensionName, outgoing, messa
     // If the message is going to the server, add the error to the message
     if (outgoing)
     {
-        // Assume we have created the message structure below
+        // Assume you have created the message structure below
         var badExtension = message.ext.badExtensions[extensionName];
         badExtension.exception = exception;
     }

@@ -127,7 +127,7 @@ You have already written your first CometD application :-)
 [[_primer_non_maven_way]]
 ==== The Non-Maven Way
 
-The first step is to configure your favorite JavaScript toolkit, in our example Dojo,
+The first step is to configure your favorite JavaScript toolkit, in the example Dojo,
 that the web container must serve.
 Using the Maven Way, this is obtained automatically by overlaying the CometD Dojo
 bindings WAR file, +cometd-javascript-dojo-[version].war+, but here you must do it
@@ -136,11 +136,10 @@ manually (the +cometd-javascript-dojo-[version].war+ is located in the
 
 . Download Dojo from http://dojotoolkit.org
 . Unpack the dojo-release-[version].tar.gz to a directory, for example +/tmp+,
-  so that you have the +/tmp/dojo-release-[version]+ directory that we will call
-  +$DOJO+.
+  so that you have the +/tmp/dojo-release-[version]+ directory, called +$DOJO+ below.
 . Delete the +$DOJO/dojox/cometd.js+ and +$DOJO/dojox/cometd.js.uncompressed.js+ files
   that Dojo provides (these files are empty and just stubs for the real ones that
-  we will put in place in a moment).
+  you will put in place in a moment).
 . Delete the +$DOJO/dojox/cometd+ directory that Dojo provides.
 . Copy the +dojox/cometd.js+ file of the +cometd-javascript-dojo-[version].war+ into +$DOJO/+.
 . Copy the +dojox/cometd+ directory of the +cometd-javascript-dojo-[version].war+ into +$DOJO/+.

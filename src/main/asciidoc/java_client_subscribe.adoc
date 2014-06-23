@@ -34,7 +34,7 @@ public class Example
     {
         public void onMessage(ClientSessionChannel channel, Message message)
         {
-            // Here we received a message on the channel
+            // Here you received a message on the channel
         }
     }
 }
@@ -124,7 +124,7 @@ public class Example
         {
             public void onMessage(ClientSessionChannel channel, Message message)
             {
-                // Here we received a handshake response message
+                // Here you received a handshake response message
             }
         });
     }

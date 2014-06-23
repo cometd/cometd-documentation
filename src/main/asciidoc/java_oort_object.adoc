@@ -134,7 +134,7 @@ so that each node can create its own +OortObject+ instance with the same name.
 
 One +OortObject+ owns one data entity, which is its local part.
 In the example above, the data entity is a whole +List<String>+, so that's
-what we want to share with other nodes:
+what you want to share with other nodes:
 
 ====
 [source,java]
@@ -349,7 +349,7 @@ public class MyCustomJSONContextServer extends JettyJSONContextServer
 Like before, the Jetty JSON library has been implicitly chosen by extending
 the CometD class +JettyJSONContextServer+.
 A similar class exist for the Jackson JSON library.
-Class +UserInfoConvertor+ is the same class we defined above and it is
+Class +UserInfoConvertor+ is the same class you defined above and it is
 therefore used for both serialization and deserialization.
 
 You must specify class +MyCustomJSONContextServer+ as the +jsonContext+
@@ -431,7 +431,7 @@ currently logged in users.
 Every time a user connects and logs in, say, in NodeA, then NodeB needs to be
 notified to update the total number in the user interface of the users connected
 to NodeB.
-The Oort object we use in this example is an +OortObject<Long>+, but you want
+The Oort object you use in this example is an +OortObject<Long>+, but you want
 to use CometD's built-in +org.cometd.oort.OortLong+ in your application.
 
 Since the application already updates the +OortObject<Long>+ in NodeA, the
@@ -473,7 +473,7 @@ userCount.addListener(new OortObject.Listener()
 Class +org.cometd.oort.OortObject.Info+ represents a data entity part of an
 +OortObject+ and contains the data entity and the Oort URL correspondent to
 the node that it represent.
-For this particular example, the +Info+ objects are not important, since we
+For this particular example, the +Info+ objects are not important, since you
 are only interested in the total user count, that can be obtained by merging
 (see also <<_java_oort_objects_oort_object_merging,the +OortObject+ merging section>>).
 They can be used, however, to compute the difference before and after the update if needed.

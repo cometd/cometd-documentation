@@ -28,8 +28,8 @@ the server with a period of +multiSessionInterval+.
 This avoids consuming both HTTP connections at the cost of some latency for
 the additional iframes/tabs/windows.
 
-We recommend that the client application monitor the +/meta/connect+ channel
-for +multiple-clients+ field in the advice.
+The recommendation is that the client application monitors the +/meta/connect+
+channel for +multiple-clients+ field in the advice.
 If detected, the application might ask the user to close the additional tabs,
 or it could automatically close them, or take some other action.
 

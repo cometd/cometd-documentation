@@ -339,7 +339,7 @@ To avoid that these transient server channels grow indefinitely and occupy a
 lot of memory, the CometD server aggressively sweeps server channels, by default
 every second, removing all channels that are not in use by the application anymore.
 
-Given the above, we need to solve two problems: 
+Given the above, you need to solve two problems:
 
 * how to atomically create and configure a server channel 
 * how to avoid that channels that the application knows they will be used at a
