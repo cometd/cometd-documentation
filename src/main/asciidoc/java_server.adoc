@@ -24,6 +24,7 @@ APIs and their implementation.
 include::java_server_configuration.adoc[]
 include::java_server_services.adoc[]
 include::java_server_authorization.adoc[]
+include::java_server_authentication.adoc[]
 include::java_server_authorizers.adoc[]
 include::java_server_transports.adoc[]
 include::java_server_context.adoc[]

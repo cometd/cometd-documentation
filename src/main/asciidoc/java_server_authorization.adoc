@@ -11,11 +11,7 @@ allows almost any operation.
 The +org.cometd.bayeux.server.SecurityPolicy+ interface has a default
 implementation in +org.cometd.server.DefaultSecurityPolicy+, that is useful
 as a base class to customize the +SecurityPolicy+
-////
-TODO: port this part to the reference
-////
-(see how http://cometd.org/documentation/2.x/howtos/authentication[authentication]
-works for an example).
+(see <<_java_server_authentication,the authentication section>> for an example).
 
 The +org.cometd.bayeux.server.SecurityPolicy+ methods are:
 
@@ -83,11 +79,7 @@ public class CustomSecurityPolicy extends DefaultSecurityPolicy
 ====
 
 To understand how to install your custom +SecurityPolicy+ on the +BayeuxServer+
-object, see how it is done in the
-////
-TODO: port this part to the reference
-////
-http://cometd.org/documentation/2.x/howtos/authentication[authentication] howto.
+object, see how it is done in <<_java_server_authentication,the authentication section>>.
 
 Follow also <<_java_server_authorizers,the authorizers section>> for further
 information about authorization.

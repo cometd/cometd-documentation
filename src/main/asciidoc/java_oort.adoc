@@ -520,11 +520,8 @@ handshake of a remote client (which might be subject to authentication checks)
 from a handshake performed by a remote node.
 For example, assume that remote clients always send an extension field
 containing an authentication token; then it is possible to write an
-implementation of +SecurityPolicy+ as follows (see also the section about
-////
-TODO: relink this here
-////
-http://cometd.org/documentation/2.x/howtos/authentication[authentication]):
+implementation of +SecurityPolicy+ as follows (see also
+<<_java_server_authentication,the authentication section>>):
 
 ====
 [source,java]

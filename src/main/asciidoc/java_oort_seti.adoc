@@ -72,11 +72,7 @@ The same +userId+ may log in multiple times (for example from a desktop computer
 and from a mobile device), so it is associated to multiple +ServerSessions+.
 
 In practice, the best way to associate a +userId+ with a +ServerSession+ is in a
-+SecurityPolicy+ during
-////
-TODO: port this section !!!
-////
-http://cometd.org/documentation/2.x/howtos/authentication[authentication], for example:
++SecurityPolicy+ during <<_java_server_authentication,authentication>>, for example:
 
 ====
 [source,java]
