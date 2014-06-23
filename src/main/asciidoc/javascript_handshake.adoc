@@ -144,9 +144,11 @@ cometd.handshake(additional, function(handshakeReply)
 ----
 ====
 
-The additional object will be _merged_ into the handshake message, and the server
-will be able to access the additional information in a +/meta/handshake+ listener,
-for example using annotated services (see also <<_java_server_services_annotated,the annotated services section>>):
+The additional object will be _merged_ into the handshake message.
+
+The server will be able to access the message (but not yet the session)
+from a +/meta/handshake+ listener, for example using annotated services
+(see also <<_java_server_services_annotated,the annotated services section>>):
 
 ====
 [source,java]
@@ -157,12 +159,18 @@ public class MyService
     @Listener(Channel.META_HANDSHAKE)
     public void metaHandshake(ServerSession remote, ServerMessage message)
     {
+        // Parameter "remote" will be null here.
+
         Map<String, Object> credentials = (Map<String, Object>)message.get("com.acme.credentials");
         // Verify credentials.
     }
 }
 ----
 ====
+
+For more advanced processing of the handshake message that require the
+availability of the +ServerSession+, see
+<<_java_server_authentication,the authentication section>>.
 
 The additional object must not be used to tamper the handshake message by using
 reserved fields defined by the Bayeux protocol (see also <<_bayeux,the Bayeux protocol section>>).

@@ -538,9 +538,10 @@ client +client2+. Both clients are already connected and therefore have already
 performed the handshake with the server.
 Their handshake contained additional information regarding their +userId+, so
 that +client1+ declared to be "Bob" and +client2+ declared to be "Alice".
-The application could have used a +SecurityPolicy+ or a server channel message
-listener on channel +/meta/handshake+ to perform a mapping between the +userId+
-and the server session's id.
+The application could have used a +SecurityPolicy+ or a
++BayeuxServer.SessionListener+ to perform a mapping between the +userId+
+and the server session's id, like explained in
+<<_java_server_authentication,the authentication section>>.
 
 Now Bob wants to send a private message only to Alice. 
 
