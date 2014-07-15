@@ -54,35 +54,35 @@ example in case of a stock price change.
 
 The JavaScript CometD API has two APIs to work with channel subscriptions: 
 
-. +addListener()+ and the correspondent +removeListener()+
-. +subscribe()+ and the correspondent +unsubscribe()+
+. `addListener()` and the correspondent `removeListener()`
+. `subscribe()` and the correspondent `unsubscribe()`
 
-The +addListener()+ method:
+The `addListener()` method:
 
 * Must be used to listen to meta channel messages.
 * May be used to listen to service channel messages. 
-* Should not be used to listen broadcast channel messages (use +subscribe()+ instead).
+* Should not be used to listen broadcast channel messages (use `subscribe()` instead).
 * Does not involve any communication with the Bayeux server, and as such can be
-  called before calling +handshake().+
+  called before calling `handshake().`
 * Is synchronous: when it returns, you are guaranteed that the listener has been added.
 
-The +subscribe()+ method:
+The `subscribe()` method:
 
 * Must not be used to listen to meta channels messages (if attempted, the server returns an error).
 * May be used to listen to service channel messages. 
 * Should be used to listen to broadcast channel messages.
-* Involves a communication with the Bayeux server and as such cannot be called before calling +handshake().+
+* Involves a communication with the Bayeux server and as such cannot be called before calling `handshake().`
 * Is asynchronous: it returns immediately, well before the Bayeux server has received the subscription request. 
 
 [NOTE]
 ====
-Calling +subscribe()+ _ does not_ mean that you have completed the subscription
+Calling `subscribe()` _ does not_ mean that you have completed the subscription
 with the server when function returns.
 ====
 
 If you want to be certain that the server received your subscription request
-(or not), you can either register a +/meta/subscribe+ listener, or pass a callback
-function to +subscribe()+:
+(or not), you can either register a `/meta/subscribe` listener, or pass a callback
+function to `subscribe()`:
 
 ====
 [source,javascript]
@@ -99,11 +99,11 @@ cometd.subscribe('/foo', function(message) { ... }, function(subscribeReply)
 
 Remember that subscriptions may fail on the server (for example, the client does
 not have enough permissions to subscribe) or on the client (for example, there
-is a network failure). In both cases +/meta/subscribe+ listener, or the callback
+is a network failure). In both cases `/meta/subscribe` listener, or the callback
 function, will be invoked with an unsuccessful subscribe message reply.
 
 You can pass additional information to the subscribe message by passing an
-additional object to the +subscribe()+ function:
+additional object to the `subscribe()` function:
 
 ====
 [source,javascript]
@@ -125,8 +125,8 @@ sent to the server.
 See also <<_javascript_handshake,the javascript handshake section>> for further
 information about passing additional objects.
 
-Both +addListener()+ and +subscribe()+ return a subscription object that must be
-passed to, respectively, +removeListener()+ and +unsubscribe()+:
+Both `addListener()` and `subscribe()` return a subscription object that must be
+passed to, respectively, `removeListener()` and `unsubscribe()`:
 
 ====
 [source,javascript]
@@ -141,7 +141,7 @@ cometd.removeListener(subscription1);
 ----
 ====
 
-Function +unsubscribe()+ can too take an additional object and a callback
+Function `unsubscribe()` can too take an additional object and a callback
 function as parameters:
 
 ====
@@ -161,7 +161,7 @@ cometd.unsubscribe(subscription1, additional, function(unsubscribeReply)
 ----
 ====
 
-Similarly to +subscribe()+, the unsubscribe message is sent to the server only
+Similarly to `subscribe()`, the unsubscribe message is sent to the server only
 when unsubscribing from a channel for the last time.
 See also <<_javascript_handshake,the javascript handshake section>> for further
 information about passing additional objects.
@@ -176,20 +176,20 @@ client, and therefore also the server-side subscription state.
 In order to maintain the client-side state consistent with that of the server,
 subscriptions – but not listeners – are automatically removed upon re-handshake.
 
-A good place in the code to perform subscriptions is in a +/meta/handshake+ function.
-Since +/meta/handshake+ listeners are invoked in both explicit handshakes the
+A good place in the code to perform subscriptions is in a `/meta/handshake` function.
+Since `/meta/handshake` listeners are invoked in both explicit handshakes the
 client performs and in re-handshakes the server triggers, it is guaranteed that
 your subscriptions are always performed properly and kept consistent with the server state.
 
 Equivalently, a callback function passed to the handshake method behaves exactly
-like a +/meta/handshake+ listener, and therefore can be used to perform subscriptions.
+like a `/meta/handshake` listener, and therefore can be used to perform subscriptions.
 
 Applications do not need to unsubscribe in case of re-handshake; the CometD library
 takes care of removing all subscriptions upon re-handshake, so that when the
-+/meta/handshake+ function executes again the subscriptions are correctly restored
+`/meta/handshake` function executes again the subscriptions are correctly restored
 (and not duplicated).
 
-For the same reason, you should never add listeners inside a +/meta/handshake+
+For the same reason, you should never add listeners inside a `/meta/handshake`
 function, because this will add another listener without removing the previous
 one, resulting in multiple notifications of the same messages.
 
@@ -227,14 +227,14 @@ cometd.addListener('/meta/handshake', function(message)
 ====
 
 In cases where the Bayeux server is not reachable (due to network failures or
-because the server crashed), +subscribe()+ and +unsubscribe()+ behave as follows:
+because the server crashed), `subscribe()` and `unsubscribe()` behave as follows:
 
-* In +subscribe()+ CometD first adds the local listener to the list of subscribers
+* In `subscribe()` CometD first adds the local listener to the list of subscribers
   for that channel, then attempts the server communication.
   If the communication fails, the server does not know that it has to send messages
   to this client and therefore on the client, the local listener (although present)
   is never invoked.
-* In +unsubscribe()+, CometD first removes the local listener from the list of
+* In `unsubscribe()`, CometD first removes the local listener from the list of
   subscribers for that channel, then attempts the server communication.
   If the communication fails, the server still sends the message to the client,
   but there is no local listener to dispatch to.
@@ -279,9 +279,9 @@ function Controller()
 In case of a re-handshake, dynamic subscriptions are cleared (like any other
 subscription) and the application needs to figure out which dynamic subscription
 must be performed again.
-This information is already known to CometD at the moment +cometd.subscribe(...)+
-was called (above in function +dynamicSubscribe()+), so applications can just call
-+resubscribe()+ using the subscription object obtained from +subscribe()+:
+This information is already known to CometD at the moment `cometd.subscribe(...)`
+was called (above in function `dynamicSubscribe()`), so applications can just call
+`resubscribe()` using the subscription object obtained from `subscribe()`:
 
 ====
 [source,javascript]
@@ -347,8 +347,8 @@ cometd.subscribe("/chatrooms/*", function(message) { ... });
 ====
 
 A single asterisk has the meaning of matching a single channel segment; in the
-example above it matches channels +/chatrooms/12+ and +/chatrooms/15+, but not
-+/chatrooms/12/upload+.
+example above it matches channels `/chatrooms/12` and `/chatrooms/15`, but not
+`/chatrooms/12/upload`.
 To match multiple channel segments, use the double asterisk: 
 
 ====
@@ -358,8 +358,8 @@ cometd.subscribe("/events/**", function(message) { ... });
 ----
 ====
 
-With the double asterisk, the channels +/events/stock/FOO+ and +/events/forex/EUR+
-match, as well as +/events/feed+ and +/events/feed/2009/08/03+.
+With the double asterisk, the channels `/events/stock/FOO` and `/events/forex/EUR`
+match, as well as `/events/feed` and `/events/feed/2009/08/03`.
 
 The wildcard mechanism works also for listeners, so it is possible to listen to
 all meta channels as follows:
@@ -371,7 +371,7 @@ cometd.addListener("/meta/*", function(message) { ... });
 ----
 ====
 
-By default, subscriptions to the global wildcards +/*+ and +/**+ result in an
+By default, subscriptions to the global wildcards `/*` and `/**` result in an
 error, but you can change this behavior by specifying a custom security policy
 on the Bayeux server.
 
@@ -390,15 +390,15 @@ These are the meta channels available in the JavaScript CometD implementation:
 
 Each meta channel is notified when the JavaScript CometD implementation handles
 the correspondent Bayeux message.
-The +/meta/unsuccessful+ channel is notified in case of any failure.
+The `/meta/unsuccessful` channel is notified in case of any failure.
 
-By far the most interesting meta channel to subscribe to is +/meta/connect+
+By far the most interesting meta channel to subscribe to is `/meta/connect`
 because it gives the status of the current connection with the Bayeux server.
-In combination with +/meta/disconnect+, you can use it, for example, to display
+In combination with `/meta/disconnect`, you can use it, for example, to display
 a green _connected_ icon or a red _disconnected_ icon on the page, depending on
 the connection status with the Bayeux server.
 
-Here is a common pattern using the +/meta/connect+ and +/meta/disconnect+ channels:
+Here is a common pattern using the `/meta/connect` and `/meta/disconnect` channels:
 
 ====
 [source,javascript]
@@ -434,14 +434,14 @@ cometd.addListener('/meta/disconnect', function(message)
 ----
 ====
 
-One small caveat with the +/meta/connect+ channel is that +/meta/connect+
+One small caveat with the `/meta/connect` channel is that `/meta/connect`
 is also used for polling the server.
 Therefore, if a disconnect is issued during an active poll, the server
-returns the active poll and this triggers the +/meta/connect+ listener.
+returns the active poll and this triggers the `/meta/connect` listener.
 The initial check on the status verifies that is not the case before
 executing the connection logic.
 
 Another interesting use of meta channels is when there is an authentication
 step during the handshake.
-In this case the registration to the +/meta/handshake+ channel can give
+In this case the registration to the `/meta/handshake` channel can give
 details about, for example, authentication failures.

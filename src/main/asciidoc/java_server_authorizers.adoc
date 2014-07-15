@@ -7,7 +7,7 @@ fine-grained control of authorization on channel operations.
 
 ===== Understanding Authorizers
 
-Authorizers are objects that implement +org.cometd.bayeux.server.Authorizer+;
+Authorizers are objects that implement `org.cometd.bayeux.server.Authorizer`;
 you add them to server-side channels at setup time (before any operation on
 that channel can happen) in the following way:
 
@@ -25,7 +25,7 @@ bayeuxServer.createChannelIfAbsent("/my/channel", new ConfigurableServerChannel.
 ----
 ====
 
-The utility class +org.cometd.server.authorizer.GrantAuthorizer+ provides
+The utility class `org.cometd.server.authorizer.GrantAuthorizer` provides
 some pre-made authorizers, but you can create your own at will.
 
 Authorizers are particularly suited to control authorization on those channels
@@ -35,20 +35,20 @@ at runtime by concatenating strings that are unknown at application startup
 
 * Authorizers do not apply to meta channels, only to service channels and to
   broadcast channels.
-* You can add authorizers to wildcard channels (such as +/chat/*+); they impact
+* You can add authorizers to wildcard channels (such as `/chat/*`); they impact
   all channels that match the wildcard channel on which you have added the authorizer.
-* An authorizer that you add to +/**+ impacts all non-meta channels.
-* For a non wildcard channel such as +/chat/room/10+, the _authorizer set_ is
+* An authorizer that you add to `/**` impacts all non-meta channels.
+* For a non wildcard channel such as `/chat/room/10`, the _authorizer set_ is
   the union of all authorizers on that channel, and of all authorizers on
   wildcard channels that match the channel (in this case authorizers on
-  channels +/chat/room/*+, +/chat/room/**+, +/chat/**+ and +/**+).
+  channels `/chat/room/*`, `/chat/room/**`, `/chat/**` and `/**`).
 
 ===== Authorization Algorithm
 
 Authorizers control access to channels in collaboration with the
-+org.cometd.bayeux.server.SecurityPolicy+ that is currently installed.
+`org.cometd.bayeux.server.SecurityPolicy` that is currently installed.
 
-The +org.cometd.bayeux.server.SecurityPolicy+ class exposes three methods that
+The `org.cometd.bayeux.server.SecurityPolicy` class exposes three methods that
 you can use to control access to channels:
 
 ====
@@ -75,7 +75,7 @@ The complete algorithm for the authorization follows:
 
 The order in which the authorizers are called is not important. 
 
-The following method of +org.cometd.bayeux.server.Authorizer+ must be
+The following method of `org.cometd.bayeux.server.Authorizer` must be
 implemented with your authorization algorithm:
 
 ====
@@ -87,7 +87,7 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 
 One of three possible results must be returned: 
 
-* +Result.grant()+:
+* `Result.grant()`:
 +
 ====
 [source,java]
@@ -98,7 +98,7 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 }
 ----
 ====
-+Result.grant()+ explicitly grants permission to perform the operation
+`Result.grant()` explicitly grants permission to perform the operation
     passed in as a parameter on the channel.
     At least one authorizer must grant the operation, otherwise the operation
     is denied.
@@ -107,7 +107,7 @@ The fact that one (or multiple) authorizers grant an operation does not imply
 that the operation is granted at the end of the authorization algorithm: it
 could be denied by another authorizer in the set of authorizers for that channel.
 
-* +Result.ignore()+:
+* `Result.ignore()`:
 +
 ====
 [source,java]
@@ -118,13 +118,13 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 }
 ----
 ====
-+Result.ignore()+ neither grants nor denies the permission to perform
+`Result.ignore()` neither grants nor denies the permission to perform
     the operation passed in as a parameter on the channel.
     Ignoring the authorization request is the usual way to deny authorization
     if the conditions for which the operation must be granted do not apply.
 +
 
-* +Result.deny()+:
+* `Result.deny()`:
 +
 ====
 [source,java]
@@ -135,7 +135,7 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 }
 ----
 ====
-+Result.deny()+ explicitly denies the permission to perform the operation
+`Result.deny()` explicitly denies the permission to perform the operation
     passed in as a parameter on the channel.
     Denying the authorization request immediately results in the authorization
     being denied without even consulting other authorizers in the authorizer
@@ -148,11 +148,11 @@ silver and gold contracts give access to different TV channels), you have a
 single authorizer that denies the operation if the user's balance is insufficient,
 no matter the contract or the TV channel being requested.
 
-Similarly to the +SecurityPolicy+ (see also
-<<_java_server_authorization,the authorization section>>), +Authorizer+ methods
-are invoked for any +ServerSession+, even those generated by local clients
+Similarly to the `SecurityPolicy` (see also
+<<_java_server_authorization,the authorization section>>), `Authorizer` methods
+are invoked for any `ServerSession`, even those generated by local clients
 (such as services, see also <<_java_server_services_inherited,the inherited services section>>).
-Implementers should check whether the +ServerSession+ that is performing the
+Implementers should check whether the `ServerSession` that is performing the
 operation is related to a local client or to a remote client, and act
 accordingly (see example below).
 
@@ -181,7 +181,7 @@ This ensures that the authorizer set is not empty, and that by default (if
 no other authorizer grants or denies) the authorization is ignored and hence denied.
 
 Only captains can start a new game, and to do so they create a new channel
-for that game, for example +/game/123+ (where +123+ is the gameId):
+for that game, for example `/game/123` (where `123` is the gameId):
 
 ====
 [source,java]
@@ -283,8 +283,8 @@ The authorizers are now the following:
 ----
 ====
 
-Notice how authorizers on +/game/**+ never grant +Operation.PUBLISH+, which
+Notice how authorizers on `/game/**` never grant `Operation.PUBLISH`, which
 authorizers only grant on specific game channels.
-Also, the specific game channel does not need to grant +Operation.SUBSCRIBE+,
+Also, the specific game channel does not need to grant `Operation.SUBSCRIBE`,
 because its authorizer ignores the subscribe operation that is authorizers
-therefore handle on the +/game/**+ channel.
+therefore handle on the `/game/**` channel.

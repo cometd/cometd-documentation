@@ -50,17 +50,17 @@ cometd.handshake({
 ====
 
 The Bayeux Protocol specification suggests that the authentication information
-is stored in the +ext+ field of the handshake message (see
+is stored in the `ext` field of the handshake message (see
 <<_bayeux_security,here>>) and it is good practice to use a fully qualified
-name for the extension field, such as +com.myapp.authn+.
+name for the extension field, such as `com.myapp.authn`.
 
-On the server, you need to configure the +BayeuxServer+ object with an implementation
-of +org.cometd.bayeux.server.SecurityPolicy+ to deny the handshake to clients
+On the server, you need to configure the `BayeuxServer` object with an implementation
+of `org.cometd.bayeux.server.SecurityPolicy` to deny the handshake to clients
 that provide wrong credentials.
 
 <<_java_server_services_integration,The section on services integration>> shows
-how to perform the initialization and configuration of the +BayeuxServer+ object,
-and you can use similar code to configure the +SecurityPolicy+ too, for example
+how to perform the initialization and configuration of the `BayeuxServer` object,
+and you can use similar code to configure the `SecurityPolicy` too, for example
 below using a configuration servlet:
 
 ====
@@ -85,7 +85,7 @@ public class MyAppInitializer extends GenericServlet
 ----
 ====
 
-Below you can find the code for the +MyAppAuthenticator+ class referenced above:
+Below you can find the code for the `MyAppAuthenticator` class referenced above:
 
 ====
 [source,java]
@@ -127,9 +127,9 @@ public class MyAppAuthenticator extends DefaultSecurityPolicy implements ServerS
 }
 ----
 ====
-<1> Make +MyAppAuthenticator+ be a +SecurityPolicy+ and a +ServerSession.RemoveListener+,
+<1> Make `MyAppAuthenticator` be a `SecurityPolicy` and a `ServerSession.RemoveListener`,
 since the code is really tied together.
-<2> Override +SecurityPolicy.canHandshake()+, to extract the authentication
+<2> Override `SecurityPolicy.canHandshake()`, to extract the authentication
 information from the message sent by the client.
 <3> Allow handshakes for any server-side local session (such as those associated with
 <<_java_server_services,services>>).
@@ -145,7 +145,7 @@ the operation opposite to step 5.
 
 The most important steps are the number 5 and the number 8, where the
 server-side authentication data is linked/unlinked to/from the
-+org.cometd.bayeux.server.ServerSession+ object.
+`org.cometd.bayeux.server.ServerSession` object.
 
 This linking depends very much from application to application.
 It may link a database primary key (of the row representing the user account)
@@ -204,7 +204,7 @@ public class MyAppAuthenticator extends DefaultSecurityPolicy implements ServerS
 ----
 ====
 
-And below you can find a very simple implementation of the +Users+ class:
+And below you can find a very simple implementation of the `Users` class:
 
 ====
 [source,java]
@@ -227,15 +227,15 @@ public class Users
 ----
 ====
 
-The +Users+ object can now be injected in <<_java_server_services,CometD services>>
+The `Users` object can now be injected in <<_java_server_services,CometD services>>
 and its API enriched to fit the application needs such as retrieving the user
-name for a given session, or the +ServerSession+ for a given user name, etc.
+name for a given session, or the `ServerSession` for a given user name, etc.
 
 Alternatively, the linking/unlinking (steps 5 and 8 above) can be performed in a
-+BayeuxServer.SessionListener+. These listeners are invoked _after_
-+SecurityPolicy.canHandshake()+ and are invoked also when a +ServerSession+ is
-removed, therefore there is no need to register a +RemoveListener+ with the
-+ServerSession+ like done in step 6 above:
+`BayeuxServer.SessionListener`. These listeners are invoked _after_
+`SecurityPolicy.canHandshake()` and are invoked also when a `ServerSession` is
+removed, therefore there is no need to register a `RemoveListener` with the
+`ServerSession` like done in step 6 above:
 
 ====
 [source,java]
@@ -263,8 +263,8 @@ bayeuxServer.addListener(new BayeuxServer.SessionListener()
 Each Bayeux message always come with a session id, which can be thought as
 similar to the HTTP session id.
 In the same way it is widespread practice to put the server-side authentication
-data in the +HttpSession+ object (identified by the HTTP session id), in CometD
-web applications you can put server-side authentication data in the +ServerSession+
+data in the `HttpSession` object (identified by the HTTP session id), in CometD
+web applications you can put server-side authentication data in the `ServerSession`
 object.
 
 The Bayeux session ids are long, randomly generated numbers, exactly like HTTP
@@ -279,12 +279,12 @@ use of TLS.
 ===== Customizing the handshake response message
 
 The handshake response message can be customized, for example adding an object
-to the +ext+ field of the response, that specify further challenge data or the
+to the `ext` field of the response, that specify further challenge data or the
 code/reason of the failure, and what action should be done by the client (for
 example, disconnecting or retrying the handshake).
 
 This is an example of how the handshake response message can be customized in
-the +SecurityPolicy+ implementation:
+the `SecurityPolicy` implementation:
 
 ====
 [source,java]
@@ -317,7 +317,7 @@ public class MySecurityPolicy extends DefaultSecurityPolicy
 ====
 
 Alternatively, it is possible to customize the handshake response message by
-implementing a +BayeuxServer.Extension+:
+implementing a `BayeuxServer.Extension`:
 
 ====
 [source,java]

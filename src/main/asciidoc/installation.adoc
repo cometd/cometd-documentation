@@ -30,12 +30,12 @@ or greater container such as http://eclipse.org/jetty[Jetty].
 
 ==== Running the Demos with Maven
 
-Maven requires you to set up the +JAVA_HOME+ environment variable to point to
+Maven requires you to set up the `JAVA_HOME` environment variable to point to
 your JDK installation.
 
 After that, running the CometD demos is very simple.
-Assuming that +$COMETD+ is the CometD installation directory, and that you have
-the +mvn+ executable in your path:
+Assuming that `$COMETD` is the CometD installation directory, and that you have
+the `mvn` executable in your path:
 
 ----
 $ cd $COMETD

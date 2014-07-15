@@ -39,14 +39,14 @@ This is strongly reflected in the CometD APIs.
 [[_concepts_channels]]
 ==== Channel Definitions
 
-A channel is a string that looks like a URL path such as +/foo/bar+,
-+/meta/connect+ or +/service/chat+.
+A channel is a string that looks like a URL path such as `/foo/bar`,
+`/meta/connect` or `/service/chat`.
 
 The Bayeux specification defines three types of channels: _meta channels_,
 _service channels_ and _broadcast channels_.
 
-A channel that starts with +/meta/+ is a meta channel, a channel that starts with
-+/service/+ is a service channel, and all other channels are broadcast channels.
+A channel that starts with `/meta/` is a meta channel, a channel that starts with
+`/service/` is a service channel, and all other channels are broadcast channels.
 
 A message whose channel field is a meta channel is referred to as a meta message,
 and similarly there are service messages and broadcast messages.
@@ -81,14 +81,14 @@ where one sender wants to broadcast information to multiple recipients.
 [[_concepts_channels_wild]]
 ===== Use of Wildcards in Channels
 
-You can use wildcards to match multiple channels: channel +/foo/*+ matches +/foo/bar+
-but not +/foo/bar/baz+.
-The latter is matched by +/foo/**+.
-You can use wildcards for any type of channel: +/meta/*+ matches all meta channels,
-and +/service/**+ matches +/service/bar+ as well as +/service/bar/baz+.
-Channel +/**+ matches all channels.
+You can use wildcards to match multiple channels: channel `/foo/*` matches `/foo/bar`
+but not `/foo/bar/baz`.
+The latter is matched by `/foo/**`.
+You can use wildcards for any type of channel: `/meta/*` matches all meta channels,
+and `/service/**` matches `/service/bar` as well as `/service/bar/baz`.
+Channel `/**` matches all channels.
 You can specify the wildcards only as the last segment of the channel, so these are
-invalid channels: +/**/foo+ or +/foo/*/bar+.
+invalid channels: `/**/foo` or `/foo/*/bar`.
 
 [[_concepts_high_level]]
 === The High Level View
@@ -115,13 +115,13 @@ The CometD server treats meta messages and service messages in a special way; it
 does not re-route them to any subscriber (by default it is forbidden to subscribe
 to meta channels, and it is a no-operation to subscribe to service channels).
 
-For example, imagine that +clientAB+ subscribes to channels +/A+ and +/B+, and
-+clientB+ subscribes to channel +/B+.
-If a publisher publishes a message on channel +/A+, only +clientAB+ receives it.
-On the other hand, if a publisher publishes a message on channel +/B+, both
-+clientAB+ and +clientB+ receive the message.
-Furthermore, if a publisher publishes a message on channel +/C+, neither
-+clientAB+ nor +clientB+ receives the message, which ends its journey on the server.
+For example, imagine that `clientAB` subscribes to channels `/A` and `/B`, and
+`clientB` subscribes to channel `/B`.
+If a publisher publishes a message on channel `/A`, only `clientAB` receives it.
+On the other hand, if a publisher publishes a message on channel `/B`, both
+`clientAB` and `clientB` receive the message.
+Furthermore, if a publisher publishes a message on channel `/C`, neither
+`clientAB` nor `clientB` receives the message, which ends its journey on the server.
 Re-routing broadcast messages is the default behavior of the server, and it
 does not need any application code to perform the re-routing.
 
@@ -165,14 +165,14 @@ image::hopp.png[]
 There are three types of sessions: 
 
 * _Client sessions_ – the client half-object on the remote client side.
-  Client sessions are represented by the +org.cometd.Cometd+ object in JavaScript,
-  and by the +org.cometd.bayeux.client.ClientSession+ class (but more frequently
-  by its subclass +org.cometd.bayeux.client.BayeuxClient+) in Java.
+  Client sessions are represented by the `org.cometd.Cometd` object in JavaScript,
+  and by the `org.cometd.bayeux.client.ClientSession` class (but more frequently
+  by its subclass `org.cometd.bayeux.client.BayeuxClient`) in Java.
   The client creates a client session to establish a Bayeux communication with the
   server, and this allows the client to publish and receive messages.
 * _Server sessions_ – the server half-object on the server side.
   Server sessions are on the server, and are represented by the
-  +org.cometd.bayeux.server.ServerSession+ class; they are the counterpart of client
+  `org.cometd.bayeux.server.ServerSession` class; they are the counterpart of client
   sessions.
   When a client creates a client session, it is not initially associated with a
   correspondent server session.
@@ -185,7 +185,7 @@ There are three types of sessions:
   They are first queued into the server session's message queue, and then delivered
   to the correspondent client session.
 * _Local sessions_ – the client half-object on the server side, represented by class
-  +org.cometd.bayeux.server.LocalSession+.
+  `org.cometd.bayeux.server.LocalSession`.
   Local sessions can be thought of as clients living in the server.
   They do not represent a remote client, but instead a server-side client.
   Local sessions can subscribe to channels and publish messages like a client session
@@ -213,32 +213,32 @@ There are three types of sessions:
 [[_concepts_server]]
 ==== The Server
 
-The _server_ is represented by an instance of +org.cometd.bayeux.server.BayeuxServer+.
-The +BayeuxServer+ object acts as a:
+The _server_ is represented by an instance of `org.cometd.bayeux.server.BayeuxServer`.
+The `BayeuxServer` object acts as a:
 
 * Repository for server sessions, see also <<_concepts_sessions,the concepts sessions section>>.
-* Repository for _server transports_ – represented by the +org.cometd.bayeux.server.ServerTransport+ class.
+* Repository for _server transports_ – represented by the `org.cometd.bayeux.server.ServerTransport` class.
   A server transport is a server-side component that handles the details of the communication
   with the client.
   There are HTTP server transports as well as a WebSocket server transport, and you can plug
   in other types as well.
   Server transports abstract the communication details so that applications can work knowing
   only Bayeux messages, no matter how they arrive on the server.
-* Repository for _server channels_ – represented by the +org.cometd.bayeux.server.ServerChannel+ class.
+* Repository for _server channels_ – represented by the `org.cometd.bayeux.server.ServerChannel` class.
   A server channel is the server-side representation of a channel; it can receive and publish Bayeux messages. 
-* Repository for _extensions_ – represented by the +org.cometd.bayeux.server.BayeuxServer.Extension+ class.
+* Repository for _extensions_ – represented by the `org.cometd.bayeux.server.BayeuxServer.Extension` class.
   Extensions allow applications to interact with the Bayeux protocol by modifying
   or even deleting or replaying incoming and/or outgoing Bayeux messages. +
   For further information about extensions, see also <<_extensions,the extensions section>>.
 * Central authorization authority, via an instance of the _security policy_ –
-  represented by the +org.cometd.bayeux.server.SecurityPolicy+ class.
+  represented by the `org.cometd.bayeux.server.SecurityPolicy` class.
   CometD interrogates the security policy to authorize any sensible operation
   the server performs, such as handshakes, channel creation, channel subscription
   and channel publishing.
   Applications can provide their own security policy to implement their own authorization logic. +
   For further information about the security policy, see
   <<_java_server_authorization,the authorization section>>.
-* _Authorizers_ – represented by the +org.cometd.bayeux.server.Authorizer+
+* _Authorizers_ – represented by the `org.cometd.bayeux.server.Authorizer`
   class allow you to apply more fine-grained authorization policies. +
   For further information on authorizers, see also <<_java_server_authorizers,the authorizers section>>.
 * Message processor, by coordinating the work of server transports, extensions
@@ -264,41 +264,41 @@ Examples of client session listeners include the following:
 
 * You can add extensions to a client session to interact with the incoming and
   outgoing messages that arrive and that the session sends, via
-  +ClientSession.addExtension(ClientSession.Extension)+.
+  `ClientSession.addExtension(ClientSession.Extension)`.
 * A client session is a repository for channels; you can add message listeners
   to a channel to notify you when a message arrives on that particular channel,
-  via +ClientSession.getChannel(String).addListener(ClientSessionChannel.MessageListener)+.
+  via `ClientSession.getChannel(String).addListener(ClientSessionChannel.MessageListener)`.
 
 [[_concepts_listeners_server]]
 ===== Servers and Listeners
 
 On the server, the model is similar but much richer. 
 
-* You can add extensions to a +BayeuxServer+ instance for all messages that
-  flow through the server via +BayeuxServer.addExtension(BayeuxServer.Extension)+.
-* +BayeuxServer+ allows you to add listeners that it notifies when channels
-  are created or destroyed via +BayeuxServer.addListener(BayeuxServer.ChannelListener)+,
+* You can add extensions to a `BayeuxServer` instance for all messages that
+  flow through the server via `BayeuxServer.addExtension(BayeuxServer.Extension)`.
+* `BayeuxServer` allows you to add listeners that it notifies when channels
+  are created or destroyed via `BayeuxServer.addListener(BayeuxServer.ChannelListener)`,
   and when server sessions are created or destroyed via
-  +BayeuxServer.addListener(BayeuxServer.SessionListener)+.
-* +ServerChannel+ allows you to add authorizers via +ServerChannel.addAuthorizer(Authorizer)+,
+  `BayeuxServer.addListener(BayeuxServer.SessionListener)`.
+* `ServerChannel` allows you to add authorizers via `ServerChannel.addAuthorizer(Authorizer)`,
   and listeners that get notified when a message arrives on the channel via
-  +ServerChannel.addListener(ServerChannel.MessageListener)+, or when a client
-  subscribes or unsubscribes to the channel via +ServerChannel.addListener(ServerChannel.SubscriptionListener)+.
-* +ServerSession+ allows you to add extensions for messages that flow through
-  the server session via +ServerSession.addExtension(ServerSession.Extension)+.
-* +ServerSession+ allows you to add listeners that get notified when the session
+  `ServerChannel.addListener(ServerChannel.MessageListener)`, or when a client
+  subscribes or unsubscribes to the channel via `ServerChannel.addListener(ServerChannel.SubscriptionListener)`.
+* `ServerSession` allows you to add extensions for messages that flow through
+  the server session via `ServerSession.addExtension(ServerSession.Extension)`.
+* `ServerSession` allows you to add listeners that get notified when the session
   is removed (for example because the client disconnects, or because the client
   disappears and therefore the server expires the correspondent server session)
-  via +ServerSession.addListener(ServerSession.RemoveListener)+.
-* +ServerSession+ allows you add listeners that can interact with the server
+  via `ServerSession.addListener(ServerSession.RemoveListener)`.
+* `ServerSession` allows you add listeners that can interact with the server
   session's message queue for example to detect when a message is added to the
-  queue, via +ServerSession.addListener(ServerSession.QueueListener)+, or when
+  queue, via `ServerSession.addListener(ServerSession.QueueListener)`, or when
   the queue is exceed a maximum number of messages, via
-  +ServerSession.addListener(ServerSession.MaxQueueListener)+, or when the queue
-  is ready to be sent via +ServerSession.addListener(ServerSession.DeQueueListener)+.
-* +ServerSession+ allows you add listeners that get notified when a message is
+  `ServerSession.addListener(ServerSession.MaxQueueListener)`, or when the queue
+  is ready to be sent via `ServerSession.addListener(ServerSession.DeQueueListener)`.
+* `ServerSession` allows you add listeners that get notified when a message is
   received by the server session (no matter on which channel) via
-  +ServerSession.addListener(ServerSession.MessageListener)+.
+  `ServerSession.addListener(ServerSession.MessageListener)`.
 
 [[_concepts_message_processing]]
 ==== Message Processing
@@ -311,37 +311,37 @@ image::hopp2.png[]
 
 When a client sends messages, it uses the client-side channel to publish them.
 The client retrieves the client channel from the client session via
-+ClientSession.getChannel(String)+.
+`ClientSession.getChannel(String)`.
 Messages first pass through the extensions, which process messages one by one;
 if one extension denies processing of a message, it is deleted and it is not
 sent to the server.
 At the end of extension processing, the messages pass to the client transport. 
 
 The client transport converts the messages to JSON (for the Java client, this
-is done by a +JSONContext.Client+ instance, see also <<_java_json_api,the JSON section>>),
+is done by a `JSONContext.Client` instance, see also <<_java_json_api,the JSON section>>),
 establishes the conduit with the server transport and then sends the JSON string
 over the conduit, as the payload of a transport-specific envelope (for example,
 an HTTP request or a WebSocket message).
 
 The envelope travels to the server, where the server transport receives it.
 The server transport converts the messages from the JSON format back to message
-objects (through a +JSONContext.Server+ instance, see also <<_java_json_api,the JSON section>>),
-then passes them to the +BayeuxServer+ instance for processing.
+objects (through a `JSONContext.Server` instance, see also <<_java_json_api,the JSON section>>),
+then passes them to the `BayeuxServer` instance for processing.
 
-The +BayeuxServer+ processes each message in the following steps:
+The `BayeuxServer` processes each message in the following steps:
 
-. It invokes +BayeuxServer+ extensions (methods +rcv()+ or +rcvMeta()+); if one
+. It invokes `BayeuxServer` extensions (methods `rcv()` or `rcvMeta()`); if one
   extension denies processing, a reply is sent to the client indicating that the
   message has been deleted, and no further processing is performed for the message.
-. It invokes +ServerSession+ extensions (methods +rcv()+ or +rcvMeta()+, only if
-  a +ServerSession+ for that client exists); if one extension denies processing,
+. It invokes `ServerSession` extensions (methods `rcv()` or `rcvMeta()`, only if
+  a `ServerSession` for that client exists); if one extension denies processing,
   a reply is sent to the client indicating that the message has been deleted,
   and no further processing is performed for the message.
 . It invokes authorization checks for both the security policy and the authorizers;
   if the authorization is denied, a reply is sent to the client indicating the
   failure, and no further processing is performed for the message.
 . If the message is a service or broadcast message, the message passes through
-  +BayeuxServer+ extensions (methods +send()+ or +sendMeta()+).
+  `BayeuxServer` extensions (methods `send()` or `sendMeta()`).
 . It invokes server channel listeners; the application adds server channel listeners
   on the server, and offers the last chance to modify the message before it is
   eventually sent to all subscribers (if it is a broadcast message). All subscribers
@@ -357,8 +357,8 @@ The +BayeuxServer+ processes each message in the following steps:
   A reply is sent to publishers to confirm that the message made it to the server
   (see below), but the message is not broadcast to other server sessions.
 . If the message is a broadcast message, for each server session that subscribes
-  to the channel, the message passes through +ServerSession+ extensions (methods
-  +send()+ or +sendMeta()+), then the server session queue listeners are invoked
+  to the channel, the message passes through `ServerSession` extensions (methods
+  `send()` or `sendMeta()`), then the server session queue listeners are invoked
   and finally the message is added to the server session queue for delivery.
 . If the message is a lazy message (see also <<_java_server_lazy_messages,the lazy messages section>>),
   it is sent on first occasion.
@@ -372,15 +372,15 @@ The +BayeuxServer+ processes each message in the following steps:
   the server session onto which the message is queued corresponds to a local session,
   and the messages in its queue are delivered directly to the local session.
 . For both broadcast and non-broadcast messages, a reply message is created, passes
-  through +BayeuxServer+ extensions and +ServerSession+ extensions (methods +send()+
-  or +sendMeta()+). It then passes to the server transport, which converts it to JSON
-  through a +JSONContext.Server+ instance (see also <<_java_json_api,the JSON section>>),
+  through `BayeuxServer` extensions and `ServerSession` extensions (methods `send()`
+  or `sendMeta()`). It then passes to the server transport, which converts it to JSON
+  through a `JSONContext.Server` instance (see also <<_java_json_api,the JSON section>>),
   and sends it on the conduit as the payload of a transport-specific envelope (for
   example, an HTTP response or a WebSocket message).
 . The envelope travels back to the client, where the client transport receives it.
   The client transport converts the messages from the JSON format back to message
-  objects, for the Java client via a +JSONContext.Client+ instance (see also <<_java_json_api,the JSON section>>).
-. Each message then passes through the extensions (methods +send()+ or +sendMeta()+),
+  objects, for the Java client via a `JSONContext.Client` instance (see also <<_java_json_api,the JSON section>>).
+. Each message then passes through the extensions (methods `send()` or `sendMeta()`),
   and channel listeners and subscribers are notified of the message.
 
 The round trip from client to server back to client is now complete. 
@@ -454,8 +454,8 @@ application should do to interact with messages to perform its business logic.
 ===== Server-side Authentication
 
 For an application to interact with authentication, it must register a custom
-instance of a +SecurityPolicy+ and override method +SecurityPolicy.canHandshake(...)+.
-The +SecurityPolicy+ can customize the handshake reply (for example, to give
+instance of a `SecurityPolicy` and override method `SecurityPolicy.canHandshake(...)`.
+The `SecurityPolicy` can customize the handshake reply (for example, to give
 details about an authentication failure) by retrieving the handshake reply from
 the handshake request:
 
@@ -493,10 +493,10 @@ You can add server channel listeners in the following ways:
   <<_java_server_services_integration,the services integration section>>).
 * Indirectly by using inherited services (see
   <<_java_server_services_inherited,the inherited services section>>).
-  You accomplish this by calling +AbstractService.addService(...),+
+  You accomplish this by calling `AbstractService.addService(...)`
   or via annotated services (see
   <<_java_server_services_annotated,the annotated services section>>) using
-  +@Listener+ annotations.
+  `@Listener` annotations.
 
 [IMPORTANT]
 ====
@@ -508,16 +508,16 @@ incoming messages (see also <<_concepts_threading,the threading section>>).
 [[_concepts_application_broadcast_messages]]
 ===== Interacting with Broadcast Messages
 
-Broadcast messages arrive to the server and are delivered to all +ServerSessions+
+Broadcast messages arrive to the server and are delivered to all `ServerSessions`
 that subscribe to the message's channel.
 Applications can interact with broadcast messages via server channel listeners
 (in the same way as with non-broadcast messages, see above), or by using a
-+LocalSession+ that subscribes to the message's channel.
+`LocalSession` that subscribes to the message's channel.
 You can use this latter solution directly via the API at initialization time (see
 <<_java_server_services_integration,the services integration section>>), or
 indirectly via annotated services (see
 <<_java_server_services_inherited,the inherited services section>>) using
-+@Subscription+ annotations.
+`@Subscription` annotations.
 
 [IMPORTANT]
 ====
@@ -531,24 +531,24 @@ incoming messages (see also <<_concepts_threading,the threading section>>).
 
 Applications that want to deliver messages to a specific client can do so by
 looking up its correspondent server session and delivering the message using
-+ServerSession.deliver()+.
+`ServerSession.deliver()`.
 
-For example, remote client +client1+ wants to send a message to another remote
-client +client2+. Both clients are already connected and therefore have already
+For example, remote client `client1` wants to send a message to another remote
+client `client2`. Both clients are already connected and therefore have already
 performed the handshake with the server.
-Their handshake contained additional information regarding their +userId+, so
-that +client1+ declared to be "Bob" and +client2+ declared to be "Alice".
-The application could have used a +SecurityPolicy+ or a
-+BayeuxServer.SessionListener+ to perform a mapping between the +userId+
+Their handshake contained additional information regarding their `userId`, so
+that `client1` declared to be "Bob" and `client2` declared to be "Alice".
+The application could have used a `SecurityPolicy` or a
+`BayeuxServer.SessionListener` to perform a mapping between the `userId`
 and the server session's id, like explained in
 <<_java_server_authentication,the authentication section>>.
 
 Now Bob wants to send a private message only to Alice. 
 
-The +client1+ can use a service channel for private messages (such as
-+/service/private+), so that messages are not broadcast, and the application is
+The `client1` can use a service channel for private messages (such as
+`/service/private`), so that messages are not broadcast, and the application is
 set up so that a server channel listener routes messages arriving to
-+/service/private+ to the other remote client.
+`/service/private` to the other remote client.
 
 ====
 [source,java]
@@ -581,8 +581,8 @@ public class PrivateMessageService
 
 Applications might need to broadcast messages on a particular channel in
 response to an external event.
-Since +BayeuxServer+ is the repository for server channels, the external
-event handler just needs a reference to +BayeuxServer+ to broadcast messages:
+Since `BayeuxServer` is the repository for server channels, the external
+event handler just needs a reference to `BayeuxServer` to broadcast messages:
 
 ====
 [source,java]
@@ -624,16 +624,16 @@ public class ExternalEventBroadcaster
 A client communicates with the server by exchanging Bayeux messages. 
 
 The Bayeux protocol requires that the first message a new client sends be a
-_handshake_ message (a message sent on +/meta/handshake+ channel). On the
+_handshake_ message (a message sent on `/meta/handshake` channel). On the
 server, if the processing of the incoming handshake message is successful,
-+BayeuxServer+ creates the server-side half-object instance (+ServerSession+)
+`BayeuxServer` creates the server-side half-object instance (`ServerSession`)
 that represents the client that initiated the handshake.
 When the processing of the handshake completes, the server sends back a
 handshake reply to the client.
 
 The client processes the handshake reply, and if it is successful, starts –
 under the covers – a heartbeat mechanism with the server, by exchanging _connect_
-messages (a message sent on a +/meta/connect+ channel). The details of this
+messages (a message sent on a `/meta/connect` channel). The details of this
 heartbeat mechanism depend on the client transport used, but can be seen as
 the client sending a connect message and expecting a reply after some time
 (when using HTTP transports, the heartbeat mechanism is also known as _long-polling_).
@@ -644,11 +644,11 @@ connect message request from the client).
 
 Connect messages continue to flow between client and server until either side
 decides to disconnect by sending a _disconnect_ message (a message sent on the
-+/meta/disconnect+ channel).
+`/meta/disconnect` channel).
 
 While connected to the server, a client can subscribe to channels by sending a
-_subscribe_ message (a message sent on a +/meta/subscribe+ channel). Likewise,
+_subscribe_ message (a message sent on a `/meta/subscribe` channel). Likewise,
 a client can unsubscribe from a channel by sending an _unsubscribe_ message
-(a message sent on a +/meta/unsubscribe+ channel). A client can publish messages
+(a message sent on a `/meta/unsubscribe` channel). A client can publish messages
 containing application-specific data at any time while it is connected, and to
 any broadcast channel (even if it is not subscribed to that channel).

@@ -7,8 +7,8 @@ The following sections provide information about subscribing and unsubscribing t
 ===== Subscribing to Broadcast Channels
 
 Subscribing (or unsubscribing) involves first retrieving the channel you want
-to subscribe to (or unsubscribe from) and then calling the +subscribe()+ (or
-+unsubscribe()+) methods:
+to subscribe to (or unsubscribe from) and then calling the `subscribe()` (or
+`unsubscribe()`) methods:
 
 ====
 [source,java]
@@ -44,13 +44,13 @@ public class Example
 [NOTE]
 ====
 You can subscribe and unsubscribe only after the handshake is completed.
-Calling +subscribe()+ (or +unsubscribe()+ _does not_ mean that you have completed
+Calling `subscribe()` (or `unsubscribe()` _does not_ mean that you have completed
 the subscription (or unsubscription) with the server when the method returns.
 ====
 
 Unsubscribing is straightforward: if you unsubscribe to a channel, CometD does
 not deliver messages on that channel to message listeners.
-Using the +Example+ class above:
+Using the `Example` class above:
 
 ====
 [source,java]
@@ -67,8 +67,8 @@ public class Example
 ====
 
 If you need to know whether your subscription (or unsubscription) was received
-and processed by the server, you can pass a callback +MessageListener+ to the
-+subscribe()+ (or +unsubscribe()+) methods:
+and processed by the server, you can pass a callback `MessageListener` to the
+`subscribe()` (or `unsubscribe()`) methods:
 
 ====
 [source,java]
@@ -99,11 +99,11 @@ client.handshake(new ClientSessionChannel.MessageListener()
 ====
 
 As in <<_javascript_subscribe,the JavaScript subscribe section>>, a good place
-to perform subscriptions is a +handshake(...)+ callback or a +/meta/handshake+
+to perform subscriptions is a `handshake(...)` callback or a `/meta/handshake`
 listener, because they are invoked transparently if the server requests a new handshake.
 
 Applications do not need to unsubscribe in case of re-handshake; the CometD library
-removes the subscriptions upon re-handshake, so that when the +/meta/handshake+
+removes the subscriptions upon re-handshake, so that when the `/meta/handshake`
 listener executes again the subscriptions are correctly restored (and not duplicated).
 
 ===== Listening to Meta Channels

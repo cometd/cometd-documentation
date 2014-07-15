@@ -3,8 +3,8 @@
 ===== Services Integration
 
 There are several ways to integrate your Bayeux services into your web application.
-This is complicated because the +CometDServlet+ creates the BayeuxServer object,
-and there is no easy way to detect, in general, when the +BayeuxServer+ object
+This is complicated because the `CometDServlet` creates the BayeuxServer object,
+and there is no easy way to detect, in general, when the `BayeuxServer` object
 has been created.
 
 ===== Integration via Configuration Servlet
@@ -14,7 +14,7 @@ a configuration servlet.
 This configuration servlet has no URL mapping because its only scope is to initialize
 (or _wire_ together) services for your web application to work properly.
 
-Here is a sample +web.xml+:
+Here is a sample `web.xml`:
 
 ====
 [source,xml]
@@ -45,14 +45,14 @@ Here is a sample +web.xml+:
 ----
 ====
 
-Notice that the +web.xml+ file specifies +<load-on-startup>+ to be:
+Notice that the `web.xml` file specifies +<load-on-startup>+ to be:
 
 * 1 for the CometD servlet – so that the Bayeux object gets created and put
-  in the +ServletContext+.
+  in the `ServletContext`.
 * 2 for the configuration servlet – so that it will be initialized only after the
   CometD servlet has been initialized and hence the BayeuxServer object is available.
 
-This is the code for the +ConfigurationServlet+:
+This is the code for the `ConfigurationServlet`:
 
 ====
 [source,java]
@@ -78,14 +78,14 @@ public class ConfigurationServlet extends GenericServlet
 ----
 ====
 
-See also <<_java_server_services_inherited,this section>> about the +EchoService+.
+See also <<_java_server_services_inherited,this section>> about the `EchoService`.
 
 ===== Integration via Configuration Listener
 
 Instead of using a configuration servlet, you can use a configuration listener,
-by writing a class that implements +ServletContextAttributeListener+.
+by writing a class that implements `ServletContextAttributeListener`.
 
-Here is a sample +web.xml+ file:
+Here is a sample `web.xml` file:
 
 ====
 [source,xml]
@@ -114,7 +114,7 @@ Here is a sample +web.xml+ file:
 ----
 ====
 
-This is the code for the +BayeuxInitializer+:
+This is the code for the `BayeuxInitializer`:
 
 ====
 [source,java]
@@ -154,7 +154,7 @@ have to integrate them into your web application.
 The procedure is very similar to the procedures above, but it requires use of
 the annotation processor to process the annotations in your services.
 
-For example, the +ConfigurationServlet+ becomes:
+For example, the `ConfigurationServlet` becomes:
 
 ====
 [source,java]
@@ -198,13 +198,13 @@ public class ConfigurationServlet extends GenericServlet
 ----
 ====
 
-===== Integration of Annotated Services via +AnnotationCometDServlet+
+===== Integration of Annotated Services via `AnnotationCometDServlet`
 
-The +org.cometd.java.annotation.AnnotationCometDServlet+ allows you to specify
+The `org.cometd.java.annotation.AnnotationCometDServlet` allows you to specify
 a comma-separated list of class names to instantiate and process using a
-+ServerAnnotationProcessor+.
+`ServerAnnotationProcessor`.
 
-This is a sample +web.xml+:
+This is a sample `web.xml`:
 
 ====
 [source,xml]
@@ -232,13 +232,13 @@ This is a sample +web.xml+:
 ----
 ====
 
-In this example, the +AnnotationCometDServlet+ instantiates and processes the
-annotations of one object of class +com.acme.cometd.FooService+ and of one object
-of class +com.acme.cometd.BarService+.
+In this example, the `AnnotationCometDServlet` instantiates and processes the
+annotations of one object of class `com.acme.cometd.FooService` and of one object
+of class `com.acme.cometd.BarService`.
 
-The service objects are stored as +ServletContext+ attributes under their own
+The service objects are stored as `ServletContext` attributes under their own
 class name, so that they can be easily retrieved by other components.
-For example, +FooService+ can be retrieved using the following code:
+For example, `FooService` can be retrieved using the following code:
 
 ====
 [source,java]
@@ -254,4 +254,4 @@ public class AnotherServlet extends HttpServlet
 ----
 ====
 
-The services created are deprocessed when +AnnotationCometDServlet+ is destroyed.
+The services created are deprocessed when `AnnotationCometDServlet` is destroyed.

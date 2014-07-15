@@ -12,7 +12,7 @@ client.disconnect();
 ----
 ====
 
-Like the other APIs, you can pass a callback +MessageListener+ to be notified
+Like the other APIs, you can pass a callback `MessageListener` to be notified
 that the server received and processed the disconnect request:
 
 ====

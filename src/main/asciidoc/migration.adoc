@@ -18,7 +18,7 @@
 [cols="1,1", options="header"]
 |===
 | CometD 2 | CometD 3
-| Servlet 2.5 | Servlet 3.0 (recommended Servlet 3.1 with JSR 356's +javax.websocket+ support)
+| Servlet 2.5 | Servlet 3.0 (recommended Servlet 3.1 with JSR 356's `javax.websocket` support)
 |===
 
 === Class Names Changes
@@ -43,14 +43,14 @@ Only the WebSocket artifacts have changed.
 | CometD 2
 | CometD 3
 
-| +org.cometd.java:cometd-websocket-jetty+
-| +org.cometd.java:cometd-java-websocket-javax-server+ (JSR 356 WebSocket Server)
-| +org.cometd.java:cometd-java-websocket-jetty-server+ (Jetty WebSocket Server)
-| +org.cometd.java:cometd-java-websocket-javax-client+ (JSR 356 WebSocket Client)
-| +org.cometd.java:cometd-java-websocket-jetty-client+ (Jetty WebSocket Client)
+| `org.cometd.java:cometd-websocket-jetty`
+| `org.cometd.java:cometd-java-websocket-javax-server` (JSR 356 WebSocket Server)
+| `org.cometd.java:cometd-java-websocket-jetty-server` (Jetty WebSocket Server)
+| `org.cometd.java:cometd-java-websocket-javax-client` (JSR 356 WebSocket Client)
+| `org.cometd.java:cometd-java-websocket-jetty-client` (Jetty WebSocket Client)
 |===
 
-=== +web.xml+ Changes
+=== `web.xml` Changes
 
 [cols="1a,1a", options="header"]
 |===
@@ -92,9 +92,9 @@ Only the WebSocket artifacts have changed.
 </web-app>
 ----
 ====
-<1> +schemaLocation+ attribute changed from +2.5+ to +3.0+ (or to +3.1+)
-<2> +version+ attribute changed from +2.5+ to +3.0+ (or to +3.1+)
-<3> +async-supported+ element now required
+<1> `schemaLocation` attribute changed from `2.5` to `3.0` (or to `3.1`)
+<2> `version` attribute changed from `2.5` to `3.0` (or to `3.1`)
+<3> `async-supported` element now required
 |===
 
 === CometD Servlet Parameters Changes
@@ -105,28 +105,28 @@ Only the WebSocket artifacts have changed.
 | CometD 3
 | Notes
 
-| +logLevel+
+| `logLevel`
 |
 | The parameter has been removed in CometD 3. +
   In CometD 3 logging levels are controlled by the logging framework
   implementation (for example, Log4J).
 
-| +transports+
-| +transports+
+| `transports`
+| `transports`
 | The parameter changed its meaning. +
   In CometD 2 it is a comma separated list of class names of _additional_
   server transports. In CometD 3 it is a comma separated list of the server
   transports. +
   For example, in CometD 3
-  +transports="org.cometd.websocket.server.JettyWebSocketTransport"+
-  defines just one server transport: a +websocket+ server transport based on
+  `transports="org.cometd.websocket.server.JettyWebSocketTransport"`
+  defines just one server transport: a `websocket` server transport based on
   Jetty WebSocket APIs.
 
 |
-| +ws.cometdURLMapping+
+| `ws.cometdURLMapping`
 | A new, *mandatory*, parameter for WebSocket server transports. +
-  It must have the same value of the +url-pattern+ of the +servlet-mapping+ of
-  the CometD Servlet, example +/cometd/*+.
+  It must have the same value of the `url-pattern` of the `servlet-mapping` of
+  the CometD Servlet, example `/cometd/*`.
 |===
 
 === Method Signature Changes
@@ -136,49 +136,49 @@ Only the WebSocket artifacts have changed.
 | CometD 2
 | CometD 3
 
-| +BayeuxServer+::
+| `BayeuxServer`::
     +createIfAbsent(String, ConfigurableServerChannel.Initializer...)+
-| +BayeuxServer+::
+| `BayeuxServer`::
     +create**Channel**IfAbsent(String, ConfigurableServerChannel.Initializer...)+
 
-| +BayeuxServer.SessionListener+::
-    +sessionAdded(ServerSession)+
-| +BayeuxServer.SessionListener+::
+| `BayeuxServer.SessionListener`::
+    `sessionAdded(ServerSession)`
+| `BayeuxServer.SessionListener`::
     +sessionAdded(ServerSession, *ServerMessage*)+
 
-| +BayeuxServer.SubscriptionListener+::
+| `BayeuxServer.SubscriptionListener`::
     +subscribed(ServerSession, ServerChannel)+
-| +BayeuxServer.SubscriptionListener+::
+| `BayeuxServer.SubscriptionListener`::
     +subscribed(ServerSession, ServerChannel, *ServerMessage*)+
 
-| +BayeuxServer.SubscriptionListener+::
+| `BayeuxServer.SubscriptionListener`::
     +unsubscribed(ServerSession, ServerChannel)+
-| +BayeuxServer.SubscriptionListener+::
+| `BayeuxServer.SubscriptionListener`::
     +unsubscribed(ServerSession, ServerChannel, *ServerMessage*)+
 
-| +ServerChannel+::
+| `ServerChannel`::
     +publish(Session, Object, *String*)+
-| +ServerChannel+::
+| `ServerChannel`::
     +publish(Session, Object)+
 
-| +ServerChannel.SubscriptionListener+::
+| `ServerChannel.SubscriptionListener`::
     +subscribed(ServerSession, ServerChannel)+
-| +ServerChannel.SubscriptionListener+::
+| `ServerChannel.SubscriptionListener`::
     +subscribed(ServerSession, ServerChannel, *ServerMessage*)+
 
-| +ServerChannel.SubscriptionListener+::
+| `ServerChannel.SubscriptionListener`::
     +unsubscribed(ServerSession, ServerChannel)+
-| +ServerChannel.SubscriptionListener+::
+| `ServerChannel.SubscriptionListener`::
     +unsubscribed(ServerSession, ServerChannel, *ServerMessage*)+
 
-| +ServerSession+::
+| `ServerSession`::
     +deliver(Session, String, Object, *String*)+
-| +ServerSession+::
+| `ServerSession`::
     +deliver(Session, String, Object)+
 
-| +MaxQueueListener+::
+| `MaxQueueListener`::
     +queueMaxed(ServerSession, Session, Message)+
-| +MaxQueueListener+::
+| `MaxQueueListener`::
     +queueMaxed(ServerSession, *Queue<ServerMessage>*, *ServerSession*, *Message*)+
 |===
 
@@ -189,9 +189,9 @@ Only the WebSocket artifacts have changed.
 | CometD 2
 | CometD 3
 
-| +class MyService extends AbstractService+::
+| `class MyService extends AbstractService`::
     +myMethod(ServerSession, [String], Object, [String])+
-| +class MyService extends AbstractService+::
+| `class MyService extends AbstractService`::
     +myMethod(ServerSession, *ServerMessage*)+
 |===
 

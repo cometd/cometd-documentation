@@ -2,7 +2,7 @@
 [[_javascript_publish]]
 === Publishing
 
-The +publish()+ method allows you to publish data onto a certain channel:
+The `publish()` method allows you to publish data onto a certain channel:
 
 ====
 [source,javascript]
@@ -16,7 +16,7 @@ publish to a service or broadcast channel even if you are not subscribed to that
 However, you have to handshake (see
 <<_javascript_handshake,the handshake section>>) before you can publish.
 
-As with other JavaScript CometD API, +publish()+ involves a communication with
+As with other JavaScript CometD API, `publish()` involves a communication with
 the server and it is asynchronous: it returns immediately, well before the Bayeux
 server has received the message.
 
@@ -24,16 +24,16 @@ When the message you published arrives to the server, the server replies to
 the client with a publish acknowledgment; this allows clients to be sure that
 the message reached the server.
 The publish acknowledgment arrives on the same channel the message was published
-to, with the same message +id+, with a +successful+ field.
+to, with the same message `id`, with a `successful` field.
 If the message publish fails for any reason, for example because server cannot
 be reached, then a publish failure will be emitted, similarly to publish acknowledgments.
 
 For historical reasons, publish acknowledgments and failures are notified on
-the +/meta/publish+ channel (only in the JavaScript library), even if the
-+/meta/publish+ channel is not part of <<_bayeux,the bayeux section>>.
+the `/meta/publish` channel (only in the JavaScript library), even if the
+`/meta/publish` channel is not part of <<_bayeux,the bayeux section>>.
 
 In order to be notified of publish acknowledgments or failures, is it recommended
-that you use this variant of the +publish()+ function, passing a callback function:
+that you use this variant of the `publish()` function, passing a callback function:
 
 ====
 [source,javascript]
@@ -50,8 +50,8 @@ cometd.publish('/mychannel', { mydata: { foo: 'bar' } }, function(publishReply)
 
 [NOTE]
 ====
-Calling +publish()+ _ does not _ mean that you have published the message
-when +publish()+ returns.
+Calling `publish()` _ does not _ mean that you have published the message
+when `publish()` returns.
 ====
 
 If you need to publish several messages to different channels, you might want

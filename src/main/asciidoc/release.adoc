@@ -29,7 +29,7 @@ $ git push origin master
 Login to http://oss.sonatype.org[Sonatype OSS]. 
 
 Click on "Staging Repositories" and you should see the staged project just
-uploaded by the +mvn release:perform+ command issued above, with status "open".
+uploaded by the `mvn release:perform` command issued above, with status "open".
 Tick the checkbox correspondent to the open staged project, choose "Close" from
 the toolbar, enter a description such as "CometD Release 1.0.0", then click on
 the "Close" button.
@@ -53,7 +53,7 @@ $ cd cometd-distribution
 $ mvn assembly:assembly
 ----
 
-This creates the distribution tarball in the +cometd-distribution/target+ directory.
+This creates the distribution tarball in the `cometd-distribution/target` directory.
 Then upload it. 
 
 ----
@@ -80,7 +80,7 @@ $ mvn javadoc:aggregate-jar
 $ scp target/cometd-java-<version>-javadoc.jar <user>@docs.cometd.org:/srv/www/vhosts.d/docs.cometd.org/
 ----
 
-Then +ssh+ into the host, unzip the javadocs jar file into the +apidocs+ directory.
+Then `ssh` into the host, unzip the javadocs jar file into the `apidocs` directory.
 
 [[_release_jira]]
 === Perform a JIRA Release
@@ -97,7 +97,7 @@ $ cd cometd-dojo
 
 Make sure that the JavaScript files are in sync with the main CometD distribution.
 
-Edit the +package.json+ file, update the CometD version and the Dojo version,
+Edit the `package.json` file, update the CometD version and the Dojo version,
 then commit it.
 
 ----

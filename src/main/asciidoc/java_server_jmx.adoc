@@ -13,7 +13,7 @@ CometD MBeans build on Jetty's JMX support, and are portable across servlet cont
 ===== JMX Integration in Jetty
 
 If your CometD application is deployed in Jetty, then it is enough that you
-modify +web.xml+ by adding a Jetty-specific context parameter:
+modify `web.xml` by adding a Jetty-specific context parameter:
 
 ====
 [source,xml]
@@ -34,17 +34,17 @@ modify +web.xml+ by adding a Jetty-specific context parameter:
 ----
 ====
 
-The value of the +org.eclipse.jetty.server.context.ManagedAttributes+ context
+The value of the `org.eclipse.jetty.server.context.ManagedAttributes` context
 parameter is a comma separated list of attribute names stored in the servlet context.
-The CometD implementation stores for you the +BayeuxServer+ instance in the
-servlet context under the name defined by the constant +BayeuxServer.ATTRIBUTE+
-which is indeed the string +org.cometd.bayeux+ that you can find in the example
+The CometD implementation stores for you the `BayeuxServer` instance in the
+servlet context under the name defined by the constant `BayeuxServer.ATTRIBUTE`
+which is indeed the string `org.cometd.bayeux` that you can find in the example
 above as the value of the context parameter.
 
-Similarly, the CometD implementation stores the +Oort+ instance and +Seti+
+Similarly, the CometD implementation stores the `Oort` instance and `Seti`
 instance in the servlet context under the names defined – respectively – by the
-constants +Oort.OORT_ATTRIBUTE+ and +Seti.SETI_ATTRIBUTE+, equivalent to the
-strings +org.cometd.oort.Oort+ and +org.cometd.oort.Seti+ respectively.
+constants `Oort.OORT_ATTRIBUTE` and `Seti.SETI_ATTRIBUTE`, equivalent to the
+strings `org.cometd.oort.Oort` and `org.cometd.oort.Seti` respectively.
 
 Optionally, remember that annotated service instances (see also
 <<_java_server_services_annotated_server_side,the annotated services section>>)
@@ -57,12 +57,12 @@ This is all you need to do to export CometD MBeans when running within Jetty.
 [[_java_server_jmx_others]]
 ===== JMX Integration in Other Servlet Containers
 
-The context parameter configured above can be left in the +web.xml+ even if
+The context parameter configured above can be left in the `web.xml` even if
 your application is deployed in other Servlet containers, as it will only be
 detected by Jetty.
 
 In order to leverage Jetty's JMX support in other Servlet containers, it is
-enough that you include the +jetty-jmx-<version>.jar+ in your +WEB-INF/lib+
+enough that you include the +jetty-jmx-<version>.jar+ in your `WEB-INF/lib`
 directory of your web application.
 This jar contains Jetty's JMX utility classes that can be used to easily
 export CometD MBeans.
@@ -128,7 +128,7 @@ public class CometDJMXExporter extends GenericServlet
 ----
 ====
 
-with the corresponding +web.xml+ configuration:
+with the corresponding `web.xml` configuration:
 
 ====
 [source,xml]
@@ -152,10 +152,10 @@ with the corresponding +web.xml+ configuration:
 ----
 ====
 
-In this example, +CometDJMXExporter+ is a configuration Servlet (and as such
+In this example, `CometDJMXExporter` is a configuration Servlet (and as such
 it is not mapped to any path) that instantiates Jetty's JMX utility class
-+MBeanContainer+, extracts from the servlet context the CometD components that
-you want to expose as MBeans, and adds them to the +MBeanContainer+ instance.
+`MBeanContainer`, extracts from the servlet context the CometD components that
+you want to expose as MBeans, and adds them to the `MBeanContainer` instance.
 It is doing, programmatically, what Jetty does under the covers for you when
-it detects the +org.eclipse.jetty.server.context.ManagedAttributes+ context
-parameter in +web.xml+.
+it detects the `org.eclipse.jetty.server.context.ManagedAttributes` context
+parameter in `web.xml`.

@@ -2,14 +2,14 @@
 [[_java_server_configuration]]
 ==== Configuring the Java Server
 
-You can specify +BayeuxServer+ parameters and server transport parameters
-in +web.xml+ as init parameters of the +org.cometd.server.CometDServlet+.
-If the CometD servlet creates the +BayeuxServer+ instance, the servlet
-init parameters are passed to the +BayeuxServer+ instance, which in turn
+You can specify `BayeuxServer` parameters and server transport parameters
+in `web.xml` as init parameters of the `org.cometd.server.CometDServlet`.
+If the CometD servlet creates the `BayeuxServer` instance, the servlet
+init parameters are passed to the `BayeuxServer` instance, which in turn
 configures the server transports.
 
-If you followed <<_primer,the primer>>, Maven has configured the +web.xml+
-file for you; here are details its configuration, a sample +web.xml+:
+If you followed <<_primer,the primer>>, Maven has configured the `web.xml`
+file for you; here are details its configuration, a sample `web.xml`:
 
 ====
 [source,xml]
@@ -37,16 +37,16 @@ file for you; here are details its configuration, a sample +web.xml+:
 ----
 ====
 
-You must define and map the +org.cometd.server.CometDServlet+ in +web.xml+
+You must define and map the `org.cometd.server.CometDServlet` in `web.xml`
 to enable the server to interpret the Bayeux protocol.
-It is normally mapped on +/cometd/*+, but you can change the mapping url-pattern
+It is normally mapped on `/cometd/*`, but you can change the mapping url-pattern
 if you prefer.
 
-==== Configuring +BayeuxServer+
+==== Configuring `BayeuxServer`
 
-Here is the list of configuration init parameters that the +BayeuxServer+ implementation accepts:
+Here is the list of configuration init parameters that the `BayeuxServer` implementation accepts:
 
-.+BayeuxServer+ Configuration Parameters
+.`BayeuxServer` Configuration Parameters
 [cols="^2,^3,<10"]
 |===
 | Parameter Name
@@ -55,23 +55,23 @@ Here is the list of configuration init parameters that the +BayeuxServer+ implem
 
 | transports
 | ""
-| A comma-separated list of +ServerTransport+ implementation class names
-  (that take a +org.cometd.server.BayeuxServerImpl+ as only constructor
+| A comma-separated list of `ServerTransport` implementation class names
+  (that take a `org.cometd.server.BayeuxServerImpl` as only constructor
   parameter) that define the server transports.
 
 | allowedTransports
 | ""
-| A comma-separated list of +ServerTransport+ names allowed.
+| A comma-separated list of `ServerTransport` names allowed.
   If not specified, the default server transports are allowed.
 
 | jsonContext
-| +org.cometd.server.JettyJSONContextServer+
-| The full qualified name of a class implementing +org.cometd.common.JSONContext.Server+.
+| `org.cometd.server.JettyJSONContextServer`
+| The full qualified name of a class implementing `org.cometd.common.JSONContext.Server`.
   The class is loaded and instantiated using the default constructor.
   
 | validateMessageFields
 | true
-| Whether message fields such as +channel+, +id+ and +subscription+ should be
+| Whether message fields such as `channel`, `id` and `subscription` should be
   validated to contain legal characters as defined in
   <<_bayeux_protocol_elements,the Bayeux specification>>
 |===
@@ -83,16 +83,16 @@ commonly used transports such as HTTP or WebSocket, but you can write your own.
 You can configure the server transports using parameters that may have a prefix
 that specifies the transport the parameter refers to.
 
-For example, the parameter +timeout+ has no prefix, and hence it is valid for
-all transports; the parameter +callback-polling.jsonp.timeout+ overrides the
-+timeout+ parameter for the +callback-polling+ transport only, while +ws.timeout+
-overrides it for the +websocket+ transport (see +org.cometd.bayeux.Transport+
+For example, the parameter `timeout` has no prefix, and hence it is valid for
+all transports; the parameter `callback-polling.jsonp.timeout` overrides the
+`timeout` parameter for the `callback-polling` transport only, while `ws.timeout`
+overrides it for the `websocket` transport (see `org.cometd.bayeux.Transport`
 http://docs.cometd.org/apidocs/org/cometd/bayeux/Transport.html[javadocs] for details).
 
-Here is the list of configuration init parameters (to be specified in +web.xml+)
+Here is the list of configuration init parameters (to be specified in `web.xml`)
 that different server transports accept:
 
-.+ServerTransport+ Common Configuration Parameters
+.`ServerTransport` Common Configuration Parameters
 [cols="^2,^3,<10"]
 |===
 | Parameter Name
@@ -102,17 +102,17 @@ that different server transports accept:
 | timeout
 | 30000
 | The time, in milliseconds, that a server waits for a message before replying to a
-  +/meta/connect+ with an empty reply.
+  `/meta/connect` with an empty reply.
 
 | interval
 | 0
 | The time, in milliseconds, that the client must wait between the
-  end of one +/meta/connect+ request and the start of the next.
+  end of one `/meta/connect` request and the start of the next.
 
 | maxInterval
 | 10000
 | The maximum period of time, in milliseconds, that the server waits for a new
-  +/meta/connect+ message from a client before that client is considered invalid
+  `/meta/connect` message from a client before that client is considered invalid
   and is removed.
 
 | maxLazyTimeout
@@ -122,20 +122,20 @@ that different server transports accept:
 
 | metaConnectDeliverOnly
 | false
-| Whether the transport should deliver the messages only via +/meta/connect+
+| Whether the transport should deliver the messages only via `/meta/connect`
   (enables server-to-client strict message ordering – but not reliability).
   Enabling this option allows for server-to-client strict message ordering at
-  the cost of a slightly chattier protocol (because delivery via +/meta/connect+
+  the cost of a slightly chattier protocol (because delivery via `/meta/connect`
   may require waking up pending replies).
   
 | maxQueue
 | -1
-| The maximum size of the +ServerSession+ queue. A value of -1 means no queue size limit.
+| The maximum size of the `ServerSession` queue. A value of -1 means no queue size limit.
   A positive value triggers the invocation of
-  +org.cometd.bayeux.server.ServerSession.MaxQueueListener+ when the max queue size is exceeded.
+  `org.cometd.bayeux.server.ServerSession.MaxQueueListener` when the max queue size is exceeded.
 |===
 
-.+Long Polling & Callback Polling +ServerTransport+ Configuration Parameters
+.+Long Polling & Callback Polling `ServerTransport` Configuration Parameters
 [cols="^2,^3,<10"]
 |===
 | Parameter Name
@@ -156,7 +156,7 @@ that different server transports accept:
 | 2000
 | The period of time, in milliseconds, that specifies the client normal polling
   period in case the server detects more sessions (tabs/frames) connected from
-  the same browser than allowed by the +maxSessionsPerBrowser+ parameter.
+  the same browser than allowed by the `maxSessionsPerBrowser` parameter.
   A non-positive value means that additional sessions are disconnected.
 
 | browserCookieName
@@ -175,7 +175,7 @@ that different server transports accept:
   <<_java_server_multiple_sessions,this section>>).
 |===
 
-.WebSocket +ServerTransport+ Configuration Parameters
+.WebSocket `ServerTransport` Configuration Parameters
 [cols="^2,^3,<10"]
 |===
 | Parameter Name
@@ -184,7 +184,7 @@ that different server transports accept:
 
 | ws.cometdURLMapping
 |
-| *Mandatory*. The +url-pattern+ of the +servlet-mapping+ of the CometD Servlet.
+| *Mandatory*. The `url-pattern` of the `servlet-mapping` of the CometD Servlet.
 
 | ws.messagesPerFrame
 | 1
@@ -206,15 +206,15 @@ that different server transports accept:
 |===
 
 [[_java_server_configuration_advanced]]
-===== Configuring the +CrossOriginFilter+
+===== Configuring the `CrossOriginFilter`
 
 Independently from the Servlet container you are using, Jetty provides a standard, portable,
-+org.eclipse.jetty.servlets.CrossOriginFilter+.
+`org.eclipse.jetty.servlets.CrossOriginFilter`.
 This filter implements the http://www.w3.org/TR/access-control/[Cross-Origin Resource Sharing]
 specification, and allows recent browsers that implement it to perform cross-domain JavaScript
 requests (see also <<_javascript_transports,the JavaScript transports section>>).
 
-Here is an example of +web.xml+ configuration for the +CrossOriginFilter+:
+Here is an example of `web.xml` configuration for the `CrossOriginFilter`:
 
 ====
 [source,xml]
@@ -262,9 +262,9 @@ the standard Servlet 3 APIs.
 
 To enable the Servlet 3 asynchronous features, you need to: 
 
-* Make sure that in +web.xml+ the +version+ attribute of the +web-app+ element is 3.0 <1>.
-* Add the +async-supported+ element to filters that might execute before the +CometDServlet+
-  _and_ to the +CometDServlet+ itself <2>.
+* Make sure that in `web.xml` the `version` attribute of the `web-app` element is 3.0 <1>.
+* Add the `async-supported` element to filters that might execute before the `CometDServlet`
+  _and_ to the `CometDServlet` itself <2>.
 
 For example: 
 
@@ -320,18 +320,18 @@ configure a non-blocking connector in Tomcat.
 ====
 
 [[_java_server_configuration_channels]]
-===== Configuring +ServerChannel+s
+===== Configuring `ServerChannel`s
 
 Server channels are used to broadcast messages to multiple clients, and are a
 central concept of CometD (see also <<_concepts,the concepts section>>).
-Class +org.cometd.bayeux.server.ServerChannel+ represents server channels;
-instances of server channels can be obtained from a +BayeuxServer+ instance.
+Class `org.cometd.bayeux.server.ServerChannel` represents server channels;
+instances of server channels can be obtained from a `BayeuxServer` instance.
 
 With the default security policy, server channels may be created simply by
 publishing to a channel: if the channel does not exist, it is created on-the-fly.
 This may open up for creation of a large number of server channel, for example
 when messages are published to channels created with a random name, such as
-+/topic/atyd9834o329+, and for race conditions during channel creation (since
+`/topic/atyd9834o329`, and for race conditions during channel creation (since
 the same server channel may be created concurrently by two remote clients
 publishing to that channel at the same time).
 
@@ -363,11 +363,11 @@ MarkedReference<ServerChannel> ref = bayeuxServer.createChannelIfAbsent("/my/cha
 ====
 
 Method +BayeuxServer.createChannelIfAbsent(String channelName, Initializer... initializers)+
-atomically creates the channel, and returns a +MarkedReference+ that contains
-the +ServerChannel+ reference and a boolean that indicates whether the channel
+atomically creates the channel, and returns a `MarkedReference` that contains
+the `ServerChannel` reference and a boolean that indicates whether the channel
 was created or if it existed already.
-The +Initializer+ callback is called only if the channel is created by the
-invocation to +BayeuxServer.createChannelIfAbsent()+.
+The `Initializer` callback is called only if the channel is created by the
+invocation to `BayeuxServer.createChannelIfAbsent()`.
 
 The solution to the second problem is to configure the channel as _persistent_,
 so that the sweeper does not remove the channel:
@@ -386,13 +386,13 @@ MarkedReference<ServerChannel> ref = bayeuxServer.createChannelIfAbsent("/my/cha
 ----
 ====
 
-You can not only configure +ServerChannel+ instances to be persistent, but to
+You can not only configure `ServerChannel` instances to be persistent, but to
 be _lazy_ (see also <<_java_server_lazy_messages,this section>>), you can add
-listeners, and you can add +Authorizer+ (see also
+listeners, and you can add `Authorizer` (see also
 <<_java_server_authorizers,the authorizers section>>).
 
-Creating a server channel returns a +MarkedReference+ that contains
-the +ServerChannel+ reference and a boolean that indicates whether the channel
+Creating a server channel returns a `MarkedReference` that contains
+the `ServerChannel` reference and a boolean that indicates whether the channel
 was created or if it existed already:
 
 ====
@@ -440,12 +440,12 @@ channel.publish(...); // May throw NullPointerException
 ----
 ====
 
-Between the +BayeuxServer.createChannelIfAbsent()+ call and the
-+BayeuxServer.getChannel()+ call there is
+Between the `BayeuxServer.createChannelIfAbsent()` call and the
+`BayeuxServer.getChannel()` call there is
 application code that may take a while to complete (therefore allowing the
 sweeper to sweep the just created server channel), so it is always safer to
 mark the channel as persistent, and when it is not needed anymore mark the
-server channel as non persistent (by calling +channel.setPersistent(false)+),
+server channel as non persistent (by calling `channel.setPersistent(false)`),
 to allow the sweeper to sweep it.
 
 The server channel sweeper will sweep channels that are non-persistent, have

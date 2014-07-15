@@ -35,23 +35,23 @@ ClientSession client = new BayeuxClient("http://localhost:8080/cometd", transpor
 ----
 ====
 
-+BayeuxClient+ must be instantiated passing the absolute URL (and therefore
+`BayeuxClient` must be instantiated passing the absolute URL (and therefore
 including the scheme, host, optionally the port and the path) of the Bayeux server.
 The scheme of the URL must always be either "http" or "https". The CometD
 Java Client implementation will transparently take care of converting the scheme
 to "ws" or "wss" in case of usage of the WebSocket protocol.
 
-When +BayeuxClient.handshake()+ is called, the +BayeuxClient+ performs the
+When `BayeuxClient.handshake()` is called, the `BayeuxClient` performs the
 handshake with the Bayeux server and establishes the long poll connection asynchronously.
 
 [NOTE]
 ====
-Calling +handshake()+ _does not_ mean that you have completed the handshake
-with the server when +handshake()+ returns.
+Calling `handshake()` _does not_ mean that you have completed the handshake
+with the server when `handshake()` returns.
 ====
 
 To verify that the handshake is successful, you can pass a callback
-+MessageListener+ to +BayeuxClient.handshake()+:
+`MessageListener` to `BayeuxClient.handshake()`:
 
 ====
 [source,java]
@@ -71,8 +71,8 @@ client.handshake(new ClientSessionChannel.MessageListener()
 ----
 ====
 
-An alternative, equivalent, way is to add a +MessageListener+ before calling
-+BayeuxClient.handshake()+:
+An alternative, equivalent, way is to add a `MessageListener` before calling
+`BayeuxClient.handshake()`:
 
 ====
 [source,java]
@@ -93,7 +93,7 @@ client.handshake();
 ----
 ====
 
-Another alternative is to use the built-in synchronous features of the +BayeuxClient+
+Another alternative is to use the built-in synchronous features of the `BayeuxClient`
 and wait for the handshake to complete:
 
 ====
@@ -110,6 +110,6 @@ if (handshaken)
 ----
 ====
 
-The +BayeuxClient.waitFor()+ method waits the given timeout (in milliseconds)
-for the +BayeuxClient+ to reach the given state, and returns true if the state
+The `BayeuxClient.waitFor()` method waits the given timeout (in milliseconds)
+for the `BayeuxClient` to reach the given state, and returns true if the state
 is reached before the timeout expires.

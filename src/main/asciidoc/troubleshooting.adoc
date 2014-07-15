@@ -15,8 +15,8 @@ debug logs to help you.
 ==== Enabling Debug Logging in the JavaScript Library
 
 To enable debug logging on the JavaScript client library
-(see also <<_javascript,the JavaScript library section>>) you must pass the +logLevel+ field to the
-configuration of the +cometd+ object, with value +'debug'+ (see also
+(see also <<_javascript,the JavaScript library section>>) you must pass the `logLevel` field to the
+configuration of the `cometd` object, with value +'debug'+ (see also
 <<_javascript_configure,the JavaScript library configuration section>> for other
 configuration options):
 
@@ -30,7 +30,7 @@ cometd.configure({
 ----
 ====
 
-The CometD JavaScript library uses the +window.console+ object to output log statements.
+The CometD JavaScript library uses the `window.console` object to output log statements.
 
 Once you have logging enabled on the JavaScript client library, you can see the
 debug logs in the browser JavaScript console.
@@ -40,7 +40,7 @@ console by clicking on _Tools -> Developer Tools_.
 
 [NOTE]
 ====
-Internet Explorer does not define the +window.console+ object as other browsers do,
+Internet Explorer does not define the `window.console` object as other browsers do,
 resulting in CometD not being able to output logs in the JavaScript console,
 depending on the Internet Explorer version.
 ====
@@ -64,9 +64,9 @@ Therefore, to enable CometD debug logging for your application you need to
 configure whatever SLF4J binding you have chosen to use.
 
 As a simple example, for Log4J it is usually enough to add the SLF4J-Log4J binding jar
-(+slf4j-log4j12-<slf4j-version>.jar+) and the Log4J jar (+log4j-<log4j-version>.jar+)
-in +WEB-INF/lib+, and then add a properly configured +log4j.properties+ file in
-+WEB-INF/classes+.
+(`slf4j-log4j12-<slf4j-version>.jar`) and the Log4J jar (`log4j-<log4j-version>.jar`)
+in `WEB-INF/lib`, and then add a properly configured `log4j.properties` file in
+`WEB-INF/classes`.
 You don't want to add these files manually; they are reported here just as a simple reference.
 Usually these dependencies are configured in the build system that you use to create your web application. 
 

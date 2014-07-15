@@ -2,31 +2,31 @@
 [[_java_server_services_annotated]]
 ===== Annotated Client-Side and Server-Side Services
 
-Classes annotated with +@Service+ qualify as annotated services, both on the
+Classes annotated with `@Service` qualify as annotated services, both on the
 client-side and on the server-side.
 
 [[_java_server_services_annotated_server_side]]
 ===== Server-Side Annotated Services
 
-Server-side services are usually written by extending the +org.cometd.server.AbstractService+
+Server-side services are usually written by extending the `org.cometd.server.AbstractService`
 class, and instances of these classes normally have a singleton semantic and
 are created and configured at web application startup.
 
-The +org.cometd.server.AbstractService+ class provides (via inheritance) some
+The `org.cometd.server.AbstractService` class provides (via inheritance) some
 facilities that are useful when implementing a service, including access to
-the +ServerSession+ associated with the service instance and registration of
+the `ServerSession` associated with the service instance and registration of
 methods as a callbacks to receive messages from channels.
 
 Services might depend on other services (for example, a data source to access
 the database), and might require lifecycle management (that is, the services
-have +start()+/+stop()+ methods that must be invoked at appropriate times).
+have `start()`/`stop()` methods that must be invoked at appropriate times).
 
-In services extending +org.cometd.server.AbstractService+, dependency injection
+In services extending `org.cometd.server.AbstractService`, dependency injection
 and lifecycle management, previously you had to write the code by hand in
 a configuration servlet or configuration listeners.
 Now annotated server-side services offer full support for CometD features, and
 limited support for dependency injection and lifecycle management via the
-+org.cometd.annotation.ServerAnnotationProcessor+ class.
+`org.cometd.annotation.ServerAnnotationProcessor` class.
 
 Annotated service instances are stored in the servlet context under the key
 that correspond to their full qualified class name.
@@ -80,17 +80,17 @@ public class EchoService extends AbstractService
 ====
 |===
 
-The service class is annotated with +@Service+ and specifies the (optional)
+The service class is annotated with `@Service` and specifies the (optional)
 service name "echoService". The BayeuxServer field is annotated with the
-standard http://jcp.org/en/jsr/detail?id=330[JSR 330] +@Inject+ annotation.
-The +@Inject+ annotation is supported (for example, by Spring 3 or greater) for
+standard http://jcp.org/en/jsr/detail?id=330[JSR 330] `@Inject` annotation.
+The `@Inject` annotation is supported (for example, by Spring 3 or greater) for
 standard dependency injection as specified by JSR 330.
 
 ===== Lifecycle Management Support
 
 The CometD project provides lifecycle management via the standard
-http://jcp.org/en/jsr/detail?id=250[JSR 250] +@PostConstruct+ and
-+@PreDestroy+ annotations.
+http://jcp.org/en/jsr/detail?id=250[JSR 250] `@PostConstruct` and
+`@PreDestroy` annotations.
 CometD offers this support for those that do not use a dependency injection
 container with lifecycle management such as http://www.springsource.org[Spring].
 
@@ -104,7 +104,7 @@ Furthermore, it is useful to have a configuration step for channels that happens
 before any subscription or listener addition, for example, to configure
 authorizers on the channel (see also <<_java_server_authorizers,the authorizers section>>.
 
-In annotated services, you can use the +@Configure+ annotation on methods:
+In annotated services, you can use the `@Configure` annotation on methods:
 
 ====
 [source,java]
@@ -127,11 +127,11 @@ public class EchoService
 
 ===== Session Configuration Support
 
-Services that extend +org.cometd.server.AbstractService+ have two facility
+Services that extend `org.cometd.server.AbstractService` have two facility
 methods to access the LocalSession and the ServerSession, namely
-+getLocalSession()+ and +getServerSession()+.
+`getLocalSession()` and `getServerSession()`.
 
-In annotated services, this is accomplished using the +@Session+ annotation:
+In annotated services, this is accomplished using the `@Session` annotation:
 
 ====
 [source,java]
@@ -151,25 +151,25 @@ public class EchoService
 ----
 ====
 
-Fields (or methods) annotated with the +@Session+ annotation are optional;
-you can just have the +LocalSession+ field, or only the +ServerSession+ field,
+Fields (or methods) annotated with the `@Session` annotation are optional;
+you can just have the `LocalSession` field, or only the `ServerSession` field,
 or both or none, depending on whether you need them or not.
 
-You cannot inject Session fields (or methods) with +@Inject+.
-This is because the +LocalSession+ object and the +ServerSession+ object are
+You cannot inject Session fields (or methods) with `@Inject`.
+This is because the `LocalSession` object and the `ServerSession` object are
 related, and tied to a particular service instance.
 Using a generic injection mechanism could lead to confusion (for example,
 using the same sessions in two different services).
 
 ===== Listener Configuration Support
 
-For server-side services, methods annotated with +@Listener+ represent
+For server-side services, methods annotated with `@Listener` represent
 callbacks that are invoked during the server-side processing of the message.
 
 CometD passes a reference to Listener methods to both: 
 
-* The +ServerSession+ half object that sent the message.
-* The +ServerMessage+ that the server is processing.
+* The `ServerSession` half object that sent the message.
+* The `ServerMessage` that the server is processing.
 
 The callback method must have the following signature, or a covariant version of it: 
 
@@ -230,19 +230,19 @@ not be published.
 
 ===== Subscription Configuration Support
 
-For server-side services, methods annotated with +@Subscription+ represent
+For server-side services, methods annotated with `@Subscription` represent
 callbacks that are invoked during the local-side processing of the message.
 The local-side processing is equivalent to the remote client-side processing,
 but it is local to the server.
 The semantic is very similar to the remote client-side processing, in the sense
 that the message has completed the server-side processing and has been published.
 When it arrives to the local side the information on the publisher is not
-available anymore, and the message is a plain +org.cometd.bayeux.Message+
-and not a +org.cometd.bayeux.server.ServerMessage+, exactly as it would happen
+available anymore, and the message is a plain `org.cometd.bayeux.Message`
+and not a `org.cometd.bayeux.server.ServerMessage`, exactly as it would happen
 for a remote client.
 
 This is a rarer use case (most of the time user code must be triggered with
-+@Listener+ semantic), but nonetheless is available.
+`@Listener` semantic), but nonetheless is available.
 
 The callback method must have the following signature: 
 
@@ -268,7 +268,7 @@ public class EchoService
 
 ===== Annotation Processing
 
-The +org.cometd.annotation.ServerAnnotationProcessor+ class performs annotation processing.
+The `org.cometd.annotation.ServerAnnotationProcessor` class performs annotation processing.
 
 ====
 [source,java]
@@ -286,18 +286,18 @@ processor.process(service);
 ----
 ====
 
-After the +ServerAnnotationProcessor.process()+ method returns, the service has
-been processed by injecting the +BayeuxServer+ object and the sessions objects,
+After the `ServerAnnotationProcessor.process()` method returns, the service has
+been processed by injecting the `BayeuxServer` object and the sessions objects,
 by calling initialization lifecycle methods, and by registering listeners and subscribers.
 
-Symmetrically, +ServerAnnotationProcessor.deprocess()+ performs annotation deprocessing,
+Symmetrically, `ServerAnnotationProcessor.deprocess()` performs annotation deprocessing,
 which deregisters listeners and subscribers, and then calls destruction lifecycle methods
-(but does not deinject the +BayeuxServer+ object or session objects).
+(but does not deinject the `BayeuxServer` object or session objects).
 
 [[_java_server_services_annotated_client_side]]
 ===== Client-Side Annotated Services
 
-Like their server-side counterpart, client-side services consist in classes annotated with +@Service+.
+Like their server-side counterpart, client-side services consist in classes annotated with `@Service`.
 
 CometD introduced client-side services to reduce the boilerplate code required:
 
@@ -363,19 +363,19 @@ bayeuxClient.getChannel("/foo").subscribe(new ClientSessionChannel.MessageListen
 
 The CometD project does not offer dependency injection for client-side services,
 but supports lifecycle management via the standard http://jcp.org/en/jsr/detail?id=250[JSR 250]
-+@PostConstruct+ and +@PreDestroy+ annotations.
+`@PostConstruct` and `@PreDestroy` annotations.
 Client-side services usually have a shorter lifecycle than server-side services
 and their dependencies are usually injected directly while creating the client-side
 service instance.
 
 ===== Session Configuration Support
 
-In client-side annotated services, the +@Session+ annotation allows the service
-instance to have the +ClientSession+ object injected in a field or method.
+In client-side annotated services, the `@Session` annotation allows the service
+instance to have the `ClientSession` object injected in a field or method.
 Like server-side annotated services, the session field (or method) cannot be
-injected with +@Inject+.
+injected with `@Inject`.
 This is to allow the maximum configuration flexibility between service instances
-and +ClientSession+ instances.
+and `ClientSession` instances.
 
 ====
 [source,java]
@@ -391,7 +391,7 @@ public class Service
 
 ===== Listener Configuration Support
 
-In client-side annotated services, methods annotated with +@Listener+ represent
+In client-side annotated services, methods annotated with `@Listener` represent
 callbacks that are called upon receipt of messages on meta channels.
 Do not use listener callbacks to subscribe to broadcast channels. 
 
@@ -433,7 +433,7 @@ bayeuxClient.getChannel(Channel.META_CONNECT).addListener(new ClientSessionChann
 
 ===== Subscription Configuration Support
 
-In client-side annotated services, methods annotated with +@Subscription+
+In client-side annotated services, methods annotated with `@Subscription`
 represent callbacks that are called upon receipt of messages on broadcast channels.
 
 [cols="1a,1a", options="header"]
@@ -474,7 +474,7 @@ bayeuxClient.getChannel("/foo/*").subscribe(new ClientSessionChannel.MessageList
 
 ===== Annotation Processing
 
-The +org.cometd.annotation.ClientAnnotationProcessor+ class does annotation processing.
+The `org.cometd.annotation.ClientAnnotationProcessor` class does annotation processing.
 
 ====
 [source,java]
@@ -494,6 +494,6 @@ bayeuxClient.handshake();
 ----
 ====
 
-Listener callbacks are configured immediately on the +ClientSession+ object,
+Listener callbacks are configured immediately on the `ClientSession` object,
 while subscription callbacks are automatically delayed until the handshake is
 successfully completed.

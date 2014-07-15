@@ -6,13 +6,13 @@ After you set up your skeleton project following <<_primer,the primer>>, you
 probably want to fully understand how to customize and configure the parameters
 that govern the behavior of the CometD implementation.
 
-The complete API is available through a single object prototype named +org.cometd.Cometd+.
+The complete API is available through a single object prototype named `org.cometd.Cometd`.
 The Dojo toolkit has one instance of this object available under the name
-+dojox.cometd+, while for jQuery it is available under the name +$.cometd+.
-This default +cometd+ object has been instantiated and configured with the
+`dojox.cometd`, while for jQuery it is available under the name `$.cometd`.
+This default `cometd` object has been instantiated and configured with the
 default values and it has not yet started any Bayeux communication.
 
-Before the +cometd+ object can start Bayeux communication it needs a mandatory
+Before the `cometd` object can start Bayeux communication it needs a mandatory
 parameter: the URL of the Bayeux server.
 The URL of the server must be absolute (and therefore include the scheme, host,
 optionally the port and the path of the server). The scheme of the URL must
@@ -20,7 +20,7 @@ always be either "http" or "https". The CometD JavaScript implementation will
 transparently take care of converting the scheme to "ws" or "wss" in case of
 usage of the WebSocket protocol.
 
-One +cometd+ object connects to one Bayeux server.
+One `cometd` object connects to one Bayeux server.
 If you need to connect to multiple Bayeux servers, see
 <<_javascript_configure_multiple_objects,this section>>.
 
@@ -119,24 +119,24 @@ However, the second way allows you to pass other configuration parameters, curre
   connect to the server.
 |===
 
-After you have configured the +cometd+ object, the Bayeux communication does
-not start until you call +handshake()+ (see also <<_javascript_handshake,the javascript handshake section>>).
+After you have configured the `cometd` object, the Bayeux communication does
+not start until you call `handshake()` (see also <<_javascript_handshake,the javascript handshake section>>).
 
-Previous users of the JavaScript CometD implementation called a method named +init()+.
-This method still exists, and it is a shorthand for calling +configure()+ followed by +handshake()+.
-Follow the advice in <<_javascript_handshake,the handshake section>> as it applies as well to +init()+.
+Previous users of the JavaScript CometD implementation called a method named `init()`.
+This method still exists, and it is a shorthand for calling `configure()` followed by `handshake()`.
+Follow the advice in <<_javascript_handshake,the handshake section>> as it applies as well to `init()`.
 
 [[_javascript_configure_multiple_objects]]
 ==== Configuring and Initializing Multiple Objects
 
 Sometimes there is the need to connect to multiple Bayeux servers.
-The default +cometd+ object available as +dojox.cometd+ or +$.cometd+
+The default `cometd` object available as `dojox.cometd` or `$.cometd`
 can only be configured to connect to one server.
 
-However, it is easy to create other +cometd+ objects.
-In Dojo, there is a +dojox.CometD+ (note the capital 'C' and 'D' of +CometD+)
-constructor function that can be used to create new +cometd+ objects.
-In jQuery, there is an equivalent +$.CometD+ constructor function.
+However, it is easy to create other `cometd` objects.
+In Dojo, there is a `dojox.CometD` (note the capital 'C' and 'D' of `CometD`)
+constructor function that can be used to create new `cometd` objects.
+In jQuery, there is an equivalent `$.CometD` constructor function.
 It can be used in this way: 
 
 ====
@@ -156,13 +156,13 @@ cometd2.init('http://host2:9090/cometd');
 ----
 ====
 
-Note how the two +cometd+ objects are initialized with different URLs.
+Note how the two `cometd` objects are initialized with different URLs.
 
 ==== Configuring Extensions in Multiple Objects
 
-Configuring extensions in the default +cometd+ object is covered in
+Configuring extensions in the default `cometd` object is covered in
 <<_extensions,the extensions section>>.
-To configure extensions for the additional +cometd+ objects must be
+To configure extensions for the additional `cometd` objects must be
 done manually in the following way:
 
 ====
@@ -184,10 +184,10 @@ cometd2.registerExtension('reload', new org.cometd.ReloadExtension());
 ----
 ====
 
-You should not configure the extensions for the default +cometd+ object in
+You should not configure the extensions for the default `cometd` object in
 this way, but instead follow <<_extensions,the extensions section>>.
 
 You should configure extension manually like shown above only for additional
-+cometd+ objects.
-You can configure zero, one, or all the extensions for the additional +cometd+
+`cometd` objects.
+You can configure zero, one, or all the extensions for the additional `cometd`
 objects, depending on your application needs.
