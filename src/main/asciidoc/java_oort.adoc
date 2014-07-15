@@ -136,6 +136,7 @@ for example:
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -270,6 +271,7 @@ configuring an `org.cometd.oort.OortStaticConfigServlet` in `web.xml`, for examp
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -329,6 +331,7 @@ URL(s) to connect to:
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -594,6 +597,7 @@ messages are forwarded to the Oort cluster:
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>

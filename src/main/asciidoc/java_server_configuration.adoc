@@ -27,6 +27,8 @@ file for you; here are details its configuration, a sample `web.xml`:
             <param-name>timeout</param-name>
             <param-value>60000</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -232,6 +234,8 @@ Here is an example of `web.xml` configuration for the `CrossOriginFilter`:
             <param-name>timeout</param-name>
             <param-value>60000</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -241,6 +245,7 @@ Here is an example of `web.xml` configuration for the `CrossOriginFilter`:
     <filter>
         <filter-name>cross-origin</filter-name>
         <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+        <async-supported>true</async-supported>
     </filter>
     <filter-mapping>
         <filter-name>cross-origin</filter-name>
@@ -257,7 +262,7 @@ for the filter configuration.
 [[_java_server_configuration_servlet_30]]
 ===== Configuring Servlet 3 Asynchronous Features
 
-The CometD libraries are portable across Servlet Containers because it uses
+The CometD libraries are portable across Servlet Containers because they use
 the standard Servlet 3 APIs.
 
 To enable the Servlet 3 asynchronous features, you need to: 
@@ -265,6 +270,11 @@ To enable the Servlet 3 asynchronous features, you need to:
 * Make sure that in `web.xml` the `version` attribute of the `web-app` element is 3.0 <1>.
 * Add the `async-supported` element to filters that might execute before the `CometDServlet`
   _and_ to the `CometDServlet` itself <2>.
+
+[NOTE]
+====
+Remember to always specify the `load-on-startup` element for the CometD Servlet.
+====
 
 For example: 
 
@@ -280,6 +290,7 @@ For example:
     <servlet>
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
         <async-supported>true</async-supported> <2>
     </servlet>
     <servlet-mapping>

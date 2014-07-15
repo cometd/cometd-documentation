@@ -160,6 +160,8 @@ For example:
             <param-name>jsonContext</param-name>
             <param-value>org.cometd.server.JacksonJSONContextServer</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>

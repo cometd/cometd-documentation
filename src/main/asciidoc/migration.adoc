@@ -87,15 +87,28 @@ Only the WebSocket artifacts have changed.
     <servlet>
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
-        <async-supported>true</async-supported> <3>
+        <load-on-startup>1</load-on-startup> <3>
+        <async-supported>true</async-supported> <4>
     </servlet>
 </web-app>
 ----
 ====
 <1> `schemaLocation` attribute changed from `2.5` to `3.0` (or to `3.1`)
 <2> `version` attribute changed from `2.5` to `3.0` (or to `3.1`)
-<3> `async-supported` element now required
+<3> `load-on-startup` element now required
+<4> `async-supported` element now required
 |===
+
+[NOTE]
+====
+The `load-on-startup` element is now required in order to use the `websocket` transport,
+unless Spring is used to configure the `BayeuxServer` object (see
+<<_java_server_services_integration_spring_xml_based_spring_configuration,this section>>).
+If `load-on-startup` is not specified, the first request will lazily start the CometD Servlet,
+which will start the `BayeuxServer` object, which will configure the `websocket` transport, but
+at this point it is too late for the `websocket` transport to handle the request, which will be
+handled by the next transport (typically the `long-polling` transport).
+====
 
 === CometD Servlet Parameters Changes
 

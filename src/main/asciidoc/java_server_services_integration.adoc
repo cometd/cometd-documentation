@@ -29,6 +29,7 @@ Here is a sample `web.xml`:
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -100,6 +101,7 @@ Here is a sample `web.xml` file:
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -222,6 +224,8 @@ This is a sample `web.xml`:
             <param-name>services</param-name>
             <param-value>com.acme.cometd.FooService, com.acme.cometd.BarService</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>

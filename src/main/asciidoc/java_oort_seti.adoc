@@ -33,6 +33,7 @@ A configuration example follows:
         <servlet-name>cometd</servlet-name>
         <servlet-class>org.cometd.server.CometDServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>cometd</servlet-name>
@@ -42,11 +43,11 @@ A configuration example follows:
     <servlet>
         <servlet-name>oort</servlet-name>
         <servlet-class>org.cometd.oort.OortServlet</servlet-class>
-        <load-on-startup>2</load-on-startup>
         <init-param>
             <param-name>oort.url</param-name>
             <param-value>http://host:port/context/cometd</param-value>
         </init-param>
+        <load-on-startup>2</load-on-startup>
     </servlet>
 
     <servlet>
