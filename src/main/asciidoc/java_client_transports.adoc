@@ -8,9 +8,13 @@ Jetty's asynchronous https://www.eclipse.org/jetty/documentation/current/http-cl
 and the `websocket` transport (that in turn depends on Jetty's asynchronous
 https://www.eclipse.org/jetty/documentation/current/websocket-java.html[WebSocketClient]).
 
-There are two WebSocket transports available: one based on
-https://jcp.org/en/jsr/detail?id=356[JSR 356], the standard Java WebSocket APIs
-and one based on the Jetty WebSocket APIs.
+There are two WebSocket transports available:
+
+* one based on https://jcp.org/en/jsr/detail?id=356[JSR 356], the standard Java WebSocket APIs
+  named `org.cometd.websocket.client.WebSocketTransport` and provided by the artifact
+  `org.cometd.java:cometd-java-websocket-javax-client`
+* one based on the Jetty WebSocket APIs named `org.cometd.websocket.client.JettyWebSocketTransport`
+  and provided by the artifact `org.cometd.java:cometd-java-websocket-jetty-client`
 
 You should configure `BayeuxClient` with the `websocket` transport before the
 `long-polling` transport, so that `BayeuxClient` can fall back to the `long-polling`
@@ -21,7 +25,7 @@ You do so by listing the WebSocket transport before the HTTP transport on the
 ====
 [source,java]
 ----
-// Prepare the JSR WebSocket transport
+// Prepare the JSR 356 WebSocket transport
 WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
 
 // The WebSocketContainer must be started, but JSR 356 APIs do not define any
@@ -39,7 +43,7 @@ HttpClient httpClient = new HttpClient();
 httpClient.addBean(webSocketContainer, true);
 httpClient.start();
 
-ClientTransport  httpTransport = new LongPollingTransport(null, httpClient);
+ClientTransport httpTransport = new LongPollingTransport(null, httpClient);
 
 // Configure the BayeuxClient, with the websocket transport listed before the http transport
 BayeuxClient client = new BayeuxClient("http://localhost:8080/cometd", wsTransport, httpTransport);
