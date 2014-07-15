@@ -6,7 +6,7 @@ After you set up your skeleton project following <<_primer,the primer>>, you
 probably want to fully understand how to customize and configure the parameters
 that govern the behavior of the CometD implementation.
 
-The complete API is available through a single object prototype named `org.cometd.Cometd`.
+The complete API is available through a single object prototype named `org.cometd.CometD`.
 The Dojo toolkit has one instance of this object available under the name
 `dojox.cometd`, while for jQuery it is available under the name `$.cometd`.
 This default `cometd` object has been instantiated and configured with the
