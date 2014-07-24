@@ -81,7 +81,7 @@ cometd.getExtension('reload').configure({
 });
 ----
 ====
-* Reconfigure the extension every time the `cometd.reload()` method is invoked:
+* Reconfigure the extension every time the `cometd.reload()` function is invoked:
 +
 ====
 [source,javascript]

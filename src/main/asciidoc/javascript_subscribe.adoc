@@ -57,7 +57,7 @@ The JavaScript CometD API has two APIs to work with channel subscriptions:
 . `addListener()` and the correspondent `removeListener()`
 . `subscribe()` and the correspondent `unsubscribe()`
 
-The `addListener()` method:
+The `addListener()` function:
 
 * Must be used to listen to meta channel messages.
 * May be used to listen to service channel messages. 
@@ -66,7 +66,7 @@ The `addListener()` method:
   called before calling `handshake().`
 * Is synchronous: when it returns, you are guaranteed that the listener has been added.
 
-The `subscribe()` method:
+The `subscribe()` function:
 
 * Must not be used to listen to meta channels messages (if attempted, the server returns an error).
 * May be used to listen to service channel messages. 
@@ -181,7 +181,7 @@ Since `/meta/handshake` listeners are invoked in both explicit handshakes the
 client performs and in re-handshakes the server triggers, it is guaranteed that
 your subscriptions are always performed properly and kept consistent with the server state.
 
-Equivalently, a callback function passed to the handshake method behaves exactly
+Equivalently, a callback function passed to the `handshake()` function behaves exactly
 like a `/meta/handshake` listener, and therefore can be used to perform subscriptions.
 
 Applications do not need to unsubscribe in case of re-handshake; the CometD library
@@ -310,7 +310,7 @@ cometd.addListener('/meta/handshake', function(message)
 ==== Listeners and Subscribers Exception Handling
 
 If a listener or subscriber function throws an exception (for example, calls a
-method on an undefined object), the error message is logged at level "debug".
+function on an undefined object), the error message is logged at level "debug".
 However, there is a way to intercept these errors by defining the global listener
 exception handler that is invoked every time a listener or subscriber throws an exception:
 

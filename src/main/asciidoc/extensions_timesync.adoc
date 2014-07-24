@@ -123,7 +123,7 @@ cometd.registerExtension('timesync', new org.cometd.TimeSyncExtension({ maxSampl
 ----
 ====
 
-The client-side timesync extension also exposes several methods to deal with
+The client-side timesync extension also exposes several functions to deal with
 the result of the time synchronization:
 
 * `getNetworkLag()` – to obtain the calculated network latency between client and server

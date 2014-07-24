@@ -2,7 +2,7 @@
 [[_javascript_publish]]
 === Publishing
 
-The `publish()` method allows you to publish data onto a certain channel:
+The `publish()` function allows you to publish data onto a certain channel:
 
 ====
 [source,javascript]

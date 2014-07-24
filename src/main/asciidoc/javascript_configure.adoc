@@ -122,8 +122,8 @@ However, the second way allows you to pass other configuration parameters, curre
 After you have configured the `cometd` object, the Bayeux communication does
 not start until you call `handshake()` (see also <<_javascript_handshake,the javascript handshake section>>).
 
-Previous users of the JavaScript CometD implementation called a method named `init()`.
-This method still exists, and it is a shorthand for calling `configure()` followed by `handshake()`.
+Previous users of the JavaScript CometD implementation called a function named `init()`.
+This function still exists, and it is a shorthand for calling `configure()` followed by `handshake()`.
 Follow the advice in <<_javascript_handshake,the handshake section>> as it applies as well to `init()`.
 
 [[_javascript_configure_multiple_objects]]

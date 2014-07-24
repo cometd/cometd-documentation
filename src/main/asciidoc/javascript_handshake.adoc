@@ -3,7 +3,7 @@
 === Handshaking
 
 In order to initiate the communication with the Bayeux server, you must call
-either the `handshake()` or the `init()` methods on the `cometd` object.
+either the `handshake()` or the `init()` functions on the `cometd` object.
 The `init()` function is a shorthand for a call to `configure()` (see
 <<_javascript_configure,the javascript configuration section>>) followed by
 a call to `handshake()`.
@@ -16,7 +16,7 @@ The Bayeux handshake creates a network communication with the Bayeux server,
 negotiates the type of transport to use, and negotiates a number of protocol
 parameters to be used in subsequent communications.
 
-As with several methods of the JavaScript CometD API, `handshake()` is an
+As with several functions of the JavaScript CometD API, `handshake()` is an
 asynchronous function: it returns immediately, well before the Bayeux handshake
 steps have completed.
 
