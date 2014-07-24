@@ -77,7 +77,7 @@ var LoggerExt = function()
         _cometd = cometd;
     };
 
-    this.outgoing(message)
+    this.outgoing = function(message)
     {
         if (message.channel == '/meta/connect')
         {
