@@ -41,8 +41,8 @@ file for you; here are details its configuration, a sample `web.xml`:
 
 You must define and map the `org.cometd.server.CometDServlet` in `web.xml`
 to enable the server to interpret the Bayeux protocol.
-It is normally mapped on `/cometd/*`, but you can change the mapping url-pattern
-if you prefer.
+It is normally mapped to `/cometd/*`, but you can change the `url-pattern` mapping
+if you prefer, or even have multiple mappings.
 
 ==== Configuring `BayeuxServer`
 
@@ -186,7 +186,8 @@ that different server transports accept:
 
 | ws.cometdURLMapping
 |
-| *Mandatory*. The `url-pattern` of the `servlet-mapping` of the CometD Servlet.
+| *Mandatory*. A comma separated list of `url-pattern` strings defined by the
+  `servlet-mapping` of the CometD Servlet.
 
 | ws.messagesPerFrame
 | 1
