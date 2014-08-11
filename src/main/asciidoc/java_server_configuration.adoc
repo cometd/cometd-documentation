@@ -76,6 +76,12 @@ Here is the list of configuration init parameters that the `BayeuxServer` implem
 | Whether message fields such as `channel`, `id` and `subscription` should be
   validated to contain legal characters as defined in
   <<_bayeux_protocol_elements,the Bayeux specification>>
+
+| broadcastToPublisher
+| true
+| When a publisher is also subscribed to the channel it publishes a message to,
+  this parameter controls whether `BayeuxServer` should broadcast the message
+  to all subscribers (including the publisher), or only to the other subscribers.
 |===
 
 ===== Configuring Server Transports
