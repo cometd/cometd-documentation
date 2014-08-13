@@ -8,23 +8,37 @@ client-side and on the server-side.
 [[_java_server_services_annotated_server_side]]
 ===== Server-Side Annotated Services
 
-Server-side services are usually written by extending the `org.cometd.server.AbstractService`
+Server-side annotated services are defined by annotating class, fields and
+methods with annotations from the `org.cometd.annotation` package.
+
+Features provided by inherited services are available to annotated services
+although in a slightly different way.
+
+Server-side inherited services are written by extending the `org.cometd.server.AbstractService`
 class, and instances of these classes normally have a singleton semantic and
 are created and configured at web application startup.
+By annotating a class with `@Service` you obtain the same functionality.
 
 The `org.cometd.server.AbstractService` class provides (via inheritance) some
 facilities that are useful when implementing a service, including access to
-the `ServerSession` associated with the service instance and registration of
-methods as a callbacks to receive messages from channels.
+the `ServerSession` associated with the service instance.
+By annotating fields with `@Session` you obtain the same functionality.
+
+Server-side inherited services provide means to register methods as callbacks
+to receive messages from channels.
+By annotating methods with `@Listener` or `@Subscription` you obtain the same functionality.
 
 Services might depend on other services (for example, a data source to access
 the database), and might require lifecycle management (that is, the services
 have `start()`/`stop()` methods that must be invoked at appropriate times).
-
 In services extending `org.cometd.server.AbstractService`, dependency injection
-and lifecycle management, previously you had to write the code by hand in
-a configuration servlet or configuration listeners.
-Now annotated server-side services offer full support for CometD features, and
+and lifecycle management had to be written by hand in a configuration servlet
+or configuration listeners.
+By annotating fields with the standard JSR 330 `@Inject` annotation, or the
+standard JSR 250 `@PostConstruct` and `@PreDestroy` annotations you obtain
+the same functionality.
+
+Server-side annotated services offer full support for CometD features, and
 limited support for dependency injection and lifecycle management via the
 `org.cometd.annotation.ServerAnnotationProcessor` class.
 
@@ -161,15 +175,19 @@ related, and tied to a particular service instance.
 Using a generic injection mechanism could lead to confusion (for example,
 using the same sessions in two different services).
 
+[[_java_server_services_annotated_server_side_listener]]
 ===== Listener Configuration Support
 
 For server-side services, methods annotated with `@Listener` represent
 callbacks that are invoked during the server-side processing of the message.
+The channel specified by the `@Listener` annotation may be a
+<<_concepts_channels_parameters,template channel>>.
 
-CometD passes a reference to Listener methods to both: 
+CometD passes a reference to Listener methods to:
 
 * The `ServerSession` half object that sent the message.
 * The `ServerMessage` that the server is processing.
+* Zero or more `String` arguments corresponding to channel parameters.
 
 The callback method must have the following signature, or a covariant version of it: 
 
@@ -228,6 +246,52 @@ The callback method can return false to indicate that the processing of
 subsequent listeners should not be performed and that the message should
 not be published.
 
+The channel specified by the `@Listener` annotation may be a
+<<_concepts_channels_parameters,template channel>>.
+In this case, you must add the corresponding number of parameters (of type
+`String`) to the signature of the service method, and annotate each additional
+parameters with `@org.cometd.annotation.Param`, making sure to match the
+parameter names between channel parameters and `@Param` annotations in the same
+order:
+
+====
+[source,java]
+----
+@Service
+public class ParametrizedService
+{
+    @Listener("/news/{category}/{event}")
+    public void serviceNews(ServerSession remote, ServerMessage message, @Param("category") String category, @Param("event") String event)
+    {
+        ...
+    }
+}
+----
+====
+
+[NOTE]
+====
+Note how for the two channel parameters defined in the `@Listener` annotation
+there are two additional parameters in the method signature (they must be added
+after the `ServerSession` and the `ServerMessage` parameters), of type `String`
+and annotated with `@Param`.
+The `@Param` annotation must specify a parameter name declared by the template
+channel.
+The order of parameters defined by the template channel must be the same of
+the parameters of the service method annotated with `@Param`.
+
+Only messages whose channel match the template channel defined by `@Listener`
+will be delivered to the service method.
+In the example above, messages to channel `/news/weather` or
+`/news/sport/athletics/decathlon` will not be delivered to the service method,
+because those channel do not bind with the template channel (respectively,
+too few segments and too many segments), while messages to
+`/news/technology/cometd` will be delivered, with the `category` argument
+bound to string `"technology"` and the `event` argument bound to string
+`"cometd"`.
+====
+
+[[_java_server_services_annotated_server_side_subscription]]
 ===== Subscription Configuration Support
 
 For server-side services, methods annotated with `@Subscription` represent
@@ -244,7 +308,10 @@ for a remote client.
 This is a rarer use case (most of the time user code must be triggered with
 `@Listener` semantic), but nonetheless is available.
 
-The callback method must have the following signature: 
+The callback method signature must be:
+
+* The `Message` that the server is processing.
+* Zero or more `String` arguments corresponding to channel parameters.
 
 ====
 [source,java]
@@ -265,6 +332,11 @@ public class EchoService
 }
 ----
 ====
+
+The channel specified by the `@Subscription` annotation may be a
+<<_concepts_channels_parameters,template channel>> similarly to
+what already documented in the
+<<_java_server_services_annotated_server_side_listener,listener section>>.
 
 ===== Annotation Processing
 

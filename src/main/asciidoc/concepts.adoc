@@ -87,8 +87,31 @@ The latter is matched by `/foo/**`.
 You can use wildcards for any type of channel: `/meta/*` matches all meta channels,
 and `/service/**` matches `/service/bar` as well as `/service/bar/baz`.
 Channel `/**` matches all channels.
+
 You can specify the wildcards only as the last segment of the channel, so these are
 invalid channels: `/**/foo` or `/foo/*/bar`.
+
+[[_concepts_channels_parameters]]
+===== Use of Parameters in Channels
+
+You can use segment parameters in channels: `/foo/{id}`.
+Channels with segment parameters are also called _template_ channels, because they
+define a template that a real channel may match, with the result of binding
+the template channel parameters to actual values.
+Template channels are used in annotated services, see their usage in
+<<_java_server_services_annotated_server_side_listener,annotated listeners>>
+and <<_java_server_services_annotated_server_side_subscription,annotated subscribers>>.
+For example, when `/news/{category}` is bound to the channel `/news/sport`, then
+the parameter `category` will be bound to the string `"sport"`.
+
+Template channels bound only if their number of segment is the same as the channel
+is it bounded to. For example, for `/news/{category}` then `/news` does not bind
+(too few segments), `/news/sport/athletics` does not bind (too many segments),
+`/other/channel` does not bind (non parameter segments are different), while
+`/news/football` binds the parameter `category` to the string `"football"`.
+
+A template channel cannot be also a wildcard channel, so these are invalid channels:
+`/foo/{id}/*` or `/foo/{var}/**`.
 
 [[_concepts_high_level]]
 === The High Level View
