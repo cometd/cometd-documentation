@@ -338,7 +338,7 @@ configure a non-blocking connector in Tomcat.
 ====
 
 [[_java_server_configuration_channels]]
-===== Configuring `ServerChannel`s
+===== Configuring `ServerChannel`
 
 Server channels are used to broadcast messages to multiple clients, and are a
 central concept of CometD (see also <<_concepts,the concepts section>>).

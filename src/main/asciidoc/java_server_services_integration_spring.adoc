@@ -49,21 +49,21 @@ The `web.xml` file is as follows:
 [IMPORTANT]
 ====
 It is important to note that the `web.xml` above does _not_ contain any
-configuration specified as +<init-param>+.
+configuration specified as `<init-param>`.
 This is because if you are using Spring, you want the configuration to be
 specified in just one place, that is in the Spring configuration files.
 
-Furthermore, the +<load-on-startup>+ directive is _not_ present.
+Furthermore, the `<load-on-startup>` directive is _not_ present.
 Since the Servlet Specification does not define the startup order between
 servlets and listeners (in particular, `<listener>` elements cannot be
-ordered with a +<load-on-startup>+ element), you must make sure that the
+ordered with a `<load-on-startup>` element), you must make sure that the
 Spring `<listener>` runs before the `CometDServlet`, otherwise you risk
 that two `BayeuxServer` objects are created (one by `CometDServlet` and
 the other by Spring), and your application will not work properly (likely,
 the connection with remote clients will be handled by the `CometDServlet`'s
 `BayeuxServer`, while your services will be bound to Spring's `BayeuxServer`).
 
-By not specifying a +<load-on-startup>+ element in the `CometDServlet`
+By not specifying a `<load-on-startup>` element in the `CometDServlet`
 definition, the `CometDServlet` will be initialized lazily _after_ the Spring
 `<listener>`, ensuring that only the Spring's `BayeuxServer` is created and
 used also by `CometDServlet` when it is initialized upon receiving the first

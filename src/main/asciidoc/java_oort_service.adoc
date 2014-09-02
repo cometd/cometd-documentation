@@ -187,7 +187,7 @@ CometD provides `org.cometd.oort.OortMasterService` that can be subclasses by
 applications to write services that perform actions on data entities that must
 be owned by a single node only.
 There is one instance of `OortMasterService` with the same name in each node
-(like for other `OortService`s), but only one of them is the _master_.
+(like for other `OortService` instances), but only one of them is the _master_.
 
 CometD provides an out-of-the-box implementation of `OortMasterService`,
 `org.cometd.oort.OortMasterLong`, that can be used as a unique-across-the-cluster

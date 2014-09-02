@@ -46,7 +46,7 @@ Here is a sample `web.xml`:
 ----
 ====
 
-Notice that the `web.xml` file specifies +<load-on-startup>+ to be:
+Notice that the `web.xml` file specifies `<load-on-startup>` to be:
 
 * 1 for the CometD servlet – so that the Bayeux object gets created and put
   in the `ServletContext`.
