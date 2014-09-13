@@ -234,7 +234,7 @@ the CometD annotations; do so using a Spring component:
 ====
 [source,java]
 ----
-@Component
+@Configuration
 public class Configurer implements DestructionAwareBeanPostProcessor, ServletContextAware
 {
     private BayeuxServer bayeuxServer;
