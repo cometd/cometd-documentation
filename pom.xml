@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <asciidoctor.version>0.1.4</asciidoctor.version>
+        <asciidoctor.version>1.5.0</asciidoctor.version>
         <html.directory>${project.build.directory}/html</html.directory>
     </properties>
 
