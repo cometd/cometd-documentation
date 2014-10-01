@@ -182,7 +182,8 @@ supports the configuration of these additional init parameters:
 | oort.multicast.bindAddress
 | no
 | the wildcard address
-| The bind address of the `MulticastSocket` that receives the advertisements
+| The bind address of the `DatagramChannel` that receives UDP traffic.
+  This is the address at which the group port is bound to listen.
 
 | oort.multicast.groupAddress
 | no
@@ -193,6 +194,13 @@ supports the configuration of these additional init parameters:
 | no
 | 5577
 | The port over which advertisements are sent and received
+
+| oort.multicast.groupInterfaces
+| no
+| all interfaces that support multicast
+| A comma separated list of IP addresses of the interfaces that listen for
+  the advertisements. In case of multihomed hosts, this parameter allows to
+  configure the specific network interfaces that can received the advertisements.
 
 | oort.multicast.timeToLive
 | no
@@ -243,7 +251,7 @@ should contain a line similar to:
 ----
 
 You might also want to force the JVM to prefer an IPv4 stack by setting the
-system property +-Djava.net.preferIPv4Stack=true+ to facilitate multicast
+system property `-Djava.net.preferIPv4Stack=true` to facilitate multicast
 networking.
 
 ==== Static Discovery Configuration
@@ -314,7 +322,7 @@ previous section, and the following additional init parameter:
 Configured in this way, the Oort node is ready to be part of the Oort cluster,
 but it's not part of the cluster yet, since it does not know the URLs of other
 nodes (and there is no automatic discovery). To make the Oort node part of the
-Oort cluster, you can configure the `oort.cluster` init parameter of the
+Oort cluster, you can configure the `oort.cloud` init parameter of the
 `OortStaticConfigServlet` with one (or a comma-separated list) of Oort node
 URL(s) to connect to:
 
@@ -347,13 +355,18 @@ URL(s) to connect to:
             <param-value>http://host1:port/context/cometd</param-value>
         </init-param>
         <init-param>
-            <param-name>oort.cluster</param-name>
+            <param-name>oort.cloud</param-name>
             <param-value>http://host2:port/context/cometd,http://host3:port/context/cometd</param-value>
         </init-param>
     </servlet>
 </web-app>
 ----
 ====
+
+A "master" node may be configured _without_ the `oort.cloud` parameter.
+The other nodes will be configured with the URL of the "master" node, and when
+they connect to the "master" node, the "master" node will connect back to them,
+see <<_java_oort_membership_organization,the membership organization section>>.
 
 Alternatively, it's possible to write custom initialization code (see the section on
 <<_java_server_services_integration,the services integration section>> for suggestions
@@ -505,7 +518,7 @@ containing an extension field that is peculiar to Oort with the following format
         "org.cometd.oort": {
             "oortURL": "http://halley.cometd.org:8080/cometd",
             "cometURL": "http://halebopp.cometd.org:8080/cometd",
-            "oortSecret": "cstw27r`l`XqE62IrNZdCDiUObA="
+            "oortSecret": "cstw27r+l+XqE62IrNZdCDiUObA="
         }
     }
 }
