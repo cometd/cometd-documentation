@@ -1066,8 +1066,6 @@ A connect request MAY contain the message fields:
   The <<_bayeux_id,message id>>
 
 A client MAY send other messages in the same HTTP request with a connection message.
-A server MUST handle any other message sent in the same request as a connect message
-after the handling of the connect message is complete.
 
 An example connect request is:
 
