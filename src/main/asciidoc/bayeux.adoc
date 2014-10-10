@@ -357,7 +357,7 @@ BC ----------------------------------------- BS
  ~                                           ~ wait
  | <------ connect response ---------------- |
  | -------------------- connect request ---> |
- | <---- unsucessful connect response ------ |
+ | <---- unsuccessful connect response ----- |
  | ------------------ handshake request ---> |
  | <-- successful handshake response ------- |
  | -------------------- connect request ---> |
@@ -481,7 +481,7 @@ Example channel patterns are:
 The channels commencing with the "/meta/" segment are the channels used by
 the Bayeux protocol itself.
 Local server-side Bayeux clients MAY, and remote Bayeux clients SHOULD NOT,
-subscribe (see also <<_bayeux_subscribe,the bayeux subscribe section>>) to meta channels.
+subscribe (see also <<_bayeux_meta_subscribe,the bayeux subscribe section>>) to meta channels.
 Messages published to meta channels MUST NOT be distributed to remote clients
 by Bayeux servers.
 A server side handler of a meta channel MAY publish response messages that are
@@ -624,6 +624,7 @@ However, care must be taken to not _leak_ the `clientId` to other clients when
 broadcasting messages, because that would allow any other client to impersonate
 the client whose `clientId` was leaked.
 
+[[_bayeux_advice]]
 ==== `advice`
 
 The `advice` message field provides a way for servers to inform clients of their
@@ -743,6 +744,7 @@ The `connectionType` message field MUST be included in request messages
 to the `/meta/connect` channel.
 Connection types are listed in <<_bayeux_supported_connections,the supported connections section>>.
 
+[[_bayeux_id]
 ==== `id`
 
 An `id` message field MAY be included in any Bayeux message with an alpha
@@ -841,6 +843,7 @@ and SHOULD not be used.
 [[_bayeux_meta_message]]
 === Meta Message Field Definitions
 
+[[_bayeux_meta_handshake]]
 ==== Handshake
 
 ===== Handshake Request
@@ -856,7 +859,7 @@ that with the `callback-polling` transport.
 A handshake request MUST contain the following message fields: 
 
 `channel`::
-  value MUST be "/meta/handshake" 
+  The value MUST be "/meta/handshake"
 
 `version`::
   The version of the protocol supported by the client 
@@ -871,10 +874,13 @@ A handshake request MUST contain the following message fields:
 A handshake request MAY contain the message fields: 
 
 `minimumVersion`::
+  The minimum version of the protocol supported by the client
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
+  The <<_bayeux_id,message id>>
 
 A client SHOULD NOT send any other message in the request with a handshake message.
 A server MUST ignore any other message sent in the same request as a handshake message.
@@ -905,9 +911,10 @@ between client and server.
 A successful handshake response MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/handshake" 
+  The value MUST be "/meta/handshake"
 
 `version`::
+  The version of the protocol that was negotiated
 
 `supportedConnectionTypes`::
   The connection types supported by the server for the purposes of the connection
@@ -922,21 +929,24 @@ A successful handshake response MUST contain the message fields:
   A newly generated unique ID string. 
 
 `successful`::
-  value `true`
+  The value `true`
 
 A successful handshake response MAY contain the message fields: 
 
 `minimumVersion`::
+  The minimum version of the protocol supported by the server
 
 `advice`::
+  The <<_bayeux_advice,advice object>>
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
-  same value as request message id 
+  The same value as request message id
 
 `authSuccessful`::
-  value `true`, this field MAY be included to support prototype client
+  The value `true`; this field MAY be included to support prototype client
   implementations that required the `authSuccessful` field
 
 An example successful handshake response is:
@@ -964,13 +974,13 @@ An example successful handshake response is:
 An unsuccessful handshake response MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/handshake" 
+  The value MUST be "/meta/handshake"
 
 `successful`::
-  value `false`
+  The value `false`
 
 `error`::
-  a string with the description of the reason for the failure. 
+  A string with the description of the reason for the failure
 
 An unsuccessful handshake response MAY contain the message fields: 
 
@@ -981,15 +991,19 @@ An unsuccessful handshake response MAY contain the message fields:
   the server wishes to negotiate a specific connection type.
 
 `advice`::
+  The <<_bayeux_advice,advice object>>
 
 `version`::
+  The version of the protocol that was negotiated
 
 `minimumVersion`::
+  The minimum version of the protocol supported by the server
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
-  same value as request message id 
+  The same value as request message id
 
 An example unsuccessful handshake response is:
 
@@ -1021,6 +1035,7 @@ is used to continue the connection negotiation.
 An unsuccessful handshake response with `reconnect` advice field of `none` is
 used to terminate connection negotiations.
 
+[[_bayeux_meta_connect]]
 ==== Connect
 
 ===== Connect Request
@@ -1034,7 +1049,7 @@ by the server in the handshake response.
 A connect request MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/connect" 
+  The value MUST be "/meta/connect"
 
 `clientId`::
   The client ID returned in the handshake response
@@ -1045,8 +1060,10 @@ A connect request MUST contain the message fields:
 A connect request MAY contain the message fields: 
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
+  The <<_bayeux_id,message id>>
 
 A client MAY send other messages in the same HTTP request with a connection message.
 A server MUST handle any other message sent in the same request as a connect message
@@ -1091,18 +1108,19 @@ A connect responses MUST contain the message fields:
 A connect response MAY contain the message fields:
 
 `error`::
+  A string with the description of the reason for the failure
 
 `advice`::
+  The <<_bayeux_advice,advice object>>
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `clientId`::
   The client ID returned in the handshake response
 
 `id`::
-  same value as request message id
-
-`timestamp`::
+  The same value as request message id
 
 An example connect response is:
 
@@ -1115,7 +1133,6 @@ An example connect response is:
      "successful": true,
      "error": "",
      "clientId": "Un1q31d3nt1f13r",
-     "timestamp": "12:00:00 1970",
      "advice": { "reconnect": "retry" }
    }
 ]
@@ -1127,6 +1144,7 @@ If the server does not have a current outstanding connect and a connect is not
 received within a configured timeout, then the server SHOULD act as if a
 disconnect message has been received.
 
+[[_bayeux_meta_disconnect]]
 ==== Disconnect
 
 ===== Disconnect Request
@@ -1143,7 +1161,7 @@ be sent from the client or the disconnect request might not reach the server.
 A disconnect request MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/disconnect" 
+  The value MUST be "/meta/disconnect"
 
 `clientId`::
   The client ID returned in the handshake response
@@ -1151,8 +1169,10 @@ A disconnect request MUST contain the message fields:
 A disconnect request MAY contain the message fields: 
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
+  The <<_bayeux_id,message id>>
 
 An example disconnect request is:
 
@@ -1175,10 +1195,10 @@ A Bayeux server MUST respond to a disconnect request with a disconnect response.
 A disconnect response MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/disconnect" 
+  The value MUST be "/meta/disconnect"
 
 `successful`::
-  boolean value indicated the success or failure of the disconnect request 
+  A boolean value indicated the success or failure of the disconnect request
 
 A disconnect response MAY contain the message fields: 
 
@@ -1186,11 +1206,13 @@ A disconnect response MAY contain the message fields:
   The client ID returned in the handshake response
 
 `error`::
+  A string with the description of the reason for the failure
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
-  same value as request message id
+  The same value as request message id
 
 An example disconnect response is:
 
@@ -1206,7 +1228,7 @@ An example disconnect response is:
 ----
 ====
 
-[[_bayeux_subscribe]]
+[[_bayeux_meta_subscribe]]
 ==== Subscribe
 
 ===== Subscribe Request
@@ -1217,19 +1239,21 @@ channel and to request that messages published to that channel are delivered to 
 A subscribe request MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/subscribe" 
+  The value MUST be "/meta/subscribe"
 
 `clientId`::
   The client ID returned in the handshake response
 
 `subscription`::
-  a channel name or a channel pattern or an array of channel names and channel patterns. 
+  A channel name or a channel pattern or an array of channel names and channel patterns.
 
 A subscribe request MAY contain the message fields: 
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
+  The <<_bayeux_id,message id>>
 
 An example subscribe request is:
 
@@ -1256,29 +1280,30 @@ as the subscribe response, including events for the channels just subscribed to.
 A subscribe response MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/subscribe"
+  The value MUST be "/meta/subscribe"
 
 `successful`::
-  boolean indicating the success or failure of the subscribe
+  A boolean indicating the success or failure of the subscribe
 
 `subscription`::
-  a channel name or a channel pattern or an array of channel names and channel patterns.
+  A channel name or a channel pattern or an array of channel names and channel patterns.
 
 A subscribe response MAY contain the message fields:
 
 `error`::
+  A string with the description of the reason for the failure
 
 `advice`::
+  The <<_bayeux_advice,advice object>>
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `clientId`::
   The client ID returned in the handshake response
 
 `id`::
-  same value as request message id
-
-`timestamp`::
+  The same value as request message id
 
 An example successful subscribe response is:
 
@@ -1314,6 +1339,7 @@ An example failed subscribe response is:
 ----
 ====
 
+[[_bayeux_meta_unsubscribe]]
 ==== Unsubscribe
 
 ===== Unsubscribe Request
@@ -1325,19 +1351,21 @@ delivered to itself.
 An unsubscribe request MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/unsubscribe" 
+  The value MUST be "/meta/unsubscribe"
 
 `clientId`::
   The client ID returned in the handshake response
 
 `subscription`::
-  a channel name or a channel pattern or an array of channel names and channel patterns. 
+  A channel name or a channel pattern or an array of channel names and channel patterns.
 
 An unsubscribe request MAY contain the message fields: 
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `id`::
+  The <<_bayeux_id,message id>>
 
 An example unsubscribe request is:
 
@@ -1366,29 +1394,30 @@ to as long as the event was processed before the unsubscribe request.
 An unsubscribe response MUST contain the message fields: 
 
 `channel`::
-  value MUST be "/meta/unsubscribe"
+  The value MUST be "/meta/unsubscribe"
 
 `successful`::
-  boolean indicating the success or failure of the unsubscribe operation
+  A boolean indicating the success or failure of the unsubscribe operation
 
 `subscription`::
-  a channel name or a channel pattern or an array of channel names and channel patterns.
+  A channel name or a channel pattern or an array of channel names and channel patterns.
 
 A unsubscribe response MAY contain the message fields:
 
 `error`::
+  A string with the description of the reason for the failure
 
 `advice`::
+  The <<_bayeux_advice,advice object>>
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `clientId`::
   The client ID returned in the handshake response
 
 `id`::
-  same value as request message id
-
-`timestamp`::
+  The same value as request message id
 
 An example unsubscribe response is:
 
@@ -1445,6 +1474,7 @@ A publish event message MAY contain the message fields:
   A unique ID for the message generated by the client
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 An example event message is:
 
@@ -1473,17 +1503,20 @@ A publish event message response MUST contain the message fields:
   The channel to which the message was published
 
 `successful`::
-  boolean indicating the success or failure of the publish
+  A boolean indicating the success or failure of the publish
 
 A publish event response MAY contain the message fields:
 
 `id`::
+  The <<_bayeux_id,message id>>
 
 `error`::
+  A string with the description of the reason for the failure
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
-An example event reponse message is:
+An example event response message is:
 
 ====
 [source,json]
@@ -1523,8 +1556,10 @@ A deliver event response MAY contain the message fields:
   Unique message ID from the publisher
 
 `ext`::
+  The <<_bayeux_ext,extension object>>
 
 `advice`::
+  The <<_bayeux_advice,advice object>>
 
 An example event deliver message is:
 
@@ -1667,7 +1702,7 @@ advice interval mechanism to establish traditional polling.
 ==== Client-side Multiple clients handling
 
 It is RECOMMENDED that Bayeux client implementations use client side persistence or
-cookies to detect multiple intances of Bayeux clients running within the same HTTP client.
+cookies to detect multiple instances of Bayeux clients running within the same HTTP client.
 Once detected, the user MAY be offered the option to disconnect all but one of the clients.
 It MAY be possible for client implementations to use client side persistence to share
 a Bayeux client instance.
