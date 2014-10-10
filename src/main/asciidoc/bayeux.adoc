@@ -744,7 +744,7 @@ The `connectionType` message field MUST be included in request messages
 to the `/meta/connect` channel.
 Connection types are listed in <<_bayeux_supported_connections,the supported connections section>>.
 
-[[_bayeux_id]
+[[_bayeux_id]]
 ==== `id`
 
 An `id` message field MAY be included in any Bayeux message with an alpha
