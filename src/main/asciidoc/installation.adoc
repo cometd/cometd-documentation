@@ -48,7 +48,7 @@ Now point your browser to http://localhost:8080, to see the CometD Demos main pa
 
 ==== Running the Demos with Jetty or Another Servlet Container
 
-In the +$COMETD/cometd-demo/target+ directory you can find a deployable WAR file
+In the `$COMETD/cometd-demo/target` directory you can find a deployable WAR file
 that you can deploy in any Servlet Container (version 3.0 or greater).
 Refer to the Servlet Container configuration manual to learn how to deploy the
 WAR in your Servlet Container.
