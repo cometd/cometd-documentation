@@ -10,10 +10,11 @@ required to cope with the load is spread among multiple nodes, giving the whole
 system more scalability than using a single node.
 
 Oort clustering _is not_ a high availability clustering solution: if one of the
-nodes crashes, then all the clients are disconnected and reconnect to other nodes
-(with a new handshake). All the information built by one client with its server
-up to that point (for example, the state of an online chess game) is generally
-lost (unless the application has implemented some other way to retrieve that
+nodes crashes, then all the clients connected to it are disconnected and will
+reconnect to other nodes (with a new handshake).
+All the information built by one client with its server up to that point
+(for example, the state of an online chess game) is generally lost
+(unless the application has implemented some other way to retrieve that
 information).
 
 ==== Typical Infrastructure
