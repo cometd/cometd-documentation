@@ -70,6 +70,29 @@ read it carefully and fill in the form at the bottom of the page.
 Once you have the CLA in place, you can contribute code via
 https://help.github.com/articles/using-pull-requests[GitHub pull requests].
 
+It is important that the email you used to register the CLA is the same
+email that you use for your Git commits.
+
+To contribute code, follow these steps:
+
+* Create an issue at http://bugs.cometd.org using your Dojo Foundationa account.
+* Commit your changes. Make sure that the email in the Author field of the commits
+correspond to the email you used to register the CLA.
+* If you have multiple commits, squash them into one commit only.
+* Signoff your commit using `git commit --signoff`.
+* The commit message should reference the issue ID, for example:
+----
+commit  0123456789abcdef0123456789abcdef01234567
+Author: John Doe <john.doe@nowhere.com>
+Date:   Sun Jan 01 00:00:00 1970 +0000
+
+    COMETD-XYZ - <issue title>
+
+    <description of the changes>
+
+    Signed-off-by: John Doe <john.doe@nowhere.com>
+----
+
 [[_contribute_documentation]]
 === Contributing to Documentation & Tutorials
 
