@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <asciidoctor.version>1.5.0</asciidoctor.version>
         <html.directory>${project.build.directory}/html</html.directory>
     </properties>
