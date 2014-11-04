@@ -1,10 +1,10 @@
-= The CometD Reference Book – {docVersion}
+= The CometD Reference Book – {version}
 Simone Bordet
 :doctype: book
 :numbered:
 :toc: left
 :icons: font
-:raw-github: https://raw.github.com/cometd/cometd/master
+:github: https://raw.github.com/cometd/cometd/{version}
 
 {localdate} +
 Copyright (C) The Original Author(s) +

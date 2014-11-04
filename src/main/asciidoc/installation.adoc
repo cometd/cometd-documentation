@@ -18,9 +18,9 @@ greater Servlet Container.
 
 The current Jetty version CometD depends on is:
 
-[source,xml]
+[source,xml,indent=0]
 ----
-include::https://raw.githubusercontent.com/cometd/cometd/master/pom.xml[tags=jetty-version]
+include::{github}/pom.xml[tags=jetty-version]
 ----
 
 === Downloading and Installing

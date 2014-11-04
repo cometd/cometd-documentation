@@ -61,7 +61,7 @@
                             <outputDirectory>${html.directory}</outputDirectory>
                             <sourceHighlighter>coderay</sourceHighlighter>
                             <attributes>
-                                <docVersion>${project.version}</docVersion>
+                                <version>${project.version}</version>
                                 <toclevels>3</toclevels>
                                 <linkcss>true</linkcss>
                                 <allow-uri-read>true</allow-uri-read>
