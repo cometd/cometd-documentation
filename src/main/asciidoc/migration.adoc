@@ -150,49 +150,49 @@ handled by the next transport (typically the `long-polling` transport).
 | CometD 3
 
 | `BayeuxServer`::
-    +createIfAbsent(String, ConfigurableServerChannel.Initializer...)+
+    `createIfAbsent(String, ConfigurableServerChannel.Initializer...)`
 | `BayeuxServer`::
-    +create**Channel**IfAbsent(String, ConfigurableServerChannel.Initializer...)+
+    `create**Channel**IfAbsent(String, ConfigurableServerChannel.Initializer...)`
 
 | `BayeuxServer.SessionListener`::
     `sessionAdded(ServerSession)`
 | `BayeuxServer.SessionListener`::
-    +sessionAdded(ServerSession, *ServerMessage*)+
+    `sessionAdded(ServerSession, *ServerMessage*)`
 
 | `BayeuxServer.SubscriptionListener`::
-    +subscribed(ServerSession, ServerChannel)+
+    `subscribed(ServerSession, ServerChannel)`
 | `BayeuxServer.SubscriptionListener`::
-    +subscribed(ServerSession, ServerChannel, *ServerMessage*)+
+    `subscribed(ServerSession, ServerChannel, *ServerMessage*)`
 
 | `BayeuxServer.SubscriptionListener`::
-    +unsubscribed(ServerSession, ServerChannel)+
+    `unsubscribed(ServerSession, ServerChannel)`
 | `BayeuxServer.SubscriptionListener`::
-    +unsubscribed(ServerSession, ServerChannel, *ServerMessage*)+
+    `unsubscribed(ServerSession, ServerChannel, *ServerMessage*)`
 
 | `ServerChannel`::
-    +publish(Session, Object, *String*)+
+    `publish(Session, Object, *String*)`
 | `ServerChannel`::
-    +publish(Session, Object)+
+    `publish(Session, Object)`
 
 | `ServerChannel.SubscriptionListener`::
-    +subscribed(ServerSession, ServerChannel)+
+    `subscribed(ServerSession, ServerChannel)`
 | `ServerChannel.SubscriptionListener`::
-    +subscribed(ServerSession, ServerChannel, *ServerMessage*)+
+    `subscribed(ServerSession, ServerChannel, *ServerMessage*)`
 
 | `ServerChannel.SubscriptionListener`::
-    +unsubscribed(ServerSession, ServerChannel)+
+    `unsubscribed(ServerSession, ServerChannel)`
 | `ServerChannel.SubscriptionListener`::
-    +unsubscribed(ServerSession, ServerChannel, *ServerMessage*)+
+    `unsubscribed(ServerSession, ServerChannel, *ServerMessage*)`
 
 | `ServerSession`::
-    +deliver(Session, String, Object, *String*)+
+    `deliver(Session, String, Object, *String*)`
 | `ServerSession`::
-    +deliver(Session, String, Object)+
+    `deliver(Session, String, Object)`
 
 | `MaxQueueListener`::
-    +queueMaxed(ServerSession, Session, Message)+
+    `queueMaxed(ServerSession, Session, Message)`
 | `MaxQueueListener`::
-    +queueMaxed(ServerSession, *Queue<ServerMessage>*, *ServerSession*, *Message*)+
+    `queueMaxed(ServerSession, *Queue<ServerMessage>*, *ServerSession*, *Message*)`
 |===
 
 === Inherited Services Service Method Signature Changes
@@ -203,9 +203,9 @@ handled by the next transport (typically the `long-polling` transport).
 | CometD 3
 
 | `class MyService extends AbstractService`::
-    +myMethod(ServerSession, [String], Object, [String])+
+    `myMethod(ServerSession, [String], Object, [String])`
 | `class MyService extends AbstractService`::
-    +myMethod(ServerSession, *ServerMessage*)+
+    `myMethod(ServerSession, *ServerMessage*)`
 |===
 
 :numbered:
