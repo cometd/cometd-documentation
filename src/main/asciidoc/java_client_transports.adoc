@@ -108,8 +108,13 @@ for each transport.
 
 | maxNetworkDelay
 | no
-| `HttpClient` timeout
-| The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.
+| `HttpClient` request timeout
+| The maximum number of milliseconds to wait before considering a request to the Bayeux server failed
+
+| maxBufferSize
+| no
+| 1048576
+| The maximum number of bytes of a HTTP response, which may contain many Bayeux messages
 |===
 
 .WebSocket Client Transport Parameters
@@ -123,30 +128,30 @@ for each transport.
 | maxNetworkDelay
 | no
 | 15000
-| The maximum number of milliseconds to wait before considering a request to the Bayeux server failed.
+| The maximum number of milliseconds to wait before considering a message to the Bayeux server failed
 
 | connectTimeout
 | no
 | 30000
-| The maximum number of milliseconds to wait for a WebSocket connection to be opened.
+| The maximum number of milliseconds to wait for a WebSocket connection to be opened
 
 | idleTimeout
 | no
 | 60000
-| The maximum number of milliseconds a WebSocket connection is kept idle before being closed.
+| The maximum number of milliseconds a WebSocket connection is kept idle before being closed
 
 | maxMessageSize
 | no
 | 8192
 | The maximum number of bytes allowed for each WebSocket message (each WebSocket message
-  may carry many Bayeux messages).
+  may carry many Bayeux messages)
 
 | stickyReconnect
 | no
 | true
 | Whether to stick using the WebSocket transport when a WebSocket transport
   failure has been detected after the WebSocket transport was able to successfully
-  connect to the server.
+  connect to the server
 |===
 
 ===== Long-polling Transport Dependencies
