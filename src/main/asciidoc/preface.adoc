@@ -9,10 +9,19 @@ to write low-latency, server-side, event-driven web applications.
 Typical examples of such applications are stock trading applications, web chat
 applications, online games, and monitoring consoles.
 
-CometD makes use of an http://en.wikipedia.org/wiki/AJAX[Ajax] push technology
-pattern known as http://en.wikipedia.org/wiki/Comet_(programming)[Comet], but
-also uses emerging web standards such as
-http://en.wikipedia.org/wiki/WebSocket[WebSocket] for low latency communication.
+CometD provides you APIs to implement these messaging patterns: publish/subscribe,
+peer-to-peer (via a server), and remote procedure call.
+This is achieved using a transport-independent protocol,
+<<_bayeux,the Bayeux protocol>>, that can be carried over HTTP or
+over http://en.wikipedia.org/wiki/WebSocket[WebSocket] (or other transport
+protocols), so that your application is not bound to a specific transport
+technology.
+
+CometD leverages WebSocket when it can (because it's the most
+efficient web messaging protocol), and makes use of an
+http://en.wikipedia.org/wiki/AJAX[Ajax] push technology
+pattern known as http://en.wikipedia.org/wiki/Comet_(programming)[Comet]
+when using HTTP.
 
 The CometD project provides Java and JavaScript libraries that allow you to
 write low-latency, server-side, event-driven web applications in a simple and
