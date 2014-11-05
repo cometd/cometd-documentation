@@ -183,7 +183,7 @@ callbacks that are invoked during the server-side processing of the message.
 The channel specified by the `@Listener` annotation may be a
 <<_concepts_channels_parameters,template channel>>.
 
-CometD passes a reference to Listener methods to:
+The CometD implementation invokes `@Listener` methods with the following parameters:
 
 * The `ServerSession` half object that sent the message.
 * The `ServerMessage` that the server is processing.
@@ -242,7 +242,7 @@ public class EchoService extends AbstractService
 ====
 |===
 
-The callback method can return false to indicate that the processing of
+The callback method can return `false` to indicate that the processing of
 subsequent listeners should not be performed and that the message should
 not be published.
 
@@ -337,6 +337,96 @@ The channel specified by the `@Subscription` annotation may be a
 <<_concepts_channels_parameters,template channel>> similarly to
 what already documented in the
 <<_java_server_services_annotated_server_side_listener,listener section>>.
+
+[[_java_server_services_annotated_server_side_remote_call]]
+===== Remote Call Configuration Support
+
+For server-side services only, methods annotated with `@RemoteCall` represent
+targets of <<_javascript_rpc,client remote calls>>.
+
+Remote calls are particularly useful for clients that want to perform
+server-side actions that may not involve messaging (although they could).
+Typical examples are retrieving/storing data from/to a database, update
+some server state, or trigger calls to external systems.
+
+A remote call performed by a client is converted to a message published on
+a service channel.
+The CometD implementation takes care of correlating the request with the
+response and takes care of the handling of failure cases.
+Applications are exposed to a much simpler API, but the underlying mechanism
+is a sender that publishes a Bayeux message on a service channel (the request),
+along with the <<_concepts_application_peer_communication,delivery>> of the
+response Bayeux message back to the sender.
+
+====
+[source,java]
+----
+@Service
+public class RemoteCallService
+{
+    @RemoteCall("contacts")
+    public void retrieveContacts(final RemoteCall.Caller caller, final Object data)
+    {
+        // Perform a lengthy query to the database to
+        // retrieve the contacts in a separate thread.
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                try
+                {
+                    Map<String, Object> arguments = (Map<String, Object>)data;
+                    String userId = (String)arguments.get("userId");
+                    List<String> contacts = retrieveContactsFromDatabase(userId);
+
+                    // We got the contacts, respond.
+                    caller.result(contacts);
+                }
+                catch (Exception x)
+                {
+                    // Uh-oh, something went wrong.
+                    caller.failure(x.getMessage());
+                }
+            }
+        }).start();
+    }
+}
+----
+====
+
+In the example above, the `@RemoteCall` annotation specifies as target `/contacts`.
+The target string is used to build a service channel, may or may not start
+with the `/` character, and may even be composed of multiple segments such
+as `contacts/active`.
+The target string specified by the `@RemoteCall` annotation may have parameters
+such as `contacts/{userId}`, and the signature of the method annotated with
+`@RemoteCall` must change with the same rules explained for `@Listener`
+<<_java_server_services_annotated_server_side_listener,methods>>.
+
+The method `retrieveContacts` takes two parameters:
+
+* A `RemoteCall.Caller` object that represents the remote client that made the call
+* An `Object` object that represents the data sent by the remote client.
+
+The `caller` object wraps the `ServerSession` that represents the remote
+client, while the `data` object represent the Bayeux message `data` field.
+
+The type of the second parameter may be any class that is deserialized as the `data`
+field of the Bayeux message, even a custom application class.
+For more information about custom deserialization, see <<_java_json,the JSON section>>.
+
+The application may implement the `retrieveContacts` method as it wishes,
+provided that it replies to the client by calling either `RemoteCall.Caller.result()`
+or `RemoteCall.Caller.failure()`.
+If either of these methods is not called, the client will, by default, timeout the call
+on the client-side.
+
+In case the method annotated with `@RemoteCall` throws an uncaught exception,
+the CometD implementation will perform a call to `RemoteCall.Caller.failure()`
+on behalf of the application.
+Applications are suggested to wrap the code of the method annotated with `@RemoteCall`
+with a `try/catch` block like shown in the example above.
 
 ===== Annotation Processing
 

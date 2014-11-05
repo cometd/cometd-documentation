@@ -78,13 +78,9 @@ There are three main drawbacks in using this transport:
 
 ==== The `websocket` Transport
 
-The `websocket` transport is available if the browser and the server support WebSocket
-(http://eclipse.org/jetty[Jetty 7 and later] support the WebSocket protocol). The WebSocket
-protocol is designed to be the bidirectional communication protocol for the web, so it
-is a natural fit in the CometD project.
-
-Since browser support has greatly improved, the `websocket` transport is enabled
-by default since CometD 2.4.0, but you can easily disable it if you experience problems.
+The `websocket` transport is available if the browser and the server support WebSocket.
+The WebSocket protocol is designed to be the bidirectional communication protocol
+for the web, so it is a natural fit in the CometD project.
 
 The easiest way of enabling/disabling the `websocket` transport is to set a boolean
 variable _before_ performing the initial CometD handshake:
