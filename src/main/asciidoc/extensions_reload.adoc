@@ -135,14 +135,44 @@ This handshake normally contacts the server and establishes a new CometD session
 and the reload extension tracks this successful handshake.
 On page reload, or when the page is navigated to another CometD page, the
 application code must call `cometd.reload()` (for example, on the page
-unload event handler). When `cometd.reload()` is called, the reload extension
-saves a short-lived cookie with the CometD session state details.
+_unload_ event handler, see note below). When `cometd.reload()` is called, the
+reload extension saves a short-lived cookie with the CometD session state details.
 When the new page loads up, it will execute the same code executed on the first
 page load, namely the code that configured CometD, that registered channel
 listeners, and that finally called `cometd.handshake()`.
 The reload extension is invoked upon the new handshake, sees that the short
 lived cookie saved previously is there, and re-establishes the CometD session
 with the information stored in the short lived cookie.
+
+[NOTE]
+====
+Function `cometd.reload()` should be called from the page _unload_ event handler.
+
+Over the years, browsers, platforms and specifications have tried to clear the
+confusion around what actions really trigger an _unload_ event, and whether there
+are different events triggered for a single user action such as closing the
+browser window, hitting the browser back button or clicking on a link.
+
+As a rule of thumb, function `cometd.reload()` should be called from an
+event handler that allows to write cookies.
+
+Typically the `window.onbeforeunload` event is a good place to call
+`cometd.reload()`, but historically the `window.onunload` event worked
+too in most browser/platform combinations.
+More recently, the `window.onpagehide` event was defined (although with a
+slightly different semantic) and should work too.
+
+Applications should start binding the `cometd.reload()` call to the
+`window.onbeforeunload` event and then test/experiment if that is the right
+event.
+You should verify the behaviour for your use case, for your browser/platform
+combinations, for actions that may trigger the event (for example: download
+links, `javascript:` links, etc.).
+
+Unfortunately the confusion about an _unload_ event is not completely
+cleared yet, so you are advised to test this feature very carefully
+in a variety of conditions.
+====
 
 A simple example follows: 
 
@@ -151,28 +181,28 @@ A simple example follows:
 ----
 <html>
     <head>
-        <script type="text/javascript" src="dojo/dojo.js"></script>
+        <script type="text/javascript" src="dojo.js"></script>
         <script type="text/javascript">
-            dojo.require("dojox.cometd");
-            dojo.require("dojox.cometd.reload");
-
-            dojox.cometd.configure({ url: "http://localhost:8080/context/cometd", logLevel: "info" });
-
-            // Always subscribe to channels from successful handshake listeners
-            dojox.cometd.addListener("/meta/handshake", new function(m)
+            require(["dojo", "dojo/on", "dojox/cometd", "dojox/cometd/reload", "dojo/domReady!"],
+            function(dojo, on, cometd)
             {
-                if (m.successful)
+                cometd.configure({ url: "http://localhost:8080/context/cometd", logLevel: "info" });
+
+                // Always subscribe to channels from successful handshake listeners.
+                cometd.addListener("/meta/handshake", new function(m)
                 {
-                    dojox.cometd.subscribe("/some/channel", function() { ... });
-                    dojox.cometd.subscribe("/some/other/channel", function() { ... });
-                }
-            });
+                    if (m.successful)
+                    {
+                        cometd.subscribe("/some/channel", function() { ... });
+                        cometd.subscribe("/some/other/channel", function() { ... });
+                    }
+                });
 
-            // On page unload, call dojox.cometd.reload()
-            dojo.addOnUnload(dojox.cometd, "reload");
+            // Upon the unload event, call cometd.reload().
+            on(window, "beforeunload", cometd.reload);
 
-            // Finally, handshake
-            dojox.cometd.handshake();
+            // Finally, handshake.
+            cometd.handshake();
         </script>
     </head>
     <body>
