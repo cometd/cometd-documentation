@@ -138,7 +138,7 @@ server-side authentication data that you can later associate with the remote cli
 <5> Link the server-side authentication data to the session.
 <6> Register a listener to be notified when the remote session disappears
 (which you will react to in step 8).
-<7> implement +RemoveListener.removed(), which is called when the remote session
+<7> Implement `RemoveListener.removed()`, which is called when the remote session
 disappears, either because it disconnected or because it crashed.
 <8> Unlink the server-side authentication data from the remote client object,
 the operation opposite to step 5.
