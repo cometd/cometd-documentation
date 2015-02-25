@@ -181,6 +181,16 @@ that different server transports accept:
 | /
 | The path of the cookie used to identify multiple sessions (see also
   <<_java_server_multiple_sessions,this section>>).
+
+| browserCookieSecure
+| false
+| Whether to add the `Secure` attribute to the cookie used to identify multiple
+  sessions (see also <<_java_server_multiple_sessions,this section>>).
+
+| browserCookieHttpOnly
+| true
+| Whether to add the `HttpOnly` attribute to the cookie used to identify multiple
+  sessions (see also <<_java_server_multiple_sessions,this section>>).
 |===
 
 .WebSocket `ServerTransport` Configuration Parameters
