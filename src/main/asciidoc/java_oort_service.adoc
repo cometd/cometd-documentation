@@ -209,7 +209,7 @@ similar means.
 In general, applications can be seen as programs that create data and operate on that data.
 Given a certain node, the application may need to access data stored on a remote node.
 For modify/delete operations on the data, use an `OortService` and forward the action to the owner node.
-The read operation, however, can be performed either using an `OortObject` or using an `OortObject`.
+The read operation, however, can be performed either using an `OortObject` or using an `OortService`.
 
 When using an `OortObject`, you trade more memory usage for smaller latencies
 to read the data, since the data is replicated to all nodes and therefore the
