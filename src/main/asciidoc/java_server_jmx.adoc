@@ -4,10 +4,11 @@
 
 Server-side CometD components may be exposed as JMX MBeans and visible via
 monitoring tools such as
-http://docs.oracle.com/javase/7/docs/technotes/guides/management/jconsole.html[JConsole] or
-http://docs.oracle.com/javase/7/docs/technotes/tools/share/jvisualvm.html[JVisualVM].
+http://www.oracle.com/technetwork/java/javaseproducts/mission-control/index.html[Java Mission Control],
+http://docs.oracle.com/javase/7/docs/technotes/tools/share/jvisualvm.html[JVisualVM] or
+http://docs.oracle.com/javase/7/docs/technotes/guides/management/jconsole.html[JConsole].
 
-CometD MBeans build on Jetty's JMX support, and are portable across servlet containers. 
+CometD MBeans build on Jetty's JMX support, and are portable across Servlet Containers.
 
 [[_java_server_jmx_jetty]]
 ===== JMX Integration in Jetty
@@ -61,14 +62,18 @@ The context parameter configured above can be left in the `web.xml` even if
 your application is deployed in other Servlet containers, as it will only be
 detected by Jetty.
 
-In order to leverage Jetty's JMX support in other Servlet containers, it is
-enough that you include the +jetty-jmx-<version>.jar+ in your `WEB-INF/lib`
+In order to leverage Jetty's JMX support in other Servlet Containers, you
+need the Jetty JMX utility classes and you need to export the CometD MBeans.
+
+To have the Jetty JMX utility classes available to your web application,
+you need to include the `jetty-jmx-<version>.jar` in your `WEB-INF/lib`
 directory of your web application.
 This jar contains Jetty's JMX utility classes that can be used to easily
-export CometD MBeans.
+create the CometD MBeans.
 
-Exporting CometD MBeans in other Servlet containers require a little bit more
-setup than what is needed in Jetty, but it is easily done with a small initializer class.
+Exporting CometD MBeans in other Servlet Containers require a little bit
+more setup than what is needed in Jetty, but it is easily done with a
+small initializer class.
 Refer to <<_java_server_services_integration,the services integration section>>
 for a broader discussion of how to initialize CometD components.
 
