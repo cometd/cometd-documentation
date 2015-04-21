@@ -227,7 +227,7 @@ that different server transports accept:
 [[_java_server_configuration_advanced]]
 ===== Configuring the `CrossOriginFilter`
 
-Independently from the Servlet container you are using, Jetty provides a standard, portable,
+Independently from the Servlet Container you are using, Jetty provides a standard, portable,
 `org.eclipse.jetty.servlets.CrossOriginFilter`.
 This filter implements the http://www.w3.org/TR/access-control/[Cross-Origin Resource Sharing]
 specification, and allows recent browsers that implement it to perform cross-domain JavaScript

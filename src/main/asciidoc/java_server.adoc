@@ -3,7 +3,7 @@
 === Server Library
 
 To run the CometD server implementation, you need to deploy a Java web
-application to a servlet container.
+application to a Servlet Container.
 
 You configure the web application with the CometD _servlet_ that interprets
 the Bayeux protocol (see also <<_java_server_configuration,the server configuration section>>

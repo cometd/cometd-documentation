@@ -59,7 +59,7 @@ This is all you need to do to export CometD MBeans when running within Jetty.
 ===== JMX Integration in Other Servlet Containers
 
 The context parameter configured above can be left in the `web.xml` even if
-your application is deployed in other Servlet containers, as it will only be
+your application is deployed in other Servlet Containers, as it will only be
 detected by Jetty.
 
 In order to leverage Jetty's JMX support in other Servlet Containers, you
