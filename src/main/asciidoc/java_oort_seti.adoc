@@ -193,7 +193,7 @@ seti.addPresenceListener(new Seti.PresenceListener()
 
 ==== Sending Messages
 
-After users have been associated, +Seti.sendMessage(String userId, String channel, Object data)+
+After users have been associated, `Seti.sendMessage(String userId, String channel, Object data)`
 can send messages to a particular user in the cluster.
 
 ====

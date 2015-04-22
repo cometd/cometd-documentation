@@ -16,7 +16,7 @@ debug logs to help you.
 
 To enable debug logging on the JavaScript client library
 (see also <<_javascript,the JavaScript library section>>) you must pass the `logLevel` field to the
-configuration of the `cometd` object, with value +'debug'+ (see also
+configuration of the `cometd` object, with value `'debug'` (see also
 <<_javascript_configure,the JavaScript library configuration section>> for other
 configuration options):
 

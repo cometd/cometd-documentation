@@ -26,7 +26,7 @@ server do not support WebSockets.
 This transport is used when the communication with the Bayeux server happens
 on the same domain, and also in the cross-domain mode for recent browsers,
 such as Firefox 3.5+ (see also <<_javascript_transports_cross_origin,the cross origin section>>).
-The data is sent to the server by means of a POST request with +Content-Type: application/json;charset=UTF-8+
+The data is sent to the server by means of a POST request with `Content-Type: application/json;charset=UTF-8`
 via a plain XMLHttpRequest call.
 
 ==== The `callback-polling` Transport

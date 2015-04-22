@@ -64,7 +64,7 @@ $ scp cometd-<version>-distribution.tar.gz <user>@download.cometd.org:/srv/www/v
 [[_release_archetype]]
 === Upload the Archetype Catalog
 
-Make sure the archetype catalog +$HOME/.m2/archetype-catalog.xml+ refers to
+Make sure the archetype catalog `$HOME/.m2/archetype-catalog.xml` refers to
 the release just prepared, then upload it.
 
 ----

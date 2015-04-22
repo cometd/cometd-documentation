@@ -237,7 +237,7 @@ long value = ((Number)data.get("value")).longValue();
 ==== Customizing Deserialization of JSON objects
 
 Sometimes it is very useful to be able to obtain objects of application classes
-instead of just +Map<String, Object>+ when calling `message.getData()`.
+instead of just `Map<String, Object>` when calling `message.getData()`.
 
 You can easily achieve this with the Jetty JSON library.
 It is enough that the client formats the JSON object adding an additional

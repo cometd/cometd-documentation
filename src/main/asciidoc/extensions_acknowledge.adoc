@@ -88,7 +88,7 @@ cometd.init(cometdURL);
 To enable message acknowledgement, both client and server must indicate that
 they support message acknowledgement.
 This is negotiated during handshake.
-On handshake, the client sends +{"ext":{"ack": "true"}}+ to indicate that it
+On handshake, the client sends `{"ext":{"ack": "true"}}` to indicate that it
 supports message acknowledgement.
 If the server also supports message acknowledgement, it likewise replies with
 +{"ext":{"ack": "true"}}+.
@@ -99,7 +99,7 @@ a significant burden on the server for messages sent to multiple clients
 ack ID is inserted in the `ext` field of the `/meta/connect` messages that
 are associated with message delivery.
 Each `/meta/connect` request contains the ack ID of the last received ack
-response: +"ext":{"ack": 42}+.
+response: `"ext":{"ack": 42}`.
 Similarly, each `/meta/connect` response contains an ext ack ID that uniquely
 identifies the batch of responses sent.
 
@@ -129,7 +129,7 @@ A CometD server has two ways to deliver the messages present in the
 Delivery through a `/meta/connect` response means that the server will
 deliver the messages present in the `ServerSession` queue along with a
 `/meta/connect` response, so that the messages delivered to the remote
-client are: +[{/meta/connect response message}, {queued message 1}, {queued message 2}, ...]+.
+client are: `[{/meta/connect response message}, {queued message 1}, {queued message 2}, ...]`.
 
 Direct delivery depends on the transport. 
 
@@ -147,7 +147,7 @@ on channel `/foo` gets queued on `clientA`'s `ServerSession`.
 However, the server notices that it has to reply to subscription request for
 `/bar`, so it includes the message on channel `/foo` in that response, thus
 avoiding to wake up the `/meta/connect`, so that the messages delivered to the
-remote client are: +[{subscription response message for /bar}, {queued message on /foo}]+.
+remote client are: `[{subscription response message for /bar}, {queued message on /foo}]`.
 
 For non-polling transports such as `websocket` the server will just deliver
 the messages present in the `ServerSession` queue without waking up the
