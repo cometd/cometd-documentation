@@ -38,10 +38,10 @@ A suggested Linux configuration follows, and you should try to match it for
 other operative systems if you don't use Linux.
 
 The most important parameter to tune is the number of open files.
-This is typically a small number, and must be increased:
+This is by default a small number like 1024, and must be increased, for example:
 
 ----
-# ulimit -n 524288
+# ulimit -n 65536
 ----
 
 You can make this setting persistent across reboots by modifying
@@ -61,6 +61,34 @@ you may need to increase it for very large benchmarks:
 As before, you can make this setting persistent across reboots by modifying
 `/etc/security/limits.conf`.
 
+Another important parameter that you may want to tune, in both the client
+and the server hosts, is the maximum number of threads for the thread pools.
+This parameter, called `max threads`, is by default 256 and may be too small
+for benchmarks with a large number of clients.
+
+The `max threads` parameter can be configured when you run the
+<<_benchmarking_server,server>> and the <<_benchmarking_client,client>>.
+
+A typical configuration for one client host and one server host (possibly the
+same host) for a small number of users, say less than 5000, could be:
+
+----
+max open files -> 65536
+local port range -> 32768-61000 (default; on client host only)
+max threads -> 256 (default)
+----
+
+A typical configuration for larger number of users, say 10k or more, could be:
+
+----
+max open files -> 1048576
+local port range -> 2000-64000 (on client host only)
+max threads -> 2048
+----
+
+You have to try yourself and tune those parameter depending on your benchmark
+goals, your operative system and your hardware.
+
 === Running the Benchmark
 
 The benchmark consists of a real chat application, and simulates remote users
@@ -77,6 +105,7 @@ original user.
 The latencies are then displayed in ASCII-graphical form, along with other
 interesting information about the benchmark run.
 
+[[_benchmarking_server]]
 ==== Running the Server
 
 The benchmark server is run from the
@@ -119,6 +148,7 @@ detect long requests [false]:
 
 To exit the benchmark server, just hit `ctrl+c` on the terminal window.
 
+[[_benchmarking_client]]
 ==== Running the Client
 
 The benchmark client can be run on the same host as the benchmark server, but
