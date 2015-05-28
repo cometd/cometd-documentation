@@ -69,6 +69,16 @@ for benchmarks with a large number of clients.
 The `max threads` parameter can be configured when you run the
 <<_benchmarking_server,server>> and the <<_benchmarking_client,client>>.
 
+Another important parameter that you want to tune, especially for benchmarks
+with a large number of users, is the JVM max heap size.
+This is by default 2 GiB for both the client JVM and server JVM, but must be
+increased for larger benchmarks by modifying the JVM startup options present
+in the `pom.xml` file in the benchmark client module directory
+(`$COMETD/cometd-java/cometd-java-benchmark/cometd-java-benchmark-client/pom.xml`)
+and in the benchmark server module directory
+(`$COMETD/cometd-java/cometd-java-benchmark/cometd-java-benchmark-server/pom.xml`),
+respectively for client and server.
+
 A typical configuration for one client host and one server host (possibly the
 same host) for a small number of users, say less than 5000, could be:
 
@@ -76,6 +86,7 @@ same host) for a small number of users, say less than 5000, could be:
 max open files -> 65536
 local port range -> 32768-61000 (default; on client host only)
 max threads -> 256 (default)
+max heap size -> 2 GiB (default)
 ----
 
 A typical configuration for larger number of users, say 10k or more, could be:
@@ -84,10 +95,13 @@ A typical configuration for larger number of users, say 10k or more, could be:
 max open files -> 1048576
 local port range -> 2000-64000 (on client host only)
 max threads -> 2048
+max heap size -> 8 GiB
 ----
 
-You have to try yourself and tune those parameter depending on your benchmark
-goals, your operative system and your hardware.
+The values above are just an example to make you aware of the fact that they
+heavily impact the benchmark results. You have to try yourself and tune those
+parameters depending on your benchmark goals, your operative system and your
+hardware.
 
 === Running the Benchmark
 
