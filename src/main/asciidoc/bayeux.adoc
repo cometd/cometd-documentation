@@ -450,8 +450,10 @@ Channel names commencing with `/meta/` are reserved for the Bayeux protocol (see
 Example non-meta channel names are:
 
 `/foo/bar`::
+  Regular channel name
 
 `/foo-bar/(foobar)`::
+  Channel name with dash and parenthesis
 
 ===== Channel Globbing
 
