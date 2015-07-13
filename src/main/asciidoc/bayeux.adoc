@@ -439,13 +439,13 @@ channel_segments = channel_segment *( "/" channel_segment )
 channel_segment  = token
 ----
 
-The channel name consists of an initial "/" followed by an optional sequence of
-path segments separated by a single slash "/" character.
-Within a path segment, the character "/" is reserved.
+The channel name consists of an initial `/` followed by an optional sequence of
+path segments separated by a single slash `/` character.
+Within a path segment, the character `/` is reserved.
 
-Channel names commencing with "/meta/" are reserved for the Bayeux protocol (see also
+Channel names commencing with `/meta/` are reserved for the Bayeux protocol (see also
 <<_bayeux_meta_channels,the meta channels section>>). Channel names commencing with
-"/service/" have a special meaning for the Bayeux protocol (see also
+`/service/` have a special meaning for the Bayeux protocol (see also
 <<_bayeux_service_channels,the service channels section>>).
 Example non-meta channel names are:
 
@@ -476,7 +476,7 @@ Example channel patterns are:
 [[_bayeux_meta_channels]]
 ==== Meta Channels
 
-The channels commencing with the "/meta/" segment are the channels used by
+The channels commencing with the `/meta/` segment are the channels used by
 the Bayeux protocol itself.
 Local server-side Bayeux clients MAY, and remote Bayeux clients SHOULD NOT,
 subscribe (see also <<_bayeux_meta_subscribe,the bayeux subscribe section>>) to meta channels.
@@ -490,7 +490,7 @@ messages delivered to the client MUST contain an id field with the same value.
 [[_bayeux_service_channels]]
 ==== Service Channels
 
-The channels commencing with the "/service/" channel segment are special
+The channels commencing with the `/service/` channel segment are special
 channels designed to assist request/response style messaging.
 Messages published to service channels are not distributed to any remote
 Bayeux clients.
@@ -857,7 +857,7 @@ that with the `callback-polling` transport.
 A handshake request MUST contain the following message fields:
 
 `channel`::
-  The value MUST be "/meta/handshake"
+  The value MUST be `/meta/handshake`
 
 `version`::
   The version of the protocol supported by the client
@@ -909,7 +909,7 @@ between client and server.
 A successful handshake response MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/handshake"
+  The value MUST be `/meta/handshake`
 
 `version`::
   The version of the protocol that was negotiated
@@ -972,7 +972,7 @@ An example successful handshake response is:
 An unsuccessful handshake response MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/handshake"
+  The value MUST be `/meta/handshake`
 
 `successful`::
   The value `false`
@@ -1047,7 +1047,7 @@ by the server in the handshake response.
 A connect request MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/connect"
+  The value MUST be `/meta/connect`
 
 `clientId`::
   The client ID returned in the handshake response
@@ -1096,7 +1096,7 @@ the subscribed channels for the client that need to be delivered to the client.
 A connect responses MUST contain the message fields:
 
 `channel`::
-  value MUST be "/meta/connect"
+  value MUST be `/meta/connect`
 
 `successful`::
   boolean indicating the success or failure of the connection
@@ -1157,7 +1157,7 @@ be sent from the client or the disconnect request might not reach the server.
 A disconnect request MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/disconnect"
+  The value MUST be `/meta/disconnect`
 
 `clientId`::
   The client ID returned in the handshake response
@@ -1191,7 +1191,7 @@ A Bayeux server MUST respond to a disconnect request with a disconnect response.
 A disconnect response MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/disconnect"
+  The value MUST be `/meta/disconnect`
 
 `successful`::
   A boolean value indicated the success or failure of the disconnect request
@@ -1235,7 +1235,7 @@ channel and to request that messages published to that channel are delivered to 
 A subscribe request MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/subscribe"
+  The value MUST be `/meta/subscribe`
 
 `clientId`::
   The client ID returned in the handshake response
@@ -1276,7 +1276,7 @@ as the subscribe response, including events for the channels just subscribed to.
 A subscribe response MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/subscribe"
+  The value MUST be `/meta/subscribe`
 
 `successful`::
   A boolean indicating the success or failure of the subscribe
@@ -1347,7 +1347,7 @@ delivered to itself.
 An unsubscribe request MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/unsubscribe"
+  The value MUST be `/meta/unsubscribe`
 
 `clientId`::
   The client ID returned in the handshake response
@@ -1390,7 +1390,7 @@ to as long as the event was processed before the unsubscribe request.
 An unsubscribe response MUST contain the message fields:
 
 `channel`::
-  The value MUST be "/meta/unsubscribe"
+  The value MUST be `/meta/unsubscribe`
 
 `successful`::
   A boolean indicating the success or failure of the unsubscribe operation

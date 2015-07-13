@@ -33,7 +33,7 @@ client on channel `/echo` to the remote client itself. Notice the following:
 <2> Creates a constructor that takes a `org.cometd.bayeux.server.BayeuxServer` object.
 <3> Calls the superclass constructor, passing the BayeuxServer object and an
     arbitrary name of the service, in this case "echo".
-<4> Subscribes to channel "/echo", and specifies the name of a method that
+<4> Subscribes to channel `/echo`, and specifies the name of a method that
     must be called when a message arrives to that channel, via `addService(...)`.
 <5> Defines a method with the same name specified in (4), and with an appropriate
     signature (see below).
