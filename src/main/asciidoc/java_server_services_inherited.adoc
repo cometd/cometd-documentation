@@ -75,7 +75,7 @@ public class BaseballTeamService extends AbstractService
 
 Notice also how the first example uses `ServerSession.deliver()` to send a
 message to a particular remote client, while the second uses `ServerChannel.publish()`
-to send a message to anyone who subscribes to channel `/events/baseball/team/*`.
+to send a message to anyone who subscribes to channel `+/events/baseball/team/*+`.
 
 Method `addService(...)` is used to map a server-side channel listener with a
 method that is invoked every time a message arrives on the channel.

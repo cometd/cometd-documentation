@@ -139,7 +139,7 @@ handled by the next transport (typically the `long-polling` transport).
 | `ws.cometdURLMapping`
 | A new, *mandatory*, parameter for WebSocket server transports. +
   It's a comma separated list of the `url-pattern` strings defined by the
-  `servlet-mapping` of the CometD Servlet, for example `/cometd/*`.
+  `servlet-mapping` of the CometD Servlet, for example `+/cometd/*+`.
 |===
 
 === Method Signature Changes

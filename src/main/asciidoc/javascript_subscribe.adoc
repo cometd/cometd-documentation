@@ -52,7 +52,7 @@ example in case of a stock price change.
 [[_javascript_subscribe_vs_listen]]
 ==== Subscribers versus Listeners
 
-The JavaScript CometD API has two APIs to work with channel subscriptions: 
+The JavaScript CometD API has two APIs to work with channel subscriptions:
 
 . `addListener()` and the correspondent `removeListener()`
 . `subscribe()` and the correspondent `unsubscribe()`
@@ -60,7 +60,7 @@ The JavaScript CometD API has two APIs to work with channel subscriptions:
 The `addListener()` function:
 
 * Must be used to listen to meta channel messages.
-* May be used to listen to service channel messages. 
+* May be used to listen to service channel messages.
 * Should not be used to listen broadcast channel messages (use `subscribe()` instead).
 * Does not involve any communication with the Bayeux server, and as such can be
   called before calling `handshake().`
@@ -69,10 +69,10 @@ The `addListener()` function:
 The `subscribe()` function:
 
 * Must not be used to listen to meta channels messages (if attempted, the server returns an error).
-* May be used to listen to service channel messages. 
+* May be used to listen to service channel messages.
 * Should be used to listen to broadcast channel messages.
 * Involves a communication with the Bayeux server and as such cannot be called before calling `handshake().`
-* Is asynchronous: it returns immediately, well before the Bayeux server has received the subscription request. 
+* Is asynchronous: it returns immediately, well before the Bayeux server has received the subscription request.
 
 [NOTE]
 ====
@@ -337,7 +337,7 @@ Notice that a similar mechanism exists for extensions, see also <<_extensions,th
 [[_javascript_subscribe_wildcard]]
 ==== Wildcard Subscriptions
 
-It is possible to subscribe to several channels simultaneously using wildcards: 
+It is possible to subscribe to several channels simultaneously using wildcards:
 
 ====
 [source,javascript]
@@ -349,7 +349,7 @@ cometd.subscribe("/chatrooms/*", function(message) { ... });
 A single asterisk has the meaning of matching a single channel segment; in the
 example above it matches channels `/chatrooms/12` and `/chatrooms/15`, but not
 `/chatrooms/12/upload`.
-To match multiple channel segments, use the double asterisk: 
+To match multiple channel segments, use the double asterisk:
 
 ====
 [source,javascript]
@@ -371,14 +371,14 @@ cometd.addListener("/meta/*", function(message) { ... });
 ----
 ====
 
-By default, subscriptions to the global wildcards `/*` and `/**` result in an
+By default, subscriptions to the global wildcards `+/*+` and `+/**+` result in an
 error, but you can change this behavior by specifying a custom security policy
 on the Bayeux server.
 
 [[_javascript_subscribe_meta_channels]]
 ==== Meta Channel List
 
-These are the meta channels available in the JavaScript CometD implementation: 
+These are the meta channels available in the JavaScript CometD implementation:
 
 * /meta/handshake
 * /meta/connect

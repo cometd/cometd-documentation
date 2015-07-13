@@ -41,7 +41,7 @@ file for you; here are details its configuration, a sample `web.xml`:
 
 You must define and map the `org.cometd.server.CometDServlet` in `web.xml`
 to enable the server to interpret the Bayeux protocol.
-It is normally mapped to `/cometd/*`, but you can change the `url-pattern` mapping
+It is normally mapped to `+/cometd/*+`, but you can change the `url-pattern` mapping
 if you prefer, or even have multiple mappings.
 
 ==== Configuring `BayeuxServer`
@@ -70,7 +70,7 @@ Here is the list of configuration init parameters that the `BayeuxServer` implem
 | `org.cometd.server.JettyJSONContextServer`
 | The full qualified name of a class implementing `org.cometd.common.JSONContext.Server`.
   The class is loaded and instantiated using the default constructor.
-  
+
 | validateMessageFields
 | true
 | Whether message fields such as `channel`, `id` and `subscription` should be
@@ -135,7 +135,7 @@ that different server transports accept:
   Enabling this option allows for server-to-client strict message ordering at
   the cost of a slightly chattier protocol (because delivery via `/meta/connect`
   may require waking up pending replies).
-  
+
 | maxQueue
 | -1
 | The maximum size of the `ServerSession` queue. A value of -1 means no queue size limit.
@@ -282,7 +282,7 @@ for the filter configuration.
 The CometD libraries are portable across Servlet Containers because they use
 the standard Servlet 3 APIs.
 
-To enable the Servlet 3 asynchronous features, you need to: 
+To enable the Servlet 3 asynchronous features, you need to:
 
 * Make sure that in `web.xml` the `version` attribute of the `web-app` element is 3.0 <1>.
 * Add the `async-supported` element to filters that might execute before the `CometDServlet`
@@ -293,7 +293,7 @@ To enable the Servlet 3 asynchronous features, you need to:
 Remember to always specify the `load-on-startup` element for the CometD Servlet.
 ====
 
-For example: 
+For example:
 
 ====
 [source,xml]
@@ -369,7 +369,7 @@ every second, removing all channels that are not in use by the application anymo
 
 Given the above, you need to solve two problems:
 
-* how to atomically create and configure a server channel 
+* how to atomically create and configure a server channel
 * how to avoid that channels that the application knows they will be used at a
   later time are swept prematurely
 

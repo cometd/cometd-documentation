@@ -13,7 +13,7 @@ In CometD, "first occasion" means whichever of the following things occurs first
 (see also <<_java_server_configuration,the server configuration section>> for
 information about configuring the following parameters):
 
-* the channel's lazy timeout expires 
+* the channel's lazy timeout expires
 * the `/meta/connect` timeout expires so that the `/meta/connect` response is
   sent to the client
 * another non-lazy message triggered the `ServerSession`'s message queue to be
@@ -127,7 +127,7 @@ timeout of 2000 ms.
 A server channel that has a non-zero, positive lazy timeout is automatically
 marked as lazy.
 
-If a wildcard server channel such as `/chat/*` is marked as lazy, then all
+If a wildcard server channel such as `+/chat/*+` is marked as lazy, then all
 messages sent to server channels that match that wildcard server channel
 (such as `/chat/1`) will be lazy.
 Conversely, if a non-wildcard server channel such as `/news` is lazy, then

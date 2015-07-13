@@ -35,13 +35,13 @@ at runtime by concatenating strings that are unknown at application startup
 
 * Authorizers do not apply to meta channels, only to service channels and to
   broadcast channels.
-* You can add authorizers to wildcard channels (such as `/chat/*`); they impact
+* You can add authorizers to wildcard channels (such as `+/chat/*+`); they impact
   all channels that match the wildcard channel on which you have added the authorizer.
-* An authorizer that you add to `/**` impacts all non-meta channels.
+* An authorizer that you add to `+/**+` impacts all non-meta channels.
 * For a non wildcard channel such as `/chat/room/10`, the _authorizer set_ is
   the union of all authorizers on that channel, and of all authorizers on
   wildcard channels that match the channel (in this case authorizers on
-  channels `/chat/room/*`, `/chat/room/**`, `/chat/**` and `/**`).
+  channels `+/chat/room/*+`, `+/chat/room/**+`, `+/chat/**+` and `+/**+`).
 
 ===== Authorization Algorithm
 
@@ -63,7 +63,7 @@ public boolean canPublish  (BayeuxServer server, ServerSession session, ServerCh
 These authorizers control, respectively, the operation to create a channel,
 the operation to subscribe to a channel, and the operation to publish to a channel.
 
-The complete algorithm for the authorization follows: 
+The complete algorithm for the authorization follows:
 
 . If there is a security policy, and the security policy denies the request, then the request is denied.
 . Otherwise, if the authorizer set is empty, the request is granted.
@@ -73,7 +73,7 @@ The complete algorithm for the authorization follows:
 . Otherwise, if one authorizer explicitly denies the operation, remaining
   authorizers are not consulted, and the request is denied.
 
-The order in which the authorizers are called is not important. 
+The order in which the authorizers are called is not important.
 
 The following method of `org.cometd.bayeux.server.Authorizer` must be
 implemented with your authorization algorithm:
@@ -85,7 +85,7 @@ public Result authorize(Operation operation, ChannelId channel, ServerSession se
 ----
 ====
 
-One of three possible results must be returned: 
+One of three possible results must be returned:
 
 * `Result.grant()`:
 +
@@ -163,9 +163,9 @@ with the authorizers, and that the code is executed before the channel exists
 (either at application startup or in places where the application logic ensures
 that the channel has not been created yet).
 
-Imagine an application that allows you to watch and play games. 
+Imagine an application that allows you to watch and play games.
 
-Typically, an ignoring authorizer is added on a root channel: 
+Typically, an ignoring authorizer is added on a root channel:
 
 ====
 [source,java]
@@ -204,7 +204,7 @@ gameStarStar.addAuthorizer(new Authorizer()
 ----
 ====
 
-Everyone can watch the game: 
+Everyone can watch the game:
 
 ====
 [source,java]
@@ -236,7 +236,7 @@ gameChannel.addAuthorizer(new Authorizer()
 ----
 ====
 
-The authorizers are the following: 
+The authorizers are the following:
 
 ====
 ----
@@ -283,8 +283,8 @@ The authorizers are now the following:
 ----
 ====
 
-Notice how authorizers on `/game/**` never grant `Operation.PUBLISH`, which
+Notice how authorizers on `+/game/**+` never grant `Operation.PUBLISH`, which
 authorizers only grant on specific game channels.
 Also, the specific game channel does not need to grant `Operation.SUBSCRIBE`,
 because its authorizer ignores the subscribe operation that is authorizers
-therefore handle on the `/game/**` channel.
+therefore handle on the `+/game/**+` channel.

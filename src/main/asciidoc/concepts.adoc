@@ -34,7 +34,7 @@ All messages the client and server exchange have a _channel_ field.
 The channel field provides the characterization of messages in classes.
 The channel is a central concept in CometD: publishers publish messages to channels,
 and subscribers subscribe to channels to receive messages.
-This is strongly reflected in the CometD APIs. 
+This is strongly reflected in the CometD APIs.
 
 [[_concepts_channels]]
 ==== Channel Definitions
@@ -81,15 +81,15 @@ where one sender wants to broadcast information to multiple recipients.
 [[_concepts_channels_wild]]
 ===== Use of Wildcards in Channels
 
-You can use wildcards to match multiple channels: channel `/foo/*` matches `/foo/bar`
+You can use wildcards to match multiple channels: channel `+/foo/*+` matches `/foo/bar`
 but not `/foo/bar/baz`.
-The latter is matched by `/foo/**`.
-You can use wildcards for any type of channel: `/meta/*` matches all meta channels,
-and `/service/**` matches `/service/bar` as well as `/service/bar/baz`.
-Channel `/**` matches all channels.
+The latter is matched by `+/foo/**+`.
+You can use wildcards for any type of channel: `+/meta/*+` matches all meta channels,
+and `+/service/**+` matches `/service/bar` as well as `/service/bar/baz`.
+Channel `+/**+` matches all channels.
 
 You can specify the wildcards only as the last segment of the channel, so these are
-invalid channels: `/**/foo` or `/foo/*/bar`.
+invalid channels: `+/**/foo+` or `+/foo/*/bar+`.
 
 [[_concepts_channels_parameters]]
 ===== Use of Parameters in Channels
@@ -111,7 +111,7 @@ is it bounded to. For example, for `/news/{category}` then `/news` does not bind
 `/news/football` binds the parameter `category` to the string `"football"`.
 
 A template channel cannot be also a wildcard channel, so these are invalid channels:
-`/foo/{id}/*` or `/foo/{var}/**`.
+`+/foo/{id}/*+` or `+/foo/{var}/**+`.
 
 [[_concepts_high_level]]
 === The High Level View
@@ -159,7 +159,7 @@ it published the message to, it receives a copy of the message back.
 [[_concepts_low_level]]
 === The Lower Level View
 
-The following sections take a deeper look at how the CometD implementation works. 
+The following sections take a deeper look at how the CometD implementation works.
 
 It should be clear by now that CometD, at its heart, is a client/server system
 that communicates via a protocol, the Bayeux protocol.
@@ -181,11 +181,11 @@ half-objects and server transports.
 ==== Sessions
 
 Sessions are a central concept in CometD.
-They are the representation of the half-objects involved in the protocol communication. 
+They are the representation of the half-objects involved in the protocol communication.
 
 image::hopp.png[]
 
-There are three types of sessions: 
+There are three types of sessions:
 
 * _Client sessions_ – the client half-object on the remote client side.
   Client sessions are represented by the `org.cometd.CometD` object in JavaScript,
@@ -248,7 +248,7 @@ The `BayeuxServer` object acts as a:
   Server transports abstract the communication details so that applications can work knowing
   only Bayeux messages, no matter how they arrive on the server.
 * Repository for _server channels_ – represented by the `org.cometd.bayeux.server.ServerChannel` class.
-  A server channel is the server-side representation of a channel; it can receive and publish Bayeux messages. 
+  A server channel is the server-side representation of a channel; it can receive and publish Bayeux messages.
 * Repository for _extensions_ – represented by the `org.cometd.bayeux.server.BayeuxServer.Extension` class.
   Extensions allow applications to interact with the Bayeux protocol by modifying
   or even deleting or replaying incoming and/or outgoing Bayeux messages. +
@@ -278,12 +278,12 @@ The Java and JavaScript APIs allow applications to register different kinds of
 listeners that receive notifications of the correspondent events.
 You can usefully think of extensions, security policies and authorizers as special
 types of listeners.
-The following sections treat them as such. 
+The following sections treat them as such.
 
 [[_concepts_listeners_client]]
 ===== Client Sessions and Listeners
 
-Examples of client session listeners include the following: 
+Examples of client session listeners include the following:
 
 * You can add extensions to a client session to interact with the incoming and
   outgoing messages that arrive and that the session sends, via
@@ -295,7 +295,7 @@ Examples of client session listeners include the following:
 [[_concepts_listeners_server]]
 ===== Servers and Listeners
 
-On the server, the model is similar but much richer. 
+On the server, the model is similar but much richer.
 
 * You can add extensions to a `BayeuxServer` instance for all messages that
   flow through the server via `BayeuxServer.addExtension(BayeuxServer.Extension)`.
@@ -338,7 +338,7 @@ The client retrieves the client channel from the client session via
 Messages first pass through the extensions, which process messages one by one;
 if one extension denies processing of a message, it is deleted and it is not
 sent to the server.
-At the end of extension processing, the messages pass to the client transport. 
+At the end of extension processing, the messages pass to the client transport.
 
 The client transport converts the messages to JSON (for the Java client, this
 is done by a `JSONContext.Client` instance, see also <<_java_json_api,the JSON section>>),
@@ -406,7 +406,7 @@ The `BayeuxServer` processes each message in the following steps:
 . Each message then passes through the extensions (methods `send()` or `sendMeta()`),
   and channel listeners and subscribers are notified of the message.
 
-The round trip from client to server back to client is now complete. 
+The round trip from client to server back to client is now complete.
 
 [[_concepts_threading]]
 ==== Threading
@@ -510,7 +510,7 @@ Meta messages and service messages end their journey on the server.
 An application can only interact with these kinds of messages via server channel
 listeners, and therefore must use such listeners to perform its business logic.
 
-You can add server channel listeners in the following ways: 
+You can add server channel listeners in the following ways:
 
 * Directly via the API at initialization time (see
   <<_java_server_services_integration,the services integration section>>).
@@ -566,7 +566,7 @@ The application could have used a `SecurityPolicy` or a
 and the server session's id, like explained in
 <<_java_server_authentication,the authentication section>>.
 
-Now Bob wants to send a private message only to Alice. 
+Now Bob wants to send a private message only to Alice.
 
 The `client1` can use a service channel for private messages (such as
 `/service/private`), so that messages are not broadcast, and the application is
@@ -644,7 +644,7 @@ public class ExternalEventBroadcaster
 [[_concepts_bayeux_protocol]]
 ==== Bayeux Protocol
 
-A client communicates with the server by exchanging Bayeux messages. 
+A client communicates with the server by exchanging Bayeux messages.
 
 The Bayeux protocol requires that the first message a new client sends be a
 _handshake_ message (a message sent on `/meta/handshake` channel). On the
