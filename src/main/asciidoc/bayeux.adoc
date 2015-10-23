@@ -431,7 +431,7 @@ integer  = digit *( digit )
 ==== Channels
 
 Channels are identified by names that are styled as the absolute path component
-of a URI without parameters as defined by RFC2396.
+of a URI without parameters. This is the BNF definition for channel names:
 
 ----
 channel_name     = "/"  channel_segments
