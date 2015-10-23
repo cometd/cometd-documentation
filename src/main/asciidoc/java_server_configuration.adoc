@@ -191,6 +191,10 @@ that different server transports accept:
 | true
 | Whether to add the `HttpOnly` attribute to the cookie used to identify multiple
   sessions (see also <<_java_server_multiple_sessions,this section>>).
+
+| sessionCookieName
+| BAYEUX_SESSION
+| The name of the cookie used to identify the session.
 |===
 
 .WebSocket `ServerTransport` Configuration Parameters
@@ -222,6 +226,11 @@ that different server transports accept:
 | ws.idleTimeout
 | 300000
 | The idle timeout, in milliseconds, for the WebSocket connection.
+
+| ws.requireHandshakePerConnection
+| false
+| Whether every new WebSocket connection requires a handshake, see
+  <<_security,the security section>>.
 |===
 
 [[_java_server_configuration_advanced]]
