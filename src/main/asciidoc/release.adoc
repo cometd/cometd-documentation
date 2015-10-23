@@ -5,7 +5,7 @@
 [[_release]]
 == Committer Release Instructions
 
-These instructions are only for CometD committers that want to perform a CometD release. 
+These instructions are only for CometD committers that want to perform a CometD release.
 
 [[_release_create]]
 === Creating the Release
@@ -16,7 +16,7 @@ $ git clone git://github.com/cometd/cometd.git release/cometd
 $ cd release/cometd
 $ mvn clean install
 ...
-$ mvn release:prepare # Specify the SVN tag to be just the version number
+$ mvn release:prepare # Specify the tag to be just the version number
 ...
 $ mvn release:perform -Darguments=-Dgpg.passphrase=...
 ...
@@ -26,19 +26,19 @@ $ git push origin master
 [[_release_repository]]
 === Managing the Repository
 
-Login to http://oss.sonatype.org[Sonatype OSS]. 
+Login to http://oss.sonatype.org[Sonatype OSS].
 
 Click on "Staging Repositories" and you should see the staged project just
 uploaded by the `mvn release:perform` command issued above, with status "open".
 Tick the checkbox correspondent to the open staged project, choose "Close" from
 the toolbar, enter a description such as "CometD Release 1.0.0", then click on
 the "Close" button.
-This will make the staged project downloadable for testing, but not yet published to central. 
+This will make the staged project downloadable for testing, but not yet published to central.
 
 Tick again the checkbox correspondent to the closed staged project, choose "Release"
 from the toolbar, enter a description such as "CometD Release 1.0.0", then click
 on the "Release" button.
-This will publish the project to the Maven Central Repository. 
+This will publish the project to the Maven Central Repository.
 
 [[_release_distribution]]
 === Creating the Distribution
@@ -54,7 +54,7 @@ $ mvn assembly:assembly
 ----
 
 This creates the distribution tarball in the `cometd-distribution/target` directory.
-Then upload it. 
+Then upload it.
 
 ----
 $ cd $COMETD/cometd-distribution/target
@@ -83,9 +83,9 @@ $ scp target/cometd-java-<version>-javadoc.jar <user>@docs.cometd.org:/srv/www/v
 Then `ssh` into the host, unzip the javadocs jar file into the `apidocs` directory.
 
 [[_release_jira]]
-=== Perform a JIRA Release
+=== Close the GitHub Issues Milestone
 
-Perform a release in http://bugs.cometd.org[JIRA]. 
+Close the https://github.com/cometd/cometd/milestones[GitHub Issues Milestone].
 
 [[_release_dojo]]
 === Update the Dojo Bindings
