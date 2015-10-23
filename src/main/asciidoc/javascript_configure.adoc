@@ -24,7 +24,7 @@ One `cometd` object connects to one Bayeux server.
 If you need to connect to multiple Bayeux servers, see
 <<_javascript_configure_multiple_objects,this section>>.
 
-There are two ways of passing the URL parameter: 
+There are two ways of passing the URL parameter:
 
 ====
 [source,javascript]
@@ -40,7 +40,7 @@ cometd.configure({
 ====
 
 The first way is a shorthand for the second way.
-However, the second way allows you to pass other configuration parameters, currently: 
+However, the second way allows you to pass other configuration parameters, currently:
 
 [cols="^3,^1,^2,<10"]
 |===
@@ -91,7 +91,7 @@ However, the second way allows you to pass other configuration parameters, curre
 | {}
 | An object containing the request headers to be sent for every
   Bayeux request (for example, {"My-Custom-Header":"MyValue"}).
-  
+
 | appendMessageTypeToURL
 | no
 | true
@@ -113,10 +113,18 @@ However, the second way allows you to pass other configuration parameters, curre
 | stickyReconnect
 | no
 | true
-| Only applies to the WebSocket transport. Determines whether to stick
-  using the WebSocket transport when a WebSocket transport failure has
-  been detected after the WebSocket transport was able to successfully
+| Only applies to the `websocket` transport. Determines whether to stick
+  using the `websocket` transport when a `websocket` transport failure has
+  been detected after the `websocket` transport was able to successfully
   connect to the server.
+
+| maxURILength
+| no
+| 2000
+| The max length of the URI for a request made with the `callback-polling`
+  transport. Microsoft Internet Explorer 7 and 8 are known to limit the URI
+  length, so single large messages sent by CometD may fail to remain within
+  the max URI length when encoded in JSON.
 |===
 
 After you have configured the `cometd` object, the Bayeux communication does
@@ -137,7 +145,7 @@ However, it is easy to create other `cometd` objects.
 In Dojo, there is a `dojox.CometD` (note the capital 'C' and 'D' of `CometD`)
 constructor function that can be used to create new `cometd` objects.
 In jQuery, there is an equivalent `$.CometD` constructor function.
-It can be used in this way: 
+It can be used in this way:
 
 ====
 [source,javascript]
