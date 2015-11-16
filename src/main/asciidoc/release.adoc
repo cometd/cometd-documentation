@@ -82,7 +82,7 @@ $ scp target/cometd-java-<version>-javadoc.jar <user>@docs.cometd.org:/srv/www/v
 
 Then `ssh` into the host, unzip the javadocs jar file into the `apidocs` directory.
 
-[[_release_jira]]
+[[_release_issues]]
 === Close the GitHub Issues Milestone
 
 Close the https://github.com/cometd/cometd/milestones[GitHub Issues Milestone].
