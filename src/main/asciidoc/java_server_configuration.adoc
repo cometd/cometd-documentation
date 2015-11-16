@@ -191,10 +191,6 @@ that different server transports accept:
 | true
 | Whether to add the `HttpOnly` attribute to the cookie used to identify multiple
   sessions (see also <<_java_server_multiple_sessions,this section>>).
-
-| sessionCookieName
-| BAYEUX_SESSION
-| The name of the cookie used to identify the session.
 |===
 
 .WebSocket `ServerTransport` Configuration Parameters

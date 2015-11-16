@@ -93,24 +93,27 @@ CometD protects from impersonations due to stolen session ids in different
 ways, depending on the type of transport used to carry Bayeux messages.
 
 For transports based on HTTP (`long-polling` and `callback-polling`),
-CometD sends a HTTP session cookie, marked as `HttpOnly`,
-called `BAYEUX_SESSION` (see <<_java_server_configuration>>).
+CometD sends a HTTP cookie with the handshake response, marked as `HttpOnly`,
+called `BAYEUX_BROWSER` (see <<_java_server_configuration>>).
 The CometD implementation, on the server, maps this cookie to a legit
 session id during the processing of the handshake request message.
-For every subsequent message, the browser will send the `BAYEUX_SESSION`
+For every subsequent message, the browser will send the `BAYEUX_BROWSER`
 cookie to the server and the CometD implementation will
-retrieve the session id from the cookie, rather than from the message
-(where it could have been altered).
+retrieve the session id from legit sessions that have been mapped to the
+cookie, rather than from the message (where it could have been altered).
 
-Bob could craft a message with Alice's session id, but the `BAYEUX_SESSION`
+Bob could craft a message with Alice's session id, but the `BAYEUX_BROWSER`
 cookie that he will send along with the tampered message will be his,
-not Alice's. The CometD implementation will detect this attack and disconnect
-Bob. If the cookie is missing, CometD will ask Bob to re-handshake.
+not Alice's. The CometD implementation will detect this attack and ask
+Bob to re-handshake.
+
+If the crafted message does not have any cookie, CometD will ask Bob to
+re-handshake.
 
 For transports based on WebSocket (`websocket`), CometD trusts the particular
 connection that has been established during the handshake.
 The session id is associated to that connection and when a WebSocket message
-arrives on that connection, CometD retrieves the session id from the
+arrives on that connection, and CometD retrieves the session id from the
 association with the connection, rather than from the message (where it
 could have been altered).
 
