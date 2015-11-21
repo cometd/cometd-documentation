@@ -2,7 +2,7 @@
 [[_support]]
 == CometD Commercial Support Services
 
-The services provided are provided directly by the CometD committers, ensuring the maximum result. 
+The services provided are provided directly by the CometD committers, ensuring the maximum result.
 
 * CometD training for your developers. +
   Training includes tips and tricks, experience gained by developing CometD
@@ -14,7 +14,7 @@ The services provided are provided directly by the CometD committers, ensuring t
   Your developers can concentrate more on the implementation of the application
   rather than on CometD details.
 * Development of custom CometD features. +
-  Nothing like real-world use cases to improve an open source project like CometD. 
+  Nothing like real-world use cases to improve an open source project like CometD.
 * CometD advices to your developers. +
   Your development team has direct access to CometD experts to ask questions or
   opinions, so that mistakes are caught early when they cost less rather than
@@ -30,10 +30,9 @@ The services provided are provided directly by the CometD committers, ensuring t
   <<_java_oort,the Oort section>>.
   Clustering is never easy, but we can suggest the right approach to make your
   application clusterable.
-* Any other CometD-related service that you may need, we can provide it. 
+* Any other CometD-related service that you may need, we can provide it.
 
-https://webtide.com[Webtide], part of http://intalio.com[Intalio], is the company
-that provides CometD commercial support.
+https://webtide.com[Webtide] is the company that provides CometD commercial support.
 
 https://webtide.com/contact/[Contact us] for any information you need, no
 obligations on your part.
