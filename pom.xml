@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <asciidoctor.version>1.5.2.1</asciidoctor.version>
-        <html.directory>${project.build.directory}/html</html.directory>
+        <html.directory>${project.build.directory}/html/${project.version}/reference</html.directory>
     </properties>
 
     <build>
@@ -56,7 +56,7 @@
                         <configuration>
                             <backend>html5</backend>
                             <doctype>book</doctype>
-                            <sourceDocumentName>book.adoc</sourceDocumentName>
+                            <sourceDocumentName>index.adoc</sourceDocumentName>
                             <imagesDir>images</imagesDir>
                             <outputDirectory>${html.directory}</outputDirectory>
                             <sourceHighlighter>coderay</sourceHighlighter>
