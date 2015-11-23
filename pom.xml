@@ -11,7 +11,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <asciidoctor.version>1.5.2.1</asciidoctor.version>
-        <html.directory>${project.build.directory}/html/${project.version}/reference</html.directory>
+        <html.directory>${project.build.directory}/html/current/reference</html.directory>
     </properties>
 
     <build>
