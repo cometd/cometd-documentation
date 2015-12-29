@@ -57,8 +57,8 @@ This creates the distribution tarball in the `cometd-distribution/target` direct
 Then upload it.
 
 ----
-$ cd $COMETD/cometd-distribution/target
-$ scp cometd-<version>-distribution.tar.gz <user>@download.cometd.org:/srv/www/vhosts.d/download.cometd.org/
+$ cd $COMETD/cometd-distribution
+$ dd if=target/cometd-<version>-distribution.tar.gz | ssh <user>@download.cometd.org "sudo -u www-data dd of=/var/www/download.cometd.org/cometd-<version>-distribution.tar.gz"
 ----
 
 [[_release_archetype]]
@@ -68,8 +68,20 @@ Make sure the archetype catalog `$HOME/.m2/archetype-catalog.xml` refers to
 the release just prepared, then upload it.
 
 ----
-$ scp $HOME/.m2/archetype-catalog.xml <user>@cometd.org:/srv/www/vhosts.d/cometd.org/
+$ dd if=$HOME/.m2/archetype-catalog.xml | ssh <user>@cometd.org "sudo -u www-data dd of=/var/www/cometd.org/archetype-catalog.xml"
 ----
+
+[[_release_docs]]
+=== Create and Upload the Documentation
+
+First, rename the documentation directory `current` to the previous release version of CometD.
+
+---
+$ ssh <user>@docs.cometd.org "sudo -u www-data mv /var/www/docs.cometd.org/current /var/www/docs.cometd.org/<previous-version>"
+---
+
+Then, build and upload the CometD Reference Manual.
+This will also re-create the documentation directory `current`.
 
 [[_release_javadocs]]
 === Create and Upload the Javadocs
@@ -77,7 +89,7 @@ $ scp $HOME/.m2/archetype-catalog.xml <user>@cometd.org:/srv/www/vhosts.d/cometd
 ----
 $ cd $COMETD/cometd-java
 $ mvn javadoc:aggregate-jar
-$ scp target/cometd-java-<version>-javadoc.jar <user>@docs.cometd.org:/srv/www/vhosts.d/docs.cometd.org/
+$ dd if=target/cometd-java-<version>-javadoc.jar | ssh <user>@docs.cometd.org "sudo -u www-data dd of=/var/www/docs.cometd.org/current/cometd-java-<version>-javadoc.jar"
 ----
 
 Then `ssh` into the host, unzip the javadocs jar file into the `apidocs` directory.
