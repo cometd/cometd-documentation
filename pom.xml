@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.cometd.documentation</groupId>
     <artifactId>cometd-reference</artifactId>
-    <version>3.0.7</version>
+    <version>3.0.8</version>
     <name>CometD Reference</name>
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <asciidoctor.version>1.5.2.1</asciidoctor.version>
+        <asciidoctor.version>1.5.3</asciidoctor.version>
         <html.directory>${project.build.directory}/html/current/reference</html.directory>
     </properties>
 
@@ -68,13 +68,6 @@
                         </configuration>
                     </execution>
                 </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.jruby</groupId>
-                        <artifactId>jruby-complete</artifactId>
-                        <version>9.0.0.0.pre2</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
