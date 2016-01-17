@@ -26,28 +26,20 @@ CometD mailing lists. There are two mailing lists:
 
 If you post for the first time, please allow some hour to moderators to review
 the message and approve your post.
-This is done to reduce spam to the minimum possible. 
+This is done to reduce spam to the minimum possible.
 
 [[_contribute_issue_reporting]]
 === Contributing by Reporting Issues
 
-The CometD project maintains a http://bugs.cometd.org[JIRA issue tracker] that
-is used to submit issues about the CometD project, from bugs to feature requests,
-to documentation tasks, etc.
-Virtually every activity is tracked in this JIRA instance. 
+The CometD project uses https://github.com/cometd/cometd/issues[GitHub Issues] to track
+issues about the CometD project, from bugs to feature requests, to documentation tasks, etc.
+Virtually every activity is tracked in this issue tracker.
 
-In order to submit an issue, you must have a valid Dojo Foundation login. 
+The address https://bugs.cometd.org is an alias for the CometD GitHub Issue Tracker.
 
-If you do not have one already, you can create one by visiting
-http://my.dojofoundation.org/register[this link].
-Choose your username and password, follow the instructions, and once your account
-is created, do not try to login to the Dojo foundation, as you do not need to.
-Go back to JIRA and login to JIRA with the account you just created. 
-
-Once you are logged in into JIRA, you will be able to submit new issues and browse
-and comment existing ones.
-JIRA is a very nice issue tracking tool, and you can customize to your needs.
-For more information about JIRA, see the http://www.atlassian.com/software/jira[JIRA documentation]. 
+In order to submit an issue, you must have a valid GitHub login.
+If you do not have a GitHub login already, you can create one by
+visiting https://github.com/join[this link].
 
 [[_contribute_code]]
 === Contributing Code Fixes and Enhancements
@@ -57,36 +49,43 @@ The repository for the CometD libraries is https://github.com/cometd/cometd.
 You can build the CometD project yourself by following the instruction in
 <<_build,the build section>>.
 
-In order to contribute code, you need to have a Contributor License Agreement
-(CLA) with the Dojo Foundation.
+In order to contribute code, you need to certify the
+http://developercertificate.org/[Developer Certificate of Origin] and sign-off your
+`git` commits using `git commit --signoff`.
 
-Don't worry ! It's easy and you can fill it online.
-Since contributing code normally requires also interaction with JIRA, it is
-best if you already have a Dojo Foundation account before filling the CLA.
-see also <<_contribute_issue_reporting,here>> for how to create a Dojo Foundation account.
+By signing off your `git` commits, you agree that you can certify
+what stated by the Developer Certificate of Origin.
+That is enough for the CometD project to accept your contribution.
 
-Go to the http://dojofoundation.org/about/claForm[Dojo Foundation CLA online form],
-read it carefully and fill in the form at the bottom of the page.
-Once you have the CLA in place, you can contribute code via
-https://help.github.com/articles/using-pull-requests[GitHub pull requests].
+The Developer Certificate of Origin (from http://developercertificate.org/):
 
-It is important that the email you used to register the CLA is the same
-email that you use for your Git commits.
+====
+[source,text]
+----
+include::http://developercertificate.org/[lines=14..49]
+----
+====
 
 To contribute code, follow these steps:
 
-* Create an issue at http://bugs.cometd.org using your Dojo Foundationa account.
-* Commit your changes. Make sure that the email in the Author field of the commits
-correspond to the email you used to register the CLA.
-* If you have multiple commits, squash them into one commit only.
-* Signoff your commit using `git commit --signoff`.
-* The commit message should reference the issue ID, for example:
+* Create an issue at http://bugs.cometd.org.
+* Commit your changes:
+** If you have multiple commits, squash them into one commit only.
+** Make sure that the email in the `Author` field of the commits
+corresponds to your GitHub email.
+** Signoff your commit using `git commit --signoff`.
+** The commit message should reference the issue number with the
+format `#<issue_number>`, so that GitHub can properly link the
+commit with the issue.
+* Issue a https://help.github.com/articles/using-pull-requests[GitHub pull request].
+
+For example:
 ----
 commit  0123456789abcdef0123456789abcdef01234567
 Author: John Doe <john.doe@nowhere.com>
 Date:   Sun Jan 01 00:00:00 1970 +0000
 
-    COMETD-XYZ - <issue title>
+    Issue #XYZ - <issue title>
 
     <description of the changes>
 
@@ -101,6 +100,5 @@ while the repository for the CometD tutorials is https://github.com/cometd/comet
 The CometD documentation and tutorials are written in http://asciidoc.org/[AsciiDoc],
 and built using Maven and the http://asciidoctor.org[AsciiDoctor] Maven Plugin.
 
-There is no need for a Contributor License Agreement to contribute fixes or
-enhancements to the documentation or the tutorials, you can just contribute
-via https://help.github.com/articles/using-pull-requests[GitHub pull requests].
+To contribute fixes or enhancements to the documentation or the tutorials, you can just issue
+https://help.github.com/articles/using-pull-requests[GitHub pull requests].
