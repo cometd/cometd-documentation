@@ -22,7 +22,7 @@ information).
 A typical, but not the only, infrastructure to set up an Oort cluster is to
 have a load balancer in front of Oort nodes, so that clients can connect
 transparently to any node.
-The load balancer should implement stickyness, which can be based on: 
+The load balancer should implement stickyness, which can be based on:
 
 * The remote IP address (recommended)
 * CometD's BAYEUX_BROWSER cookie (see also <<_bayeux_multiple_clients,the multiple clients section>>)
@@ -40,28 +40,28 @@ image::oort_infrastructure.png[]
 
 ==== Terminology
 
-The next sections use the following terminology: 
+The next sections use the following terminology:
 
-* An _Oort cluster_ is also referred to as an _Oort cloud_; it follows that 
+* An _Oort cluster_ is also referred to as an _Oort cloud_; it follows that
   _cloud_ is a synonym for _cluster_
-* An Oort node is also referred to an _Oort comet_; it follows that _comet_ 
+* An Oort node is also referred to an _Oort comet_; it follows that _comet_
   is a synonym for _node_
 
 ==== Oort Cluster
 
-Any CometD server can become an Oort node by configuring an instance of 
+Any CometD server can become an Oort node by configuring an instance of
 `org.cometd.oort.Oort`.
 The `org.cometd.oort.Oort` instance is associated to the `org.cometd.bayeux.server.BayeuxServer`
 instance, and there can be only one `Oort` instance for each `BayeuxServer` instance.
 
 Oort nodes need to know each others' URLs to connect and form a cluster.
-A new node that wants to join the cluster needs to know at least one URL of 
+A new node that wants to join the cluster needs to know at least one URL of
 another node that is already part of the cluster.
-Once it has connected to one node, the cluster informs the new node of the 
-other nodes to which the new node is not yet connected, and the new node 
-then connects to all the existing nodes. 
+Once it has connected to one node, the cluster informs the new node of the
+other nodes to which the new node is not yet connected, and the new node
+then connects to all the existing nodes.
 
-There are two ways for a new node to discover at least one other node: 
+There are two ways for a new node to discover at least one other node:
 
 * At runtime, via automatic discovery based on multicast.
 * At startup time, via static configuration.
@@ -101,7 +101,7 @@ discovery and static configuration servlets share:
 
 | enableAckExtension
 | no
-| false
+| true
 | Whether to enable the message acknowledgement extension (see also
   <<_extensions_acknowledge,The acknowledgement extension>>) in the BayeuxServer
   instance and in the OortComet instances
@@ -235,7 +235,7 @@ is stopped, and only serve to advertise that a new node has appeared.
 (see also <<_java_oort_membership_organization,the membership organization section>>
 for details).
 
-When enabling the Oort automatic discovery mechanism, you must be sure that: 
+When enabling the Oort automatic discovery mechanism, you must be sure that:
 
 * Multicast is enabled in the operating system of your choice.
 * The network interfaces have multicast enabled.
@@ -441,7 +441,7 @@ image::oort_cloud.png[]
 In this way, an Oort cluster is aware of its members, but it does not do anything
 useful for the application.
 
-The next section covers broadcast message forwarding over the entire cluster. 
+The next section covers broadcast message forwarding over the entire cluster.
 
 ===== Listening for Membership Events
 
