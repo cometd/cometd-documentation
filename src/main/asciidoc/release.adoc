@@ -76,9 +76,9 @@ $ dd if=$HOME/.m2/archetype-catalog.xml | ssh <user>@cometd.org "sudo -u www-dat
 
 First, rename the documentation directory `current` to the previous release version of CometD.
 
----
+----
 $ ssh <user>@docs.cometd.org "sudo -u www-data mv /var/www/docs.cometd.org/current /var/www/docs.cometd.org/<previous-version>"
----
+----
 
 Then, build and upload the CometD Reference Manual.
 This will also re-create the documentation directory `current`.
