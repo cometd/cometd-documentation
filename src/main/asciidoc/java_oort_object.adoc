@@ -498,3 +498,39 @@ you can use an `OortList.Listener` (inherited from `OortObject`) as described ab
 In some cases, the whole list is updated but you want to be notified as if
 single elements are changed; in this case you can use an `OortList.DeltaListener`,
 that converts whole list updates into list element updates.
+
+===== OortObjects Synchronization Limits
+
+`OortObject` instances synchronize their state by sending the data entity to
+other nodes.
+
+`OortMap` and `OortList` have a built-in mechanism to synchronize the whole
+object in case entry updates (for `OortMap`) or element updates (for `OortList`)
+are out of date.
+
+When the data entity is itself a large composite object, the message that
+synchronizes the whole object may be very large.
+
+Let's imagine an `OortObject<List<String>>`, or equivalently an `OortList<String>`
+or similarly an `OortStringMap<String>`. In these cases, the data entity is
+a collection that may contain thousands of entries, and each entry may be a
+large string. Replicating the data entity across the cluster means that a very
+large message (possibly of the order of MiB) must be sent.
+
+`Oort` nodes use by default the WebSocket transport to communicate among nodes.
+Depending on the WebSocket implementation provided by the Servlet Container,
+it may happen that there is a limit to the WebSocket message size that can be
+sent or received.
+
+If your application stores large data entities, it is highly recommended to
+estimate the size of the JSON representation of the data entity in bytes, and
+configure an appropriate WebSocket max message size via the configuration
+parameter `ws.maxMessageSize` as explained in the
+<<_java_server_configuration>> section.
+
+`Oort` will use the `ws.maxMessageSize` parameter for both the sending and
+receiving WebSocket messages, so that large data entities can be replicated
+without errors.
+
+`Oort` may also be configured to use the HTTP transport, which does not have
+such restriction and can therefore replicate large entities out-of-the-box.
